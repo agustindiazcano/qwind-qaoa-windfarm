@@ -10,7 +10,7 @@ import build_windrose  # noqa: E402
 from qwind.instances import load_wind_rose  # noqa: E402
 
 DATA = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "qollab", "data", "windrose.json"))
-SITES = ["chubut", "bahia_blanca"]
+SITES = ["chubut", "bahia_blanca", "penmanshiel", "kelmarsh"]
 
 
 @pytest.fixture(scope="module")
@@ -76,3 +76,35 @@ def test_bin_sectors_ignores_missing():
     sectors = build_windrose.bin_sectors([5.0, None, 7.0], [10.0, 20.0, None], n_sectors=16)
     assert sum(s["frequency"] for s in sectors) == pytest.approx(1.0)
     assert {s["direction_deg"]: s["frequency"] for s in sectors}[0.0] == pytest.approx(1.0)
+
+
+# --- measured SCADA roses (Greenbyte 10-minute files of the Kelmarsh / Penmanshiel Zenodo records) ---
+
+GREENBYTE = (
+    "# This file was exported by Greenbyte.\n#\n# Turbine: Test 1\n#\n"
+    '# Date and time,Wind speed (m/s),"Wind speed, Standard deviation (m/s)",Wind direction (°),Power (kW)\n'
+    "2019-01-01 00:00:00,5.0,0.5,270.0,100\n"
+    "2019-01-01 00:10:00,7.0,0.5,275.0,200\n"
+    "2019-01-01 00:20:00,NaN,NaN,90.0,0\n"
+    "2019-01-01 00:30:00,9.0,0.5,NaN,300\n"
+    "2019-01-01 00:40:00,3.0,0.5,90.0,50\n"
+)
+
+
+def test_read_greenbyte_skips_header_and_missing(tmp_path):
+    f = tmp_path / "Turbine_Data_Test_1.csv"
+    f.write_text(GREENBYTE, encoding="utf-8")
+    speed, direction = build_windrose.read_greenbyte(str(f))
+    assert speed == [5.0, 7.0, 3.0] and direction == [270.0, 275.0, 90.0]
+
+
+def test_scada_rose_pools_all_turbines(tmp_path):
+    for i in (1, 2):
+        (tmp_path / f"Turbine_Data_Test_{i}.csv").write_text(GREENBYTE, encoding="utf-8")
+    speed, direction = build_windrose.read_scada_dir(str(tmp_path))
+    assert len(speed) == len(direction) == 6
+    sectors = build_windrose.bin_sectors(speed, direction, n_sectors=16)
+    by = {s["direction_deg"]: s for s in sectors}
+    assert by[270.0]["frequency"] == pytest.approx(4 / 6)       # 270 and 275 deg -> sector centered on 270
+    assert by[270.0]["mean_speed"] == pytest.approx(6.0)
+    assert by[90.0]["frequency"] == pytest.approx(2 / 6)

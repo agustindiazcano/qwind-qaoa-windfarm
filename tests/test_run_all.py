@@ -151,3 +151,34 @@ def test_site_defaults_from_dataset_name():
     assert run_all.site_from_dataset("real_bahia_blanca") == "bahia_blanca"
     with pytest.raises(ValueError):
         run_all.site_from_dataset("synthetic")
+
+
+# --- real farms: the candidate cells are the real turbine positions ---
+
+FARMS_PATH = os.path.join(os.path.dirname(__file__), "..", "qollab", "data", "farms.json")
+
+
+def test_farm_instance_specs_are_fixed_before_running():
+    pen = run_all.specs_for_dataset("real_penmanshiel")
+    kel = run_all.specs_for_dataset("real_kelmarsh")
+    assert [(s.N, s.K) for s in pen] == [(14, 5), (14, 7), (14, 9)]
+    assert [(s.N, s.K) for s in kel] == [(6, 2), (6, 3), (6, 4)]
+    assert {s.wind_rose for s in pen} == {"penmanshiel"} and {s.dataset for s in kel} == {"real_kelmarsh"}
+
+
+def test_specs_for_dataset_dispatch():
+    assert len(run_all.specs_for_dataset("synthetic")) == 24
+    assert len(run_all.specs_for_dataset("real_chubut")) == 8                # Argentine rose on the synthetic grid
+    assert run_all.specs_for_dataset("real_chubut")[0].wind_rose == "chubut"
+
+
+def test_run_instance_on_real_farm_layout(tmp_path):
+    rose = tmp_path / "windrose.json"
+    rose.write_text(json.dumps({"sites": {"kelmarsh": {"sectors": [
+        {"direction_deg": 225.0, "frequency": 0.6, "mean_speed": 8.0},
+        {"direction_deg": 270.0, "frequency": 0.4, "mean_speed": 7.0}]}}}), encoding="utf-8")
+    spec = InstanceSpec("real_kelmarsh", 0, "kelmarsh", 6, 2, 0)
+    rows = run_all.run_instance(spec, dict(TINY, maxiter=4), windrose_path=str(rose), farms_path=FARMS_PATH)
+    assert {(r["grid_rows"], r["grid_cols"]) for r in rows} == {(6, 1)}
+    assert next(r for r in rows if r["method"] == "exact")["energy_gap"] == pytest.approx(0.0)
+    assert all(r["energy_gap"] >= -1e-9 for r in rows)

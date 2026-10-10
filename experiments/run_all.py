@@ -17,6 +17,8 @@ Usage:
   python experiments/run_all.py --jobs 4                 # full synthetic protocol (heavy, ~1 h serial)
   python experiments/run_all.py --dataset real_chubut    # site defaults to the name after "real_"
   python experiments/run_all.py --dataset real_bahia_blanca
+  python experiments/run_all.py --dataset real_penmanshiel   # real turbine layout (14 cells, K = 5, 7, 9)
+  python experiments/run_all.py --dataset real_kelmarsh      # real turbine layout (6 cells, K = 2, 3, 4)
   python experiments/run_all.py --merge                  # results/<dataset>/ -> results/summary.json + per_instance.csv
 """
 import argparse
@@ -40,9 +42,15 @@ from qwind.qubo import build_qubo  # noqa: E402
 from qwind.classical import exact_enumeration, simulated_annealing, greedy_local_search  # noqa: E402
 from qwind.qaoa import run_qaoa, energy_table  # noqa: E402
 from qwind.instances import (  # noqa: E402
-    InstanceSpec, SYNTHETIC_ROSES, build_instance, load_wind_rose, synthetic_instance_specs)
+    InstanceSpec, SYNTHETIC_ROSES, build_instance, farm_coords_D, load_farm, load_wind_rose,
+    synthetic_instance_specs)
 
 DATASET_RE = re.compile(r"^(synthetic|real_[a-z0-9_]+)$")
+
+# Real farms (qollab/data/farms.json): the N candidate cells ARE the real turbine positions and we choose K of them.
+# Fixed before running: K is about 1/3, 1/2 and 2/3 of N. Dataset name = "real_" + farm key.
+REAL_FARMS = {"penmanshiel": (14, (5, 7, 9)), "kelmarsh": (6, (2, 3, 4))}
+FARMS_PATH = os.path.join(ROOT, "qollab", "data", "farms.json")
 
 FULL_PROTOCOL = {
     "id": "qwind-v1",
@@ -99,16 +107,31 @@ def _row(spec, grid_shape, **kw):
     return base
 
 
+def is_farm(spec):
+    return spec.dataset.startswith("real_") and spec.wind_rose in REAL_FARMS
+
+
+def grid_for(spec):
+    """(rows, cols) reported for an instance; a real farm has no grid: (N, 1)."""
+    return (spec.N, 1) if is_farm(spec) else (spec.N // 2, 2)
+
+
 def rose_for(spec, windrose_path=None):
     if spec.dataset == "synthetic":
         return SYNTHETIC_ROSES[spec.wind_rose]
     return load_wind_rose(windrose_path or os.path.join(ROOT, "qollab", "data", "windrose.json"), spec.wind_rose)
 
 
-def run_instance(spec, protocol, windrose_path=None):
+def run_instance(spec, protocol, windrose_path=None, farms_path=None):
     """All rows (classical + every QAOA variant and depth) of one instance."""
     import time
-    inst = build_instance(spec.N, rose_for(spec, windrose_path), spec.seed)
+    coords = None
+    if is_farm(spec):
+        farm = load_farm(farms_path or FARMS_PATH, spec.wind_rose)
+        if len(farm["turbines"]) != spec.N:
+            raise ValueError(f"{spec.wind_rose} has {len(farm['turbines'])} turbines, spec asks for N = {spec.N}")
+        coords = farm_coords_D(farm)
+    inst = build_instance(spec.N, rose_for(spec, windrose_path), spec.seed, coords=coords)
     n, K = spec.N, spec.K
     hmax = float(np.abs(inst.h).max())
     Q_ref = build_qubo(inst.h, inst.J, protocol["lam_ref_mult"] * hmax, K)
@@ -210,7 +233,7 @@ def write_outputs(out_dir, specs, protocol, rows):
         "datasets": [{"dataset": d, "status": status, "n_instances": sum(s.dataset == d for s in specs)}
                      for d in sorted({s.dataset for s in specs})],
         "instances": [dict(dataset=s.dataset, instance_id=s.instance_id, wind_rose=s.wind_rose, N=s.N, K=s.K,
-                           grid_rows=s.N // 2, grid_cols=2, seed=s.seed) for s in specs],
+                           grid_rows=grid_for(s)[0], grid_cols=grid_for(s)[1], seed=s.seed) for s in specs],
         "results": aggregate(rows),
         "caveats": CAVEATS,
     }
@@ -283,6 +306,23 @@ def real_instance_specs(dataset, site):
             if s.wind_rose == "A"]
 
 
+def farm_instance_specs(dataset):
+    """One instance per K of a real farm (all its turbines are the candidate cells); seed = instance id."""
+    site = site_from_dataset(dataset)
+    n, ks = REAL_FARMS[site]
+    return [InstanceSpec(dataset, i, site, n, K, i) for i, K in enumerate(ks)]
+
+
+def specs_for_dataset(dataset, site=None):
+    """synthetic | real_<farm> (real turbine layout) | real_<site> (real rose on the synthetic grid)."""
+    if dataset == "synthetic":
+        return synthetic_instance_specs()
+    site = site or site_from_dataset(dataset)
+    if site in REAL_FARMS:
+        return farm_instance_specs(dataset)
+    return real_instance_specs(dataset, site)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--quick", action="store_true", help="tiny smoke run (2 instances, p=1), status 'smoke'")
@@ -301,10 +341,10 @@ def main():
         return
 
     protocol = QUICK_PROTOCOL if args.quick else FULL_PROTOCOL
-    specs = (synthetic_instance_specs() if args.dataset == "synthetic"
-             else real_instance_specs(args.dataset, args.site or site_from_dataset(args.dataset)))
-    if args.quick:
-        specs = [s for s in specs if s.N == 6][:2]
+    specs = specs_for_dataset(args.dataset, args.site)
+    if args.quick:   # smallest instances only (a real farm with N > 6 keeps its first K)
+        small = [s for s in specs if s.N == 6]
+        specs = small[:2] if small else specs[:1]
     rows = run_all(specs, protocol, jobs=args.jobs)
     out = args.out or dataset_dir(results_dir, args.dataset)
     write_outputs(out, specs, protocol, rows)

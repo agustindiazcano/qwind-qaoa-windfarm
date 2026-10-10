@@ -179,6 +179,7 @@ Rules: `qollab/` may import only numpy, scipy, qiskit and the standard library. 
 - Task 7 (`docs/results-schema`, PR #19 and `feat/run-all`): results schema enforced by tests, `instances.py`, `run_all.py` with the fixed protocol `qwind-v1`. Only a smoke run exists in `results/`; the full synthetic run (~1 h, heavy) is pending.
 - Task 8 (`data/real-wind-roses`): two real ERA5 100 m wind roses (`chubut`, `bahia_blanca`, 16 sectors) in `qollab/data/windrose.json`, derivation and licenses in `docs/DATA.md`, tests in `tests/test_windrose_data.py`. PR open, awaiting human review. Real runs not executed yet.
 - Task 9 (`feat/run-all-datasets`, stacked on Task 8): per-dataset result folders plus `--merge` into the single `results/summary.json` (schema gains `datasets`). Smoke runs only; full runs of the three datasets pending a human decision (local vs cloud).
+- Task 10 (`feat/real-farms`, stacked on Task 9): real farms Penmanshiel (14 turbines) and Kelmarsh (6) with real positions (`qollab/data/farms.json`) and measured 2019 SCADA roses (`windrose.json`); `wake.generate_h_J(coords=...)`, `build_instance(coords=...)`, `run_all.py` datasets `real_penmanshiel` and `real_kelmarsh` (K fixed before running). Smoke runs only; full runs pending.
 
 **Next tasks (in order)**
 1. Merge the Task 4 PR (`feat/qaoa`), then run the uploaded `qollab/` folder in Qollab for real.
@@ -193,7 +194,7 @@ Rules: `qollab/` may import only numpy, scipy, qiskit and the standard library. 
 **Time plan (from Sat 14:30 to Sun 20:00 ART, ~29 h):** core and QAOA by Sat night; experiments and results Sun morning; README, page and video from Sun midday; submit by ~17:00.
 
 ### Decision (Sat 2026-10-10): two real wind roses
-Recorded, not yet executed.
+**Superseded the same evening by the owner's decision to use real operating farms with real layout and measured wind (Penmanshiel and Kelmarsh, CC-BY-4.0, Zenodo); the ERA5 roses of Chubut and Bahia Blanca are kept as an extra on the synthetic grid. See `docs/DATA.md`.** Original text below.
 1. **Primary:** Patagonia, Chubut coast (Comodoro Rivadavia / Rawson area). Strong, highly directional.
 2. **Contrast:** one site with a more dispersed rose (Salta or Bahia Blanca; pick whichever has verifiable data).
 
