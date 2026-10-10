@@ -171,11 +171,11 @@ Rules: `qollab/` may import only numpy, scipy, qiskit and the standard library. 
 - Qollab project "QWind" created as Draft; description, long project-page text (with required attribution and disclosure), tags decided.
 - Smoke test in Qollab passed (section 5).
 - Task 1 (`feat/core-model`): wake.py (Jensen), qubo.py, classical.py, tests/test_core.py, docs/model.md. **PR #5 merged.**
-- Task 2 (`chore/qollab-layout`): Repository structured according to Qollab constraints (`qollab/` self-contained, strict dependencies). **PR #6 open.**
+- Task 2 (`chore/qollab-layout`): Repository structured according to Qollab constraints (`qollab/` self-contained, strict dependencies). **PR #6 merged.**
 - Task 3 (`feat/qollab-requirements`): Added strict requirements.txt checking for `qollab/` using AST. **PR #7 open.**
 
 **Next tasks (in order)**
-1. Merge PR #6 and #7.
+1. Merge PR #7.
 2. Task 4 (`feat/qaoa`): `qaoa.py`, `main.py` with `main(n_cells, K, p, seed)`, tests. Then run the uploaded `qollab/` folder in Qollab for real.
 3. Task 5 (parallel): `docs/results_schema.md` and an example `summary.json` so the teammate can build the website with sample data.
 4. `experiments/run_all.py` and figures (offline), real results into `results/`.
