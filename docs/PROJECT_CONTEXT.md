@@ -100,7 +100,7 @@ Scientific principles of the owner for this project: model rooted in the real ph
 | qiskit_aer | **NOT available** |
 | `backend` | pre-created global, a `BasicSimulator`. `backend.run` is fast for small circuits, but the platform's template polls job status |
 | Primitives | `StatevectorEstimator`, `StatevectorSampler`, `SparsePauliOp` work |
-| Entry point | The platform calls **`main()` after running the file**. `main.py` MUST define `main(...)` (parameters appear to be exposed as run inputs). Missing `main` gives `NameError` |
+| Entry point | **Corrected 2026-10-10:** with an uploaded folder, a `main.py` that only defined `main()` printed nothing in the Run (boot lines only, ~10.8 s); a bare `main()` at the end of the file printed the whole table once. So `main.py` is executed as a script and must call `main()` itself, behind `if __name__ == "__main__":`; `main()` skips one immediate duplicate call with the same arguments. Earlier note "the platform calls `main()` after running the file" came from the in-browser project shape and is not reliable. `__name__ == "__main__"` under Qollab is assumed: to be confirmed by the first Run of this version |
 | Output | Textual console. The platform renders a probabilities histogram from counts automatically |
 
 QAOA-like workload timings (parameterized circuit, all-to-all RZZ, Estimator plus COBYLA):
@@ -176,6 +176,7 @@ Rules: `qollab/` may import only numpy, scipy, qiskit and the standard library. 
 - Chore: `.gitignore` added and committed `.pyc` files untracked (PR #13 merged). `main.py` only defines `main()` (PR #12 merged), covered by an import-side-effects test.
 - Task 4 (`feat/qaoa`): `qaoa.py` (hand-built circuit, Estimator + COBYLA, exact distribution, Sampler) and `main(n_cells=8, K=3, p=2, seed=0)` with a QAOA row and detail block; live Run limited to N <= 14. Default run ~6.5 s locally (120 evaluations at 8 qubits). Output reports QAOA next to uniform and random-feasible-sampling baselines and a feasible-only approximation ratio. **PR #14 merged, awaiting human review. Not yet run inside Qollab.**
 - Task 6 (`feat/qaoa-xy`): constraint-preserving QAOA (XY mixer + Dicke start, no penalty) and ramp initialization, selectable by arguments; offline comparison in `experiments/compare_qaoa_variants.py` with CSVs in `results/`. On 7 small instances xy + dicke beats the uniform-over-feasible baseline everywhere while the penalty QAOA does not reliably do so; with 1000 shots even random feasible sampling finds the optimum at these sizes. **PR open, awaiting human review.** Live Run defaults unchanged.
+- Task 7 (`docs/results-schema`, PR #19 and `feat/run-all`): results schema enforced by tests, `instances.py`, `run_all.py` with the fixed protocol `qwind-v1`. Only a smoke run exists in `results/`; the full synthetic run (~1 h, heavy) is pending.
 
 **Next tasks (in order)**
 1. Merge the Task 4 PR (`feat/qaoa`), then run the uploaded `qollab/` folder in Qollab for real.
