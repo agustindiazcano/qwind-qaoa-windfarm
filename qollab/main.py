@@ -1,4 +1,5 @@
 import time
+from datetime import datetime
 import numpy as np
 from qwind.wake import generate_h_J
 from qwind.qubo import build_qubo, qubo_energy
@@ -46,7 +47,8 @@ def main(n_cells=8, K=3, seed=0):
         gap = res["energy"] - best_energy
         print(f"{name:<15} | {res['energy']:<10.4f} | {gap:<10.4f} | {res['time']:.4f}")
 
-    print(f"Total time: {time.perf_counter() - total_start:.2f} s")
+    print(f"QWind QAOA Benchmark finished at {datetime.now():%Y-%m-%d %H:%M:%S}")
+    print(f"Total time:{time.perf_counter() - total_start:.2f} s")
 
 if __name__ == "__main__":
     main()
