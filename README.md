@@ -101,8 +101,8 @@ Track: *Professional*
 
 ## Team Salta
 
-- Agustin Diaz-Cano
-- Baltazar Salerno
+- Agustin Diaz-Cano, MS Candidate, Information Systems Engineering (UTN)
+- Baltazar Salerno, Frontend Developer
 
 ---
 
