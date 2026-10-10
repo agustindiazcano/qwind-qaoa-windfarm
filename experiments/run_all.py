@@ -1,24 +1,30 @@
 """
 Offline benchmark: classical baselines vs QAOA variants over a fixed instance set.
 
-Writes results/per_instance.csv and results/summary.json (schema: docs/results_schema.md).
+Each dataset is written to its own folder, results/<dataset>/per_instance.csv + summary.json, so a run never
+overwrites another dataset. `--merge` then builds the single results/summary.json (list of datasets) and
+results/per_instance.csv that the website reads (schema: docs/results_schema.md).
 
 The protocol (FULL_PROTOCOL) is fixed BEFORE running and is shared by every dataset: do not retune it
 after seeing results. Datasets: "synthetic" (default) and "real_<site>" (wind rose read from
-qollab/data/windrose.json; same (N, K) pairs and the same protocol).
+qollab/data/windrose.json; same protocol). The real sets reuse only the (N, K) pairs and seeds of the synthetic
+A-rose instances (8 instances per site), not the B and C roses: the rose is the variable under study.
 
 This script is offline-only and is never imported by qollab/.
 
 Usage:
-  python experiments/run_all.py --quick                  # tiny smoke run -> status "smoke"
+  python experiments/run_all.py --quick                  # tiny smoke run -> results/synthetic/, status "smoke"
   python experiments/run_all.py --jobs 4                 # full synthetic protocol (heavy, ~1 h serial)
-  python experiments/run_all.py --dataset real_chubut --site chubut
+  python experiments/run_all.py --dataset real_chubut    # site defaults to the name after "real_"
+  python experiments/run_all.py --dataset real_bahia_blanca
+  python experiments/run_all.py --merge                  # results/<dataset>/ -> results/summary.json + per_instance.csv
 """
 import argparse
 import csv
 import json
 import os
 import platform
+import re
 import sys
 from concurrent.futures import ProcessPoolExecutor
 from math import comb
@@ -35,6 +41,8 @@ from qwind.classical import exact_enumeration, simulated_annealing, greedy_local
 from qwind.qaoa import run_qaoa, energy_table  # noqa: E402
 from qwind.instances import (  # noqa: E402
     InstanceSpec, SYNTHETIC_ROSES, build_instance, load_wind_rose, synthetic_instance_specs)
+
+DATASET_RE = re.compile(r"^(synthetic|real_[a-z0-9_]+)$")
 
 FULL_PROTOCOL = {
     "id": "qwind-v1",
@@ -56,6 +64,7 @@ CAVEATS = [
     "Random feasible sampling with the same number of shots also finds the optimum almost surely; compare the distributions (P(optimal), approximation ratio), not the best sample.",
     "QAOA with the XY mixer and Dicke start uses a generic exponential-size state preparation in this simulation.",
     "The 95% intervals are normal approximations over instances.",
+    "Real datasets use a real wind rose (ERA5 100 m, docs/DATA.md) on a synthetic grid of candidate cells, not a real farm layout; the wake model does not use mean wind speed yet.",
 ]
 
 
@@ -191,12 +200,15 @@ def write_outputs(out_dir, specs, protocol, rows):
         w = csv.DictWriter(f, fieldnames=COLUMNS)
         w.writeheader()
         w.writerows(rows)
+    status = "smoke" if protocol["id"].endswith("-quick") else "final"
     summary = {
         "schema_version": "1.0",
-        "status": "smoke" if protocol["id"].endswith("-quick") else "final",
+        "status": status,
         "protocol": dict(protocol, variants=[v["name"] for v in variants(protocol)]),
         "environment": {"python": platform.python_version(), "qiskit": qiskit.__version__,
                         "numpy": np.__version__, "scipy": scipy.__version__},
+        "datasets": [{"dataset": d, "status": status, "n_instances": sum(s.dataset == d for s in specs)}
+                     for d in sorted({s.dataset for s in specs})],
         "instances": [dict(dataset=s.dataset, instance_id=s.instance_id, wind_rose=s.wind_rose, N=s.N, K=s.K,
                            grid_rows=s.N // 2, grid_cols=2, seed=s.seed) for s in specs],
         "results": aggregate(rows),
@@ -207,8 +219,66 @@ def write_outputs(out_dir, specs, protocol, rows):
         f.write("\n")
 
 
+def dataset_dir(base, dataset):
+    return os.path.join(base, dataset)
+
+
+def site_from_dataset(dataset):
+    """'real_chubut' -> 'chubut' (the site key in qollab/data/windrose.json)."""
+    if not dataset.startswith("real_"):
+        raise ValueError(f"{dataset!r} is not a real_<site> dataset")
+    return dataset[len("real_"):]
+
+
+def merge_results(base, out):
+    """
+    Merge results/<dataset>/{summary.json, per_instance.csv} (every sub-folder of `base` that has them) into
+    `out`/summary.json (list of datasets) and `out`/per_instance.csv. All datasets must share the same protocol.
+    """
+    parts = []
+    for name in sorted(os.listdir(base)):
+        d = os.path.join(base, name)
+        if not DATASET_RE.match(name):   # only folders named after a dataset (skips figures/, other outputs)
+            continue
+        if os.path.isfile(os.path.join(d, "summary.json")) and os.path.isfile(os.path.join(d, "per_instance.csv")):
+            with open(os.path.join(d, "summary.json"), encoding="utf-8") as f:
+                summary = json.load(f)
+            with open(os.path.join(d, "per_instance.csv"), newline="", encoding="utf-8") as f:
+                rows = list(csv.DictReader(f))
+            parts.append((summary, rows))
+    if not parts:
+        raise ValueError(f"no dataset folders with summary.json and per_instance.csv in {base}")
+    protocol = parts[0][0]["protocol"]
+    if any(s["protocol"] != protocol for s, _ in parts):
+        raise ValueError("datasets were run with different protocols; refusing to merge")
+    datasets = [d for s, _ in parts for d in s["datasets"]]
+    merged = {
+        "schema_version": parts[0][0]["schema_version"],
+        "status": "final" if all(d["status"] == "final" for d in datasets) else "smoke",
+        "protocol": protocol,
+        "environment": parts[0][0]["environment"],
+        "datasets": sorted(datasets, key=lambda d: d["dataset"]),
+        "instances": [i for s, _ in parts for i in s["instances"]],
+        "results": [r for s, _ in parts for r in s["results"]],
+        "caveats": list(dict.fromkeys(c for s, _ in parts for c in s["caveats"])),
+    }
+    os.makedirs(out, exist_ok=True)
+    with open(os.path.join(out, "per_instance.csv"), "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=COLUMNS)
+        w.writeheader()
+        for _, rows in parts:
+            w.writerows(rows)
+    with open(os.path.join(out, "summary.json"), "w", encoding="utf-8") as f:
+        json.dump(merged, f, indent=2)
+        f.write("\n")
+    return merged
+
+
 def real_instance_specs(dataset, site):
-    """Same (N, K) pairs and seeds as the synthetic set, with the rose of one real site."""
+    """
+    Same (N, K) pairs and seeds as the synthetic A-rose instances only (8 instances per site: N = 6, 8, 10, 12 x 2 K),
+    with the rose of one real site. The synthetic B and C roses have no real counterpart.
+    """
     return [InstanceSpec(dataset, s.instance_id, site, s.N, s.K, s.seed) for s in synthetic_instance_specs()
             if s.wind_rose == "A"]
 
@@ -218,17 +288,27 @@ def main():
     ap.add_argument("--quick", action="store_true", help="tiny smoke run (2 instances, p=1), status 'smoke'")
     ap.add_argument("--jobs", type=int, default=1, help="processes (one instance per task)")
     ap.add_argument("--dataset", default="synthetic", help="'synthetic' or 'real_<site>'")
-    ap.add_argument("--site", help="site key in qollab/data/windrose.json (for real_<site>)")
-    ap.add_argument("--out", default=os.path.join(ROOT, "results"))
+    ap.add_argument("--site", help="site key in qollab/data/windrose.json (default: the name after 'real_')")
+    ap.add_argument("--out", help="output folder (default: results/<dataset>)")
+    ap.add_argument("--merge", action="store_true",
+                    help="merge results/<dataset>/ folders into results/summary.json + per_instance.csv and exit")
     args = ap.parse_args()
 
+    results_dir = os.path.join(ROOT, "results")
+    if args.merge:
+        merged = merge_results(results_dir, results_dir)
+        print(f"merged {[d['dataset'] for d in merged['datasets']]} -> {results_dir} (status: {merged['status']})")
+        return
+
     protocol = QUICK_PROTOCOL if args.quick else FULL_PROTOCOL
-    specs = synthetic_instance_specs() if args.dataset == "synthetic" else real_instance_specs(args.dataset, args.site)
+    specs = (synthetic_instance_specs() if args.dataset == "synthetic"
+             else real_instance_specs(args.dataset, args.site or site_from_dataset(args.dataset)))
     if args.quick:
         specs = [s for s in specs if s.N == 6][:2]
     rows = run_all(specs, protocol, jobs=args.jobs)
-    write_outputs(args.out, specs, protocol, rows)
-    print(f"{len(specs)} instances, {len(rows)} rows -> {args.out} (status: "
+    out = args.out or dataset_dir(results_dir, args.dataset)
+    write_outputs(out, specs, protocol, rows)
+    print(f"{len(specs)} instances, {len(rows)} rows -> {out} (status: "
           f"{'smoke' if args.quick else 'final'})")
 
 
