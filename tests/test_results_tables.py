@@ -87,8 +87,20 @@ def test_readme_block_numbers_come_from_the_file(summary, rows):
     rec = next(r for r in summary["results"] if r["dataset"] == "synthetic" and r["variant"] == "xy+dicke" and r["p"] == 3)
     assert f"{rec['metrics']['p_optimal']['mean']:.3f}" in md
     assert f"{rec['baselines']['uniform_feasible_ratio']:.3f}" in md
-    assert "results/results_tables.md" in md
     assert "std" not in md.lower() and "ci95" not in md.lower()
+
+
+def test_readme_headline_table_is_one_row_per_dataset_at_the_deepest_p(summary, rows):
+    md = tables.readme_block(summary, rows)
+    parts = md.split("\n\n")
+    first = parts[1]                                    # the table after the first bold title
+    body = [_cells(l) for l in first.splitlines()[2:]]
+    assert "depth p = 3" in parts[0]
+    assert [b[0] for b in body] == [d for d in tables.README_ORDER if d in {x["dataset"] for x in summary["datasets"]}]
+    assert len(body) == len(summary["datasets"])
+    row = next(b for b in body if b[0] == "real_penmanshiel_sub10")
+    rec = next(r for r in summary["results"] if r["dataset"] == "real_penmanshiel_sub10" and r["variant"] == "xy+dicke" and r["p"] == 3)
+    assert float(row[2]) == pytest.approx(rec["metrics"]["p_optimal"]["mean"], abs=5e-4)
 
 
 def test_readme_block_penalty_sweep_range_is_computed(summary, rows):
