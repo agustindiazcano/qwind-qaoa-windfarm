@@ -76,13 +76,17 @@ def readme_block(summary, rows):
     present = [d["dataset"] for d in summary["datasets"]]
     names = [d for d in README_ORDER if d in present] + [d for d in present if d not in README_ORDER]
     p_top = max(summary["protocol"]["depths"])      # compact headline: the deepest circuit; all depths are in results_tables.md
-    out = [f"**Constraint-preserving QAOA (XY mixer + Dicke start) against the uniform-over-feasible baseline, depth p = {p_top}**", ""]
+    n_inst = {d["dataset"]: d["n_instances"] for d in summary["datasets"]}
+    out = ["**Datasets** (short name used in the tables below; the full name is the dataset id in `results/`)", "",
+           _md(["name", "dataset", "what it is", "instances"],
+               [[SHORT_NAMES.get(n, n), f"`{n}`", DESCRIPTIONS.get(n, ""), n_inst[n]] for n in names]), "",
+           f"**Constraint-preserving QAOA (XY mixer + Dicke start) against the uniform-over-feasible baseline, depth p = {p_top}**", ""]
     a_rows = []
     for name in names:
         for r in summary["results"]:
             if r["dataset"] == name and r["method"] == "qaoa" and r["variant"] == "xy+dicke" and r["p"] == p_top:
                 n, m, b = r["n_instances"], r["metrics"], r["baselines"]
-                a_rows.append([name, n, f"{m['p_optimal']['mean']:.3f}", f"{b['uniform_feasible_p_optimal']:.3f}",
+                a_rows.append([SHORT_NAMES.get(name, name), n, f"{m['p_optimal']['mean']:.3f}", f"{b['uniform_feasible_p_optimal']:.3f}",
                                f"{m['approx_ratio_feasible']['mean']:.3f}", f"{b['uniform_feasible_ratio']:.3f}",
                                f"{round(r['frac_beating_uniform_ratio'] * n)}/{n}",
                                f"{round(r['frac_beating_uniform_p_optimal'] * n)}/{n}", f"{m['n_evals']['mean']:.0f}"])
@@ -96,7 +100,7 @@ def readme_block(summary, rows):
         pen = [r for r in summary["results"] if r["dataset"] == name and r["method"] == "qaoa" and r["variant"].startswith("penalty")]
         n = pen[0]["n_instances"]
         cnt = lambda key: [round(r[key] * n) for r in pen]
-        b_rows.append([name, n, len({r["variant"] for r in pen}), _range(cnt("frac_beating_uniform_ratio"), n),
+        b_rows.append([SHORT_NAMES.get(name, name), n, len({r["variant"] for r in pen}), _range(cnt("frac_beating_uniform_ratio"), n),
                        _range(cnt("frac_beating_uniform_p_optimal"), n),
                        f"{min(r['metrics']['p_feasible']['mean'] for r in pen):.2f}-{max(r['metrics']['p_feasible']['mean'] for r in pen):.2f}"])
     out += [_md(["dataset", "instances", "settings", "beat uniform ratio", "beat uniform P(optimal)", "P(feasible) range"], b_rows), ""]
@@ -109,7 +113,7 @@ def readme_block(summary, rows):
             sel = [r for r in rows if r["dataset"] == name and r["method"] == method and r[col] != ""]
             return sum(float(r[col]) for r in sel) / len(sel) if sel else None
         qaoa_evals = stat("qaoa", "n_evals")
-        c_rows.append([name, f"{stat('sa', 'energy_gap'):.4f}", f"{stat('sa', 'n_evals'):.0f}",
+        c_rows.append([SHORT_NAMES.get(name, name), f"{stat('sa', 'energy_gap'):.4f}", f"{stat('sa', 'n_evals'):.0f}",
                        f"{stat('greedy', 'energy_gap'):.4f}", f"{stat('qaoa', 'energy_gap'):.4f}", f"{qaoa_evals:.0f}"])
     out += [_md(["dataset", "SA gap", "SA evaluations", "greedy gap", "QAOA best-sampled gap", "QAOA evaluations"], c_rows)]
     return "\n".join(out)
@@ -118,6 +122,17 @@ def readme_block(summary, rows):
 START, END = "<!-- RESULTS:START -->", "<!-- RESULTS:END -->"
 # Order of the datasets in the README tables: the synthetic set, the real farms, then the secondary ERA5 sets
 README_ORDER = ["synthetic", "real_penmanshiel", "real_penmanshiel_sub10", "real_kelmarsh", "real_chubut", "real_bahia_blanca"]
+# Short names used in the README tables (the full dataset id is the index in the legend table)
+SHORT_NAMES = {"synthetic": "Synthetic", "real_penmanshiel": "Penmanshiel", "real_penmanshiel_sub10": "Penmanshiel-10",
+               "real_kelmarsh": "Kelmarsh", "real_chubut": "Chubut", "real_bahia_blanca": "Bahia"}
+DESCRIPTIONS = {
+    "synthetic": "Synthetic wind roses on a synthetic grid",
+    "real_penmanshiel": "All 14 real turbine positions of the Penmanshiel farm, measured wind rose",
+    "real_penmanshiel_sub10": "The 10 Penmanshiel turbines closest to the farm centroid (a subset)",
+    "real_kelmarsh": "The 6 real turbines of the Kelmarsh farm, measured wind rose (trivial contrast)",
+    "real_chubut": "ERA5 wind rose of the Chubut coast on a synthetic grid (secondary)",
+    "real_bahia_blanca": "ERA5 wind rose of Bahia Blanca on a synthetic grid (secondary)",
+}
 
 
 def update_readme(path, block):

@@ -28,46 +28,50 @@ The default Run (N = 8 cells, K = 3 turbines, QAOA depth p = 2, seed 0) prints o
 
 All numbers come from `results/summary.json` and `results/per_instance.csv` (fixed protocol `qwind-v1`, run in GitHub Actions). Nothing is typed by hand. Full tables, every variant and every instance: [results/results_tables.md](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/results/results_tables.md). Datasets are never averaged together.
 
-Datasets:
-- `synthetic`: 24 instances, synthetic wind roses on a grid.
-- `real_penmanshiel`: the 14 real turbine positions of the Penmanshiel farm, with a measured wind rose.
-- `real_penmanshiel_sub10`: the 10 turbines closest to the farm centroid (a subset).
-- `real_kelmarsh`: 6 turbines, a trivial contrast.
-- `real_chubut`, `real_bahia_blanca`: ERA5 reanalysis wind roses on a synthetic grid (secondary).
-
 <!-- RESULTS:START -->
+**Datasets** (short name used in the tables below; the full name is the dataset id in `results/`)
+
+| name | dataset | what it is | instances |
+|---|---|---|---|
+| Synthetic | `synthetic` | Synthetic wind roses on a synthetic grid | 24 |
+| Penmanshiel | `real_penmanshiel` | All 14 real turbine positions of the Penmanshiel farm, measured wind rose | 3 |
+| Penmanshiel-10 | `real_penmanshiel_sub10` | The 10 Penmanshiel turbines closest to the farm centroid (a subset) | 3 |
+| Kelmarsh | `real_kelmarsh` | The 6 real turbines of the Kelmarsh farm, measured wind rose (trivial contrast) | 3 |
+| Chubut | `real_chubut` | ERA5 wind rose of the Chubut coast on a synthetic grid (secondary) | 8 |
+| Bahia | `real_bahia_blanca` | ERA5 wind rose of Bahia Blanca on a synthetic grid (secondary) | 8 |
+
 **Constraint-preserving QAOA (XY mixer + Dicke start) against the uniform-over-feasible baseline, depth p = 3**
 
 | dataset | instances | P(optimal) | uniform P(optimal) | approx. ratio (feasible) | uniform ratio | beat uniform ratio | beat uniform P(optimal) | evaluations |
 |---|---|---|---|---|---|---|---|---|
-| synthetic | 24 | 0.072 | 0.021 | 0.731 | 0.578 | 24/24 | 20/24 | 120 |
-| real_penmanshiel | 3 | 0.003 | 0.000 | 0.682 | 0.523 | 3/3 | 3/3 | 120 |
-| real_penmanshiel_sub10 | 3 | 0.054 | 0.015 | 0.660 | 0.483 | 3/3 | 3/3 | 120 |
-| real_kelmarsh | 3 | 0.320 | 0.106 | 0.785 | 0.595 | 3/3 | 3/3 | 120 |
-| real_chubut | 8 | 0.092 | 0.021 | 0.713 | 0.527 | 8/8 | 7/8 | 120 |
-| real_bahia_blanca | 8 | 0.065 | 0.021 | 0.685 | 0.485 | 8/8 | 8/8 | 120 |
+| Synthetic | 24 | 0.072 | 0.021 | 0.731 | 0.578 | 24/24 | 20/24 | 120 |
+| Penmanshiel | 3 | 0.003 | 0.000 | 0.682 | 0.523 | 3/3 | 3/3 | 120 |
+| Penmanshiel-10 | 3 | 0.054 | 0.015 | 0.660 | 0.483 | 3/3 | 3/3 | 120 |
+| Kelmarsh | 3 | 0.320 | 0.106 | 0.785 | 0.595 | 3/3 | 3/3 | 120 |
+| Chubut | 8 | 0.092 | 0.021 | 0.713 | 0.527 | 8/8 | 7/8 | 120 |
+| Bahia | 8 | 0.065 | 0.021 | 0.685 | 0.485 | 8/8 | 8/8 | 120 |
 
 **Penalty QAOA (X mixer), all settings of the sweep** (penalty weight 1, 3 and 10 times max|h|, plus one ramp variant; p = 1-3). Range of instances that beat the uniform baseline over settings and depths:
 
 | dataset | instances | settings | beat uniform ratio | beat uniform P(optimal) | P(feasible) range |
 |---|---|---|---|---|---|
-| synthetic | 24 | 4 | 9-17/24 | 0-4/24 | 0.26-0.44 |
-| real_penmanshiel | 3 | 4 | 1-3/3 | 0/3 | 0.11-0.43 |
-| real_penmanshiel_sub10 | 3 | 4 | 0-3/3 | 0/3 | 0.22-0.51 |
-| real_kelmarsh | 3 | 4 | 0-3/3 | 0/3 | 0.32-0.85 |
-| real_chubut | 8 | 4 | 2-7/8 | 0-1/8 | 0.26-0.50 |
-| real_bahia_blanca | 8 | 4 | 1-7/8 | 0-1/8 | 0.22-0.53 |
+| Synthetic | 24 | 4 | 9-17/24 | 0-4/24 | 0.26-0.44 |
+| Penmanshiel | 3 | 4 | 1-3/3 | 0/3 | 0.11-0.43 |
+| Penmanshiel-10 | 3 | 4 | 0-3/3 | 0/3 | 0.22-0.51 |
+| Kelmarsh | 3 | 4 | 0-3/3 | 0/3 | 0.32-0.85 |
+| Chubut | 8 | 4 | 2-7/8 | 0-1/8 | 0.26-0.50 |
+| Bahia | 8 | 4 | 1-7/8 | 0-1/8 | 0.22-0.53 |
 
 **Classical methods and evaluation budgets** (budgets are not matched: simulated annealing uses far more evaluations than QAOA). Mean over the instances of each dataset:
 
 | dataset | SA gap | SA evaluations | greedy gap | QAOA best-sampled gap | QAOA evaluations |
 |---|---|---|---|---|---|
-| synthetic | 0.0000 | 5005 | 0.0129 | 0.0132 | 115 |
-| real_penmanshiel | 0.0000 | 5005 | 0.0060 | 0.0308 | 111 |
-| real_penmanshiel_sub10 | 0.0000 | 5005 | 0.0000 | 0.0026 | 115 |
-| real_kelmarsh | 0.0000 | 5005 | 0.0000 | 0.0000 | 118 |
-| real_chubut | 0.0000 | 5005 | 0.0000 | 0.0114 | 114 |
-| real_bahia_blanca | 0.0000 | 5005 | 0.0000 | 0.0064 | 114 |
+| Synthetic | 0.0000 | 5005 | 0.0129 | 0.0132 | 115 |
+| Penmanshiel | 0.0000 | 5005 | 0.0060 | 0.0308 | 111 |
+| Penmanshiel-10 | 0.0000 | 5005 | 0.0000 | 0.0026 | 115 |
+| Kelmarsh | 0.0000 | 5005 | 0.0000 | 0.0000 | 118 |
+| Chubut | 0.0000 | 5005 | 0.0000 | 0.0114 | 114 |
+| Bahia | 0.0000 | 5005 | 0.0000 | 0.0064 | 114 |
 <!-- RESULTS:END -->
 
 ### How to read the tables
@@ -75,8 +79,8 @@ Datasets:
 - The reference point is the *uniform distribution over feasible layouts*, not 1. QAOA's approximation ratios are well below 1; the absolute values are in the tables.
 - The constraint-preserving ansatz beats the uniform baseline on the approximation ratio in every instance reported here, at p = 1 to 3. On P(optimal) it does so in most instances but not all (counts in the table).
 - Classical methods solve these instances exactly or nearly so: simulated annealing reaches gap 0 in every dataset, and greedy search misses by a small margin on two. The best layout sampled from QAOA (1000 shots) is on average not better than the one found by simulated annealing.
-- Penmanshiel, Kelmarsh and `real_penmanshiel_sub10` have 3 instances each, too few for a mean or an interval: read them instance by instance in `results/results_tables.md`. The means above for those rows are only a summary.
-- At N = 14 (`real_penmanshiel`) the probability of sampling the optimal layout is tiny in absolute terms for both QAOA and the uniform baseline; what improves is the distribution over feasible layouts.
+- Penmanshiel, Penmanshiel-10 and Kelmarsh have 3 instances each, too few for a mean or an interval: read them instance by instance in `results/results_tables.md`. The means above for those rows are only a summary.
+- At N = 14 (Penmanshiel) the probability of sampling the optimal layout is tiny in absolute terms for both QAOA and the uniform baseline; what improves is the distribution over feasible layouts.
 - One run per instance, one simulator, at most 14 cells. Results come from one environment (Python 3.12.15 in GitHub Actions). A Run on Qollab (Python 3.14.2) can give slightly different values; we do not claim reproducibility across environments.
 
 ## How to run
