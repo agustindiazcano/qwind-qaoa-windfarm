@@ -68,3 +68,20 @@ def test_qollab_main_execution():
     # We call it. It should not raise any exceptions.
     main.main()
 
+
+def test_qollab_main_import_has_no_side_effects():
+    """Importing main must only define main(): no output, no work, no __main__ block."""
+    import subprocess
+    qollab_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'qollab'))
+    result = subprocess.run(
+        [sys.executable, "-c", "import main"],
+        cwd=qollab_dir, capture_output=True, text=True, check=True,
+    )
+    assert result.stdout == ""
+
+    with open(os.path.join(qollab_dir, "main.py"), "r", encoding="utf-8") as f:
+        tree = ast.parse(f.read())
+    for node in tree.body:
+        assert not isinstance(node, ast.If), "main.py must not have a module-level 'if' (e.g. __main__ block)"
+        assert not (isinstance(node, ast.Expr) and isinstance(node.value, ast.Call)), \
+            "main.py must not call anything at module level"

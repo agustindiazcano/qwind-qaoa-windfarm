@@ -48,7 +48,4 @@ def main(n_cells=8, K=3, seed=0):
         print(f"{name:<15} | {res['energy']:<10.4f} | {gap:<10.4f} | {res['time']:.4f}")
 
     print(f"QWind QAOA Benchmark finished at {datetime.now():%Y-%m-%d %H:%M:%S}")
-    print(f"Total time:{time.perf_counter() - total_start:.2f} s")
-
-if __name__ == "__main__":
-    main()
+    print(f"Total time: {time.perf_counter() - total_start:.2f} s")
