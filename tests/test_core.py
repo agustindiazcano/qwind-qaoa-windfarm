@@ -33,13 +33,14 @@ def test_hamiltonian_diagonal():
     """
     N = 6
     K = 2
-    # Wind rose heavily biased to one direction creates an asymmetric J matrix
+    # Wind rose heavily biased to one direction
     wind_rose = [(45, 1.0)] 
-    h, J = generate_h_J(grid_shape=(2, 3), wind_rose=wind_rose)
+    # Use asymmetric P0 so linear terms are distinct per site
+    P0_asym = np.linspace(1.0, 2.0, N)
+    h, J = generate_h_J(grid_shape=(2, 3), wind_rose=wind_rose, P0=P0_asym)
     
-    # Ensure J is actually asymmetric in its effects (i.e. not all sites are equivalent)
-    # The sum of wakes caused by site 0 is different from site 5, etc.
-    assert np.std(np.sum(J, axis=1) + np.sum(J, axis=0)) > 0, "Instance must be asymmetric"
+    # Ensure h is asymmetric
+    assert len(set(h)) == N, "Linear terms must be distinct to robustly test qubit ordering"
     
     lam = 100.0
     Q = build_qubo(h, J, lam, K)

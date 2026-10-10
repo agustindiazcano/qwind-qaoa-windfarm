@@ -41,7 +41,13 @@ def generate_h_J(grid_shape=(4, 3), spacing_D=5.0, wind_rose=None, P0=1.0):
         wind_rose = [(0, 0.2), (90, 0.5), (180, 0.1), (270, 0.2)]
         
     num_cells = grid_shape[0] * grid_shape[1]
-    h = -P0 * np.ones(num_cells)
+    
+    if np.isscalar(P0):
+        P0_array = P0 * np.ones(num_cells)
+    else:
+        P0_array = np.asarray(P0)
+        
+    h = -P0_array
     J = np.zeros((num_cells, num_cells))
     
     # Calculate coordinates for each cell
@@ -87,7 +93,7 @@ def generate_h_J(grid_shape=(4, 3), spacing_D=5.0, wind_rose=None, P0=1.0):
                 # If v = v0(1 - deficit), then P = P0 * (1 - deficit)^3
                 # Power loss = P0 - P0*(1 - deficit)^3
                 if deficit > 0:
-                    loss = P0 * (1.0 - (1.0 - deficit)**3)
+                    loss = P0_array[j] * (1.0 - (1.0 - deficit)**3)
                     expected_loss += prob * loss
                     
             # In QUBO, the x_i x_j term appears for i < j.
