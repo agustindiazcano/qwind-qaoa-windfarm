@@ -211,3 +211,52 @@ def test_aggregate_never_mixes_datasets():
     out = run_all.aggregate([r("real_penmanshiel", 0.0), r("real_kelmarsh", 1.0), r("synthetic", 2.0)])
     assert sorted(x["dataset"] for x in out) == ["real_kelmarsh", "real_penmanshiel", "synthetic"]
     assert all(x["n_instances"] == 1 for x in out)
+
+
+# --- extended instance sets (docs/PROTOCOL_EXTENSION.md): same protocol qwind-v1, larger N and more K ---
+
+def test_extended_instance_sets_are_fixed_in_advance():
+    n16 = run_all.specs_for_dataset("synthetic_n16")
+    n18 = run_all.specs_for_dataset("synthetic_n18")
+    allk = run_all.specs_for_dataset("real_penmanshiel_allk")
+    assert sorted({(s.N, s.K) for s in n16}) == [(16, 5), (16, 8)] and len(n16) == 6
+    assert sorted({(s.N, s.K) for s in n18}) == [(18, 6), (18, 9)] and len(n18) == 6
+    assert sorted({s.wind_rose for s in n16}) == ["A", "B", "C"]
+    assert [(s.N, s.K) for s in allk] == [(14, k) for k in range(3, 12)]
+    assert {s.wind_rose for s in allk} == {"penmanshiel"}
+    assert {s.dataset for s in n16} == {"synthetic_n16"} and {s.dataset for s in allk} == {"real_penmanshiel_allk"}
+
+
+def test_extended_synthetic_seeds_do_not_overlap_the_original_set():
+    original = {s.seed for s in run_all.specs_for_dataset("synthetic")}
+    extended = {s.seed for d in ("synthetic_n16", "synthetic_n18") for s in run_all.specs_for_dataset(d)}
+    assert not original & extended and len(extended) == 12
+
+
+def test_allk_uses_all_fourteen_real_positions_in_their_original_order():
+    spec = run_all.specs_for_dataset("real_penmanshiel_allk")[0]
+    cells = run_all.farm_cells(spec, FARMS_PATH)
+    full = run_all.farm_cells(run_all.specs_for_dataset("real_penmanshiel")[0], FARMS_PATH)
+    assert cells == full and len(cells) == 14
+
+
+def test_extended_synthetic_uses_the_synthetic_roses_and_grid(tmp_path):
+    spec = InstanceSpec("synthetic_n16", 0, "B", 6, 2, 100)           # tiny N only to keep the test fast
+    assert run_all.rose_for(spec) == run_all.SYNTHETIC_ROSES["B"]
+    assert run_all.grid_for(spec) == (3, 2)
+    rows = run_all.run_instance(spec, dict(TINY, maxiter=4))
+    assert {r["dataset"] for r in rows} == {"synthetic_n16"}
+
+
+def test_extended_protocol_parameters_are_the_qwind_v1_ones():
+    """The larger sets must not come with different QAOA settings."""
+    proto = run_all.FULL_PROTOCOL
+    assert (proto["id"], proto["depths"], proto["restarts"], proto["maxiter"], proto["shots"]) == ("qwind-v1", [1, 2, 3], 2, 60, 1000)
+    assert proto["lam_multipliers"] == [1.0, 3.0, 10.0] and proto["ramp_total_time_factor"] == 0.75
+
+
+def test_protocol_extension_is_documented_before_running():
+    path = os.path.join(os.path.dirname(__file__), "..", "docs", "PROTOCOL_EXTENSION.md")
+    text = open(path, encoding="utf-8").read()
+    for name in ("synthetic_n16", "synthetic_n18", "real_penmanshiel_allk", "qwind-v1", "not changed", "published, whatever they show"):
+        assert name in text

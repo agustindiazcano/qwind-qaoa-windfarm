@@ -17,7 +17,7 @@ SUMMARY = os.path.join(ROOT, "results", "summary.json")
 PER_INSTANCE = os.path.join(ROOT, "results", "per_instance.csv")
 SCHEMA_DOC = os.path.join(ROOT, "docs", "results_schema.md")
 
-DATASET_RE = re.compile(r"^(synthetic|real_[a-z0-9_]+)$")
+DATASET_RE = re.compile(r"^(synthetic(_[a-z0-9]+)?|real_[a-z0-9_]+)$")
 METHODS = {"exact", "sa", "greedy", "qaoa"}
 STATUSES = {"final", "smoke"}
 
@@ -230,3 +230,20 @@ def test_generated_per_instance_follows_schema():
         reader = csv.DictReader(f)
         rows = list(reader)
         assert validate_per_instance(rows, reader.fieldnames) == []
+
+
+@pytest.mark.parametrize("name", ["synthetic", "synthetic_n16", "synthetic_n18", "real_penmanshiel_allk"])
+def test_extended_dataset_names_are_valid(name):
+    s = _valid_summary()
+    for d in s["datasets"]:
+        d["dataset"] = name if d["dataset"] == "synthetic" else d["dataset"]
+    for i in s["instances"]:
+        i["dataset"] = name if i["dataset"] == "synthetic" else i["dataset"]
+    for r in s["results"]:
+        r["dataset"] = name if r["dataset"] == "synthetic" else r["dataset"]
+    assert validate_summary(s) == []
+
+
+@pytest.mark.parametrize("name", ["Synthetic", "synthetic_", "synthetic_N16", "synthetic-n16", "real"])
+def test_bad_dataset_names_are_rejected(name):
+    assert not DATASET_RE.match(name)

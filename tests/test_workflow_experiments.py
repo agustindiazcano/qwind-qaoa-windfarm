@@ -41,3 +41,13 @@ def test_workflow_has_timeouts_and_merges_only_downloaded_artifacts():
     assert "timeout-minutes:" in t
     assert "upload-artifact" in t and "download-artifact" in t
     assert "merge_results" in t           # merge job uses a clean folder, never the committed smoke runs
+
+
+def test_workflow_dataset_filter_accepts_the_extended_names():
+    m = re.search(r'ok = re\.compile\(r"([^"]+)"\)', _text())
+    assert m, "the plan job needs a dataset-name filter"
+    ok = re.compile(m.group(1))
+    for name in ("synthetic", "synthetic_n16", "synthetic_n18", "real_penmanshiel_allk", "real_kelmarsh"):
+        assert ok.match(name)
+    for name in ("Synthetic", "synthetic;rm", "synthetic_N16", ""):
+        assert not ok.match(name)

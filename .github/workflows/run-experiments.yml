@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       datasets:
-        description: "Space-separated datasets: synthetic real_penmanshiel_sub10 real_penmanshiel real_kelmarsh real_chubut real_bahia_blanca"
+        description: "Space-separated datasets: synthetic real_penmanshiel_sub10 real_penmanshiel real_kelmarsh real_chubut real_bahia_blanca synthetic_n16 synthetic_n18 real_penmanshiel_allk"
         default: "synthetic real_penmanshiel_sub10"   # datasets
         required: true
       quick:
@@ -35,7 +35,7 @@ jobs:
         python3 - <<'PY'
         import json, os, re, sys
         ds = os.environ["DATASETS"].split()
-        ok = re.compile(r"^(synthetic|real_[a-z0-9_]+)$")
+        ok = re.compile(r"^(synthetic(_[a-z0-9]+)?|real_[a-z0-9_]+)$")
         if not ds or not all(ok.match(d) for d in ds):
             sys.exit("invalid dataset list")
         with open(os.environ["GITHUB_OUTPUT"], "a") as f:
