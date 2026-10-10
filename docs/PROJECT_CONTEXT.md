@@ -173,10 +173,12 @@ Rules: `qollab/` may import only numpy, scipy, qiskit and the standard library. 
 - Task 1 (`feat/core-model`): wake.py (Jensen), qubo.py, classical.py, tests/test_core.py, docs/model.md. **PR #5 merged.**
 - Task 2 (`chore/qollab-layout`): Repository structured according to Qollab constraints (`qollab/` self-contained, strict dependencies). **PR #6 merged.**
 - Task 3 (`feat/qollab-requirements`): Added strict requirements.txt checking for `qollab/` using AST. **PR #7 open.**
+- Chore: `.gitignore` added and committed `.pyc` files untracked (PR #13 merged). `main.py` only defines `main()` (PR #12 merged), covered by an import-side-effects test.
+- Task 4 (`feat/qaoa`): `qaoa.py` (hand-built circuit, Estimator + COBYLA, exact distribution, Sampler) and `main(n_cells=8, K=3, p=2, seed=0)` with a QAOA row and detail block; live Run limited to N <= 14. Default run ~6.5 s locally (120 evaluations at 8 qubits). **PR open, awaiting human review. Not yet run inside Qollab.**
 
 **Next tasks (in order)**
-1. Merge PR #7.
-2. Task 4 (`feat/qaoa`): `qaoa.py`, `main.py` with `main(n_cells, K, p, seed)`, tests. Then run the uploaded `qollab/` folder in Qollab for real.
+1. Merge the Task 4 PR (`feat/qaoa`), then run the uploaded `qollab/` folder in Qollab for real.
+2. (done) Task 4 code and tests.
 3. Task 5 (parallel): `docs/results_schema.md` and an example `summary.json` so the teammate can build the website with sample data.
 4. `experiments/run_all.py` and figures (offline), real results into `results/`.
 5. Wind data: source and license (Global Wind Atlas is CC BY 4.0, verify attribution requirements) or a documented synthetic Weibull-based rose.
