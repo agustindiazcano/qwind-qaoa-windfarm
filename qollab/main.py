@@ -19,15 +19,16 @@ def say(*args):
 _skip_next = None  # arguments of a call to ignore once: the platform's repeat of the automatic run
 
 
-def main(n_cells=8, K=3, p=2, seed=0, mixer="x", init="plus", init_params="random"):
+def main(n_cells=8, K=3, p=2, seed=0, mixer="xy", init="dicke", init_params="random"):
     """
     Main entry point for Qollab. Qollab executes the uploaded file as a script (see the guard at the
     bottom) and, depending on the project shape, may also call main() afterwards: that duplicate call
     with the same arguments is ignored, so the benchmark runs once.
     Runs a small instance and compares classical methods against QAOA at depth p.
     mixer ("x" | "xy"), init ("plus" | "dicke") and init_params ("random" | "ramp") select QAOA
-    variants; the defaults are the penalty QAOA. mixer="xy" with init="dicke" enforces the
-    cardinality constraint in the ansatz and drops the penalty from the circuit.
+    variants. The default is the constraint-preserving one: mixer="xy" with init="dicke" enforces the
+    cardinality constraint in the ansatz and drops the penalty from the circuit. The penalty QAOA is
+    mixer="x", init="plus".
     """
     global _skip_next
     if _skip_next == (n_cells, K, p, seed, mixer, init, init_params):
@@ -86,8 +87,10 @@ def _run(n_cells, K, p, seed, mixer, init, init_params):
     qaoa = run_qaoa(Q, n_cells, K, p=p, seed=seed, mixer=mixer, init=init,
                     init_params=init_params, cost_Q=cost_Q)
     # Best sampled bitstring, comparable to the single solution returned by the classical methods
-    variant = "" if (mixer, init, init_params) == ("x", "plus", "random") else f" {mixer}+{init}+{init_params}"
-    label = f"QAOA p={p}{variant} (best of {qaoa.shots} shots)"
+    variant = {("x", "plus"): "penalty+x", ("xy", "dicke"): "xy+dicke"}.get((mixer, init), f"{mixer}+{init}")
+    if init_params == "ramp":
+        variant += " ramp"
+    label = f"QAOA p={p} {variant} (best of {qaoa.shots} shots)"
     results[label] = {"energy": qaoa.best_sampled_energy, "time": qaoa.wall_time}
 
     say("[4/4] Results")

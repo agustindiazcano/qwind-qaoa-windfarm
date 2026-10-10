@@ -75,7 +75,7 @@ def test_qollab_runs_once_as_script_and_platform_call(capsys):
     namespace = runpy.run_path(os.path.join(QOLLAB_DIR, "main.py"), run_name="__main__")
     first = capsys.readouterr().out
     assert first.count("Method") == 1, "running the file as a script must run the benchmark"
-    assert "QAOA p=2 (best of 1000 shots)" in first
+    assert "QAOA p=2 xy+dicke (best of 1000 shots)" in first
 
     namespace["main"]()  # the platform's own call, default arguments
     assert capsys.readouterr().out == "", "the platform's duplicate call must not repeat the benchmark"

@@ -121,13 +121,29 @@ def test_main_output_table_labels_and_determinism(capsys):
     main.main(n_cells=6, K=3, p=1)
     first = capsys.readouterr().out
     assert first.count("Method") == 1
-    assert "QAOA p=1 (best of 1000 shots)" in first
+    assert "QAOA p=1 xy+dicke (best of 1000 shots)" in first
     assert "P(optimal)" in first and "uniform" in first.lower() and "random" in first.lower()
     assert "finished at" not in first
     main.main(n_cells=6, K=3, p=1)
     second = capsys.readouterr().out
     # Only the wall-clock Time column may differ between runs with the same seed
     assert _without_timings(first) == _without_timings(second)
+
+
+def test_live_run_default_variant_is_xy_dicke():
+    """The live Run shows the constraint-preserving variant (it beat the uniform-over-feasible baseline on every
+    instance of the offline comparison); the penalty QAOA stays available through arguments."""
+    import inspect
+    import main
+    params = inspect.signature(main.main).parameters
+    assert (params["mixer"].default, params["init"].default, params["init_params"].default) == ("xy", "dicke", "random")
+
+
+def test_main_penalty_variant_label(capsys):
+    import main
+    main.main(n_cells=6, K=3, p=1, mixer="x", init="plus")
+    out = capsys.readouterr().out
+    assert "QAOA p=1 penalty+x (best of 1000 shots)" in out
 
 
 def test_live_run_limits_are_fixed():
@@ -239,7 +255,7 @@ def test_main_variant_arguments(capsys):
     import main
     main.main(n_cells=6, K=3, p=1, mixer="xy", init="dicke", init_params="ramp")
     out = capsys.readouterr().out
-    assert "xy+dicke+ramp" in out
+    assert "xy+dicke ramp" in out
     assert "P(feasible)" in out and "1.0000" in out
 
 
