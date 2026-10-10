@@ -87,8 +87,43 @@ def test_readme_block_numbers_come_from_the_file(summary, rows):
     rec = next(r for r in summary["results"] if r["dataset"] == "synthetic" and r["variant"] == "xy+dicke" and r["p"] == 3)
     assert f"{rec['metrics']['p_optimal']['mean']:.3f}" in md
     assert f"{rec['baselines']['uniform_feasible_ratio']:.3f}" in md
-    assert "results/results_tables.md" in md
     assert "std" not in md.lower() and "ci95" not in md.lower()
+
+
+def _section(md, title_part):
+    """The table that follows the bold title containing `title_part`."""
+    parts = md.split("\n\n")
+    i = next(k for k, p in enumerate(parts) if p.startswith("**") and title_part in p)
+    return [_cells(l) for l in parts[i + 1].splitlines()[2:]]
+
+
+def test_readme_legend_maps_short_names_to_full_dataset_ids(summary, rows):
+    md = tables.readme_block(summary, rows)
+    legend = _section(md, "Datasets")
+    ids = {d["dataset"] for d in summary["datasets"]}
+    assert {r[1].strip("`") for r in legend} == ids                      # the full names are the index
+    assert [r[0] for r in legend] == [tables.SHORT_NAMES[d] for d in tables.README_ORDER if d in ids]
+    assert len({r[0] for r in legend}) == len(legend)                      # short names are unique
+    assert "Bahia" in [r[0] for r in legend] and "Penmanshiel-10" in [r[0] for r in legend]
+    n_inst = {d["dataset"]: d["n_instances"] for d in summary["datasets"]}
+    assert all(int(r[3]) == n_inst[r[1].strip("`")] for r in legend)       # instance counts come from the file
+
+
+def test_readme_tables_use_short_names_only(summary, rows):
+    md = tables.readme_block(summary, rows)
+    after_legend = md.split("**Constraint-preserving", 1)[1]
+    assert "real_" not in after_legend                                     # the full ids appear only in the legend
+
+
+def test_readme_headline_table_is_one_row_per_dataset_at_the_deepest_p(summary, rows):
+    md = tables.readme_block(summary, rows)
+    body = _section(md, "depth p = 3")
+    ids = {x["dataset"] for x in summary["datasets"]}
+    assert [b[0] for b in body] == [tables.SHORT_NAMES[d] for d in tables.README_ORDER if d in ids]
+    assert len(body) == len(summary["datasets"])
+    row = next(b for b in body if b[0] == "Penmanshiel-10")
+    rec = next(r for r in summary["results"] if r["dataset"] == "real_penmanshiel_sub10" and r["variant"] == "xy+dicke" and r["p"] == 3)
+    assert float(row[2]) == pytest.approx(rec["metrics"]["p_optimal"]["mean"], abs=5e-4)
 
 
 def test_readme_block_penalty_sweep_range_is_computed(summary, rows):

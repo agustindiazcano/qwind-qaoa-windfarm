@@ -1,24 +1,29 @@
 # Pending Tasks
-1. [x] Implement `tests/test_core.py` and core modules in `qollab/qwind/` (`wake.py`, `qubo.py`, `classical.py`).
-2. [x] Restructure layout, adjust `main.py`, and prepare for Qollab deployment.
-3. [x] Add a dedicated runtime requirements file for Qollab and enforce it with a test.
-4. [x] Fix the failing GitHub Actions workflows (ci.yml, pages.yml).
-5. [x] Implement QAOA in `qollab/qwind/qaoa.py` and integrate it into `main.py` (PR open on `feat/qaoa`, awaiting human review).
-6. [~] `docs/results_schema.md` is written and enforced by `tests/test_results_schema.py` (PR #19). The example `results/summary.json` / `per_instance.csv` now come from the `run_all.py --quick` smoke run (status `smoke`, 2 instances; PR `feat/run-all`).
-7. [x] Uploaded `qollab/` run in Qollab: table prints once (confirmed by the owner, see item 10).
-8. [ ] `experiments/run_all.py`: QAOA p = 1, 2, 3 on larger instances (restarts/maxiter/shots exposed as arguments of `run_qaoa`).
-9. [x] Compare QAOA variants (lam sweep, p = 3, ramp init, XY + Dicke). Result: XY + Dicke beats uniform-over-feasible in every instance; penalty + X mixer does not do so reliably (see `results/qaoa_variants_summary.csv`). PR open on `feat/qaoa-xy`, awaiting human review.
-10. [x] Live Run default switched to xy + dicke (PR #29) and checked in Qollab by the owner: table printed once, 25.5 s total (QAOA 3.3 s; platform boot varies 15.8-25.5 s). Keep N = 8 default.
-11. [~] References verified at abstract level on 2026-10-10 (Hadfield, Bartschi and Eidenbenz, Sack and Serbyn; `docs/model.md`, README). Still to do: compare the XY ring mixer detail with Hadfield et al.; the ramp total time 0.75 p is a placeholder.
-12. [~] (data done on `data/real-wind-roses`, PR open; items 'to verify' remain in docs/DATA.md) Real wind data: two real roses, primary Patagonia / Chubut coast (Comodoro Rivadavia / Rawson), contrast a more dispersed site (Salta or Bahia Blanca, whichever has verifiable data). Verify license (Global Wind Atlas or ERA5) from the source, document in `docs/DATA.md` (source, license, access date, coordinates, hub height, sectors, derivation), reduce to 12-16 sectors, store in `qollab/data/`. Never fill from memory; if the download fails use the labeled synthetic Weibull rose. Full conditions in `docs/PROJECT_CONTEXT.md` section 8.
-13. [ ] Fix the experiment protocol (lam sweep, ramp, seeds, p, instances) before running real data; no retuning afterwards. `results/` gets a `dataset` column (`synthetic` / `real_<site>`).
-14. [ ] Run the FULL synthetic protocol: `python experiments/run_all.py --jobs 4` (24 instances x 6 variants x p = 1-3, estimated ~1 h serial, heavy: run it in the cloud / on a spare machine, not as a test). It writes `results/synthetic/`; run `--merge` afterwards (status `final`). Protocol `qwind-v1` is fixed in `experiments/run_all.py`; do not retune.
-15. [ ] Real dataset run after the wind data task (items 12-13): `python experiments/run_all.py --dataset real_<site> --site <site> --out ...` reads `qollab/data/windrose.json`. Each dataset now writes `results/<dataset>/`; then `python experiments/run_all.py --merge` (branch `feat/run-all-datasets`, PR open). Heavy: decide local background vs cloud.
-16. [~] Qollab Run printed nothing without a module-level call; a bare `main()` at the end made the table appear once. `fix/main-console-progress` now ends with `if __name__ == "__main__": main()` plus a duplicate-call guard. Still to confirm in Qollab: upload this exact version and check the table prints once (if nothing prints, `__name__` is not `__main__` there: use the diagnostic project in the session scratchpad, which prints it).
-17. [x] FULL protocol run for all six datasets in the cloud (see lastcontext.md, branch results/all-datasets)..
-18. [ ] Verify the CC BY 4.0 legal text link and wording for the attribution of the Zenodo farm data (docs/DATA.md says to verify), and the ERA5 `[Year]` notice.
-19. [ ] Hard stop Sunday 2026-10-11 10:00 ART: if the Penmanshiel runs (`real_penmanshiel`, `real_penmanshiel_sub10`, `real_kelmarsh`) are not producing results by then, ship with the ERA5 datasets as primary. Estimated cost of the real-farm grid: at most about 45 min serial, about 15 min with `--jobs 3` (docs/DATA.md).
-20. [ ] Human decision (optional): use the fixed sub-instance `real_penmanshiel_sub10` inside the live Run (today offline only).
-19. [ ] After the `ci/run-experiments` PR is merged: `gh workflow run run-experiments.yml -f quick=true` (test), then `gh workflow run run-experiments.yml` (demo datasets: synthetic, real_penmanshiel_sub10), later the other datasets. Download artifacts, verify, commit `results/` (status final) in a PR.
-20. [x] Demo datasets run (synthetic, real_penmanshiel_sub10) in the cloud; results in `results/` (PR `results/final-demo`). Pending, secondary: real_penmanshiel (N=14), real_kelmarsh, real_chubut, real_bahia_blanca via the same workflow.
-21. [ ] Owner: paste the README into the Qollab project page (title, 240-character description, tags qubo/quantumalgorithms/quantum/nisq, exact line 'This effort is supported by Qollab & IonQ' already at the end), record the demo video (2-3 min, captions), re-check the Qollab Run if main.py changes. Open to verify: ERA5 notice year, CC BY 4.0 legal text link (docs/DATA.md), XY ring mixer detail vs Hadfield et al.
+
+Legend: [x] done, [~] partly done, [ ] open. Owner = the human captain/author; only the owner can act on Qollab and the video.
+
+## Done
+1. [x] Core model, QUBO, classical baselines, tests (`qollab/qwind/`, `tests/test_core.py`).
+2. [x] Qollab layout, strict runtime requirements enforced by a test, CI and Pages workflows fixed.
+3. [x] QAOA (`qaoa.py`) and `main.py`; constraint-preserving variant (XY mixer + Dicke start) and ramp initialization; offline variant comparison.
+4. [x] Results schema, enforced by `tests/test_results_schema.py` (per-dataset folders, merged `results/summary.json` with a `datasets` list).
+5. [x] Fixed protocol `qwind-v1` (`experiments/run_all.py`), never retuned.
+6. [x] Real data: Penmanshiel (14 turbines) and Kelmarsh (6) with real positions and measured 2019 SCADA roses (CC-BY-4.0, Zenodo), plus ERA5 roses for Chubut and Bahia Blanca (secondary); sources, licenses and derivation in `docs/DATA.md`.
+7. [x] Live-Run limits: default N = 8, recommended 10, hard limit 12 (N = 14 took 42.8 s in Qollab); the live Run never loads the farm or rose files (test).
+8. [x] Live Run defaults to XY + Dicke (PR #29); checked in Qollab by the owner: table prints once, 25.5 s total, QAOA 3.3 s (boot time varies 15.8 to 25.5 s). Keep N = 8.
+9. [x] Cloud runs (manual workflow `run-experiments.yml`): all six datasets, status final, in `results/` (synthetic 24 instances, real_penmanshiel_sub10 3, real_penmanshiel 3, real_kelmarsh 3, real_chubut 8, real_bahia_blanca 8).
+10. [x] `scripts/sync_results_to_web.py` and `scripts/make_results_tables.py` (README RESULTS block and `results/results_tables.md`, generated from `results/`).
+11. [x] README finalized (Results, How to run, Limitations, Disclosure with data licenses, References).
+12. [x] References verified at the abstract level on 2026-10-10 (Hadfield et al., Bartschi and Eidenbenz, Sack and Serbyn).
+
+## Open (numbered by priority)
+13. [ ] 🔴 Owner: paste the README into the Qollab project page (title, description up to 240 characters, tags `qubo`, `quantumalgorithms`, `quantum`, `nisq`; the exact line `This effort is supported by Qollab & IonQ` is at the end of the README), Project Website field if the site is ready. See `docs/QOLLAB_PAGE.md`.
+14. [ ] 🔴 Owner: demo video 2-3 min, public, with captions (script in `docs/QOLLAB_PAGE.md`).
+15. [ ] 🟡 Website (`web/index.html` is still empty, teammate): read `web/data/summary.json` produced by `python scripts/sync_results_to_web.py`; alt text on every figure; `experiments/make_figures.py` is still empty.
+16. [x] Attribution details resolved: CC BY 4.0 link and wording, Copernicus notice year (2026, the year the derived material was generated; the license leaves it open), Open-Meteo non-commercial use (open-source research project, no ads or subscriptions). Global Wind Atlas not used.
+17. [ ] 🟢 Optional: use the fixed sub-instance `real_penmanshiel_sub10` inside the live Run (today offline only; needs a human decision and a new Qollab check).
+18. [ ] 🟢 Optional: histogram of the optimal circuit with one final `backend.run` (few shots); any change in `main.py` requires re-checking in Qollab that the table prints once.
+19. [ ] 🟢 Optional: measure 120 evaluations with `backend.run` against 120 with `StatevectorEstimator` (N = 8) to be able to cite "too slow" (today the README says it is a design choice, not measured).
+20. [ ] 🟢 Optional: simulated-annealing control with an evaluation budget matched to QAOA (~120), labeled as a later control, not part of `qwind-v1`.
+21. [ ] ⚪ Noise (IBM noise-model simulators in Qollab): not done; do not claim it.
+22. [ ] Captain submits at least 2-3 hours before Sunday 2026-10-11 19:00 ET (20:00 Argentina time).
