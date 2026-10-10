@@ -40,6 +40,7 @@ lam  = penalty weight for the "exactly K turbines" constraint
 ### Quantum part
 - QAOA with depth *p* = 1, 2, 3: diagonal cost layer plus RX mixer, built in Qiskit.
 - The Hamiltonian is built by hand as a `SparsePauliOp` (Ising mapping `x = (1 - Z) / 2`, qubit *i* = bit *i* of the state index).
+- Constraint-preserving variant: XY mixer and Dicke initial state, in the line of Hadfield et al. [1] and Bärtschi and Eidenbenz [2]; the Dicke state is built with Qiskit's `StatePreparation`, not with their circuit. Parameter ramp inspired by Sack and Serbyn [3] (their paper studies MaxCut; ours is not a replication).
 - Expectation values with `StatevectorEstimator`, classical optimization with `scipy.optimize` (COBYLA) and multiple seeded restarts, final sampling with `StatevectorSampler`.
 
 ### How the circuit is simulated
@@ -119,7 +120,18 @@ Track: *Professional*
 - Built during the official hackathon window.
 - AI tools used: Claude Code (coding agent, planning, code and documentation assistance), Gemini Antigravity (planning, coding agent and brainstorming, web search), Grok (brainstorming, web search).
 - Libraries: Qiskit, NumPy, SciPy.
-- Wind data: *(source and license, to be completed)*
+- Method: the QAOA, the constraint-preserving mixer, the Dicke state and the ramp initialization come from the literature in [References](#references). The application to wind-farm turbine selection, the comparative benchmark with controls and the data pipeline are our own work.
+- Wind data: see `docs/DATA.md` for sources, licenses and attribution.
+
+---
+
+## References
+
+Verified 2026-10-10 at the level of the arXiv abstract page; full texts not read.
+
+1. Hadfield, S., Wang, Z., O'Gorman, B., Rieffel, E. G., Venturelli, D., Biswas, R. "From the Quantum Approximate Optimization Algorithm to a Quantum Alternating Operator Ansatz." *Algorithms* 12(2), 34 (2019). [doi:10.3390/a12020034](https://doi.org/10.3390/a12020034), [arXiv:1709.03489](https://arxiv.org/abs/1709.03489)
+2. Bärtschi, A., Eidenbenz, S. "Deterministic Preparation of Dicke States." *FCT 2019*, pp. 126-139. [doi:10.1007/978-3-030-25027-0_9](https://doi.org/10.1007/978-3-030-25027-0_9), [arXiv:1904.07358](https://arxiv.org/abs/1904.07358)
+3. Sack, S. H., Serbyn, M. "Quantum annealing initialization of the quantum approximate optimization algorithm." *Quantum* 5, 491 (2021). [doi:10.22331/q-2021-07-01-491](https://doi.org/10.22331/q-2021-07-01-491), [arXiv:2101.05742](https://arxiv.org/abs/2101.05742)
 
 ---
 
