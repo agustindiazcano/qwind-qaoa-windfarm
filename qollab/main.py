@@ -9,10 +9,13 @@ RECOMMENDED_LIVE_CELLS = 12  # recommended maximum for the live Run
 MAX_LIVE_CELLS = 14          # hard limit: larger instances are computed offline
 
 
-def main(n_cells=8, K=3, p=2, seed=0):
+def main(n_cells=8, K=3, p=2, seed=0, mixer="x", init="plus", init_params="random"):
     """
     Main entry point for Qollab platform (called by the platform after running this file).
     Runs a small instance and compares classical methods against QAOA at depth p.
+    mixer ("x" | "xy"), init ("plus" | "dicke") and init_params ("random" | "ramp") select QAOA
+    variants; the defaults are the penalty QAOA. mixer="xy" with init="dicke" enforces the
+    cardinality constraint in the ansatz and drops the penalty from the circuit.
     """
     print("--- QWind: classical baselines vs QAOA ---")
     print(f"Instance: N={n_cells} cells, K={K} turbines, QAOA depth p={p}, seed={seed}")
@@ -48,9 +51,13 @@ def main(n_cells=8, K=3, p=2, seed=0):
         if name == "Exact Enum":
             best_energy = energy
 
-    qaoa = run_qaoa(Q, n_cells, K, p=p, seed=seed)
+    # The penalty-free cost Hamiltonian is only used when the ansatz itself enforces the constraint
+    cost_Q = build_qubo(h, J, 0.0, K) if (mixer == "xy" and init == "dicke") else None
+    qaoa = run_qaoa(Q, n_cells, K, p=p, seed=seed, mixer=mixer, init=init,
+                    init_params=init_params, cost_Q=cost_Q)
     # Best sampled bitstring, comparable to the single solution returned by the classical methods
-    label = f"QAOA p={p} (best of {qaoa.shots} shots)"
+    variant = "" if (mixer, init, init_params) == ("x", "plus", "random") else f" {mixer}+{init}+{init_params}"
+    label = f"QAOA p={p}{variant} (best of {qaoa.shots} shots)"
     results[label] = {"energy": qaoa.best_sampled_energy, "time": qaoa.wall_time}
 
     width = max(len(name) for name in results)
