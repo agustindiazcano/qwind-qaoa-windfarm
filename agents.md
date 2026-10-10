@@ -2,7 +2,7 @@
 QWind: a Qiskit QAOA benchmark for wind-farm layout optimization (wake-loss QUBO with cardinality constraint), compared against exact enumeration, simulated annealing and greedy search. Hackathon project (Qollab x IonQ), theme: Quantum Impact. Submission deadline: Sunday Oct 11, 19:00 ET (20:00 Argentina time).
 
 ## Workflow (strict)
-- One branch per task. Never commit directly to main.
+- One branch per task. Never commit directly to main. Exception: the initial repository scaffold.
 - TDD: write the test first, see it fail, then write the code.
 - Every change goes through a pull request with CI/tests passing.
 - A human approves every PR. Do not merge on your own.
