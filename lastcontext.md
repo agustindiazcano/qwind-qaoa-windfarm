@@ -1,4 +1,6 @@
 # Last Context
-- Project folder structure was scaffolded and moved to the repository root.
-- AI Agent core instructions (`agents.md`, `CLAUDE.md`, `gemini.md`) were established.
-- Rules were updated to instruct agents to read context files and run heavy tests in the cloud.
+- Branch `feat/core-model` was created to implement the core QWind mechanics.
+- Wrote TDD tests in `tests/test_core.py` targeting QUBO vs brute-force energy, Hamiltonian diagonal mapping, and feasibility of heuristic/exact solvers.
+- Implemented `qollab/qwind/wake.py` (basic dummy generator), `qubo.py` (QUBO dict & Hamiltonian builder), and `classical.py` (exact enum, greedy local search, simulated annealing).
+- Documented wake model assumptions in `docs/model.md` as required.
+- All tests are passing green.
