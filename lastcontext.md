@@ -1,3 +1,9 @@
 # Last Context
-- Updated team members' titles and roles in README.md (added "MS Candidate, Information Systems Engineering" and "Frontend Developer").
-- Branch `chore/fix-ci` was successfully merged, and we are working from a fresh branch `docs/readme-team` based on `main`.
+- Branch `feat/qaoa` (from up-to-date `main`): implemented QAOA in `qollab/qwind/qaoa.py` (hand-built circuit from the `SparsePauliOp`, `StatevectorEstimator` + COBYLA with restarts, exact distribution + `StatevectorSampler`, result object with approximation ratio, P(optimal), P(feasible), feasible gap, nfev, wall time).
+- `qollab/main.py`: `main(n_cells=8, K=3, p=2, seed=0)` now runs exact, SA, greedy and QAOA, prints one comparison table plus a QAOA detail block, and refuses `n_cells > 14` with a clear message. Default run takes ~6.5 s locally.
+- Double-execution bug (module-level `main()` call) was already fixed and merged in PR #12; this branch also removes the whole-run `Total time` print (Qollab shows it).
+- Tests: `tests/test_qaoa.py` (Estimator vs statevector, qubit ordering with asymmetric P0, p=1 beats uniform baseline, reproducibility, main output). Qubit-ordering mutation (reversed bit order) was verified to fail, then reverted.
+- `.pyc` files are untracked and ignored (PR #13 merged).
+- Follow-up on `feat/qaoa` (PR #14): the QAOA detail block now prints uniform baselines (P(optimal), P(feasible), approximation ratio), a feasible-only approximation ratio (the all-bitstring ratio is kept as secondary and labeled), and a random feasible-sampling baseline with the same number of shots. The table row reads `QAOA p=N (best of S shots)`. Removed the `finished at` line. Live-Run limit wording aligned in `agents.md`, `docs/PROJECT_CONTEXT.md` and `main.py` (12 recommended, 14 hard limit).
+- Honest reading of the default run (N=8, K=3, p=2, seed 0): P(optimal) 0.020 vs uniform 0.016, P(feasible) 0.378 vs 0.219, but the feasible-only approximation ratio is 0.590 for QAOA vs 0.639 for the uniform distribution over feasible states, so QAOA does not beat uniform sampling on expected quality of feasible states. Random feasible sampling with 1000 draws also hits the optimum with probability ~1.
+- Output is deterministic for a given seed except the wall-clock Time column.

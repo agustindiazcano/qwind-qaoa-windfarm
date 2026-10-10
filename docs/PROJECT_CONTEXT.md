@@ -82,7 +82,7 @@ Scientific principles of the owner for this project: model rooted in the real ph
 - Gap to optimum in energy; probability of sampling the exact optimum; probability mass on feasible states; approximation ratio of the expected energy.
 - Effect of depth p; number of restarts and function evaluations; wall-clock time versus number of qubits (scaling).
 - Multiple instances (different wind roses, K, grid shapes), reported with confidence intervals or distributions, fixed seeds.
-- Planned instance sizes: 9, 12, 16, 20 cells (live Run in Qollab only up to about 12 qubits).
+- Planned instance sizes: 9, 12, 16, 20 cells (live Run in Qollab: up to 12 cells recommended, hard limit 14).
 
 ### 4.6 Optional: noise
 - Not available through `qiskit_aer` in Qollab. The platform offers noise-model simulators (IBM, IonQ), selected in the Run dialog; whether and how they can be used from code is an open question for a mentor. Noise results are optional and do not score extra points.
@@ -112,7 +112,7 @@ QAOA-like workload timings (parameterized circuit, all-to-all RZZ, Estimator plu
 | 12 | 0.086 | 40 evals in 4.1 s |
 | 14 | 0.229 | 20 evals in 4.9 s |
 
-Rules derived from this: the live Run (`main.py`) uses instances of at most ~12 qubits and must finish well under a minute; 14 is the practical ceiling; larger instances (14-20) are computed offline and stored in `results/`. Timings come from one machine and one run; leave a safety margin.
+Rules derived from this: The live Run is limited to small instances: up to 12 cells recommended, hard limit 14. Larger instances are computed offline. The live Run must finish well under a minute; instances above 14 are computed offline and stored in `results/`. Timings come from one machine and one run; leave a safety margin.
 
 Run dialog (QPU selector): Built-in simulator (24q, ideal, free, local) is the default and the one judges use. AWS Braket local simulator (25q), IBM noise-model simulators (free, local), remote IonQ simulators (Aria 1/2 25q, Forte 1 29q; noise model, free) and real IonQ Forte 1 36q (credits apply). Use the built-in simulator for development. Do not use remote simulators or QPUs.
 
@@ -173,10 +173,12 @@ Rules: `qollab/` may import only numpy, scipy, qiskit and the standard library. 
 - Task 1 (`feat/core-model`): wake.py (Jensen), qubo.py, classical.py, tests/test_core.py, docs/model.md. **PR #5 merged.**
 - Task 2 (`chore/qollab-layout`): Repository structured according to Qollab constraints (`qollab/` self-contained, strict dependencies). **PR #6 merged.**
 - Task 3 (`feat/qollab-requirements`): Added strict requirements.txt checking for `qollab/` using AST. **PR #7 open.**
+- Chore: `.gitignore` added and committed `.pyc` files untracked (PR #13 merged). `main.py` only defines `main()` (PR #12 merged), covered by an import-side-effects test.
+- Task 4 (`feat/qaoa`): `qaoa.py` (hand-built circuit, Estimator + COBYLA, exact distribution, Sampler) and `main(n_cells=8, K=3, p=2, seed=0)` with a QAOA row and detail block; live Run limited to N <= 14. Default run ~6.5 s locally (120 evaluations at 8 qubits). Output reports QAOA next to uniform and random-feasible-sampling baselines and a feasible-only approximation ratio. **PR #14 open, awaiting human review. Not yet run inside Qollab.**
 
 **Next tasks (in order)**
-1. Merge PR #7.
-2. Task 4 (`feat/qaoa`): `qaoa.py`, `main.py` with `main(n_cells, K, p, seed)`, tests. Then run the uploaded `qollab/` folder in Qollab for real.
+1. Merge the Task 4 PR (`feat/qaoa`), then run the uploaded `qollab/` folder in Qollab for real.
+2. (done) Task 4 code and tests.
 3. Task 5 (parallel): `docs/results_schema.md` and an example `summary.json` so the teammate can build the website with sample data.
 4. `experiments/run_all.py` and figures (offline), real results into `results/`.
 5. Wind data: source and license (Global Wind Atlas is CC BY 4.0, verify attribution requirements) or a documented synthetic Weibull-based rose.
