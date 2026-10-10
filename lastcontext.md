@@ -1,7 +1,7 @@
 # Last Context
-- Restructured repository layout to match Qollab requirements, moving model code to `qollab/qwind/` and updating all import paths.
-- Removed `example.py`.
-- Updated `qollab/main.py` to define `main(n_cells=8, K=3, seed=0)` for rapid execution and table printing.
-- Implemented tests to verify `main()` execution and to check for forbidden imports in `qollab/`.
-- Updated `requirements.txt` with strict versions for the runtime and `requirements-dev.txt` for local use.
-- Documented Jensen wake model citations in `docs/model.md` and upload instructions in `README.md`.
+- Merged layout branch into new feature branch.
+- Added `qollab/requirements.txt` to strictly pin runtime dependencies.
+- Refactored root `requirements.txt` and `requirements-dev.txt`.
+- Replaced `test_forbidden_imports.py` with `test_qollab_imports.py` which dynamically checks dependencies from `qollab/requirements.txt` using AST.
+- Enforced AST check to fail correctly if `matplotlib` or `qiskit-aer` is imported in `qollab/`.
+- Updated `README.md` and `agents.md` documenting strict requirements rules.

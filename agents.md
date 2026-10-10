@@ -20,6 +20,7 @@ QWind: a Qiskit QAOA benchmark for wind-farm layout optimization (wake-loss QUBO
 
 ## Dependencies
 - `qollab/` imports only `numpy`, `scipy`, `qiskit` (plus the standard library).
+- `qollab/requirements.txt` is the closed list of runtime dependencies. Changing it requires human approval.
 - Do not add any dependency to `qollab/` without human approval.
 - `qiskit-aer`, `matplotlib` may only be used in `experiments/`, never in `qollab/`.
 - Do not use `qiskit-optimization` or `ortools`. Build the QUBO and Hamiltonian by hand (`SparsePauliOp`).
