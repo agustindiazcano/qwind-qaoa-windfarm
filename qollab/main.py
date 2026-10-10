@@ -1,4 +1,6 @@
+import sys
 import time
+import traceback
 import numpy as np
 from qwind.wake import generate_h_J
 from qwind.qubo import build_qubo
@@ -9,24 +11,50 @@ RECOMMENDED_LIVE_CELLS = 12  # recommended maximum for the live Run
 MAX_LIVE_CELLS = 14          # hard limit: larger instances are computed offline
 
 
+def say(*args):
+    """print() that flushes, so the Qollab console shows progress while the Run is still going."""
+    print(*args, flush=True)
+
+
+_skip_next = None  # arguments of a call to ignore once: the platform's repeat of the automatic run
+
+
 def main(n_cells=8, K=3, p=2, seed=0, mixer="x", init="plus", init_params="random"):
     """
-    Main entry point for Qollab platform (called by the platform after running this file).
+    Main entry point for Qollab. Qollab executes the uploaded file as a script (see the guard at the
+    bottom) and, depending on the project shape, may also call main() afterwards: that duplicate call
+    with the same arguments is ignored, so the benchmark runs once.
     Runs a small instance and compares classical methods against QAOA at depth p.
     mixer ("x" | "xy"), init ("plus" | "dicke") and init_params ("random" | "ramp") select QAOA
     variants; the defaults are the penalty QAOA. mixer="xy" with init="dicke" enforces the
     cardinality constraint in the ansatz and drops the penalty from the circuit.
     """
-    print("--- QWind: classical baselines vs QAOA ---")
-    print(f"Instance: N={n_cells} cells, K={K} turbines, QAOA depth p={p}, seed={seed}")
+    global _skip_next
+    if _skip_next == (n_cells, K, p, seed, mixer, init, init_params):
+        _skip_next = None
+        return
+    try:
+        _run(n_cells, K, p, seed, mixer, init, init_params)
+    except Exception:
+        # Some consoles swallow the traceback: print it to stdout, then re-raise
+        traceback.print_exc(file=sys.stdout)
+        sys.stdout.flush()
+        raise
+
+
+def _run(n_cells, K, p, seed, mixer, init, init_params):
+    say("--- QWind: classical baselines vs QAOA ---")
+    say("main() started")
+    say(f"Instance: N={n_cells} cells, K={K} turbines, QAOA depth p={p}, seed={seed}")
 
     if n_cells > MAX_LIVE_CELLS:
-        print(f"The live Run is limited to small instances: up to {RECOMMENDED_LIVE_CELLS} cells recommended, "
-              f"hard limit {MAX_LIVE_CELLS}. Larger instances are computed offline.")
+        say(f"The live Run is limited to small instances: up to {RECOMMENDED_LIVE_CELLS} cells recommended, "
+            f"hard limit {MAX_LIVE_CELLS}. Larger instances are computed offline.")
         return
     if n_cells > RECOMMENDED_LIVE_CELLS:
-        print(f"Note: N > {RECOMMENDED_LIVE_CELLS} cells is above the recommended live-Run size; this may take longer.")
+        say(f"Note: N > {RECOMMENDED_LIVE_CELLS} cells is above the recommended live-Run size; this may take longer.")
 
+    say("[1/4] Building the wake-loss QUBO...")
     np.random.seed(seed)
     # Simple (N/2, 2) grid
     grid_shape = (n_cells // 2, 2)
@@ -36,6 +64,7 @@ def main(n_cells=8, K=3, p=2, seed=0, mixer="x", init="plus", init_params="rando
     lam = np.abs(h).max() * 10
     Q = build_qubo(h, J, lam, K)
 
+    say("[2/4] Running the classical methods...")
     results = {}
     best_energy = float('inf')
 
@@ -51,6 +80,7 @@ def main(n_cells=8, K=3, p=2, seed=0, mixer="x", init="plus", init_params="rando
         if name == "Exact Enum":
             best_energy = energy
 
+    say(f"[3/4] Running QAOA (p={p}), up to ~120 optimizer evaluations, please wait...")
     # The penalty-free cost Hamiltonian is only used when the ansatz itself enforces the constraint
     cost_Q = build_qubo(h, J, 0.0, K) if (mixer == "xy" and init == "dicke") else None
     qaoa = run_qaoa(Q, n_cells, K, p=p, seed=seed, mixer=mixer, init=init,
@@ -60,26 +90,35 @@ def main(n_cells=8, K=3, p=2, seed=0, mixer="x", init="plus", init_params="rando
     label = f"QAOA p={p}{variant} (best of {qaoa.shots} shots)"
     results[label] = {"energy": qaoa.best_sampled_energy, "time": qaoa.wall_time}
 
+    say("[4/4] Results")
     width = max(len(name) for name in results)
-    print(f"{'Method':<{width}} | {'Energy':<10} | {'Gap':<10} | {'Time (s)'}")
-    print("-" * (width + 38))
+    say(f"{'Method':<{width}} | {'Energy':<10} | {'Gap':<10} | {'Time (s)'}")
+    say("-" * (width + 38))
     for name, res in results.items():
         gap = res["energy"] - best_energy
         if abs(gap) < 1e-12:
             gap = 0.0  # avoid printing -0.0000
-        print(f"{name:<{width}} | {res['energy']:<10.4f} | {gap:<10.4f} | {res['time']:.4f}")
+        say(f"{name:<{width}} | {res['energy']:<10.4f} | {gap:<10.4f} | {res['time']:.4f}")
 
     def fmt_gap(g):
         return "n/a" if g is None else f"{g:.4f}"
 
-    print()
-    print(f"QAOA p={p} detail vs baselines ({qaoa.nfev} optimizer evaluations, {qaoa.shots} shots)")
-    print(f"  {'':<28}{'QAOA':>10}{'Uniform':>10}")
-    print(f"  {'P(optimal)':<28}{qaoa.p_optimal:>10.4f}{qaoa.uniform_p_optimal:>10.4f}")
-    print(f"  {'P(feasible)':<28}{qaoa.p_feasible:>10.4f}{qaoa.uniform_p_feasible:>10.4f}")
-    print(f"  {'Approx. ratio (feasible)':<28}{qaoa.approx_ratio_feasible:>10.4f}{qaoa.uniform_approx_ratio_feasible:>10.4f}")
-    print(f"  {'Approx. ratio (all, 2nd)':<28}{qaoa.approx_ratio:>10.4f}{qaoa.uniform_approx_ratio:>10.4f}")
-    print(f"  Best feasible sampled gap   : QAOA {fmt_gap(qaoa.best_sampled_feasible_gap)}"
+    say()
+    say(f"QAOA p={p} detail vs baselines ({qaoa.nfev} optimizer evaluations, {qaoa.shots} shots)")
+    say(f"  {'':<28}{'QAOA':>10}{'Uniform':>10}")
+    say(f"  {'P(optimal)':<28}{qaoa.p_optimal:>10.4f}{qaoa.uniform_p_optimal:>10.4f}")
+    say(f"  {'P(feasible)':<28}{qaoa.p_feasible:>10.4f}{qaoa.uniform_p_feasible:>10.4f}")
+    say(f"  {'Approx. ratio (feasible)':<28}{qaoa.approx_ratio_feasible:>10.4f}{qaoa.uniform_approx_ratio_feasible:>10.4f}")
+    say(f"  {'Approx. ratio (all, 2nd)':<28}{qaoa.approx_ratio:>10.4f}{qaoa.uniform_approx_ratio:>10.4f}")
+    say(f"  Best feasible sampled gap   : QAOA {fmt_gap(qaoa.best_sampled_feasible_gap)}"
           f" | random feasible subsets {fmt_gap(qaoa.random_best_gap)}")
-    print(f"  P(optimum in {qaoa.shots} draws): QAOA sampling "
+    say(f"  P(optimum in {qaoa.shots} draws): QAOA sampling "
           f"{1.0 - (1.0 - qaoa.p_optimal) ** qaoa.shots:.4f} | random feasible subsets {qaoa.random_p_hit:.4f}")
+
+
+if __name__ == "__main__":
+    # Qollab runs the uploaded file as a script and does NOT call main() on its own in every project
+    # shape (a Run without this block printed nothing). Importing this module (tests, `import main`)
+    # does not run anything.
+    main()
+    _skip_next = main.__defaults__

@@ -100,7 +100,7 @@ Scientific principles of the owner for this project: model rooted in the real ph
 | qiskit_aer | **NOT available** |
 | `backend` | pre-created global, a `BasicSimulator`. `backend.run` is fast for small circuits, but the platform's template polls job status |
 | Primitives | `StatevectorEstimator`, `StatevectorSampler`, `SparsePauliOp` work |
-| Entry point | The platform calls **`main()` after running the file**. `main.py` MUST define `main(...)` (parameters appear to be exposed as run inputs). Missing `main` gives `NameError` |
+| Entry point | **Corrected 2026-10-10:** with an uploaded folder, a `main.py` that only defined `main()` printed nothing in the Run (boot lines only, ~10.8 s); a bare `main()` at the end of the file printed the whole table once. So `main.py` is executed as a script and must call `main()` itself, behind `if __name__ == "__main__":`; `main()` skips one immediate duplicate call with the same arguments. Earlier note "the platform calls `main()` after running the file" came from the in-browser project shape and is not reliable. `__name__ == "__main__"` under Qollab is assumed: to be confirmed by the first Run of this version |
 | Output | Textual console. The platform renders a probabilities histogram from counts automatically |
 
 QAOA-like workload timings (parameterized circuit, all-to-all RZZ, Estimator plus COBYLA):

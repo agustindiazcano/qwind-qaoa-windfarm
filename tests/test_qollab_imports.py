@@ -3,6 +3,8 @@ import ast
 import sys
 import pytest
 
+QOLLAB_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'qollab'))
+
 def get_allowed_packages():
     """Read qollab/requirements.txt and return a set of allowed package names."""
     qollab_req_path = os.path.join(os.path.dirname(__file__), '..', 'qollab', 'requirements.txt')
@@ -62,15 +64,27 @@ def test_qollab_requirements_pinned():
                 assert '==' in line, f"Requirement '{line}' is not strictly pinned with '=='"
                 assert '>=' not in line and '<=' not in line and '~=' not in line, f"Requirement '{line}' uses flexible pinning"
 
-def test_qollab_main_execution():
-    """Test that main.py defines main() and it runs correctly with default arguments."""
-    import main
-    # We call it. It should not raise any exceptions.
-    main.main()
+def test_qollab_runs_once_as_script_and_platform_call(capsys):
+    """
+    Qollab runs the uploaded file and (in some project shapes) may also call main() afterwards.
+    Executed as a script (__name__ == "__main__") the benchmark must run, and the platform's
+    follow-up main() call with the same arguments must not repeat it: the table prints exactly once.
+    """
+    import runpy
+    namespace = runpy.run_path(os.path.join(QOLLAB_DIR, "main.py"), run_name="__main__")
+    first = capsys.readouterr().out
+    assert first.count("Method") == 1, "running the file as a script must run the benchmark"
+    assert "QAOA p=2 (best of 1000 shots)" in first
+
+    namespace["main"]()  # the platform's own call, default arguments
+    assert capsys.readouterr().out == "", "the platform's duplicate call must not repeat the benchmark"
+
+    namespace["main"](n_cells=6, K=3, p=1)  # a call with different arguments still runs
+    assert "Method" in capsys.readouterr().out
 
 
 def test_qollab_main_import_has_no_side_effects():
-    """Importing main must only define main(): no output, no work, no __main__ block."""
+    """Importing main (as a module) prints nothing and runs no work; only the script guard may call main()."""
     import subprocess
     qollab_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'qollab'))
     result = subprocess.run(
@@ -82,6 +96,9 @@ def test_qollab_main_import_has_no_side_effects():
     with open(os.path.join(qollab_dir, "main.py"), "r", encoding="utf-8") as f:
         tree = ast.parse(f.read())
     for node in tree.body:
-        assert not isinstance(node, ast.If), "main.py must not have a module-level 'if' (e.g. __main__ block)"
+        if isinstance(node, ast.If):
+            # The only module-level 'if' allowed is the script guard: if __name__ == "__main__"
+            assert ast.unparse(node.test) == "__name__ == '__main__'", "unexpected module-level 'if' in main.py"
+            continue
         assert not (isinstance(node, ast.Expr) and isinstance(node.value, ast.Call)), \
-            "main.py must not call anything at module level"
+            "main.py must not call anything unguarded at module level"
