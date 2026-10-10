@@ -239,3 +239,31 @@ def test_dicke_fast_path_matches_estimator_on_full_circuit():
     circuit, _ = build_qaoa_circuit(H, 2, mixer="xy", init="dicke", K=3)
     evs = StatevectorEstimator().run([(circuit, H, res.params)]).result()[0].data.evs
     assert float(evs) + offset == pytest.approx(res.expectation, abs=1e-9)
+
+
+def test_main_prints_progress_and_flushes(monkeypatch, capsys):
+    """The Qollab console showed nothing: every line must be flushed and the stages announced."""
+    import builtins
+    import main
+    calls = []
+    real_print = builtins.print
+
+    def recorder(*args, **kwargs):
+        calls.append(kwargs.get("flush", False))
+        real_print(*args, **kwargs)
+
+    monkeypatch.setattr(builtins, "print", recorder)
+    main.main(n_cells=6, K=3, p=1)
+    out = capsys.readouterr().out
+    assert calls and all(calls), "every print in main() must use flush=True"
+    for stage in ("[1/4]", "[2/4]", "[3/4]", "[4/4]"):
+        assert stage in out
+    assert "main() started" in out
+
+
+def test_main_prints_traceback_before_reraising(capsys):
+    import main
+    with pytest.raises(ValueError):
+        main.main(n_cells=6, K=3, p=1, mixer="bogus")
+    out = capsys.readouterr().out
+    assert "Traceback" in out and "ValueError" in out
