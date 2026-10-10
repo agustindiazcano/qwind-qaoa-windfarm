@@ -9,6 +9,7 @@ def main(n_cells=8, K=3, seed=0):
     Main entry point for Qollab platform.
     Runs a small instance and compares classical methods.
     """
+    total_start = time.perf_counter()
     print(f"--- QWind QAOA Benchmark ---")
     print(f"Instance: N={n_cells} cells, K={K} turbines, seed={seed}")
     
@@ -44,6 +45,8 @@ def main(n_cells=8, K=3, seed=0):
     for name, res in results.items():
         gap = res["energy"] - best_energy
         print(f"{name:<15} | {res['energy']:<10.4f} | {gap:<10.4f} | {res['time']:.4f}")
-        
+
+    print(f"Total time: {time.perf_counter() - total_start:.2f} s")
+
 if __name__ == "__main__":
     main()
