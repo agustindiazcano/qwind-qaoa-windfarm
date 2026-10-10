@@ -190,6 +190,20 @@ Rules: `qollab/` may import only numpy, scipy, qiskit and the standard library. 
 
 **Time plan (from Sat 14:30 to Sun 20:00 ART, ~29 h):** core and QAOA by Sat night; experiments and results Sun morning; README, page and video from Sun midday; submit by ~17:00.
 
+### Decision (Sat 2026-10-10): two real wind roses
+Recorded, not yet executed.
+1. **Primary:** Patagonia, Chubut coast (Comodoro Rivadavia / Rawson area). Strong, highly directional.
+2. **Contrast:** one site with a more dispersed rose (Salta or Bahia Blanca; pick whichever has verifiable data).
+
+Conditions:
+- The source must have a verifiable license and attribution. Candidates: Global Wind Atlas, ERA5. Verify the license terms from the source itself, not from memory. If unverifiable, stop and tell the owner.
+- Record in `docs/DATA.md`: source, license, access date, coordinates, hub height, number of sectors, and how frequencies and speeds were derived.
+- Reduce to 12-16 sectors (frequency, direction, mean speed). Store as a small file in `qollab/data/`. No network at runtime.
+- Never fill values from memory. If the download fails, use the documented synthetic Weibull rose (explicit parameters and seed) and label it synthetic.
+- Fix the protocol (lam sweep, ramp, seeds, p, instances) BEFORE running real data. Do not retune after seeing results.
+- `results/` must have a `dataset` column (`synthetic` / `real_<site>`).
+- One branch per task, TDD, human approval of every PR.
+
 ---
 
 ## 9. Open questions and unverified assumptions
@@ -197,7 +211,7 @@ Rules: `qollab/` may import only numpy, scipy, qiskit and the standard library. 
 - Who is the team captain, and does that account have access to submit?
 - Is the theme chosen at registration (Quantum Impact) editable? Is "Publish" reversible? Does Qollab allow renaming the project?
 - How to include noise in Qollab (IBM noise-model simulators from code?). Ask a mentor.
-- Wind dataset: exact source, license and attribution (verify before redistributing).
+- Wind dataset: decided on two real roses (see the decision in section 8); exact source, license and attribution still to verify before redistributing.
 - k and Ct constants and the size of the pairwise-superposition error (verify and document).
 - Whether the judges' machine matches the measured timings (keep a margin).
 - Mentor booking: up to two 15-minute calls. Suggested questions: noise inside Qollab, best practices for QAOA with a cardinality penalty (lam tuning or XY mixer), and the practical size limit for a Run.
