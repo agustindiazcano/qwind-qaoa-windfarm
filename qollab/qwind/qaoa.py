@@ -26,6 +26,19 @@ class QAOAResult:
     counts: dict                       # sampled bitstrings (Qiskit big-endian strings) -> counts
     e_min: float
     e_max: float
+    shots: int
+    # Secondary: ratio over ALL 2^n bitstrings (inflated by absurd, heavily penalized states)
+    uniform_approx_ratio: float
+    # Primary: ratio over FEASIBLE states only (E_min/E_max over bitstrings with exactly K ones,
+    # <E> conditioned on feasibility)
+    approx_ratio_feasible: float
+    uniform_approx_ratio_feasible: float
+    # Uniform-distribution baselines
+    uniform_p_optimal: float           # (#optimal bitstrings) / 2^n
+    uniform_p_feasible: float          # C(N, K) / 2^n
+    # Random-sampling baseline: `shots` random feasible K-subsets
+    random_p_hit: float                # probability that they contain an optimal feasible bitstring
+    random_best_gap: float             # best gap of one seeded draw of `shots` random feasible subsets
 
 
 def energy_table(Q, num_qubits):
@@ -112,10 +125,22 @@ def run_qaoa(Q, num_cells, K, p=2, restarts=2, maxiter=60, shots=1000, seed=0):
     sampled_feasible = sampled_idx[feasible[sampled_idx]]
     gap = float(table[sampled_feasible].min() - e_min) if sampled_feasible.size else None
 
+    n_feasible = int(feasible.sum())
+    ef = table[feasible]
+    ef_min, ef_max = float(ef.min()), float(ef.max())
+    p_feas = float(probs[feasible].sum())
+    cond_expectation = float(probs[feasible] @ ef) / p_feas if p_feas > 0 else float("nan")
+
+    def ratio(e, lo, hi):
+        return 1.0 if hi == lo else (hi - e) / (hi - lo)
+
+    n_opt_feasible = int(np.isclose(ef, ef_min).sum())
+    draws = np.random.default_rng(seed + 1).choice(ef, size=shots, replace=True)
+
     return QAOAResult(
         params=theta,
         expectation=expectation,
-        approx_ratio=1.0 if e_max == e_min else (e_max - expectation) / (e_max - e_min),
+        approx_ratio=ratio(expectation, e_min, e_max),
         p_optimal=float(probs[optimal].sum()),
         p_feasible=float(probs[feasible].sum()),
         best_sampled_energy=float(table[sampled_idx].min()),
@@ -126,4 +151,12 @@ def run_qaoa(Q, num_cells, K, p=2, restarts=2, maxiter=60, shots=1000, seed=0):
         counts=dict(counts),
         e_min=e_min,
         e_max=e_max,
+        shots=shots,
+        uniform_approx_ratio=ratio(float(table.mean()), e_min, e_max),
+        approx_ratio_feasible=ratio(cond_expectation, ef_min, ef_max),
+        uniform_approx_ratio_feasible=ratio(float(ef.mean()), ef_min, ef_max),
+        uniform_p_optimal=float(optimal.sum()) / 2 ** n,
+        uniform_p_feasible=n_feasible / 2 ** n,
+        random_p_hit=1.0 - (1.0 - n_opt_feasible / n_feasible) ** shots,
+        random_best_gap=float(draws.min() - e_min),
     )

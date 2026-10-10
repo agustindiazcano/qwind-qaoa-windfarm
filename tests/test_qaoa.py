@@ -82,13 +82,49 @@ def test_result_fields_are_consistent():
     assert res.best_sampled_feasible_gap is None or res.best_sampled_feasible_gap >= -1e-9
 
 
-def test_main_prints_one_table_with_qaoa_row(capsys):
+def test_baselines_are_reported():
+    """Uniform and random-feasible-sampling baselines next to the QAOA values."""
+    Q, n = make_instance((3, 2), K=3)
+    shots = 50
+    res = run_qaoa(Q, n, 3, p=1, restarts=1, maxiter=20, shots=shots, seed=0)
+    table = energy_table(Q, n)
+    n_opt = int(np.isclose(table, table.min()).sum())
+    assert res.shots == shots
+    assert res.uniform_p_optimal == pytest.approx(n_opt / 2 ** n)
+    assert res.uniform_p_feasible == pytest.approx(comb(n, 3) / 2 ** n)
+
+    feas = np.array([bin(i).count("1") == 3 for i in range(2 ** n)])
+    ef = table[feas]
+    n_opt_f = int(np.isclose(ef, ef.min()).sum())
+    assert res.random_p_hit == pytest.approx(1 - (1 - n_opt_f / comb(n, 3)) ** shots)
+    assert res.random_best_gap >= 0.0
+
+    # Feasible-only ratios: conditional mean over feasible states vs uniform over feasible states
+    uniform_f = (ef.max() - ef.mean()) / (ef.max() - ef.min())
+    assert res.uniform_approx_ratio_feasible == pytest.approx(uniform_f)
+    cond = (res.probabilities[feas] @ ef) / res.probabilities[feas].sum()
+    assert res.approx_ratio_feasible == pytest.approx((ef.max() - cond) / (ef.max() - ef.min()))
+    assert 0.0 <= res.approx_ratio_feasible <= 1.0
+    uniform_all = (table.max() - table.mean()) / (table.max() - table.min())
+    assert res.uniform_approx_ratio == pytest.approx(uniform_all)
+
+
+def _without_timings(text):
+    return "\n".join(line.rsplit("|", 1)[0] if "|" in line else line for line in text.splitlines())
+
+
+def test_main_output_table_labels_and_determinism(capsys):
     import main
     main.main(n_cells=6, K=3, p=1)
-    out = capsys.readouterr().out
-    assert out.count("Method") == 1
-    assert "QAOA" in out
-    assert "P(optimal)" in out
+    first = capsys.readouterr().out
+    assert first.count("Method") == 1
+    assert "QAOA p=1 (best of 1000 shots)" in first
+    assert "P(optimal)" in first and "uniform" in first.lower() and "random" in first.lower()
+    assert "finished at" not in first
+    main.main(n_cells=6, K=3, p=1)
+    second = capsys.readouterr().out
+    # Only the wall-clock Time column may differ between runs with the same seed
+    assert _without_timings(first) == _without_timings(second)
 
 
 def test_main_refuses_large_instances(capsys):

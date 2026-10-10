@@ -27,7 +27,7 @@ QWind: a Qiskit QAOA benchmark for wind-farm layout optimization (wake-loss QUBO
 
 ## Runtime constraints
 - `qollab/main.py` MUST define `main(n_cells=8, K=3, seed=0)`. The platform calls `main()` after running the file. It must finish in a few seconds (e.g. evaluating classical heuristics on small live instances).
-- Live-Run size limit is ~12 qubits.
+- The live Run is limited to small instances: up to 12 cells recommended, hard limit 14. Larger instances are computed offline. (`main()` refuses `n_cells > 14`.)
 - Do not use `backend.run` in optimization loops.
 - Use fixed random seeds everywhere. Results must be reproducible. Figures must be generated from `results/`.
 - No network access at runtime.

@@ -7,3 +7,4 @@
 6. [ ] Draft `docs/results_schema.md` and create an example `results/summary.json` (to enable parallel frontend work).
 7. [ ] Run the uploaded `qollab/` folder in Qollab for real (built-in simulator) and check the table prints once.
 8. [ ] `experiments/run_all.py`: QAOA p = 1, 2, 3 on larger instances (restarts/maxiter/shots exposed as arguments of `run_qaoa`).
+9. [ ] Decide how to improve QAOA beyond uniform sampling (tune lam, try p = 3, CVaR objective, XY mixer) and record results in `results/`.
