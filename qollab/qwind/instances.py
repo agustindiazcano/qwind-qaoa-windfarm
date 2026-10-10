@@ -1,0 +1,80 @@
+import json
+from dataclasses import dataclass
+
+import numpy as np
+
+from qwind.wake import generate_h_J
+
+# Wind roses as [(angle, probability)], angle = direction the wind blows TOWARD, in math degrees
+# (0 = east, 90 = north), the convention of wake.py. Synthetic roses A, B, C.
+SYNTHETIC_ROSES = {
+    "A": [(0, 0.2), (90, 0.5), (180, 0.1), (270, 0.2)],
+    "B": [(0, 0.7), (180, 0.3)],
+    "C": [(45, 0.4), (135, 0.3), (225, 0.2), (315, 0.1)],
+}
+
+# (N cells, candidate K values) of the synthetic instance set; live-Run sizes stop at 14 cells
+SYNTHETIC_SIZES = {6: (2, 3), 8: (3, 4), 10: (3, 4), 12: (4, 5)}
+
+
+@dataclass(frozen=True)
+class InstanceSpec:
+    dataset: str      # "synthetic" or "real_<site>"
+    instance_id: int
+    wind_rose: str    # synthetic rose id (A, B, C) or the site key in qollab/data/windrose.json
+    N: int
+    K: int
+    seed: int
+
+
+@dataclass
+class Instance:
+    h: np.ndarray
+    J: np.ndarray
+    grid_shape: tuple
+    P0: np.ndarray
+
+
+def meteorological_to_toward(from_deg):
+    """Meteorological direction (wind comes FROM, 0 = north, clockwise) to the math angle the wind blows TOWARD."""
+    return (270.0 - from_deg) % 360.0
+
+
+def rose_from_sectors(sectors):
+    """
+    Sectors [{"direction_deg": FROM direction, "frequency": f, "mean_speed": v}] to [(toward angle, probability)].
+    Frequencies are normalized to sum to 1. Mean speeds are kept in the data files but the pairwise wake
+    model does not use them yet.
+    """
+    total = float(sum(s["frequency"] for s in sectors))
+    if total <= 0:
+        raise ValueError("wind rose frequencies must sum to a positive number")
+    return [(meteorological_to_toward(float(s["direction_deg"])), s["frequency"] / total) for s in sectors]
+
+
+def load_wind_rose(path, site):
+    """Read one site of a wind-rose file (qollab/data/windrose.json layout: {"sites": {site: {"sectors": [...]}}})."""
+    with open(path, "r", encoding="utf-8") as f:
+        text = f.read()
+    if not text.strip():
+        raise ValueError(f"{path} is empty")
+    return rose_from_sectors(json.loads(text)["sites"][site]["sectors"])
+
+
+def build_instance(n_cells, wind_rose, seed, spacing_D=5.0):
+    """Grid (N/2, 2) with mildly heterogeneous, seeded per-site isolated power P0 in [1, 1.2]."""
+    P0 = 1.0 + 0.2 * np.random.default_rng(seed).random(n_cells)
+    grid_shape = (n_cells // 2, 2)
+    h, J = generate_h_J(grid_shape, spacing_D=spacing_D, wind_rose=wind_rose, P0=P0)
+    return Instance(h=h, J=J, grid_shape=grid_shape, P0=P0)
+
+
+def synthetic_instance_specs():
+    """The fixed synthetic instance set: 4 sizes x 2 K values x 3 roses = 24 instances, seed = instance id."""
+    specs = []
+    for n, ks in SYNTHETIC_SIZES.items():
+        for K in ks:
+            for rose in SYNTHETIC_ROSES:
+                i = len(specs)
+                specs.append(InstanceSpec("synthetic", i, rose, n, K, i))
+    return specs
