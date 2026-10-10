@@ -11,6 +11,8 @@ To deploy this project to the Qollab platform:
 3. The entry point must be `main.py` at the top level.
 4. Run the project with the built-in simulator.
 
+Note: `qollab/requirements.txt` lists exactly what the Qollab runtime provides. Qollab itself is not known to install from it, but it serves as our strict reference.
+
 ## Disclosure
 - **AI tools**: Anthropics Claude and Google Gemini models were used for code generation and project scaffolding.
 - **Libraries**: Qiskit, NumPy, SciPy (for platform execution), plus Qiskit Aer and Matplotlib for offline experiments.
