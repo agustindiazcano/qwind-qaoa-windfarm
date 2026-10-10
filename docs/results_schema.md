@@ -8,20 +8,26 @@ Files written by `experiments/run_all.py`:
 
 | File | Content |
 |---|---|
-| `results/summary.json` | Protocol, environment, instances and aggregated results (mean, std, 95% interval over instances). |
-| `results/per_instance.csv` | One row per instance x method x variant x depth. Source of every aggregate. |
+| `results/<dataset>/summary.json`, `results/<dataset>/per_instance.csv` | One run of one dataset (`synthetic`, `real_chubut`, `real_bahia_blanca`). A run only writes its own folder, so datasets never overwrite each other. |
+| `results/summary.json` | Merged file the website reads: protocol, environment, list of datasets, instances and aggregated results (mean, std, 95% interval over instances). Built by `python experiments/run_all.py --merge`. |
+| `results/per_instance.csv` | One row per instance x method x variant x depth, all datasets concatenated. Source of every aggregate. |
+
+`--merge` only reads sub-folders named after a dataset and refuses to merge runs made with different protocols. A single-dataset folder follows the same schema (a `datasets` list with one entry).
 
 ## `dataset` values
 `dataset` identifies where the wind rose comes from. Allowed values: `synthetic` or `real_<site>` (lowercase letters, digits and underscores, for example `real_chubut`). Synthetic and real results are stored side by side and never mixed in an aggregate.
+
+Real datasets (`real_<site>`) use a real ERA5 wind rose (`docs/DATA.md`) on a synthetic grid of candidate cells, not a real farm layout. They reuse only the (N, K) pairs and seeds of the synthetic A-rose instances (8 instances per site: N = 6, 8, 10, 12 with two K each), so a real dataset has `n_instances` = 8 and the synthetic one 24.
 
 ## `results/summary.json`
 
 | Key | Type | Meaning |
 |---|---|---|
 | `schema_version` | string | `"1.0"`. |
-| `status` | string | `"final"` for the full protocol, `"smoke"` for a tiny test run. A `smoke` file is not a result and must not be quoted. |
+| `status` | string | `"final"` for the full protocol, `"smoke"` for a tiny test run. A `smoke` file is not a result and must not be quoted. In a merged file it is `"final"` only if every dataset is `"final"`, otherwise `"smoke"`. |
 | `protocol` | object | Everything fixed BEFORE running: id, datasets, depths, restarts, maxiter, shots, lam multipliers, ramp total time, variants. Never retuned after seeing results. |
 | `environment` | object | Python, Qiskit, NumPy and SciPy versions. |
+| `datasets` | list | One object per dataset in the file: `dataset`, `status` (`final` \| `smoke`), `n_instances`. Each dataset appears once; every `instances` and `results` entry refers to a listed dataset. Sorted by name in a merged file. |
 | `instances` | list | One object per instance: `dataset`, `instance_id`, `wind_rose`, `N`, `K`, `grid_rows`, `grid_cols`, `seed`. |
 | `results` | list | Aggregated rows, see below. |
 | `caveats` | list of strings | Model limitations (pairwise additive wake losses, small instances, simulator only, no advantage claimed). Must not be empty. |

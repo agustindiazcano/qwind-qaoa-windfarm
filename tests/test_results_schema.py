@@ -32,7 +32,8 @@ INTEGER_COLUMNS = ["instance_id", "N", "K", "grid_rows", "grid_cols", "seed"]
 QAOA_ONLY_COLUMNS = ["p", "p_optimal", "p_feasible", "approx_ratio_feasible",
                      "uniform_feasible_p_optimal", "uniform_feasible_ratio", "random_p_hit", "shots"]
 
-SUMMARY_KEYS = ["schema_version", "status", "protocol", "environment", "instances", "results", "caveats"]
+SUMMARY_KEYS = ["schema_version", "status", "protocol", "environment", "datasets", "instances", "results", "caveats"]
+DATASET_KEYS = ["dataset", "status", "n_instances"]
 INSTANCE_KEYS = ["dataset", "instance_id", "wind_rose", "N", "K", "grid_rows", "grid_cols", "seed"]
 RESULT_KEYS = ["dataset", "method", "variant", "p", "n_instances", "metrics"]
 METRIC_KEYS = ["mean", "std", "ci95_low", "ci95_high"]
@@ -56,7 +57,24 @@ def validate_summary(obj):
         return errs
     if obj["status"] not in STATUSES:
         errs.append(f"status must be one of {sorted(STATUSES)}")
+    declared = set()
+    for d in obj["datasets"]:
+        errs += [f"datasets entry missing {k!r}" for k in DATASET_KEYS if k not in d]
+        if "dataset" in d:
+            declared.add(d["dataset"])
+            if not DATASET_RE.match(d["dataset"]):
+                errs.append(f"bad dataset {d['dataset']!r}")
+        if d.get("status") not in STATUSES:
+            errs.append(f"dataset status must be one of {sorted(STATUSES)}")
+    if len(declared) != len(obj["datasets"]):
+        errs.append("datasets must list each dataset once")
+    if obj["status"] == "final" and any(d.get("status") != "final" for d in obj["datasets"]):
+        errs.append("top-level status is final only if every dataset is final")
+    if obj["status"] == "smoke" and obj["datasets"] and all(d.get("status") == "final" for d in obj["datasets"]):
+        errs.append("top-level status is smoke if any dataset is smoke")
     for inst in obj["instances"]:
+        if inst.get("dataset") not in declared:
+            errs.append(f"instance dataset {inst.get('dataset')!r} not listed in datasets")
         errs += [f"instance missing {k!r}" for k in INSTANCE_KEYS if k not in inst]
         if "dataset" in inst and not DATASET_RE.match(inst["dataset"]):
             errs.append(f"bad dataset {inst['dataset']!r}")
@@ -68,6 +86,8 @@ def validate_summary(obj):
             continue
         if not DATASET_RE.match(r["dataset"]):
             errs.append(f"bad dataset {r['dataset']!r}")
+        if r["dataset"] not in declared:
+            errs.append(f"result dataset {r['dataset']!r} not listed in datasets")
         if r["method"] not in METHODS:
             errs.append(f"bad method {r['method']!r}")
             continue
@@ -128,7 +148,9 @@ def _valid_summary():
             "grid_rows": 3, "grid_cols": 2, "seed": 0}
     return {
         "schema_version": "1.0", "status": "smoke", "protocol": {"id": "fixture"},
-        "environment": {"python": "3.12"}, "instances": [inst],
+        "environment": {"python": "3.12"}, "instances": [inst, dict(inst, dataset="real_chubut", wind_rose="chubut")],
+        "datasets": [{"dataset": "synthetic", "status": "smoke", "n_instances": 1},
+                     {"dataset": "real_chubut", "status": "smoke", "n_instances": 1}],
         "caveats": ["pairwise additive wake losses"],
         "results": [
             {"dataset": "synthetic", "method": "exact", "variant": "exact", "p": None, "n_instances": 1,
@@ -154,6 +176,11 @@ def test_validator_accepts_valid_summary():
     lambda s: s["results"][1]["metrics"]["p_optimal"].update(mean=float("nan")),
     lambda s: s["results"][1].pop("baselines"),
     lambda s: s["instances"][0].update(dataset="real"),
+    lambda s: s.pop("datasets"),
+    lambda s: s["datasets"].pop(),                                  # results/instances reference an unlisted dataset
+    lambda s: s["datasets"][0].pop("status"),
+    lambda s: s["datasets"].append(dict(s["datasets"][0])),         # duplicate dataset
+    lambda s: s.update(status="final"),                              # final top-level with smoke datasets
 ])
 def test_validator_rejects_broken_summary(mutate):
     s = _valid_summary()
@@ -183,7 +210,7 @@ def test_schema_doc_documents_every_field():
         doc = f.read()
     names = (set(SUMMARY_KEYS) | set(INSTANCE_KEYS) | set(RESULT_KEYS) | set(METRIC_KEYS)
              | set(QAOA_METRICS) | set(CLASSICAL_METRICS) | set(QAOA_RESULT_EXTRA) | set(BASELINE_KEYS)
-             | set(PER_INSTANCE_COLUMNS))
+             | set(PER_INSTANCE_COLUMNS) | set(DATASET_KEYS))
     missing = sorted(n for n in names if n not in doc)
     assert not missing, f"undocumented fields: {missing}"
     assert "real_<site>" in doc and "synthetic" in doc

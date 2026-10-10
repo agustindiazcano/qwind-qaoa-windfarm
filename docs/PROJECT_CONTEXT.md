@@ -178,6 +178,7 @@ Rules: `qollab/` may import only numpy, scipy, qiskit and the standard library. 
 - Task 6 (`feat/qaoa-xy`): constraint-preserving QAOA (XY mixer + Dicke start, no penalty) and ramp initialization, selectable by arguments; offline comparison in `experiments/compare_qaoa_variants.py` with CSVs in `results/`. On 7 small instances xy + dicke beats the uniform-over-feasible baseline everywhere while the penalty QAOA does not reliably do so; with 1000 shots even random feasible sampling finds the optimum at these sizes. **PR open, awaiting human review.** Live Run defaults unchanged.
 - Task 7 (`docs/results-schema`, PR #19 and `feat/run-all`): results schema enforced by tests, `instances.py`, `run_all.py` with the fixed protocol `qwind-v1`. Only a smoke run exists in `results/`; the full synthetic run (~1 h, heavy) is pending.
 - Task 8 (`data/real-wind-roses`): two real ERA5 100 m wind roses (`chubut`, `bahia_blanca`, 16 sectors) in `qollab/data/windrose.json`, derivation and licenses in `docs/DATA.md`, tests in `tests/test_windrose_data.py`. PR open, awaiting human review. Real runs not executed yet.
+- Task 9 (`feat/run-all-datasets`, stacked on Task 8): per-dataset result folders plus `--merge` into the single `results/summary.json` (schema gains `datasets`). Smoke runs only; full runs of the three datasets pending a human decision (local vs cloud).
 
 **Next tasks (in order)**
 1. Merge the Task 4 PR (`feat/qaoa`), then run the uploaded `qollab/` folder in Qollab for real.
