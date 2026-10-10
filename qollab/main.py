@@ -16,14 +16,23 @@ def say(*args):
     print(*args, flush=True)
 
 
+_skip_next = None  # arguments of a call to ignore once: the platform's repeat of the automatic run
+
+
 def main(n_cells=8, K=3, p=2, seed=0, mixer="x", init="plus", init_params="random"):
     """
-    Main entry point for Qollab platform (called by the platform after running this file).
+    Main entry point for Qollab. Qollab executes the uploaded file as a script (see the guard at the
+    bottom) and, depending on the project shape, may also call main() afterwards: that duplicate call
+    with the same arguments is ignored, so the benchmark runs once.
     Runs a small instance and compares classical methods against QAOA at depth p.
     mixer ("x" | "xy"), init ("plus" | "dicke") and init_params ("random" | "ramp") select QAOA
     variants; the defaults are the penalty QAOA. mixer="xy" with init="dicke" enforces the
     cardinality constraint in the ansatz and drops the penalty from the circuit.
     """
+    global _skip_next
+    if _skip_next == (n_cells, K, p, seed, mixer, init, init_params):
+        _skip_next = None
+        return
     try:
         _run(n_cells, K, p, seed, mixer, init, init_params)
     except Exception:
@@ -105,3 +114,11 @@ def _run(n_cells, K, p, seed, mixer, init, init_params):
           f" | random feasible subsets {fmt_gap(qaoa.random_best_gap)}")
     say(f"  P(optimum in {qaoa.shots} draws): QAOA sampling "
           f"{1.0 - (1.0 - qaoa.p_optimal) ** qaoa.shots:.4f} | random feasible subsets {qaoa.random_p_hit:.4f}")
+
+
+if __name__ == "__main__":
+    # Qollab runs the uploaded file as a script and does NOT call main() on its own in every project
+    # shape (a Run without this block printed nothing). Importing this module (tests, `import main`)
+    # does not run anything.
+    main()
+    _skip_next = main.__defaults__
