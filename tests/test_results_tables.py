@@ -76,3 +76,39 @@ def test_cli_writes_a_markdown_file_with_all_datasets(tmp_path, summary):
     for d in summary["datasets"]:
         assert d["dataset"] in text
     assert "generated from results/summary.json" in text.lower()
+
+
+# ---- README block generated from results/ ----
+
+def test_readme_block_numbers_come_from_the_file(summary, rows):
+    md = tables.readme_block(summary, rows)
+    for d in summary["datasets"]:
+        assert d["dataset"] in md
+    rec = next(r for r in summary["results"] if r["dataset"] == "synthetic" and r["variant"] == "xy+dicke" and r["p"] == 3)
+    assert f"{rec['metrics']['p_optimal']['mean']:.3f}" in md
+    assert f"{rec['baselines']['uniform_feasible_ratio']:.3f}" in md
+    assert "results/results_tables.md" in md
+    assert "std" not in md.lower() and "ci95" not in md.lower()
+
+
+def test_readme_block_penalty_sweep_range_is_computed(summary, rows):
+    md = tables.readme_block(summary, rows)
+    pen = [r for r in summary["results"] if r["dataset"] == "synthetic" and r["method"] == "qaoa" and r["variant"].startswith("penalty")]
+    lo = min(round(r["frac_beating_uniform_ratio"] * r["n_instances"]) for r in pen)
+    hi = max(round(r["frac_beating_uniform_ratio"] * r["n_instances"]) for r in pen)
+    assert f"{lo}-{hi}/24" in md
+
+
+def test_update_readme_replaces_only_the_marked_block(tmp_path):
+    readme = tmp_path / "README.md"
+    readme.write_text("before\n<!-- RESULTS:START -->\nold\n<!-- RESULTS:END -->\nafter\n", encoding="utf-8")
+    tables.update_readme(str(readme), "NEW BLOCK")
+    text = readme.read_text(encoding="utf-8")
+    assert text == "before\n<!-- RESULTS:START -->\nNEW BLOCK\n<!-- RESULTS:END -->\nafter\n"
+
+
+def test_update_readme_needs_markers(tmp_path):
+    readme = tmp_path / "README.md"
+    readme.write_text("no markers\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="RESULTS"):
+        tables.update_readme(str(readme), "x")
