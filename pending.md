@@ -5,10 +5,10 @@
 4. [x] Fix the failing GitHub Actions workflows (ci.yml, pages.yml).
 5. [x] Implement QAOA in `qollab/qwind/qaoa.py` and integrate it into `main.py` (PR open on `feat/qaoa`, awaiting human review).
 6. [~] `docs/results_schema.md` is written and enforced by `tests/test_results_schema.py` (PR #19). The example `results/summary.json` / `per_instance.csv` now come from the `run_all.py --quick` smoke run (status `smoke`, 2 instances; PR `feat/run-all`).
-7. [ ] Run the uploaded `qollab/` folder in Qollab for real (built-in simulator) and check the table prints once.
+7. [x] Uploaded `qollab/` run in Qollab: table prints once (confirmed by the owner, see item 10).
 8. [ ] `experiments/run_all.py`: QAOA p = 1, 2, 3 on larger instances (restarts/maxiter/shots exposed as arguments of `run_qaoa`).
 9. [x] Compare QAOA variants (lam sweep, p = 3, ramp init, XY + Dicke). Result: XY + Dicke beats uniform-over-feasible in every instance; penalty + X mixer does not do so reliably (see `results/qaoa_variants_summary.csv`). PR open on `feat/qaoa-xy`, awaiting human review.
-10. [~] Live Run default switched to xy + dicke (PR `feat/live-run-xy-dicke`, owner chose the recommended option). Still to do: upload to Qollab and re-check that the table prints once and the time is under 30 s.
+10. [x] Live Run default switched to xy + dicke (PR #29) and checked in Qollab by the owner: table printed once, 25.5 s total (QAOA 3.3 s; platform boot varies 15.8-25.5 s). Keep N = 8 default.
 11. [~] References verified at abstract level on 2026-10-10 (Hadfield, Bartschi and Eidenbenz, Sack and Serbyn; `docs/model.md`, README). Still to do: compare the XY ring mixer detail with Hadfield et al.; the ramp total time 0.75 p is a placeholder.
 12. [~] (data done on `data/real-wind-roses`, PR open; items 'to verify' remain in docs/DATA.md) Real wind data: two real roses, primary Patagonia / Chubut coast (Comodoro Rivadavia / Rawson), contrast a more dispersed site (Salta or Bahia Blanca, whichever has verifiable data). Verify license (Global Wind Atlas or ERA5) from the source, document in `docs/DATA.md` (source, license, access date, coordinates, hub height, sectors, derivation), reduce to 12-16 sectors, store in `qollab/data/`. Never fill from memory; if the download fails use the labeled synthetic Weibull rose. Full conditions in `docs/PROJECT_CONTEXT.md` section 8.
 13. [ ] Fix the experiment protocol (lam sweep, ramp, seeds, p, instances) before running real data; no retuning afterwards. `results/` gets a `dataset` column (`synthetic` / `real_<site>`).
