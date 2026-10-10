@@ -1,6 +1,6 @@
 import numpy as np
 from itertools import combinations
-from qollab.qwind.qubo import qubo_energy
+from qwind.qubo import qubo_energy
 
 def exact_enumeration(Q, num_cells):
     """

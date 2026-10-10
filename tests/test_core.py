@@ -2,9 +2,9 @@ import numpy as np
 import pytest
 from qiskit.quantum_info import SparsePauliOp
 
-from qollab.qwind.wake import generate_h_J
-from qollab.qwind.qubo import build_qubo, qubo_energy, build_hamiltonian
-from qollab.qwind.classical import exact_enumeration, simulated_annealing, greedy_local_search
+from qwind.wake import generate_h_J
+from qwind.qubo import build_qubo, qubo_energy, build_hamiltonian
+from qwind.classical import exact_enumeration, simulated_annealing, greedy_local_search
 
 def test_qubo_energy_vs_brute_force():
     """1. QUBO energy equals brute-force energy on a 12-cell, K=4 instance."""
