@@ -1,6 +1,7 @@
 # Last Context
-- Branch `feat/core-model` was created to implement the core QWind mechanics.
-- Wrote TDD tests in `tests/test_core.py` targeting QUBO vs brute-force energy, Hamiltonian diagonal mapping, and feasibility of heuristic/exact solvers.
-- Implemented `qollab/qwind/wake.py` (basic dummy generator), `qubo.py` (QUBO dict & Hamiltonian builder), and `classical.py` (exact enum, greedy local search, simulated annealing).
-- Documented wake model assumptions in `docs/model.md` as required.
-- All tests are passing green.
+- Restructured repository layout to match Qollab requirements, moving model code to `qollab/qwind/` and updating all import paths.
+- Removed `example.py`.
+- Updated `qollab/main.py` to define `main(n_cells=8, K=3, seed=0)` for rapid execution and table printing.
+- Implemented tests to verify `main()` execution and to check for forbidden imports in `qollab/`.
+- Updated `requirements.txt` with strict versions for the runtime and `requirements-dev.txt` for local use.
+- Documented Jensen wake model citations in `docs/model.md` and upload instructions in `README.md`.

@@ -1,6 +1,8 @@
 # Project
 QWind: a Qiskit QAOA benchmark for wind-farm layout optimization (wake-loss QUBO with cardinality constraint), compared against exact enumeration, simulated annealing and greedy search. Hackathon project (Qollab x IonQ), theme: Quantum Impact. Submission deadline: Sunday Oct 11, 19:00 ET (20:00 Argentina time).
 
+> **For full architectural and scientific context, read [docs/PROJECT_CONTEXT.md](docs/PROJECT_CONTEXT.md).**
+
 ## Workflow (strict)
 - One branch per task. Never commit directly to main. Exception: the initial repository scaffold.
 - TDD: write the test first, see it fail, then write the code.
@@ -17,13 +19,15 @@ QWind: a Qiskit QAOA benchmark for wind-farm layout optimization (wake-loss QUBO
 - `docs/`: results schema, data sources and licenses, model assumptions.
 
 ## Dependencies
-- `qollab/` imports only `numpy` and `qiskit` (plus the standard library) until the Qollab environment is confirmed to support more.
+- `qollab/` imports only `numpy`, `scipy`, `qiskit` (plus the standard library).
 - Do not add any dependency to `qollab/` without human approval.
-- `qiskit-aer`, `scipy`, `matplotlib` may only be used in `experiments/`, never in `qollab/`.
+- `qiskit-aer`, `matplotlib` may only be used in `experiments/`, never in `qollab/`.
 - Do not use `qiskit-optimization` or `ortools`. Build the QUBO and Hamiltonian by hand (`SparsePauliOp`).
 
 ## Runtime constraints
-- `qollab/main.py` must run end to end quickly (target under 1-2 minutes) and print its results. It should run a short version: one small live instance plus precalculated results.
+- `qollab/main.py` MUST define `main(n_cells=8, K=3, seed=0)`. The platform calls `main()` after running the file. It must finish in a few seconds (e.g. evaluating classical heuristics on small live instances).
+- Live-Run size limit is ~12 qubits.
+- Do not use `backend.run` in optimization loops.
 - Use fixed random seeds everywhere. Results must be reproducible. Figures must be generated from `results/`.
 - No network access at runtime.
 
