@@ -55,3 +55,8 @@ QWind: a Qiskit QAOA benchmark for wind-farm layout optimization (wake-loss QUBO
 4. QAOA results for p = 1, 2, 3 against the classical baselines.
 5. Noise simulation, instance-size scaling.
 6. Website and extra visuals.
+
+## AI Agent Protocols
+- **Context Initialization**: At the beginning of a new session, agents MUST read `lastcontext.md` and `pending.md` to understand the recent progress and current task list.
+- **Environment Awareness**: Always check the git status, current branch, and worktree before proceeding. Multiple people and agents are collaborating on this repository; never take the local state for granted.
+- **Testing Constraints**: Heavy tests must ALWAYS be launched in the cloud. Never run heavy tests locally in order to save time.
