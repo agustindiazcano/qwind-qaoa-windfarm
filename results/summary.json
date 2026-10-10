@@ -1,14 +1,16 @@
 {
   "schema_version": "1.0",
-  "status": "smoke",
+  "status": "final",
   "protocol": {
-    "id": "qwind-v1-quick",
+    "id": "qwind-v1",
     "depths": [
-      1
+      1,
+      2,
+      3
     ],
-    "restarts": 1,
-    "maxiter": 20,
-    "shots": 200,
+    "restarts": 2,
+    "maxiter": 60,
+    "shots": 1000,
     "lam_ref_mult": 10.0,
     "lam_multipliers": [
       1.0,
@@ -27,108 +29,53 @@
     ]
   },
   "environment": {
-    "python": "3.12.4",
+    "python": "3.12.15",
     "qiskit": "2.5.2",
-    "numpy": "2.2.6",
-    "scipy": "1.14.1"
+    "numpy": "2.4.6",
+    "scipy": "1.18.0"
   },
   "datasets": [
     {
-      "dataset": "real_bahia_blanca",
-      "status": "smoke",
-      "n_instances": 2
-    },
-    {
-      "dataset": "real_chubut",
-      "status": "smoke",
-      "n_instances": 2
-    },
-    {
-      "dataset": "real_kelmarsh",
-      "status": "smoke",
-      "n_instances": 2
-    },
-    {
-      "dataset": "real_penmanshiel",
-      "status": "smoke",
-      "n_instances": 1
+      "dataset": "real_penmanshiel_sub10",
+      "status": "final",
+      "n_instances": 3
     },
     {
       "dataset": "synthetic",
-      "status": "smoke",
-      "n_instances": 2
+      "status": "final",
+      "n_instances": 24
     }
   ],
   "instances": [
     {
-      "dataset": "real_bahia_blanca",
+      "dataset": "real_penmanshiel_sub10",
       "instance_id": 0,
-      "wind_rose": "bahia_blanca",
-      "N": 6,
-      "K": 2,
-      "grid_rows": 3,
-      "grid_cols": 2,
-      "seed": 0
-    },
-    {
-      "dataset": "real_bahia_blanca",
-      "instance_id": 3,
-      "wind_rose": "bahia_blanca",
-      "N": 6,
+      "wind_rose": "penmanshiel",
+      "N": 10,
       "K": 3,
-      "grid_rows": 3,
-      "grid_cols": 2,
-      "seed": 3
-    },
-    {
-      "dataset": "real_chubut",
-      "instance_id": 0,
-      "wind_rose": "chubut",
-      "N": 6,
-      "K": 2,
-      "grid_rows": 3,
-      "grid_cols": 2,
-      "seed": 0
-    },
-    {
-      "dataset": "real_chubut",
-      "instance_id": 3,
-      "wind_rose": "chubut",
-      "N": 6,
-      "K": 3,
-      "grid_rows": 3,
-      "grid_cols": 2,
-      "seed": 3
-    },
-    {
-      "dataset": "real_kelmarsh",
-      "instance_id": 0,
-      "wind_rose": "kelmarsh",
-      "N": 6,
-      "K": 2,
-      "grid_rows": 6,
+      "grid_rows": 10,
       "grid_cols": 1,
       "seed": 0
     },
     {
-      "dataset": "real_kelmarsh",
+      "dataset": "real_penmanshiel_sub10",
       "instance_id": 1,
-      "wind_rose": "kelmarsh",
-      "N": 6,
-      "K": 3,
-      "grid_rows": 6,
+      "wind_rose": "penmanshiel",
+      "N": 10,
+      "K": 5,
+      "grid_rows": 10,
       "grid_cols": 1,
       "seed": 1
     },
     {
-      "dataset": "real_penmanshiel",
-      "instance_id": 0,
+      "dataset": "real_penmanshiel_sub10",
+      "instance_id": 2,
       "wind_rose": "penmanshiel",
-      "N": 14,
-      "K": 5,
-      "grid_rows": 14,
+      "N": 10,
+      "K": 7,
+      "grid_rows": 10,
       "grid_cols": 1,
-      "seed": 0
+      "seed": 2
     },
     {
       "dataset": "synthetic",
@@ -149,15 +96,235 @@
       "grid_rows": 3,
       "grid_cols": 2,
       "seed": 1
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 2,
+      "wind_rose": "C",
+      "N": 6,
+      "K": 2,
+      "grid_rows": 3,
+      "grid_cols": 2,
+      "seed": 2
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 3,
+      "wind_rose": "A",
+      "N": 6,
+      "K": 3,
+      "grid_rows": 3,
+      "grid_cols": 2,
+      "seed": 3
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 4,
+      "wind_rose": "B",
+      "N": 6,
+      "K": 3,
+      "grid_rows": 3,
+      "grid_cols": 2,
+      "seed": 4
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 5,
+      "wind_rose": "C",
+      "N": 6,
+      "K": 3,
+      "grid_rows": 3,
+      "grid_cols": 2,
+      "seed": 5
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 6,
+      "wind_rose": "A",
+      "N": 8,
+      "K": 3,
+      "grid_rows": 4,
+      "grid_cols": 2,
+      "seed": 6
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 7,
+      "wind_rose": "B",
+      "N": 8,
+      "K": 3,
+      "grid_rows": 4,
+      "grid_cols": 2,
+      "seed": 7
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 8,
+      "wind_rose": "C",
+      "N": 8,
+      "K": 3,
+      "grid_rows": 4,
+      "grid_cols": 2,
+      "seed": 8
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 9,
+      "wind_rose": "A",
+      "N": 8,
+      "K": 4,
+      "grid_rows": 4,
+      "grid_cols": 2,
+      "seed": 9
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 10,
+      "wind_rose": "B",
+      "N": 8,
+      "K": 4,
+      "grid_rows": 4,
+      "grid_cols": 2,
+      "seed": 10
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 11,
+      "wind_rose": "C",
+      "N": 8,
+      "K": 4,
+      "grid_rows": 4,
+      "grid_cols": 2,
+      "seed": 11
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 12,
+      "wind_rose": "A",
+      "N": 10,
+      "K": 3,
+      "grid_rows": 5,
+      "grid_cols": 2,
+      "seed": 12
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 13,
+      "wind_rose": "B",
+      "N": 10,
+      "K": 3,
+      "grid_rows": 5,
+      "grid_cols": 2,
+      "seed": 13
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 14,
+      "wind_rose": "C",
+      "N": 10,
+      "K": 3,
+      "grid_rows": 5,
+      "grid_cols": 2,
+      "seed": 14
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 15,
+      "wind_rose": "A",
+      "N": 10,
+      "K": 4,
+      "grid_rows": 5,
+      "grid_cols": 2,
+      "seed": 15
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 16,
+      "wind_rose": "B",
+      "N": 10,
+      "K": 4,
+      "grid_rows": 5,
+      "grid_cols": 2,
+      "seed": 16
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 17,
+      "wind_rose": "C",
+      "N": 10,
+      "K": 4,
+      "grid_rows": 5,
+      "grid_cols": 2,
+      "seed": 17
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 18,
+      "wind_rose": "A",
+      "N": 12,
+      "K": 4,
+      "grid_rows": 6,
+      "grid_cols": 2,
+      "seed": 18
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 19,
+      "wind_rose": "B",
+      "N": 12,
+      "K": 4,
+      "grid_rows": 6,
+      "grid_cols": 2,
+      "seed": 19
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 20,
+      "wind_rose": "C",
+      "N": 12,
+      "K": 4,
+      "grid_rows": 6,
+      "grid_cols": 2,
+      "seed": 20
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 21,
+      "wind_rose": "A",
+      "N": 12,
+      "K": 5,
+      "grid_rows": 6,
+      "grid_cols": 2,
+      "seed": 21
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 22,
+      "wind_rose": "B",
+      "N": 12,
+      "K": 5,
+      "grid_rows": 6,
+      "grid_cols": 2,
+      "seed": 22
+    },
+    {
+      "dataset": "synthetic",
+      "instance_id": 23,
+      "wind_rose": "C",
+      "N": 12,
+      "K": 5,
+      "grid_rows": 6,
+      "grid_cols": 2,
+      "seed": 23
     }
   ],
   "results": [
     {
-      "dataset": "real_bahia_blanca",
+      "dataset": "real_penmanshiel_sub10",
       "method": "exact",
       "variant": "exact",
       "p": null,
-      "n_instances": 2,
+      "n_instances": 3,
       "metrics": {
         "energy_gap": {
           "mean": 0.0,
@@ -166,19 +333,19 @@
           "ci95_high": 0.0
         },
         "time_s": {
-          "mean": 0.002139850053936243,
-          "std": 0.00020754989236593246,
-          "ci95_low": 0.001852200578736325,
-          "ci95_high": 0.002427499529136161
+          "mean": 0.038444844333331694,
+          "std": 0.009705842419002767,
+          "ci95_low": 0.027461649696017956,
+          "ci95_high": 0.04942803897064543
         }
       }
     },
     {
-      "dataset": "real_bahia_blanca",
+      "dataset": "real_penmanshiel_sub10",
       "method": "sa",
       "variant": "sa",
       "p": null,
-      "n_instances": 2,
+      "n_instances": 3,
       "metrics": {
         "energy_gap": {
           "mean": 0.0,
@@ -187,19 +354,19 @@
           "ci95_high": 0.0
         },
         "time_s": {
-          "mean": 0.5978274000808597,
-          "std": 0.1386796000879258,
-          "ci95_low": 0.4056272802374144,
-          "ci95_high": 0.790027519924305
+          "mean": 0.2948021980000017,
+          "std": 0.07884972858478187,
+          "ci95_low": 0.20557533043305432,
+          "ci95_high": 0.38402906556694905
         }
       }
     },
     {
-      "dataset": "real_bahia_blanca",
+      "dataset": "real_penmanshiel_sub10",
       "method": "greedy",
       "variant": "greedy",
       "p": null,
-      "n_instances": 2,
+      "n_instances": 3,
       "metrics": {
         "energy_gap": {
           "mean": 0.0,
@@ -208,1312 +375,847 @@
           "ci95_high": 0.0
         },
         "time_s": {
-          "mean": 0.0012438999256119132,
-          "std": 1.6600009985268116e-05,
-          "ci95_low": 0.001220893485540352,
-          "ci95_high": 0.0012669063656834743
+          "mean": 0.002423750333335306,
+          "std": 0.0007451708579723661,
+          "ci95_low": 0.0015805101262677905,
+          "ci95_high": 0.0032669905404028214
         }
       }
     },
     {
-      "dataset": "real_bahia_blanca",
+      "dataset": "real_penmanshiel_sub10",
       "method": "qaoa",
       "variant": "penalty+x lam=1",
       "p": 1,
-      "n_instances": 2,
+      "n_instances": 3,
       "metrics": {
         "p_optimal": {
-          "mean": 0.011707812166200746,
-          "std": 0.004433183004093392,
-          "ci95_low": 0.0055637339879073865,
-          "ci95_high": 0.017851890344494106
+          "mean": 0.00448720717832454,
+          "std": 0.004858392700298536,
+          "ci95_low": -0.0010105817150341543,
+          "ci95_high": 0.009984996071683235
         },
         "p_feasible": {
-          "mean": 0.2257062677581379,
-          "std": 0.09686936328709089,
-          "ci95_low": 0.09145217976586859,
-          "ci95_high": 0.3599603557504072
+          "mean": 0.28943020334956904,
+          "std": 0.17945532139833048,
+          "ci95_low": 0.08635739024056868,
+          "ci95_high": 0.4925030164585694
         },
         "approx_ratio_feasible": {
-          "mean": 0.4748353977999288,
-          "std": 0.0012974028722217423,
-          "ci95_low": 0.47303728915692617,
-          "ci95_high": 0.4766335064429314
+          "mean": 0.4751495030352068,
+          "std": 0.03437304213837275,
+          "ci95_low": 0.43625274417755333,
+          "ci95_high": 0.5140462618928603
         },
         "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
+          "mean": 86.0,
+          "std": 16.08311744241976,
+          "ci95_low": 67.80023931781275,
+          "ci95_high": 104.19976068218725
         },
         "time_s": {
-          "mean": 0.2067646001232788,
-          "std": 0.02200769993942231,
-          "ci95_low": 0.1762634841469296,
-          "ci95_high": 0.237265716099628
+          "mean": 0.659895006666666,
+          "std": 0.15434937976525293,
+          "ci95_low": 0.48523224099149376,
+          "ci95_high": 0.8345577723418383
         }
       },
       "baselines": {
-        "uniform_feasible_p_optimal": 0.058333333333333334,
-        "uniform_feasible_ratio": 0.4930980849912597,
-        "random_p_hit": 0.9999819651266295
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
       },
-      "frac_beating_uniform_ratio": 0.5,
+      "frac_beating_uniform_ratio": 0.3333333333333333,
       "frac_beating_uniform_p_optimal": 0.0
     },
     {
-      "dataset": "real_bahia_blanca",
+      "dataset": "real_penmanshiel_sub10",
       "method": "qaoa",
       "variant": "penalty+x lam=3",
       "p": 1,
-      "n_instances": 2,
+      "n_instances": 3,
       "metrics": {
         "p_optimal": {
-          "mean": 0.01150965933629546,
-          "std": 0.004052813150406194,
-          "ci95_low": 0.005892746879688361,
-          "ci95_high": 0.01712657179290256
+          "mean": 0.0019282358869546895,
+          "std": 0.0006889447222984242,
+          "ci95_low": 0.0011486215420381859,
+          "ci95_high": 0.002707850231871193
         },
         "p_feasible": {
-          "mean": 0.20771089690469793,
-          "std": 0.10283968940604057,
-          "ci95_low": 0.06518235906660386,
-          "ci95_high": 0.350239434742792
+          "mean": 0.26881719453416425,
+          "std": 0.22823085745069516,
+          "ci95_low": 0.010549666440549832,
+          "ci95_high": 0.5270847226277786
         },
         "approx_ratio_feasible": {
-          "mean": 0.5004905443503141,
-          "std": 0.02693270653773891,
-          "ci95_low": 0.46316371747037094,
-          "ci95_high": 0.5378173712302573
+          "mean": 0.47540858552609766,
+          "std": 0.0454222800492619,
+          "ci95_low": 0.4240084369233477,
+          "ci95_high": 0.5268087341288475
         },
         "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
+          "mean": 93.0,
+          "std": 17.72004514666935,
+          "ci95_low": 72.94788124245554,
+          "ci95_high": 113.05211875754446
         },
         "time_s": {
-          "mean": 0.19045019999612123,
-          "std": 0.012398999999277294,
-          "ci95_low": 0.17326606271645612,
-          "ci95_high": 0.20763433727578634
+          "mean": 0.7301571196666666,
+          "std": 0.1348480813051592,
+          "ci95_low": 0.5775621506258397,
+          "ci95_high": 0.8827520887074936
         }
       },
       "baselines": {
-        "uniform_feasible_p_optimal": 0.058333333333333334,
-        "uniform_feasible_ratio": 0.4930980849912597,
-        "random_p_hit": 0.9999819651266295
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
       },
-      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_ratio": 0.0,
       "frac_beating_uniform_p_optimal": 0.0
     },
     {
-      "dataset": "real_bahia_blanca",
+      "dataset": "real_penmanshiel_sub10",
       "method": "qaoa",
       "variant": "penalty+x lam=10",
       "p": 1,
-      "n_instances": 2,
+      "n_instances": 3,
       "metrics": {
         "p_optimal": {
-          "mean": 0.02298022818766332,
-          "std": 0.000496152162031355,
-          "ci95_low": 0.022292596373448756,
-          "ci95_high": 0.023667860001877886
+          "mean": 0.0062556933470026424,
+          "std": 0.004974595747130984,
+          "ci95_low": 0.0006264083273199864,
+          "ci95_high": 0.011884978366685298
         },
         "p_feasible": {
-          "mean": 0.41587162846916564,
-          "std": 0.06121005597271534,
-          "ci95_low": 0.33103881898514,
-          "ci95_high": 0.5007044379531913
+          "mean": 0.4289711554444053,
+          "std": 0.05162521496047824,
+          "ci95_low": 0.3705517252057726,
+          "ci95_high": 0.48739058568303795
         },
         "approx_ratio_feasible": {
-          "mean": 0.48770309559036235,
-          "std": 0.016139201813756443,
-          "ci95_low": 0.46533530306128934,
-          "ci95_high": 0.5100708881194354
+          "mean": 0.4861303561348043,
+          "std": 0.03154307280507012,
+          "ci95_low": 0.4504360090476569,
+          "ci95_high": 0.5218247032219517
         },
         "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
+          "mean": 114.33333333333333,
+          "std": 8.013876853447538,
+          "ci95_low": 105.26477797449606,
+          "ci95_high": 123.4018886921706
         },
         "time_s": {
-          "mean": 0.18784829997457564,
-          "std": 0.008802699856460094,
-          "ci95_low": 0.17564838040252018,
-          "ci95_high": 0.2000482195466311
+          "mean": 0.8870399659999985,
+          "std": 0.04890239009682986,
+          "ci95_low": 0.8317017021506137,
+          "ci95_high": 0.9423782298493832
         }
       },
       "baselines": {
-        "uniform_feasible_p_optimal": 0.058333333333333334,
-        "uniform_feasible_ratio": 0.4930980849912597,
-        "random_p_hit": 0.9999819651266295
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
       },
-      "frac_beating_uniform_ratio": 0.0,
+      "frac_beating_uniform_ratio": 1.0,
       "frac_beating_uniform_p_optimal": 0.0
     },
     {
-      "dataset": "real_bahia_blanca",
+      "dataset": "real_penmanshiel_sub10",
       "method": "qaoa",
       "variant": "penalty+x lam=10 ramp",
       "p": 1,
-      "n_instances": 2,
+      "n_instances": 3,
       "metrics": {
         "p_optimal": {
-          "mean": 0.027926960175118865,
-          "std": 0.00395609229869138,
-          "ci95_low": 0.022444095979965942,
-          "ci95_high": 0.03340982437027178
+          "mean": 0.005679510696920434,
+          "std": 0.0038198907615317377,
+          "ci95_low": 0.0013568973764076196,
+          "ci95_high": 0.010002124017433249
         },
         "p_feasible": {
-          "mean": 0.48006275451610525,
-          "std": 0.015189947606441101,
-          "ci95_low": 0.4590105611976748,
-          "ci95_high": 0.5011149478345357
+          "mean": 0.44100375175347944,
+          "std": 0.057347048600985745,
+          "ci95_low": 0.37610945721734046,
+          "ci95_high": 0.5058980462896184
         },
         "approx_ratio_feasible": {
-          "mean": 0.49383141799867836,
-          "std": 0.024233471647297583,
-          "ci95_low": 0.4602455398170261,
-          "ci95_high": 0.5274172961803306
+          "mean": 0.48227882890990487,
+          "std": 0.03234238855043926,
+          "ci95_low": 0.44567997090767497,
+          "ci95_high": 0.5188776869121348
         },
         "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
+          "mean": 99.0,
+          "std": 14.854853303438128,
+          "ci95_low": 82.19015103511569,
+          "ci95_high": 115.80984896488431
         },
         "time_s": {
-          "mean": 0.1917707499815151,
-          "std": 0.0052446500631049275,
-          "ci95_low": 0.18450203583735408,
-          "ci95_high": 0.19903946412567614
+          "mean": 0.775600173333333,
+          "std": 0.14575834007258734,
+          "ci95_low": 0.610659084253352,
+          "ci95_high": 0.9405412624133139
         }
       },
       "baselines": {
-        "uniform_feasible_p_optimal": 0.058333333333333334,
-        "uniform_feasible_ratio": 0.4930980849912597,
-        "random_p_hit": 0.9999819651266295
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
       },
-      "frac_beating_uniform_ratio": 0.5,
+      "frac_beating_uniform_ratio": 0.6666666666666666,
       "frac_beating_uniform_p_optimal": 0.0
     },
     {
-      "dataset": "real_bahia_blanca",
+      "dataset": "real_penmanshiel_sub10",
       "method": "qaoa",
       "variant": "xy+dicke",
       "p": 1,
-      "n_instances": 2,
+      "n_instances": 3,
       "metrics": {
         "p_optimal": {
-          "mean": 0.06861181523975206,
-          "std": 0.03313559305361877,
-          "ci95_low": 0.02268822624792275,
-          "ci95_high": 0.11453540423158137
+          "mean": 0.019995242402418466,
+          "std": 0.016701444410423413,
+          "ci95_low": 0.0010957788870399505,
+          "ci95_high": 0.03889470591779698
         },
         "p_feasible": {
-          "mean": 1.0000000000000002,
-          "std": 3.925231146709438e-16,
-          "ci95_low": 0.9999999999999997,
-          "ci95_high": 1.0000000000000007
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.5668017814089903,
-          "std": 0.06151878519023901,
-          "ci95_low": 0.48154109505937226,
-          "ci95_high": 0.6520624677586083
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 0.20408645004499704,
-          "std": 0.007972450111992657,
-          "ci95_low": 0.1930371979127486,
-          "ci95_high": 0.21513570217724548
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.058333333333333334,
-        "uniform_feasible_ratio": 0.4930980849912597,
-        "random_p_hit": 0.9999819651266295
-      },
-      "frac_beating_uniform_ratio": 1.0,
-      "frac_beating_uniform_p_optimal": 0.5
-    },
-    {
-      "dataset": "real_bahia_blanca",
-      "method": "qaoa",
-      "variant": "xy+dicke ramp",
-      "p": 1,
-      "n_instances": 2,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.05112259725763525,
-          "std": 0.01253464359633287,
-          "ci95_low": 0.03375046754365718,
-          "ci95_high": 0.06849472697161332
-        },
-        "p_feasible": {
-          "mean": 0.9999999999999996,
-          "std": 2.220446049250313e-16,
-          "ci95_low": 0.9999999999999992,
-          "ci95_high": 0.9999999999999999
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.5195114663413282,
-          "std": 0.00870741746722592,
-          "ci95_low": 0.5074436014234408,
-          "ci95_high": 0.5315793312592155
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 0.20153419999405742,
-          "std": 0.020690600154921412,
-          "ci95_low": 0.17285849118838326,
-          "ci95_high": 0.23020990879973158
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.058333333333333334,
-        "uniform_feasible_ratio": 0.4930980849912597,
-        "random_p_hit": 0.9999819651266295
-      },
-      "frac_beating_uniform_ratio": 1.0,
-      "frac_beating_uniform_p_optimal": 0.0
-    },
-    {
-      "dataset": "real_chubut",
-      "method": "exact",
-      "variant": "exact",
-      "p": null,
-      "n_instances": 2,
-      "metrics": {
-        "energy_gap": {
-          "mean": 0.0,
-          "std": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        },
-        "time_s": {
-          "mean": 0.002130349981598556,
-          "std": 0.0001622500130906701,
-          "ci95_low": 0.001905482935970679,
-          "ci95_high": 0.002355217027226433
-        }
-      }
-    },
-    {
-      "dataset": "real_chubut",
-      "method": "sa",
-      "variant": "sa",
-      "p": null,
-      "n_instances": 2,
-      "metrics": {
-        "energy_gap": {
-          "mean": 0.0,
-          "std": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        },
-        "time_s": {
-          "mean": 0.5086393000092357,
-          "std": 0.11973989987745881,
-          "ci95_low": 0.342688265452615,
-          "ci95_high": 0.6745903345658565
-        }
-      }
-    },
-    {
-      "dataset": "real_chubut",
-      "method": "greedy",
-      "variant": "greedy",
-      "p": null,
-      "n_instances": 2,
-      "metrics": {
-        "energy_gap": {
-          "mean": 0.0,
-          "std": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        },
-        "time_s": {
-          "mean": 0.0011543999426066875,
-          "std": 5.800044164061546e-06,
-          "ci95_low": 0.0011463614915098923,
-          "ci95_high": 0.0011624383937034828
-        }
-      }
-    },
-    {
-      "dataset": "real_chubut",
-      "method": "qaoa",
-      "variant": "penalty+x lam=1",
-      "p": 1,
-      "n_instances": 2,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.011528736910896654,
-          "std": 0.0048162690607535886,
-          "ci95_low": 0.004853728545656116,
-          "ci95_high": 0.018203745276137193
-        },
-        "p_feasible": {
-          "mean": 0.2290464093780467,
-          "std": 0.09755661409482624,
-          "ci95_low": 0.09383984036098725,
-          "ci95_high": 0.3642529783951062
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.5493935063115087,
-          "std": 0.0030650577179183736,
-          "ci95_low": 0.545145553041255,
-          "ci95_high": 0.5536414595817625
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 0.4397333998931572,
-          "std": 0.27119059988763183,
-          "ci95_low": 0.06388240403095646,
-          "ci95_high": 0.8155843957553579
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.058333333333333334,
-        "uniform_feasible_ratio": 0.5720962697791674,
-        "random_p_hit": 0.9999819651266295
-      },
-      "frac_beating_uniform_ratio": 0.5,
-      "frac_beating_uniform_p_optimal": 0.0
-    },
-    {
-      "dataset": "real_chubut",
-      "method": "qaoa",
-      "variant": "penalty+x lam=3",
-      "p": 1,
-      "n_instances": 2,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.011301726704888361,
-          "std": 0.004024454945320368,
-          "ci95_low": 0.005724116715353456,
-          "ci95_high": 0.016879336694423267
-        },
-        "p_feasible": {
-          "mean": 0.20255117889408827,
-          "std": 0.10469044414134263,
-          "ci95_low": 0.0574576258576496,
-          "ci95_high": 0.3476447319305269
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.5810784987470639,
-          "std": 0.03490204230811472,
-          "ci95_low": 0.5327067359921416,
-          "ci95_high": 0.6294502615019861
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 0.31956484995316714,
-          "std": 0.15556294994894415,
-          "ci95_low": 0.10396560100501462,
-          "ci95_high": 0.5351640989013197
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.058333333333333334,
-        "uniform_feasible_ratio": 0.5720962697791674,
-        "random_p_hit": 0.9999819651266295
-      },
-      "frac_beating_uniform_ratio": 1.0,
-      "frac_beating_uniform_p_optimal": 0.0
-    },
-    {
-      "dataset": "real_chubut",
-      "method": "qaoa",
-      "variant": "penalty+x lam=10",
-      "p": 1,
-      "n_instances": 2,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.022290542780598055,
-          "std": 0.00012657166212278435,
-          "ci95_low": 0.022115123406635632,
-          "ci95_high": 0.022465962154560478
-        },
-        "p_feasible": {
-          "mean": 0.40086373480866894,
-          "std": 0.05692992460773144,
-          "ci95_low": 0.32196288475324,
-          "ci95_high": 0.4797645848640979
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.5676762711946909,
-          "std": 0.02494646006510448,
-          "ci95_low": 0.5331022414805667,
-          "ci95_high": 0.602250300908815
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 0.2401078500552103,
-          "std": 0.07044364989269525,
-          "ci95_low": 0.1424779322951249,
-          "ci95_high": 0.3377377678152957
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.058333333333333334,
-        "uniform_feasible_ratio": 0.5720962697791674,
-        "random_p_hit": 0.9999819651266295
-      },
-      "frac_beating_uniform_ratio": 0.0,
-      "frac_beating_uniform_p_optimal": 0.0
-    },
-    {
-      "dataset": "real_chubut",
-      "method": "qaoa",
-      "variant": "penalty+x lam=10 ramp",
-      "p": 1,
-      "n_instances": 2,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.027793704216784856,
-          "std": 0.003978698866829847,
-          "ci95_low": 0.02227950891667701,
-          "ci95_high": 0.033307899516892704
-        },
-        "p_feasible": {
-          "mean": 0.4791822429086542,
-          "std": 0.018892161415324626,
-          "ci95_low": 0.4529990430304823,
-          "ci95_high": 0.505365442786826
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.5713650979370954,
-          "std": 0.03231321790490843,
-          "ci95_low": 0.5265812627521576,
-          "ci95_high": 0.6161489331220333
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 0.26725345000158995,
-          "std": 0.07572234992403537,
-          "ci95_low": 0.1623076272490045,
-          "ci95_high": 0.3721992727541754
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.058333333333333334,
-        "uniform_feasible_ratio": 0.5720962697791674,
-        "random_p_hit": 0.9999819651266295
-      },
-      "frac_beating_uniform_ratio": 0.5,
-      "frac_beating_uniform_p_optimal": 0.0
-    },
-    {
-      "dataset": "real_chubut",
-      "method": "qaoa",
-      "variant": "xy+dicke",
-      "p": 1,
-      "n_instances": 2,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.08922955716625708,
-          "std": 0.00518300255911134,
-          "ci95_low": 0.08204628210360555,
-          "ci95_high": 0.0964128322289086
-        },
-        "p_feasible": {
-          "mean": 0.9999999999999993,
-          "std": 8.345155887641791e-16,
-          "ci95_low": 0.9999999999999982,
-          "ci95_high": 1.0000000000000004
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.7033285174398716,
-          "std": 0.005267601428449953,
-          "ci95_low": 0.6960279943262075,
-          "ci95_high": 0.7106290405535356
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 0.3238917998969555,
-          "std": 0.04657589993439615,
-          "ci95_low": 0.25934089591733944,
-          "ci95_high": 0.38844270387657154
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.058333333333333334,
-        "uniform_feasible_ratio": 0.5720962697791674,
-        "random_p_hit": 0.9999819651266295
-      },
-      "frac_beating_uniform_ratio": 1.0,
-      "frac_beating_uniform_p_optimal": 1.0
-    },
-    {
-      "dataset": "real_chubut",
-      "method": "qaoa",
-      "variant": "xy+dicke ramp",
-      "p": 1,
-      "n_instances": 2,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.07835237260349093,
-          "std": 0.014578564014701638,
-          "ci95_low": 0.05814751371296582,
-          "ci95_high": 0.09855723149401603
-        },
-        "p_feasible": {
-          "mean": 0.9999999999999988,
-          "std": 4.440892098500626e-16,
-          "ci95_low": 0.9999999999999981,
-          "ci95_high": 0.9999999999999994
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.669437099279528,
-          "std": 0.0347156576335616,
-          "ci95_low": 0.6213236525044858,
-          "ci95_high": 0.7175505460545701
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 0.27443884999956936,
-          "std": 0.029740149970166385,
-          "ci95_low": 0.23322110503344665,
-          "ci95_high": 0.3156565949656921
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.058333333333333334,
-        "uniform_feasible_ratio": 0.5720962697791674,
-        "random_p_hit": 0.9999819651266295
-      },
-      "frac_beating_uniform_ratio": 1.0,
-      "frac_beating_uniform_p_optimal": 0.5
-    },
-    {
-      "dataset": "real_kelmarsh",
-      "method": "exact",
-      "variant": "exact",
-      "p": null,
-      "n_instances": 2,
-      "metrics": {
-        "energy_gap": {
-          "mean": 0.0,
-          "std": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        },
-        "time_s": {
-          "mean": 0.0017700500320643187,
-          "std": 0.00014044996351003647,
-          "ci95_low": 0.0015753963136982327,
-          "ci95_high": 0.0019647037504304044
-        }
-      }
-    },
-    {
-      "dataset": "real_kelmarsh",
-      "method": "sa",
-      "variant": "sa",
-      "p": null,
-      "n_instances": 2,
-      "metrics": {
-        "energy_gap": {
-          "mean": 0.0,
-          "std": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        },
-        "time_s": {
-          "mean": 0.432026149937883,
-          "std": 0.019184350036084652,
-          "ci95_low": 0.4054379972916662,
-          "ci95_high": 0.45861430258409985
-        }
-      }
-    },
-    {
-      "dataset": "real_kelmarsh",
-      "method": "greedy",
-      "variant": "greedy",
-      "p": null,
-      "n_instances": 2,
-      "metrics": {
-        "energy_gap": {
-          "mean": 0.0,
-          "std": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        },
-        "time_s": {
-          "mean": 0.0012990499380975962,
-          "std": 0.000334650045260787,
-          "ci95_low": 0.0008352486380941526,
-          "ci95_high": 0.0017628512381010397
-        }
-      }
-    },
-    {
-      "dataset": "real_kelmarsh",
-      "method": "qaoa",
-      "variant": "penalty+x lam=1",
-      "p": 1,
-      "n_instances": 2,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.033372033285090474,
-          "std": 0.01341249681286815,
-          "ci95_low": 0.014783261085007306,
-          "ci95_high": 0.05196080548517364
-        },
-        "p_feasible": {
-          "mean": 0.4116649862424421,
-          "std": 0.17777250175440903,
-          "ci95_low": 0.1652848689043236,
-          "ci95_high": 0.6580451035805606
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.6019400721150849,
-          "std": 0.008299418032488848,
-          "ci95_low": 0.5904376655645623,
-          "ci95_high": 0.6134424786656075
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 0.2579249001573771,
-          "std": 0.0944203999824822,
-          "ci95_low": 0.12706490214185684,
-          "ci95_high": 0.3887848981728974
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.125,
-        "uniform_feasible_ratio": 0.6055912148933726,
-        "random_p_hit": 0.9999824736668756
-      },
-      "frac_beating_uniform_ratio": 0.5,
-      "frac_beating_uniform_p_optimal": 0.0
-    },
-    {
-      "dataset": "real_kelmarsh",
-      "method": "qaoa",
-      "variant": "penalty+x lam=3",
-      "p": 1,
-      "n_instances": 2,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.028817882045097394,
-          "std": 0.012458701524096843,
-          "ci95_low": 0.011551002673460015,
-          "ci95_high": 0.046084761416734774
-        },
-        "p_feasible": {
-          "mean": 0.26601778789365793,
-          "std": 0.05988705784038087,
-          "ci95_low": 0.18301856027333907,
-          "ci95_high": 0.3490170155139768
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.6073607993003861,
-          "std": 0.013528015941754234,
-          "ci95_low": 0.5886119257558944,
-          "ci95_high": 0.6261096728448778
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 0.19415270001627505,
-          "std": 0.036217099986970425,
-          "ci95_low": 0.14395836030470693,
-          "ci95_high": 0.24434703972784316
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.125,
-        "uniform_feasible_ratio": 0.6055912148933726,
-        "random_p_hit": 0.9999824736668756
-      },
-      "frac_beating_uniform_ratio": 1.0,
-      "frac_beating_uniform_p_optimal": 0.0
-    },
-    {
-      "dataset": "real_kelmarsh",
-      "method": "qaoa",
-      "variant": "penalty+x lam=10",
-      "p": 1,
-      "n_instances": 2,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.02754769572332479,
-          "std": 8.52858865479228e-05,
-          "ci95_low": 0.027429495515038406,
-          "ci95_high": 0.027665895931611173
-        },
-        "p_feasible": {
-          "mean": 0.3499410290029922,
-          "std": 0.21360749585170924,
-          "ci95_low": 0.05389614369811119,
-          "ci95_high": 0.6459859143078732
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.6068158663330361,
-          "std": 0.01183769376913607,
-          "ci95_low": 0.590409659799015,
-          "ci95_high": 0.6232220728670571
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 0.19853204989340156,
-          "std": 0.04496474994812161,
-          "ci95_low": 0.13621408587216005,
-          "ci95_high": 0.2608500139146431
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.125,
-        "uniform_feasible_ratio": 0.6055912148933726,
-        "random_p_hit": 0.9999824736668756
-      },
-      "frac_beating_uniform_ratio": 1.0,
-      "frac_beating_uniform_p_optimal": 0.0
-    },
-    {
-      "dataset": "real_kelmarsh",
-      "method": "qaoa",
-      "variant": "penalty+x lam=10 ramp",
-      "p": 1,
-      "n_instances": 2,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.056854751159207115,
-          "std": 0.031863553330991945,
-          "ci95_low": 0.012694119278441648,
-          "ci95_high": 0.10101538303997258
-        },
-        "p_feasible": {
-          "mean": 0.47513762325080333,
-          "std": 0.037203168440097634,
-          "ci95_low": 0.4235766623869913,
-          "ci95_high": 0.5266985841146153
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.6040306471344469,
-          "std": 0.007818212516537693,
-          "ci95_low": 0.5931951574035322,
-          "ci95_high": 0.6148661368653615
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 0.2049934499664232,
-          "std": 0.05007345008198172,
-          "ci95_low": 0.13559518879008753,
-          "ci95_high": 0.2743917111427589
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.125,
-        "uniform_feasible_ratio": 0.6055912148933726,
-        "random_p_hit": 0.9999824736668756
-      },
-      "frac_beating_uniform_ratio": 0.5,
-      "frac_beating_uniform_p_optimal": 0.0
-    },
-    {
-      "dataset": "real_kelmarsh",
-      "method": "qaoa",
-      "variant": "xy+dicke",
-      "p": 1,
-      "n_instances": 2,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.20032494074893642,
-          "std": 0.02471932813222877,
-          "ci95_low": 0.1660656998335347,
-          "ci95_high": 0.23458418166433814
-        },
-        "p_feasible": {
-          "mean": 1.0000000000000004,
-          "std": 1.5700924586837752e-16,
-          "ci95_low": 1.0000000000000002,
-          "ci95_high": 1.0000000000000007
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.7074770393336958,
-          "std": 0.02047050582397636,
-          "ci95_low": 0.679106365708089,
-          "ci95_high": 0.7358477129593025
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 0.1660210998961702,
-          "std": 0.03156859998125583,
-          "ci95_low": 0.12226925250231963,
-          "ci95_high": 0.20977294729002077
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.125,
-        "uniform_feasible_ratio": 0.6055912148933726,
-        "random_p_hit": 0.9999824736668756
-      },
-      "frac_beating_uniform_ratio": 1.0,
-      "frac_beating_uniform_p_optimal": 1.0
-    },
-    {
-      "dataset": "real_kelmarsh",
-      "method": "qaoa",
-      "variant": "xy+dicke ramp",
-      "p": 1,
-      "n_instances": 2,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.13095684936035396,
-          "std": 0.06869427598326426,
-          "ci95_low": 0.035751440142479926,
-          "ci95_high": 0.22616225857822797
-        },
-        "p_feasible": {
-          "mean": 0.9999999999999993,
-          "std": 3.3306690738754696e-16,
-          "ci95_low": 0.9999999999999989,
-          "ci95_high": 0.9999999999999998
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.6542100034746009,
-          "std": 0.019608978659027776,
-          "ci95_low": 0.6270333455819969,
-          "ci95_high": 0.6813866613672049
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 0.16043800010811538,
-          "std": 0.007987399934791028,
-          "ci95_low": 0.14936802857855352,
-          "ci95_high": 0.17150797163767723
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.125,
-        "uniform_feasible_ratio": 0.6055912148933726,
-        "random_p_hit": 0.9999824736668756
-      },
-      "frac_beating_uniform_ratio": 1.0,
-      "frac_beating_uniform_p_optimal": 0.5
-    },
-    {
-      "dataset": "real_penmanshiel",
-      "method": "exact",
-      "variant": "exact",
-      "p": null,
-      "n_instances": 1,
-      "metrics": {
-        "energy_gap": {
-          "mean": 0.0,
-          "std": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        },
-        "time_s": {
-          "mean": 3.556151600088924,
-          "std": 0.0,
-          "ci95_low": 3.556151600088924,
-          "ci95_high": 3.556151600088924
-        }
-      }
-    },
-    {
-      "dataset": "real_penmanshiel",
-      "method": "sa",
-      "variant": "sa",
-      "p": null,
-      "n_instances": 1,
-      "metrics": {
-        "energy_gap": {
-          "mean": 0.0,
-          "std": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        },
-        "time_s": {
-          "mean": 1.1023053000681102,
-          "std": 0.0,
-          "ci95_low": 1.1023053000681102,
-          "ci95_high": 1.1023053000681102
-        }
-      }
-    },
-    {
-      "dataset": "real_penmanshiel",
-      "method": "greedy",
-      "variant": "greedy",
-      "p": null,
-      "n_instances": 1,
-      "metrics": {
-        "energy_gap": {
-          "mean": 0.0,
-          "std": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
-        },
-        "time_s": {
-          "mean": 0.016992799937725067,
-          "std": 0.0,
-          "ci95_low": 0.016992799937725067,
-          "ci95_high": 0.016992799937725067
-        }
-      }
-    },
-    {
-      "dataset": "real_penmanshiel",
-      "method": "qaoa",
-      "variant": "penalty+x lam=1",
-      "p": 1,
-      "n_instances": 1,
-      "metrics": {
-        "p_optimal": {
-          "mean": 6.091516396141241e-05,
-          "std": 0.0,
-          "ci95_low": 6.091516396141241e-05,
-          "ci95_high": 6.091516396141241e-05
-        },
-        "p_feasible": {
-          "mean": 0.12195887511391462,
-          "std": 0.0,
-          "ci95_low": 0.12195887511391462,
-          "ci95_high": 0.12195887511391462
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.5331102489639332,
-          "std": 0.0,
-          "ci95_low": 0.5331102489639332,
-          "ci95_high": 0.5331102489639332
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 1.5661715001333505,
-          "std": 0.0,
-          "ci95_low": 1.5661715001333505,
-          "ci95_high": 1.5661715001333505
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.0004995004995004995,
-        "uniform_feasible_ratio": 0.533110797423824,
-        "random_p_hit": 0.09509476935653349
-      },
-      "frac_beating_uniform_ratio": 0.0,
-      "frac_beating_uniform_p_optimal": 0.0
-    },
-    {
-      "dataset": "real_penmanshiel",
-      "method": "qaoa",
-      "variant": "penalty+x lam=3",
-      "p": 1,
-      "n_instances": 1,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.00010278923531071427,
-          "std": 0.0,
-          "ci95_low": 0.00010278923531071427,
-          "ci95_high": 0.00010278923531071427
-        },
-        "p_feasible": {
-          "mean": 0.20449598056614648,
-          "std": 0.0,
-          "ci95_low": 0.20449598056614648,
-          "ci95_high": 0.20449598056614648
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.5333561456098668,
-          "std": 0.0,
-          "ci95_low": 0.5333561456098668,
-          "ci95_high": 0.5333561456098668
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 1.4912991998717189,
-          "std": 0.0,
-          "ci95_low": 1.4912991998717189,
-          "ci95_high": 1.4912991998717189
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.0004995004995004995,
-        "uniform_feasible_ratio": 0.533110797423824,
-        "random_p_hit": 0.09509476935653349
-      },
-      "frac_beating_uniform_ratio": 1.0,
-      "frac_beating_uniform_p_optimal": 0.0
-    },
-    {
-      "dataset": "real_penmanshiel",
-      "method": "qaoa",
-      "variant": "penalty+x lam=10",
-      "p": 1,
-      "n_instances": 1,
-      "metrics": {
-        "p_optimal": {
-          "mean": 4.6340424196616113e-05,
-          "std": 0.0,
-          "ci95_low": 4.6340424196616113e-05,
-          "ci95_high": 4.6340424196616113e-05
-        },
-        "p_feasible": {
-          "mean": 0.09291234098303866,
-          "std": 0.0,
-          "ci95_low": 0.09291234098303866,
-          "ci95_high": 0.09291234098303866
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.5330505402365288,
-          "std": 0.0,
-          "ci95_low": 0.5330505402365288,
-          "ci95_high": 0.5330505402365288
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 1.4811314998660237,
-          "std": 0.0,
-          "ci95_low": 1.4811314998660237,
-          "ci95_high": 1.4811314998660237
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.0004995004995004995,
-        "uniform_feasible_ratio": 0.533110797423824,
-        "random_p_hit": 0.09509476935653349
-      },
-      "frac_beating_uniform_ratio": 0.0,
-      "frac_beating_uniform_p_optimal": 0.0
-    },
-    {
-      "dataset": "real_penmanshiel",
-      "method": "qaoa",
-      "variant": "penalty+x lam=10 ramp",
-      "p": 1,
-      "n_instances": 1,
-      "metrics": {
-        "p_optimal": {
-          "mean": 9.147481634465665e-05,
-          "std": 0.0,
-          "ci95_low": 9.147481634465665e-05,
-          "ci95_high": 9.147481634465665e-05
-        },
-        "p_feasible": {
-          "mean": 0.24102604014668513,
-          "std": 0.0,
-          "ci95_low": 0.24102604014668513,
-          "ci95_high": 0.24102604014668513
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.518922506386716,
-          "std": 0.0,
-          "ci95_low": 0.518922506386716,
-          "ci95_high": 0.518922506386716
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 1.5156175999436527,
-          "std": 0.0,
-          "ci95_low": 1.5156175999436527,
-          "ci95_high": 1.5156175999436527
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.0004995004995004995,
-        "uniform_feasible_ratio": 0.533110797423824,
-        "random_p_hit": 0.09509476935653349
-      },
-      "frac_beating_uniform_ratio": 0.0,
-      "frac_beating_uniform_p_optimal": 0.0
-    },
-    {
-      "dataset": "real_penmanshiel",
-      "method": "qaoa",
-      "variant": "xy+dicke",
-      "p": 1,
-      "n_instances": 1,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.0024198938734078593,
-          "std": 0.0,
-          "ci95_low": 0.0024198938734078593,
-          "ci95_high": 0.0024198938734078593
-        },
-        "p_feasible": {
-          "mean": 0.9999999999999992,
-          "std": 0.0,
-          "ci95_low": 0.9999999999999992,
-          "ci95_high": 0.9999999999999992
-        },
-        "approx_ratio_feasible": {
-          "mean": 0.6010191753045653,
-          "std": 0.0,
-          "ci95_low": 0.6010191753045653,
-          "ci95_high": 0.6010191753045653
-        },
-        "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
-        },
-        "time_s": {
-          "mean": 21.935848799999803,
-          "std": 0.0,
-          "ci95_low": 21.935848799999803,
-          "ci95_high": 21.935848799999803
-        }
-      },
-      "baselines": {
-        "uniform_feasible_p_optimal": 0.0004995004995004995,
-        "uniform_feasible_ratio": 0.533110797423824,
-        "random_p_hit": 0.09509476935653349
-      },
-      "frac_beating_uniform_ratio": 1.0,
-      "frac_beating_uniform_p_optimal": 1.0
-    },
-    {
-      "dataset": "real_penmanshiel",
-      "method": "qaoa",
-      "variant": "xy+dicke ramp",
-      "p": 1,
-      "n_instances": 1,
-      "metrics": {
-        "p_optimal": {
-          "mean": 0.0010358924726344518,
-          "std": 0.0,
-          "ci95_low": 0.0010358924726344518,
-          "ci95_high": 0.0010358924726344518
-        },
-        "p_feasible": {
-          "mean": 1.0000000000000013,
-          "std": 0.0,
-          "ci95_low": 1.0000000000000013,
+          "mean": 0.9999999999999999,
+          "std": 1.1801832636420706e-15,
+          "ci95_low": 0.9999999999999986,
           "ci95_high": 1.0000000000000013
         },
         "approx_ratio_feasible": {
-          "mean": 0.5495070145928634,
-          "std": 0.0,
-          "ci95_low": 0.5495070145928634,
-          "ci95_high": 0.5495070145928634
+          "mean": 0.5696273086851494,
+          "std": 0.034947823189429336,
+          "ci95_low": 0.5300801238381728,
+          "ci95_high": 0.609174493532126
         },
         "n_evals": {
-          "mean": 20.0,
+          "mean": 120.0,
           "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
         },
         "time_s": {
-          "mean": 21.439186499919742,
-          "std": 0.0,
-          "ci95_low": 21.439186499919742,
-          "ci95_high": 21.439186499919742
+          "mean": 0.9603257356666669,
+          "std": 0.13923651662207956,
+          "ci95_low": 0.8027647845752114,
+          "ci95_high": 1.1178866867581225
         }
       },
       "baselines": {
-        "uniform_feasible_p_optimal": 0.0004995004995004995,
-        "uniform_feasible_ratio": 0.533110797423824,
-        "random_p_hit": 0.09509476935653349
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.6666666666666666
+    },
+    {
+      "dataset": "real_penmanshiel_sub10",
+      "method": "qaoa",
+      "variant": "xy+dicke ramp",
+      "p": 1,
+      "n_instances": 3,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.01559146174240346,
+          "std": 0.018381214264458247,
+          "ci95_low": -0.00520884030468617,
+          "ci95_high": 0.03639176378949309
+        },
+        "p_feasible": {
+          "mean": 1.0,
+          "std": 7.364386412590295e-16,
+          "ci95_low": 0.9999999999999991,
+          "ci95_high": 1.0000000000000009
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5170189199848458,
+          "std": 0.01732708601152321,
+          "ci95_low": 0.4974114763497174,
+          "ci95_high": 0.5366263636199743
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.0247039183333324,
+          "std": 0.14383100553666456,
+          "ci95_low": 0.861943813595093,
+          "ci95_high": 1.1874640230715718
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.3333333333333333
+    },
+    {
+      "dataset": "real_penmanshiel_sub10",
+      "method": "qaoa",
+      "variant": "penalty+x lam=1",
+      "p": 2,
+      "n_instances": 3,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.005328041680167768,
+          "std": 0.004205906632560866,
+          "ci95_low": 0.0005686102802366887,
+          "ci95_high": 0.010087473080098847
+        },
+        "p_feasible": {
+          "mean": 0.3893075726734782,
+          "std": 0.11001446277037316,
+          "ci95_low": 0.2648144884708333,
+          "ci95_high": 0.5138006568761231
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.49422454039627084,
+          "std": 0.051250410452553366,
+          "ci95_low": 0.43622924138538427,
+          "ci95_high": 0.5522198394071575
+        },
+        "n_evals": {
+          "mean": 116.0,
+          "std": 5.656854249492381,
+          "ci95_low": 109.59866680552663,
+          "ci95_high": 122.40133319447337
+        },
+        "time_s": {
+          "mean": 1.2246025316666689,
+          "std": 0.04517775414544681,
+          "ci95_low": 1.1734790901728462,
+          "ci95_high": 1.2757259731604915
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
+      },
+      "frac_beating_uniform_ratio": 0.3333333333333333,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_sub10",
+      "method": "qaoa",
+      "variant": "penalty+x lam=3",
+      "p": 2,
+      "n_instances": 3,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.0021713111259481417,
+          "std": 0.0012826146543771556,
+          "ci95_low": 0.0007198960106445708,
+          "ci95_high": 0.0036227262412517128
+        },
+        "p_feasible": {
+          "mean": 0.22397586737274758,
+          "std": 0.05368099834123771,
+          "ci95_low": 0.16323009924109194,
+          "ci95_high": 0.2847216355044032
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.4658931461482214,
+          "std": 0.02853195892222129,
+          "ci95_low": 0.43360619518628785,
+          "ci95_high": 0.498180097110155
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.2520383606666694,
+          "std": 0.017595185973959773,
+          "ci95_low": 1.2321275333639954,
+          "ci95_high": 1.2719491879693434
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
+      },
+      "frac_beating_uniform_ratio": 0.0,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_sub10",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10",
+      "p": 2,
+      "n_instances": 3,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.005385424724899238,
+          "std": 0.0038554787320467113,
+          "ci95_low": 0.0010225398246472275,
+          "ci95_high": 0.009748309625151247
+        },
+        "p_feasible": {
+          "mean": 0.42243413363123894,
+          "std": 0.13143622888175893,
+          "ci95_low": 0.2737000390639795,
+          "ci95_high": 0.5711682281984984
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.4850762900814745,
+          "std": 0.035491637040869016,
+          "ci95_low": 0.4449137219304031,
+          "ci95_high": 0.5252388582325459
+        },
+        "n_evals": {
+          "mean": 114.66666666666667,
+          "std": 7.542472332656507,
+          "ci95_low": 106.13155574070217,
+          "ci95_high": 123.20177759263117
+        },
+        "time_s": {
+          "mean": 1.202062947666666,
+          "std": 0.10764787525150556,
+          "ci95_low": 1.080247909348536,
+          "ci95_high": 1.323877985984796
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
+      },
+      "frac_beating_uniform_ratio": 0.6666666666666666,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_sub10",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10 ramp",
+      "p": 2,
+      "n_instances": 3,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.006137963803814217,
+          "std": 0.005221926815082905,
+          "ci95_low": 0.000228797333156003,
+          "ci95_high": 0.01204713027447243
+        },
+        "p_feasible": {
+          "mean": 0.35218665069683674,
+          "std": 0.19569215812550594,
+          "ci95_low": 0.1307401271595998,
+          "ci95_high": 0.5736331742340737
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.48384644476533895,
+          "std": 0.03075774934642859,
+          "ci95_low": 0.4490407748302769,
+          "ci95_high": 0.5186521147004011
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.252598342666668,
+          "std": 0.013408791734021468,
+          "ci95_low": 1.237424866413064,
+          "ci95_high": 1.267771818920272
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
+      },
+      "frac_beating_uniform_ratio": 0.6666666666666666,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_sub10",
+      "method": "qaoa",
+      "variant": "xy+dicke",
+      "p": 2,
+      "n_instances": 3,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.04472562860919593,
+          "std": 0.046415217027130376,
+          "ci95_low": -0.0077981339592169754,
+          "ci95_high": 0.09724939117760883
+        },
+        "p_feasible": {
+          "mean": 1.0000000000000002,
+          "std": 1.800479181327181e-15,
+          "ci95_low": 0.9999999999999982,
+          "ci95_high": 1.0000000000000022
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.6468479093064724,
+          "std": 0.027238200095726205,
+          "ci95_low": 0.6160249842777559,
+          "ci95_high": 0.6776708343351889
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.2935183303333322,
+          "std": 0.28697881695942984,
+          "ci95_low": 0.9687712277757677,
+          "ci95_high": 1.6182654328908965
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
       },
       "frac_beating_uniform_ratio": 1.0,
       "frac_beating_uniform_p_optimal": 1.0
+    },
+    {
+      "dataset": "real_penmanshiel_sub10",
+      "method": "qaoa",
+      "variant": "xy+dicke ramp",
+      "p": 2,
+      "n_instances": 3,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.016192844252845742,
+          "std": 0.018914810368965668,
+          "ci95_low": -0.00521127862921264,
+          "ci95_high": 0.037596967134904125
+        },
+        "p_feasible": {
+          "mean": 0.9999999999999991,
+          "std": 5.285718846720614e-16,
+          "ci95_low": 0.9999999999999986,
+          "ci95_high": 0.9999999999999997
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5236003188698398,
+          "std": 0.01759635454466914,
+          "ci95_low": 0.503688169204923,
+          "ci95_high": 0.5435124685347567
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.3252215356666663,
+          "std": 0.19883162495161402,
+          "ci95_low": 1.1002223709757852,
+          "ci95_high": 1.5502207003575474
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.3333333333333333
+    },
+    {
+      "dataset": "real_penmanshiel_sub10",
+      "method": "qaoa",
+      "variant": "penalty+x lam=1",
+      "p": 3,
+      "n_instances": 3,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.004053090878930652,
+          "std": 0.003927125465154223,
+          "ci95_low": -0.0003908699321878697,
+          "ci95_high": 0.008497051690049173
+        },
+        "p_feasible": {
+          "mean": 0.27561418220814976,
+          "std": 0.05970542251450357,
+          "ci95_low": 0.20805113635692496,
+          "ci95_high": 0.34317722805937456
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.4710958753252877,
+          "std": 0.02666327279759075,
+          "ci95_low": 0.4409235417800434,
+          "ci95_high": 0.5012682088705319
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.4966355189999991,
+          "std": 0.11851043541363522,
+          "ci95_low": 1.3625283366958287,
+          "ci95_high": 1.6307427013041695
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
+      },
+      "frac_beating_uniform_ratio": 0.0,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_sub10",
+      "method": "qaoa",
+      "variant": "penalty+x lam=3",
+      "p": 3,
+      "n_instances": 3,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.005870173457006043,
+          "std": 0.0057691322278589,
+          "ci95_low": -0.0006582142306939247,
+          "ci95_high": 0.01239856114470601
+        },
+        "p_feasible": {
+          "mean": 0.31079390435696624,
+          "std": 0.15602676993089348,
+          "ci95_low": 0.13423299302100347,
+          "ci95_high": 0.48735481569292904
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.4624522035171079,
+          "std": 0.022064657612748142,
+          "ci95_low": 0.43748369293300565,
+          "ci95_high": 0.4874207141012102
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.6614815906666653,
+          "std": 0.03698339148025102,
+          "ci95_low": 1.6196309434543956,
+          "ci95_high": 1.703332237878935
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
+      },
+      "frac_beating_uniform_ratio": 0.3333333333333333,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_sub10",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10",
+      "p": 3,
+      "n_instances": 3,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.0034832484906545543,
+          "std": 0.0022839791315934633,
+          "ci95_low": 0.0008986827964145654,
+          "ci95_high": 0.006067814184894544
+        },
+        "p_feasible": {
+          "mean": 0.2558578605410393,
+          "std": 0.1464923438814952,
+          "ci95_low": 0.09008616795960636,
+          "ci95_high": 0.4216295531224723
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.4802322127560629,
+          "std": 0.02870553286978664,
+          "ci95_low": 0.4477488443820411,
+          "ci95_high": 0.5127155811300848
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.5429061586666701,
+          "std": 0.019777364405752066,
+          "ci95_low": 1.5205259640061666,
+          "ci95_high": 1.5652863533271737
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
+      },
+      "frac_beating_uniform_ratio": 0.6666666666666666,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_sub10",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10 ramp",
+      "p": 3,
+      "n_instances": 3,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.010057297861157681,
+          "std": 0.009831689461848604,
+          "ci95_low": -0.001068306111321032,
+          "ci95_high": 0.021182901833636393
+        },
+        "p_feasible": {
+          "mean": 0.5134766908016265,
+          "std": 0.2265887332074745,
+          "ci95_low": 0.25706740122078997,
+          "ci95_high": 0.769885980382463
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.48645091012754443,
+          "std": 0.0335494055712144,
+          "ci95_low": 0.448486183785667,
+          "ci95_high": 0.5244156364694219
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.5313782950000008,
+          "std": 0.07188822657118185,
+          "ci95_low": 1.450029108553625,
+          "ci95_high": 1.6127274814463766
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_sub10",
+      "method": "qaoa",
+      "variant": "xy+dicke",
+      "p": 3,
+      "n_instances": 3,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.05395345738961746,
+          "std": 0.04637272726763603,
+          "ci95_low": 0.00147777651040501,
+          "ci95_high": 0.10642913826882991
+        },
+        "p_feasible": {
+          "mean": 1.0000000000000002,
+          "std": 1.1102230246251565e-15,
+          "ci95_low": 0.999999999999999,
+          "ci95_high": 1.0000000000000016
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.6596161446575786,
+          "std": 0.02647631583321154,
+          "ci95_low": 0.6296553728336083,
+          "ci95_high": 0.6895769164815488
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.6696259453333344,
+          "std": 0.07042079372402674,
+          "ci95_low": 1.589937315475631,
+          "ci95_high": 1.7493145751910377
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 1.0
+    },
+    {
+      "dataset": "real_penmanshiel_sub10",
+      "method": "qaoa",
+      "variant": "xy+dicke ramp",
+      "p": 3,
+      "n_instances": 3,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.013953361817185194,
+          "std": 0.017285952040753838,
+          "ci95_low": -0.0056075343481140575,
+          "ci95_high": 0.03351425798248445
+        },
+        "p_feasible": {
+          "mean": 1.0,
+          "std": 1.7682429321357018e-15,
+          "ci95_low": 0.999999999999998,
+          "ci95_high": 1.000000000000002
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.501130669254652,
+          "std": 0.03894995434506438,
+          "ci95_low": 0.45705464666760076,
+          "ci95_high": 0.5452066918417032
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.3419809739999995,
+          "std": 0.13505144043198558,
+          "ci95_low": 1.1891558824438064,
+          "ci95_high": 1.4948060655561926
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.01521164021164021,
+        "uniform_feasible_ratio": 0.4830050486150477,
+        "random_p_hit": 0.9936700434690762
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.3333333333333333
     },
     {
       "dataset": "synthetic",
       "method": "exact",
       "variant": "exact",
       "p": null,
-      "n_instances": 2,
+      "n_instances": 24,
       "metrics": {
         "energy_gap": {
           "mean": 0.0,
@@ -1522,10 +1224,10 @@
           "ci95_high": 0.0
         },
         "time_s": {
-          "mean": 0.0016665500588715076,
-          "std": 5.149981006979942e-06,
-          "ci95_low": 0.0016594125493451935,
-          "ci95_high": 0.0016736875683978217
+          "mean": 0.12857990920833254,
+          "std": 0.17144534905840975,
+          "ci95_low": 0.05998748396047801,
+          "ci95_high": 0.19717233445618706
         }
       }
     },
@@ -1534,7 +1236,7 @@
       "method": "sa",
       "variant": "sa",
       "p": null,
-      "n_instances": 2,
+      "n_instances": 24,
       "metrics": {
         "energy_gap": {
           "mean": 0.0,
@@ -1543,10 +1245,10 @@
           "ci95_high": 0.0
         },
         "time_s": {
-          "mean": 0.36457255005370826,
-          "std": 0.003927149926312268,
-          "ci95_low": 0.35912979794019023,
-          "ci95_high": 0.3700153021672263
+          "mean": 0.5654291145833383,
+          "std": 0.1574984145266966,
+          "ci95_low": 0.5024166252716714,
+          "ci95_high": 0.6284416038950053
         }
       }
     },
@@ -1555,19 +1257,19 @@
       "method": "greedy",
       "variant": "greedy",
       "p": null,
-      "n_instances": 2,
+      "n_instances": 24,
       "metrics": {
         "energy_gap": {
-          "mean": 0.0,
-          "std": 0.0,
-          "ci95_low": 0.0,
-          "ci95_high": 0.0
+          "mean": 0.01289855009319337,
+          "std": 0.04651362596028545,
+          "ci95_low": -0.0057107760227374845,
+          "ci95_high": 0.03150787620912422
         },
         "time_s": {
-          "mean": 0.0009102000622078776,
-          "std": 3.190001007169485e-05,
-          "ci95_low": 0.0008659889038623131,
-          "ci95_high": 0.0009544112205534422
+          "mean": 0.005006021208325014,
+          "std": 0.0039139348780262645,
+          "ci95_low": 0.003440121129842725,
+          "ci95_high": 0.006571921286807302
         }
       }
     },
@@ -1576,45 +1278,45 @@
       "method": "qaoa",
       "variant": "penalty+x lam=1",
       "p": 1,
-      "n_instances": 2,
+      "n_instances": 24,
       "metrics": {
         "p_optimal": {
-          "mean": 0.012976073084685546,
-          "std": 0.011229017282737284,
-          "ci95_low": -0.0025865508780160192,
-          "ci95_high": 0.02853869704738711
+          "mean": 0.007316197789074876,
+          "std": 0.010826390307394825,
+          "ci95_low": 0.002984739560884171,
+          "ci95_high": 0.01164765601726558
         },
         "p_feasible": {
-          "mean": 0.2386558269202636,
-          "std": 0.20557886623944804,
-          "ci95_low": -0.04626194543738599,
-          "ci95_high": 0.5235735992779131
+          "mean": 0.2626854097749873,
+          "std": 0.17187920075183996,
+          "ci95_low": 0.19391940769921817,
+          "ci95_high": 0.3314514118507564
         },
         "approx_ratio_feasible": {
-          "mean": 0.4457947189101036,
-          "std": 0.01241622738354431,
-          "ci95_low": 0.42858670569397334,
-          "ci95_high": 0.46300273212623383
+          "mean": 0.5536151080787204,
+          "std": 0.08657028711493572,
+          "ci95_low": 0.5189797797934749,
+          "ci95_high": 0.5882504363639659
         },
         "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
+          "mean": 84.29166666666667,
+          "std": 22.7970743127758,
+          "ci95_low": 75.17093738321367,
+          "ci95_high": 93.41239595011967
         },
         "time_s": {
-          "mean": 0.18488600000273436,
-          "std": 0.025463099940679967,
-          "ci95_low": 0.14959594395208664,
-          "ci95_high": 0.22017605605338209
+          "mean": 1.353111815916673,
+          "std": 0.5907926210414999,
+          "ci95_low": 1.116745539908993,
+          "ci95_high": 1.5894780919243532
         }
       },
       "baselines": {
-        "uniform_feasible_p_optimal": 0.06666666666666667,
-        "uniform_feasible_ratio": 0.5763621498887701,
-        "random_p_hit": 0.9999989829195078
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
       },
-      "frac_beating_uniform_ratio": 0.0,
+      "frac_beating_uniform_ratio": 0.5,
       "frac_beating_uniform_p_optimal": 0.0
     },
     {
@@ -1622,45 +1324,45 @@
       "method": "qaoa",
       "variant": "penalty+x lam=3",
       "p": 1,
-      "n_instances": 2,
+      "n_instances": 24,
       "metrics": {
         "p_optimal": {
-          "mean": 0.014289425888980103,
-          "std": 0.0011183899940943147,
-          "ci95_low": 0.012739416437262969,
-          "ci95_high": 0.015839435340697237
+          "mean": 0.006180867919689255,
+          "std": 0.00806767021739644,
+          "ci95_low": 0.0029531275968965025,
+          "ci95_high": 0.009408608242482007
         },
         "p_feasible": {
-          "mean": 0.19419520730472223,
-          "std": 0.03692493065450107,
-          "ci95_low": 0.1430198643378664,
-          "ci95_high": 0.24537055027157806
+          "mean": 0.2937601595541725,
+          "std": 0.1598560999211998,
+          "ci95_low": 0.22980439963138322,
+          "ci95_high": 0.3577159194769618
         },
         "approx_ratio_feasible": {
-          "mean": 0.6007790059847752,
-          "std": 0.034228181668482516,
-          "ci95_low": 0.5533411664284558,
-          "ci95_high": 0.6482168455410946
+          "mean": 0.584923893363365,
+          "std": 0.0677829644356652,
+          "ci95_low": 0.5578050595970006,
+          "ci95_high": 0.6120427271297295
         },
         "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
+          "mean": 90.125,
+          "std": 17.723131072132823,
+          "ci95_low": 83.0342707973721,
+          "ci95_high": 97.2157292026279
         },
         "time_s": {
-          "mean": 0.16047895001247525,
-          "std": 0.011060750111937523,
-          "ci95_low": 0.14514953245051992,
-          "ci95_high": 0.17580836757443058
+          "mean": 1.4373176035416695,
+          "std": 0.6449137230813503,
+          "ci95_low": 1.179298377095916,
+          "ci95_high": 1.695336829987423
         }
       },
       "baselines": {
-        "uniform_feasible_p_optimal": 0.06666666666666667,
-        "uniform_feasible_ratio": 0.5763621498887701,
-        "random_p_hit": 0.9999989829195078
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
       },
-      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_ratio": 0.5833333333333334,
       "frac_beating_uniform_p_optimal": 0.0
     },
     {
@@ -1668,45 +1370,45 @@
       "method": "qaoa",
       "variant": "penalty+x lam=10",
       "p": 1,
-      "n_instances": 2,
+      "n_instances": 24,
       "metrics": {
         "p_optimal": {
-          "mean": 0.015275350297370122,
-          "std": 0.00450890887180701,
-          "ci95_low": 0.009026321420916555,
-          "ci95_high": 0.021524379173823688
+          "mean": 0.009503831402359756,
+          "std": 0.011186292520868927,
+          "ci95_low": 0.005028382300051788,
+          "ci95_high": 0.013979280504667724
         },
         "p_feasible": {
-          "mean": 0.22441645350575704,
-          "std": 0.06821659673278233,
-          "ci95_low": 0.12987307395288883,
-          "ci95_high": 0.31895983305862524
+          "mean": 0.4151238705743558,
+          "std": 0.1163873962818655,
+          "ci95_low": 0.36855921412201625,
+          "ci95_high": 0.46168852702669533
         },
         "approx_ratio_feasible": {
-          "mean": 0.5927739061654345,
-          "std": 0.06793012208427324,
-          "ci95_low": 0.49862756021909993,
-          "ci95_high": 0.686920252111769
+          "mean": 0.5825610449729502,
+          "std": 0.06784401975410867,
+          "ci95_low": 0.5554177839917951,
+          "ci95_high": 0.6097043059541054
         },
         "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
+          "mean": 102.66666666666667,
+          "std": 18.18118685772619,
+          "ci95_low": 95.39267698246131,
+          "ci95_high": 109.94065635087203
         },
         "time_s": {
-          "mean": 0.1687700500478968,
-          "std": 0.008396349963732064,
-          "ci95_low": 0.1571333026946189,
-          "ci95_high": 0.1804067974011747
+          "mean": 1.5759742088333415,
+          "std": 0.5569524103743796,
+          "ci95_low": 1.3531468368163746,
+          "ci95_high": 1.7988015808503084
         }
       },
       "baselines": {
-        "uniform_feasible_p_optimal": 0.06666666666666667,
-        "uniform_feasible_ratio": 0.5763621498887701,
-        "random_p_hit": 0.9999989829195078
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
       },
-      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_ratio": 0.6666666666666666,
       "frac_beating_uniform_p_optimal": 0.0
     },
     {
@@ -1714,45 +1416,45 @@
       "method": "qaoa",
       "variant": "penalty+x lam=10 ramp",
       "p": 1,
-      "n_instances": 2,
+      "n_instances": 24,
       "metrics": {
         "p_optimal": {
-          "mean": 0.024121448350060304,
-          "std": 0.0004034190336505133,
-          "ci95_low": 0.02356233809472646,
-          "ci95_high": 0.024680558605394146
+          "mean": 0.011031377346994983,
+          "std": 0.01335905470837749,
+          "ci95_low": 0.005686642325024819,
+          "ci95_high": 0.01637611236896515
         },
         "p_feasible": {
-          "mean": 0.4180860200025174,
-          "std": 0.040576534354403754,
-          "ci95_low": 0.36184981250838366,
-          "ci95_high": 0.4743222274966511
+          "mean": 0.4356603575408622,
+          "std": 0.12560111122104928,
+          "ci95_low": 0.3854094473832344,
+          "ci95_high": 0.48591126769848997
         },
         "approx_ratio_feasible": {
-          "mean": 0.5452279027167191,
-          "std": 0.07040420201621686,
-          "ci95_low": 0.44765265692411776,
-          "ci95_high": 0.6428031485093203
+          "mean": 0.5792916436395102,
+          "std": 0.060311949828868644,
+          "ci95_low": 0.5551618382355759,
+          "ci95_high": 0.6034214490434446
         },
         "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
+          "mean": 110.83333333333333,
+          "std": 13.151890442906764,
+          "ci95_low": 105.57148127944232,
+          "ci95_high": 116.09518538722433
         },
         "time_s": {
-          "mean": 0.16828670003451407,
-          "std": 0.0022613999899476767,
-          "ci95_low": 0.16515255954949437,
-          "ci95_high": 0.17142084051953377
+          "mean": 1.7386707103333332,
+          "std": 0.6480043615723668,
+          "ci95_low": 1.4794149709647884,
+          "ci95_high": 1.997926449701878
         }
       },
       "baselines": {
-        "uniform_feasible_p_optimal": 0.06666666666666667,
-        "uniform_feasible_ratio": 0.5763621498887701,
-        "random_p_hit": 0.9999989829195078
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
       },
-      "frac_beating_uniform_ratio": 0.0,
+      "frac_beating_uniform_ratio": 0.7083333333333334,
       "frac_beating_uniform_p_optimal": 0.0
     },
     {
@@ -1760,92 +1462,644 @@
       "method": "qaoa",
       "variant": "xy+dicke",
       "p": 1,
-      "n_instances": 2,
+      "n_instances": 24,
       "metrics": {
         "p_optimal": {
-          "mean": 0.08650873228544817,
-          "std": 0.023577868265627556,
-          "ci95_low": 0.053831474033813415,
-          "ci95_high": 0.11918599053708293
+          "mean": 0.05029652831340666,
+          "std": 0.0773481675976313,
+          "ci95_low": 0.01935081626500623,
+          "ci95_high": 0.08124224036180709
         },
         "p_feasible": {
-          "mean": 1.0000000000000007,
-          "std": 2.220446049250313e-16,
-          "ci95_low": 1.0000000000000004,
+          "mean": 1.0000000000000002,
+          "std": 1.4125379366180494e-15,
+          "ci95_low": 0.9999999999999997,
           "ci95_high": 1.0000000000000009
         },
         "approx_ratio_feasible": {
-          "mean": 0.6746844701642786,
-          "std": 0.05957982158149944,
-          "ci95_low": 0.5921110502744393,
-          "ci95_high": 0.7572578900541178
+          "mean": 0.6869281210177077,
+          "std": 0.06215715724012568,
+          "ci95_low": 0.6620600788980003,
+          "ci95_high": 0.7117961631374151
         },
         "n_evals": {
-          "mean": 20.0,
-          "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
+          "mean": 117.83333333333333,
+          "std": 7.191816336797138,
+          "ci95_low": 114.95600754300237,
+          "ci95_high": 120.71065912366429
         },
         "time_s": {
-          "mean": 0.13328129996079952,
-          "std": 0.011234300094656646,
-          "ci95_low": 0.1177113543943194,
-          "ci95_high": 0.14885124552727963
+          "mean": 2.0177789737500027,
+          "std": 1.6487984301172143,
+          "ci95_low": 1.3581222161434459,
+          "ci95_high": 2.6774357313565593
         }
       },
       "baselines": {
-        "uniform_feasible_p_optimal": 0.06666666666666667,
-        "uniform_feasible_ratio": 0.5763621498887701,
-        "random_p_hit": 0.9999989829195078
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
       },
       "frac_beating_uniform_ratio": 1.0,
-      "frac_beating_uniform_p_optimal": 0.5
+      "frac_beating_uniform_p_optimal": 0.9166666666666666
     },
     {
       "dataset": "synthetic",
       "method": "qaoa",
       "variant": "xy+dicke ramp",
       "p": 1,
-      "n_instances": 2,
+      "n_instances": 24,
       "metrics": {
         "p_optimal": {
-          "mean": 0.06547534160431873,
-          "std": 0.006375694546356801,
-          "ci95_low": 0.05663907978125288,
-          "ci95_high": 0.07431160342738458
+          "mean": 0.03020241426762678,
+          "std": 0.03630347187033417,
+          "ci95_low": 0.01567800054523925,
+          "ci95_high": 0.0447268279900143
         },
         "p_feasible": {
           "mean": 1.0000000000000002,
-          "std": 0.0,
-          "ci95_low": 1.0000000000000002,
-          "ci95_high": 1.0000000000000002
+          "std": 9.87308129470832e-16,
+          "ci95_low": 0.9999999999999998,
+          "ci95_high": 1.0000000000000007
         },
         "approx_ratio_feasible": {
-          "mean": 0.7104069772830199,
-          "std": 0.028292849460564262,
-          "ci95_low": 0.6711950884862159,
-          "ci95_high": 0.749618866079824
+          "mean": 0.6782018364963491,
+          "std": 0.056460891035508526,
+          "ci95_low": 0.6556127754979025,
+          "ci95_high": 0.7007908974947957
         },
         "n_evals": {
-          "mean": 20.0,
+          "mean": 120.0,
           "std": 0.0,
-          "ci95_low": 20.0,
-          "ci95_high": 20.0
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
         },
         "time_s": {
-          "mean": 0.12267430010251701,
-          "std": 0.007929099956527352,
-          "ci95_low": 0.11168512822050276,
-          "ci95_high": 0.13366347198453124
+          "mean": 2.0243327146250016,
+          "std": 1.630248208519198,
+          "ci95_low": 1.3720975913484585,
+          "ci95_high": 2.676567837901545
         }
       },
       "baselines": {
-        "uniform_feasible_p_optimal": 0.06666666666666667,
-        "uniform_feasible_ratio": 0.5763621498887701,
-        "random_p_hit": 0.9999989829195078
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
       },
       "frac_beating_uniform_ratio": 1.0,
-      "frac_beating_uniform_p_optimal": 0.5
+      "frac_beating_uniform_p_optimal": 0.75
+    },
+    {
+      "dataset": "synthetic",
+      "method": "qaoa",
+      "variant": "penalty+x lam=1",
+      "p": 2,
+      "n_instances": 24,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.011857333296086126,
+          "std": 0.015114726528458243,
+          "ci95_low": 0.005810183255335686,
+          "ci95_high": 0.017904483336836564
+        },
+        "p_feasible": {
+          "mean": 0.3786261698078805,
+          "std": 0.21159922614701568,
+          "ci95_low": 0.2939688479166449,
+          "ci95_high": 0.4632834916991161
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5906945333337675,
+          "std": 0.14053766995166136,
+          "ci95_low": 0.534467755100298,
+          "ci95_high": 0.6469213115672371
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.5624197827083393,
+          "std": 1.0808650622961005,
+          "ci95_low": 2.1299836950819295,
+          "ci95_high": 2.994855870334749
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
+      },
+      "frac_beating_uniform_ratio": 0.4166666666666667,
+      "frac_beating_uniform_p_optimal": 0.125
+    },
+    {
+      "dataset": "synthetic",
+      "method": "qaoa",
+      "variant": "penalty+x lam=3",
+      "p": 2,
+      "n_instances": 24,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.012350159444442671,
+          "std": 0.018331143550819728,
+          "ci95_low": 0.005016174587910246,
+          "ci95_high": 0.019684144300975096
+        },
+        "p_feasible": {
+          "mean": 0.42172774712346256,
+          "std": 0.23612938371702877,
+          "ci95_low": 0.32725631823731527,
+          "ci95_high": 0.5161991760096099
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5923938892632572,
+          "std": 0.07477494697719886,
+          "ci95_low": 0.5624776798757491,
+          "ci95_high": 0.6223100986507653
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.5384541659166686,
+          "std": 1.0690456151496595,
+          "ci95_low": 2.110746842000186,
+          "ci95_high": 2.9661614898331514
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
+      },
+      "frac_beating_uniform_ratio": 0.625,
+      "frac_beating_uniform_p_optimal": 0.08333333333333333
+    },
+    {
+      "dataset": "synthetic",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10",
+      "p": 2,
+      "n_instances": 24,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.011357110988490376,
+          "std": 0.01466000806420312,
+          "ci95_low": 0.005491886222700954,
+          "ci95_high": 0.0172223357542798
+        },
+        "p_feasible": {
+          "mean": 0.4330838852782864,
+          "std": 0.19424515723501112,
+          "ci95_low": 0.35536963697365037,
+          "ci95_high": 0.5107981335829224
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.577953013845862,
+          "std": 0.06543524023022543,
+          "ci95_low": 0.5517734653849818,
+          "ci95_high": 0.6041325623067421
+        },
+        "n_evals": {
+          "mean": 117.70833333333333,
+          "std": 6.294701254935686,
+          "ci95_low": 115.18992832755127,
+          "ci95_high": 120.22673833911539
+        },
+        "time_s": {
+          "mean": 2.4804943168750087,
+          "std": 1.0394264429582076,
+          "ci95_low": 2.064637129842399,
+          "ci95_high": 2.8963515039076184
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
+      },
+      "frac_beating_uniform_ratio": 0.5,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "synthetic",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10 ramp",
+      "p": 2,
+      "n_instances": 24,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.011843109326303223,
+          "std": 0.016817175288604425,
+          "ci95_low": 0.0051148379255394226,
+          "ci95_high": 0.018571380727067023
+        },
+        "p_feasible": {
+          "mean": 0.3720558741701405,
+          "std": 0.23318555762376075,
+          "ci95_low": 0.2787622210145928,
+          "ci95_high": 0.46534952732568824
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5740552280970408,
+          "std": 0.06946018542622256,
+          "ci95_low": 0.5462653661805936,
+          "ci95_high": 0.601845090013488
+        },
+        "n_evals": {
+          "mean": 119.375,
+          "std": 2.077909606631947,
+          "ci95_low": 118.54366301624698,
+          "ci95_high": 120.20633698375302
+        },
+        "time_s": {
+          "mean": 2.4661630644166657,
+          "std": 0.9921290040228212,
+          "ci95_low": 2.0692287940009724,
+          "ci95_high": 2.863097334832359
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
+      },
+      "frac_beating_uniform_ratio": 0.5833333333333334,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "synthetic",
+      "method": "qaoa",
+      "variant": "xy+dicke",
+      "p": 2,
+      "n_instances": 24,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.06483112991448393,
+          "std": 0.09950069718326006,
+          "ci95_low": 0.02502256017995607,
+          "ci95_high": 0.10463969964901179
+        },
+        "p_feasible": {
+          "mean": 1.0,
+          "std": 1.4161691455314375e-15,
+          "ci95_low": 0.9999999999999994,
+          "ci95_high": 1.0000000000000007
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.7047455780488437,
+          "std": 0.06893295947564719,
+          "ci95_low": 0.677166650443547,
+          "ci95_high": 0.7323245056541405
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.401017493500003,
+          "std": 1.7163092974519492,
+          "ci95_low": 1.714350763639851,
+          "ci95_high": 3.087684223360155
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.8333333333333334
+    },
+    {
+      "dataset": "synthetic",
+      "method": "qaoa",
+      "variant": "xy+dicke ramp",
+      "p": 2,
+      "n_instances": 24,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.03789490241344983,
+          "std": 0.0405573887830488,
+          "ci95_low": 0.021668567469819062,
+          "ci95_high": 0.054121237357080604
+        },
+        "p_feasible": {
+          "mean": 0.9999999999999997,
+          "std": 1.2538231198771572e-15,
+          "ci95_low": 0.9999999999999991,
+          "ci95_high": 1.0000000000000002
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.7210383784349036,
+          "std": 0.0499788751452633,
+          "ci95_low": 0.7010426639042902,
+          "ci95_high": 0.741034092965517
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.3292087261666574,
+          "std": 1.6752113138921125,
+          "ci95_low": 1.658984614205724,
+          "ci95_high": 2.999432838127591
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.7916666666666666
+    },
+    {
+      "dataset": "synthetic",
+      "method": "qaoa",
+      "variant": "penalty+x lam=1",
+      "p": 3,
+      "n_instances": 24,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.013605111081418375,
+          "std": 0.023421382408843252,
+          "ci95_low": 0.004234606539281937,
+          "ci95_high": 0.022975615623554813
+        },
+        "p_feasible": {
+          "mean": 0.3517787815130388,
+          "std": 0.21422299764350383,
+          "ci95_low": 0.2660717323983543,
+          "ci95_high": 0.43748583062772334
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5749299323445753,
+          "std": 0.12914485093155412,
+          "ci95_low": 0.5232612310218583,
+          "ci95_high": 0.6265986336672924
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 3.079106680124996,
+          "std": 1.3094435489089256,
+          "ci95_low": 2.5552201516300137,
+          "ci95_high": 3.6029932086199787
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
+      },
+      "frac_beating_uniform_ratio": 0.5416666666666666,
+      "frac_beating_uniform_p_optimal": 0.16666666666666666
+    },
+    {
+      "dataset": "synthetic",
+      "method": "qaoa",
+      "variant": "penalty+x lam=3",
+      "p": 3,
+      "n_instances": 24,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.010240456850699098,
+          "std": 0.016314062778218553,
+          "ci95_low": 0.0037134723757657915,
+          "ci95_high": 0.016767441325632404
+        },
+        "p_feasible": {
+          "mean": 0.42428485237746383,
+          "std": 0.2103754490101754,
+          "ci95_low": 0.34011714331177156,
+          "ci95_high": 0.5084525614431561
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.573415514179164,
+          "std": 0.10205341429711884,
+          "ci95_low": 0.5325856448948209,
+          "ci95_high": 0.6142453834635072
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 3.047493471208339,
+          "std": 1.2935943950296804,
+          "ci95_low": 2.529947924890327,
+          "ci95_high": 3.5650390175263507
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
+      },
+      "frac_beating_uniform_ratio": 0.5416666666666666,
+      "frac_beating_uniform_p_optimal": 0.041666666666666664
+    },
+    {
+      "dataset": "synthetic",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10",
+      "p": 3,
+      "n_instances": 24,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.010469169816815999,
+          "std": 0.01329391442169843,
+          "ci95_low": 0.0051504963373093455,
+          "ci95_high": 0.015787843296322653
+        },
+        "p_feasible": {
+          "mean": 0.3858415901724504,
+          "std": 0.22942624387606708,
+          "ci95_low": 0.2940519757594997,
+          "ci95_high": 0.4776312045854011
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.562126611844833,
+          "std": 0.0683784699257768,
+          "ci95_low": 0.5347695262621347,
+          "ci95_high": 0.5894836974275314
+        },
+        "n_evals": {
+          "mean": 119.875,
+          "std": 0.5994789404140899,
+          "ci95_low": 119.63515847245873,
+          "ci95_high": 120.11484152754127
+        },
+        "time_s": {
+          "mean": 3.0407408306666626,
+          "std": 1.2846901515858036,
+          "ci95_low": 2.5267577236692107,
+          "ci95_high": 3.5547239376641144
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
+      },
+      "frac_beating_uniform_ratio": 0.375,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "synthetic",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10 ramp",
+      "p": 3,
+      "n_instances": 24,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.011195512590267256,
+          "std": 0.015388800009838072,
+          "ci95_low": 0.005038710319886718,
+          "ci95_high": 0.017352314860647797
+        },
+        "p_feasible": {
+          "mean": 0.3723061179035579,
+          "std": 0.2625451880016131,
+          "ci95_low": 0.2672661662158093,
+          "ci95_high": 0.4773460695913065
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5703884281155581,
+          "std": 0.07244353201487308,
+          "ci95_low": 0.5414049789773268,
+          "ci95_high": 0.5993718772537895
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 3.0343551455833278,
+          "std": 1.2897164439445008,
+          "ci95_low": 2.5183611028283224,
+          "ci95_high": 3.550349188338333
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
+      },
+      "frac_beating_uniform_ratio": 0.4166666666666667,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "synthetic",
+      "method": "qaoa",
+      "variant": "xy+dicke",
+      "p": 3,
+      "n_instances": 24,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.07179787994092367,
+          "std": 0.10874749216938742,
+          "ci95_low": 0.028289821725946608,
+          "ci95_high": 0.11530593815590073
+        },
+        "p_feasible": {
+          "mean": 1.0,
+          "std": 1.8179372333962736e-15,
+          "ci95_low": 0.9999999999999992,
+          "ci95_high": 1.0000000000000007
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.7307899064340472,
+          "std": 0.06500558626776685,
+          "ci95_low": 0.7047822553589185,
+          "ci95_high": 0.7567975575091759
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.70798074320833,
+          "std": 1.8478504727785605,
+          "ci95_low": 1.9686865825945354,
+          "ci95_high": 3.447274903822125
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.8333333333333334
+    },
+    {
+      "dataset": "synthetic",
+      "method": "qaoa",
+      "variant": "xy+dicke ramp",
+      "p": 3,
+      "n_instances": 24,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.04563951274798176,
+          "std": 0.047367192031593584,
+          "ci95_low": 0.026688689080429595,
+          "ci95_high": 0.06459033641553392
+        },
+        "p_feasible": {
+          "mean": 0.9999999999999997,
+          "std": 2.716740165752034e-15,
+          "ci95_low": 0.9999999999999986,
+          "ci95_high": 1.0000000000000007
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.7262299223329722,
+          "std": 0.05341240513713935,
+          "ci95_low": 0.7048605097079078,
+          "ci95_high": 0.7475993349580367
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.7371340125000025,
+          "std": 1.8765151153756365,
+          "ci95_low": 1.9863716063759342,
+          "ci95_high": 3.4878964186240706
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5776210495981567,
+        "random_p_hit": 0.947034037410508
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.9166666666666666
     }
   ],
   "caveats": [
@@ -1855,6 +2109,8 @@
     "Random feasible sampling with the same number of shots also finds the optimum almost surely; compare the distributions (P(optimal), approximation ratio), not the best sample.",
     "QAOA with the XY mixer and Dicke start uses a generic exponential-size state preparation in this simulation.",
     "The 95% intervals are normal approximations over instances.",
+    "The real-farm datasets are a curtailment/selection problem (choose K of the existing turbine positions to keep operating), not layout design.",
+    "Kelmarsh (dataset real_kelmarsh, 6 turbines, C(6,K) <= 20 subsets) is a trivial contrast: exact enumeration is instantaneous; it is reported on its own and never averaged with other datasets.",
     "Real datasets use a real wind rose (ERA5 100 m, docs/DATA.md) on a synthetic grid of candidate cells, not a real farm layout; the wake model does not use mean wind speed yet."
   ]
 }
