@@ -19,3 +19,4 @@
 18. [ ] Verify the CC BY 4.0 legal text link and wording for the attribution of the Zenodo farm data (docs/DATA.md says to verify), and the ERA5 `[Year]` notice.
 19. [ ] Hard stop Sunday 2026-10-11 10:00 ART: if the Penmanshiel runs (`real_penmanshiel`, `real_penmanshiel_sub10`, `real_kelmarsh`) are not producing results by then, ship with the ERA5 datasets as primary. Estimated cost of the real-farm grid: at most about 45 min serial, about 15 min with `--jobs 3` (docs/DATA.md).
 20. [ ] Human decision (optional): use the fixed sub-instance `real_penmanshiel_sub10` inside the live Run (today offline only).
+19. [ ] After the `ci/run-experiments` PR is merged: `gh workflow run run-experiments.yml -f quick=true` (test), then `gh workflow run run-experiments.yml` (demo datasets: synthetic, real_penmanshiel_sub10), later the other datasets. Download artifacts, verify, commit `results/` (status final) in a PR.
