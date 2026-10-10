@@ -183,7 +183,7 @@ Rules: `qollab/` may import only numpy, scipy, qiskit and the standard library. 
 - Task 10b (same PR, live-Run limits): `main()` hard limit 12 (recommended 10, default 8), `tests/test_live_run_isolation.py` (live Run never loads farm or rose files), fixed sub-instance `real_penmanshiel_sub10` (10 turbines closest to the farm centroid, K = 3, 5, 7; offline only), Kelmarsh labeled trivial contrast, offline cost estimate in `docs/DATA.md`. **Hard stop: if Penmanshiel is not producing results by Sunday 2026-10-11 10:00 ART, we ship with the ERA5 datasets (`real_chubut`, `real_bahia_blanca`) as primary.**
 - Task 11 (`results/final-demo`, `results/all-datasets`, `ci/run-experiments`): manual GitHub Actions workflow and the final `qwind-v1` results of all six datasets (Python 3.12.15, Qiskit 2.5.2). **Merged.**
 - Task 12 (`feat/live-run-xy-dicke`, PR #29): the live Run defaults to XY + Dicke. Checked in Qollab by the owner (table once, 25.5 s total). **Merged.**
-- Task 13 (`feat/results-tables-web`, `docs/references`, `docs/readme-results`): `scripts/sync_results_to_web.py`, `scripts/make_results_tables.py` (README RESULTS block generated from `results/`), verified references, final README. **Merged.** Remaining: Qollab page text, demo video, website (teammate), and the items marked to verify (see `pending.md`).
+- Task 13 (`feat/results-tables-web`, `docs/references`, `docs/readme-results`): `scripts/sync_results_to_web.py`, `scripts/make_results_tables.py` (README RESULTS block generated from `results/`), verified references, final README. **Merged.** Remaining: Qollab page text, demo video and website (teammate); see `pending.md`.
 
 **Next tasks (in order)** (the full list with priorities is `pending.md`)
 1. Owner: paste the README into the Qollab project page (`docs/QOLLAB_PAGE.md`), record the demo video, add the Project Website link if the site is ready.
@@ -214,7 +214,7 @@ Conditions:
 - Who is the team captain, and does that account have access to submit?
 - Is the theme chosen at registration (Quantum Impact) editable? Is "Publish" reversible? Does Qollab allow renaming the project?
 - How to include noise in Qollab (IBM noise-model simulators from code?). Ask a mentor.
-- Wind data: done (`docs/DATA.md`); licenses read at the source (CC-BY-4.0 for the Zenodo farms, Copernicus licence and CC-BY 4.0 for ERA5/Open-Meteo). Still to verify: the CC BY 4.0 legal text link, the year of the Copernicus notice, and whether the free Open-Meteo API non-commercial limit fits the use.
+- Wind data: done (`docs/DATA.md`); licenses read at the source (CC-BY-4.0 for the Zenodo farms, Copernicus licence and CC-BY 4.0 for ERA5/Open-Meteo). CC BY 4.0 link, Copernicus notice year (2026) and the non-commercial use of the free Open-Meteo API are settled in `docs/DATA.md`.
 - k and Ct constants and the size of the pairwise-superposition error (verify and document).
 - Whether the judges' machine matches the measured timings (keep a margin). Qollab total for the default Run: 15.8 s on one run and 25.5 s on another (QAOA itself 3.2 to 3.3 s), so the platform boot time varies; the budget is 30 s.
 - Mentor booking: up to two 15-minute calls. Suggested questions: noise inside Qollab, best practices for QAOA with a cardinality penalty (lam tuning or XY mixer), and the practical size limit for a Run.

@@ -22,7 +22,7 @@ Everything is simulated on a CPU (no quantum hardware), and the instances are sm
 
 Click **Run your code** on this page with the built-in simulator selected. Source code, tests and experiments: https://github.com/agustindiazcano/qwind-qaoa-windfarm
 
-The default Run (N = 8 cells, K = 3 turbines, QAOA depth p = 2, seed 0) prints one comparison table (exact enumeration, simulated annealing, greedy search, QAOA with XY mixer + Dicke start), followed by a detail block that compares QAOA with the uniform-over-feasible baseline. In our tests the Run takes about 15 to 25 s including platform start-up (measurements: [docs/QOLLAB_RUNTIME.md](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/docs/QOLLAB_RUNTIME.md)). The Run accepts up to 12 cells (recommended up to 10); larger instances are computed offline and their stored results are shown below.
+The default Run (N = 8 cells, K = 3 turbines, QAOA depth p = 2, seed 0) prints one comparison table (exact enumeration, simulated annealing, greedy search, QAOA with XY mixer + Dicke start), followed by a detail block that compares QAOA with the uniform-over-feasible baseline. In our tests the Run takes about 15 to 25 s in total (measurements: [docs/QOLLAB_RUNTIME.md](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/docs/QOLLAB_RUNTIME.md)). The Run accepts up to 12 cells (recommended up to 10); larger instances are computed offline and their stored results are shown below.
 
 ## Results
 
@@ -77,7 +77,7 @@ Datasets:
 - Classical methods solve these instances exactly or nearly so: simulated annealing reaches gap 0 in every dataset, and greedy search misses by a small margin on two. The best layout sampled from QAOA (1000 shots) is on average not better than the one found by simulated annealing.
 - Penmanshiel, Kelmarsh and `real_penmanshiel_sub10` have 3 instances each, too few for a mean or an interval: read them instance by instance in `results/results_tables.md`. The means above for those rows are only a summary.
 - At N = 14 (`real_penmanshiel`) the probability of sampling the optimal layout is tiny in absolute terms for both QAOA and the uniform baseline; what improves is the distribution over feasible layouts.
-- One run per instance, one simulator, at most 14 cells. Results come from one environment (Python 3.12.15 in GitHub Actions); the Qollab Run uses Python 3.14.2 and gives slightly different values for the same seed. We do not claim reproducibility across environments.
+- One run per instance, one simulator, at most 14 cells. Results come from one environment (Python 3.12.15 in GitHub Actions). A Run on Qollab (Python 3.14.2) can give slightly different values; we do not claim reproducibility across environments.
 
 ## How to run
 
@@ -124,7 +124,7 @@ lam  = penalty weight for the "exactly K turbines" constraint
 - Expectation values with `StatevectorEstimator`, classical optimization with `scipy.optimize` (COBYLA) and multiple seeded restarts, final sampling with `StatevectorSampler`.
 
 ### How the circuit is simulated
-We simulate the full QAOA circuit in Qiskit. `StatevectorEstimator` and `StatevectorSampler` compute the exact expectation values and the exact output distribution on the CPU, so the optimization has no shot noise. We do **not** call `backend.run` inside the optimization loop (project rule): an optimization needs hundreds of evaluations and each backend call goes through the platform's job handling. We have not benchmarked that route ourselves, so this is a design choice, not a measurement. Nothing runs on quantum hardware.
+We simulate the full QAOA circuit in Qiskit. `StatevectorEstimator` and `StatevectorSampler` compute the exact expectation values and the exact output distribution on the CPU, so the optimization has no shot noise. We use these primitives for the optimization loop and do not call `backend.run` inside it. We have not benchmarked `backend.run` for this loop. Nothing runs on quantum hardware.
 
 ### Classical baselines
 Exact enumeration (ground truth), simulated annealing, greedy search with local swaps.
@@ -138,7 +138,7 @@ Exact enumeration (ground truth), simulated annealing, greedy search with local 
 
 ### Run environment (Qollab)
 - Python 3.14 on Qollab (stored results produced with Python 3.12 in GitHub Actions), Qiskit 2.5.2, NumPy, SciPy, built-in simulator.
-- Live Run: default N = 8, recommended up to 10 cells, hard limit 12 (N = 14 took 42.8 s there, over our 30 s budget). Larger instances, including the full 14-turbine Penmanshiel farm, are computed offline and their stored results are included.
+- Live Run: we keep it small so it finishes quickly (default N = 8, recommended up to 10 cells, hard limit 12). Larger instances, including the full 14-turbine Penmanshiel farm, are computed offline and their stored results are included.
 
 ### Repository layout
 ```
@@ -174,12 +174,13 @@ Competing at the **UNICEN** node (Universidad Nacional del Centro de la Provinci
 ## Disclosure
 
 - Built during the official hackathon window. Prior code, templates and forks: none.
+- Process: every change went through a pull request that a team member approved and merged, with automated tests and CI; results come from a fixed protocol run in GitHub Actions.
 - AI tools used: Claude (chat: planning, review) and Claude Code (coding agent, code and documentation assistance), Gemini Antigravity (planning, coding agent and brainstorming, web search), Grok (brainstorming, web search).
 - Libraries: Qiskit, NumPy, SciPy (the offline experiments and the Qollab Run use only these and the standard library; pytest for the tests).
 - Method: QAOA, the constraint-preserving mixer, the Dicke state and the ramp initialization come from the literature in [References](#references). The application to wind-farm turbine selection, the comparative benchmark with controls and the data pipeline are our own work.
 - Wind data and licenses (details in [docs/DATA.md](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/docs/DATA.md)):
-  - Penmanshiel and Kelmarsh wind farm data: Plumley, C. and Takeuchi, R., released by Cubico Sustainable Investments Ltd, Zenodo, CC BY 4.0 ([10.5281/zenodo.16807304](https://doi.org/10.5281/zenodo.16807304), [10.5281/zenodo.16807551](https://doi.org/10.5281/zenodo.16807551)). Adapted: only turbine positions and a 16-sector wind rose from 2019 SCADA were derived.
-  - ERA5 hourly 100 m wind via the Open-Meteo API (CC BY 4.0): contains modified Copernicus Climate Change Service information. Neither the European Commission nor ECMWF is responsible for any use that may be made of the Copernicus information or data it contains.
+  - Penmanshiel and Kelmarsh wind farm data: Plumley, C. and Takeuchi, R., released by Cubico Sustainable Investments Ltd, Zenodo, CC BY 4.0 ([license](https://creativecommons.org/licenses/by/4.0/); [10.5281/zenodo.16807304](https://doi.org/10.5281/zenodo.16807304), [10.5281/zenodo.16807551](https://doi.org/10.5281/zenodo.16807551)). Adapted: only turbine positions and a 16-sector wind rose from 2019 SCADA were derived.
+  - ERA5 hourly 100 m wind via the Open-Meteo API (CC BY 4.0, [license](https://creativecommons.org/licenses/by/4.0/)). Contains modified Copernicus Climate Change Service information 2026. Neither the European Commission nor ECMWF is responsible for any use that may be made of the Copernicus information or data it contains.
 
 ## References
 

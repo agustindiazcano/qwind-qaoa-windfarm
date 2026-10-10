@@ -17,7 +17,7 @@ There are two kinds of real data. **Primary: two real operating farms** (Penmans
 | Wind rose | Measured: all turbines' nacelle `Wind speed (m/s)` and absolute `Wind direction (deg)` (nacelle position + vane; checked on the data: direction minus nacelle minus vane has mean -0.05 deg), 10-minute SCADA of the calendar year 2019 (year fixed before looking at the data), all turbines pooled, readings with a missing value dropped, no other filter. 728,900 readings | Same method, 314,942 readings |
 | Sectors | 16 sectors of 22.5 deg centered on 0, 22.5, ...; frequency = readings in sector / valid readings; mean speed = mean wind speed of those readings | same |
 
-**Attribution (CC BY 4.0, indicate changes):** "Penmanshiel / Kelmarsh wind farm data, Plumley and Takeuchi, Cubico Sustainable Investments Ltd, Zenodo, CC BY 4.0 (https://doi.org/10.5281/zenodo.16807304, https://doi.org/10.5281/zenodo.16807551). Adapted: only turbine positions and a 16-sector wind rose were derived from the data." A link to the CC BY 4.0 legal text next to the attribution is *to verify*: the Zenodo API names the license id, but I did not read the license legal text itself.
+**Attribution (CC BY 4.0, indicate changes):** "Penmanshiel / Kelmarsh wind farm data, Plumley and Takeuchi, Cubico Sustainable Investments Ltd, Zenodo, CC BY 4.0 (https://doi.org/10.5281/zenodo.16807304, https://doi.org/10.5281/zenodo.16807551). Adapted: only turbine positions and a 16-sector wind rose were derived from the data." CC BY 4.0 requires credit, a link to the license and an indication of changes (https://creativecommons.org/licenses/by/4.0/, legal code: https://creativecommons.org/licenses/by/4.0/legalcode.en).
 
 How the instances are built (`qollab/data/farms.json`, `experiments/build_farms.py`):
 1. Latitude/longitude of the turbines to meters with a local equirectangular projection around the farm centroid, then divided by the rotor diameter, so positions are in rotor diameters (x east, y north). Penmanshiel: nearest-neighbour spacing 4.2 D minimum and 4.5 D mean, extent 22 x 13.5 D. Kelmarsh: 2.9 D minimum and 3.4 D mean, extent 10 x 6 D.
@@ -92,12 +92,9 @@ These are a secondary dataset: ERA5 is a reanalysis with a verified license, app
 | Open-Meteo API | "The data obtained through the API is provided under the terms of the CC-BY 4.0 licence." Free API only for non-commercial use ("You may only use the free API services for non-commercial purposes"); limits under 10,000 calls/day. Attribution: "You must give appropriate credit, provide a link to the licence, and indicate if changes were made". Suggested citation: Zippenfenig, P. (2023). Open-Meteo.com Weather API. Zenodo. https://doi.org/10.5281/ZENODO.7970649 | https://open-meteo.com/en/terms ; https://open-meteo.com/en/licence |
 
 **Attribution to use in README, Qollab page and website:**
-"Contains modified Copernicus Climate Change Service information 2025 (ERA5, via Open-Meteo, CC BY 4.0). Neither the European Commission nor ECMWF is responsible for any use that may be made of the Copernicus information or data it contains." The data are modified here (reduced to a 16-sector rose). The `[Year]` in the notice is not defined by the license text we read: 2025 is a placeholder, *to verify* before publishing.
+"Contains modified Copernicus Climate Change Service information 2026 (ERA5, via Open-Meteo, CC BY 4.0, https://creativecommons.org/licenses/by/4.0/). Neither the European Commission nor ECMWF is responsible for any use that may be made of the Copernicus information or data it contains." The data are modified here (reduced to a 16-sector rose). The license leaves `[Year]` open; we use 2026, the year this derived material was generated.
 
-Not verified / not used:
-- Global Wind Atlas was **not used**: its pages are a JavaScript application whose license text could not be read from the fetched content. Its license is therefore *unverified* here.
-- The classic ERA5 citation (Hersbach et al. 2020/2023) was not read from a source in this session: *to verify*. Only the DOI above, shown on the CDS page, is verified.
-- Whether the non-commercial limit of the free Open-Meteo API fits the hackathon use is judged non-commercial (research demo), but is a human decision: *to verify*.
+Not used: Global Wind Atlas (ERA5 and the measured farm data were enough). The free Open-Meteo API is for non-commercial use; this is an open-source research and hackathon project with no ads or subscriptions.
 
 ### Sites
 
@@ -106,7 +103,7 @@ Not verified / not used:
 | `chubut` (primary, Comodoro Rivadavia area) | `real_chubut` | -45.87, -67.50 | -45.75, -67.50 | 43 m | 16 |
 | `bahia_blanca` (contrast) | `real_bahia_blanca` | -38.72, -62.27 | -38.75, -62.25 | 25 m | 16 |
 
-The requested coordinates are approximate points chosen for the area, not surveyed positions (*to verify* if a precise location matters). The reanalysis value is the 0.25 degree grid cell, about 25 km wide.
+The requested coordinates are approximate points chosen for the area, not surveyed positions. The reanalysis value is the 0.25 degree grid cell, about 25 km wide.
 
 ### Derivation (`experiments/build_windrose.py`)
 

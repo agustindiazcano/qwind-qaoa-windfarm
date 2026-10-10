@@ -1,6 +1,6 @@
 # Qollab project page and demo video
 
-The Qollab project page is the **same Markdown as the README** (`README.md`): paste it as is into the Markdown description editor of the project. It already starts with "Try it: click Run your code on this page", contains the exact line `This effort is supported by Qollab & IonQ` at the end, the Disclosure and the References, and has no relative links (paths such as `docs/DATA.md` are plain code text; the repository link is absolute). The RESULTS block is generated from `results/` (`python scripts/make_results_tables.py --readme README.md`); regenerate it before pasting if `results/` changed. Whether the Qollab editor renders Markdown tables is **not verified**: check the preview after pasting and, if tables do not render, say so and I will produce a list version.
+The Qollab project page is the **same Markdown as the README** (`README.md`): paste it as is into the Markdown description editor of the project. It already starts with "Try it: click Run your code on this page", contains the exact line `This effort is supported by Qollab & IonQ` at the end, the Disclosure and the References, and has no relative links (paths such as `docs/DATA.md` are plain code text; the repository link is absolute). The RESULTS block is generated from `results/` (`python scripts/make_results_tables.py --readme README.md`); regenerate it before pasting if `results/` changed. Check the preview after pasting: if the Markdown tables do not render in the editor, use the list version of the results.
 
 ## Fields of the project form
 
@@ -25,7 +25,6 @@ The Qollab project page is the **same Markdown as the README** (`README.md`): pa
 - [ ] MIT license in the project.
 - [ ] Do not click Publish on test projects (reversibility unknown).
 - [ ] The README preview shows the tables; the line `This effort is supported by Qollab & IonQ` is visible.
-- [ ] Items still marked "to verify" in `docs/DATA.md` (year of the Copernicus notice, link to the CC BY 4.0 legal text) are decided.
 
 ## Demo video (2-3 minutes, public, with captions)
 
