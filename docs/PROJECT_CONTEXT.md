@@ -1,6 +1,6 @@
 # QWind: Project Context and Handoff
 
-Last updated: Sat 2026-10-10, ~14:30 ART. Update the "Status" section at the end of every working session.
+Last updated: Sat 2026-10-10, ~14:55 ART. Update the "Status" section at the end of every working session.
 This document lets a new session (human or AI agent) continue without prior conversation history.
 
 ---
@@ -170,18 +170,14 @@ Rules: `qollab/` may import only numpy, scipy, qiskit and the standard library. 
 **Done**
 - Qollab project "QWind" created as Draft; description, long project-page text (with required attribution and disclosure), tags decided.
 - Smoke test in Qollab passed (section 5).
-- Task 1 (`feat/core-model`): wake.py (Jensen), qubo.py, classical.py, tests/test_core.py, docs/model.md. **PR #5 open, pending human review.**
-
-**Review items for PR #5**
-- Remove the stray `example.py` if it is not wanted (declare it in Disclosure if it is Qollab template code).
-- Mutation check: deliberately reverse the qubit order and confirm the test fails. The ordering test must rely on site-dependent diagonal energies (not the symmetric J).
-- The test took ~15 s, probably because of a dense 4096x4096 `to_matrix()` at 12 qubits; compute the diagonal directly or test the Hamiltonian at 8-10 cells.
-- Cite sources for k and Ct in docs/model.md.
+- Task 1 (`feat/core-model`): wake.py (Jensen), qubo.py, classical.py, tests/test_core.py, docs/model.md. **PR #5 merged.**
+- Task 2 (`chore/qollab-layout`): Repository structured according to Qollab constraints (`qollab/` self-contained, strict dependencies). **PR #6 open.**
+- Task 3 (`feat/qollab-requirements`): Added strict requirements.txt checking for `qollab/` using AST. **PR #7 open.**
 
 **Next tasks (in order)**
-1. Merge PR #5 after review. Update AGENTS.md dependency section (scipy allowed; no matplotlib/aer; `main()` contract; live-Run size limit).
-2. Task 2 (`feat/qaoa`): `qaoa.py`, `main.py` with `main(n_cells, K, p, seed)`, tests. Then run the uploaded `qollab/` folder in Qollab for real.
-3. Task 3 (parallel): `docs/results_schema.md` and an example `summary.json` so the teammate can build the website with sample data.
+1. Merge PR #6 and #7.
+2. Task 4 (`feat/qaoa`): `qaoa.py`, `main.py` with `main(n_cells, K, p, seed)`, tests. Then run the uploaded `qollab/` folder in Qollab for real.
+3. Task 5 (parallel): `docs/results_schema.md` and an example `summary.json` so the teammate can build the website with sample data.
 4. `experiments/run_all.py` and figures (offline), real results into `results/`.
 5. Wind data: source and license (Global Wind Atlas is CC BY 4.0, verify attribution requirements) or a documented synthetic Weibull-based rose.
 6. Qollab project page and README finalization; remove "Work in Progress" and "In development" notices; fill How to run and Results.
