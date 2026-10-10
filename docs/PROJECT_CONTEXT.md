@@ -181,16 +181,15 @@ Rules: `qollab/` may import only numpy, scipy, qiskit and the standard library. 
 - Task 9 (`feat/run-all-datasets`, stacked on Task 8): per-dataset result folders plus `--merge` into the single `results/summary.json` (schema gains `datasets`). Smoke runs only; full runs of the three datasets pending a human decision (local vs cloud).
 - Task 10 (`feat/real-farms`, stacked on Task 9): real farms Penmanshiel (14 turbines) and Kelmarsh (6) with real positions (`qollab/data/farms.json`) and measured 2019 SCADA roses (`windrose.json`); `wake.generate_h_J(coords=...)`, `build_instance(coords=...)`, `run_all.py` datasets `real_penmanshiel` and `real_kelmarsh` (K fixed before running). Smoke runs only; full runs pending.
 - Task 10b (same PR, live-Run limits): `main()` hard limit 12 (recommended 10, default 8), `tests/test_live_run_isolation.py` (live Run never loads farm or rose files), fixed sub-instance `real_penmanshiel_sub10` (10 turbines closest to the farm centroid, K = 3, 5, 7; offline only), Kelmarsh labeled trivial contrast, offline cost estimate in `docs/DATA.md`. **Hard stop: if Penmanshiel is not producing results by Sunday 2026-10-11 10:00 ART, we ship with the ERA5 datasets (`real_chubut`, `real_bahia_blanca`) as primary.**
+- Task 11 (`results/final-demo`, `results/all-datasets`, `ci/run-experiments`): manual GitHub Actions workflow and the final `qwind-v1` results of all six datasets (Python 3.12.15, Qiskit 2.5.2). **Merged.**
+- Task 12 (`feat/live-run-xy-dicke`, PR #29): the live Run defaults to XY + Dicke. Checked in Qollab by the owner (table once, 25.5 s total). **Merged.**
+- Task 13 (`feat/results-tables-web`, `docs/references`, `docs/readme-results`): `scripts/sync_results_to_web.py`, `scripts/make_results_tables.py` (README RESULTS block generated from `results/`), verified references, final README. **Merged.** Remaining: Qollab page text, demo video, website (teammate), and the items marked to verify (see `pending.md`).
 
-**Next tasks (in order)**
-1. Merge the Task 4 PR (`feat/qaoa`), then run the uploaded `qollab/` folder in Qollab for real.
-2. (done) Task 4 code and tests.
-3. Task 5 (parallel): `docs/results_schema.md` and an example `summary.json` so the teammate can build the website with sample data.
-4. `experiments/run_all.py` and figures (offline), real results into `results/`.
-5. Wind data: source and license (Global Wind Atlas is CC BY 4.0, verify attribution requirements) or a documented synthetic Weibull-based rose.
-6. Qollab project page and README finalization; remove "Work in Progress" and "In development" notices; fill How to run and Results.
-7. Demo video (2-3 min: ~20 s problem, 60-90 s demo/results, ~30 s claim and limits; with captions), public link.
-8. Submit via the captain account with a time margin.
+**Next tasks (in order)** (the full list with priorities is `pending.md`)
+1. Owner: paste the README into the Qollab project page (`docs/QOLLAB_PAGE.md`), record the demo video, add the Project Website link if the site is ready.
+2. Teammate: website reading `web/data/summary.json` (`scripts/sync_results_to_web.py`), with alt text on every figure.
+3. Resolve the items marked to verify (CC BY 4.0 legal text link, ERA5 notice year, XY ring mixer vs Hadfield et al.).
+4. Captain submits with at least 2-3 hours of margin.
 
 **Time plan (from Sat 14:30 to Sun 20:00 ART, ~29 h):** core and QAOA by Sat night; experiments and results Sun morning; README, page and video from Sun midday; submit by ~17:00.
 
@@ -215,9 +214,9 @@ Conditions:
 - Who is the team captain, and does that account have access to submit?
 - Is the theme chosen at registration (Quantum Impact) editable? Is "Publish" reversible? Does Qollab allow renaming the project?
 - How to include noise in Qollab (IBM noise-model simulators from code?). Ask a mentor.
-- Wind dataset: decided on two real roses (see the decision in section 8); exact source, license and attribution still to verify before redistributing.
+- Wind data: done (`docs/DATA.md`); licenses read at the source (CC-BY-4.0 for the Zenodo farms, Copernicus licence and CC-BY 4.0 for ERA5/Open-Meteo). Still to verify: the CC BY 4.0 legal text link, the year of the Copernicus notice, and whether the free Open-Meteo API non-commercial limit fits the use.
 - k and Ct constants and the size of the pairwise-superposition error (verify and document).
-- Whether the judges' machine matches the measured timings (keep a margin).
+- Whether the judges' machine matches the measured timings (keep a margin). Qollab total for the default Run: 15.8 s on one run and 25.5 s on another (QAOA itself 3.2 to 3.3 s), so the platform boot time varies; the budget is 30 s.
 - Mentor booking: up to two 15-minute calls. Suggested questions: noise inside Qollab, best practices for QAOA with a cardinality penalty (lam tuning or XY mixer), and the practical size limit for a Run.
 - Vercel free-plan terms for hackathon projects.
 
@@ -225,13 +224,13 @@ Conditions:
 
 ## 10. Final submission checklist
 
-- [ ] Project on Qollab with MIT license; Run works with the built-in simulator
+- [~] Project on Qollab with MIT license; Run works with the built-in simulator (Run verified; the project page itself is the owner's step)
 - [ ] Project page: what it does, problem, how to run, results, limitations
-- [ ] Exact text: `This effort is supported by Qollab & IonQ`
-- [ ] Disclosure: AI tools, prior code or templates, libraries, data sources and licenses
+- [x] Exact text: `This effort is supported by Qollab & IonQ` (end of the README)
+- [x] Disclosure: AI tools, prior code or templates, libraries, data sources and licenses (README; prior code: none)
 - [ ] Theme declared (Quantum Impact)
-- [ ] All numbers traceable to `results/`; no claim of quantum advantage
+- [x] All numbers traceable to `results/` (the README RESULTS block is generated); no claim of quantum advantage
 - [ ] Demo video 2-3 min, public, with captions
 - [ ] Website link in "Project Website" (if ready)
-- [ ] "Work in Progress" and "In development" notices removed
+- [x] "Work in Progress" and "In development" notices removed (README); check the Qollab page text too
 - [ ] Captain submits at least 2-3 hours before the deadline
