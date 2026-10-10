@@ -1,0 +1,1030 @@
+{
+  "schema_version": "1.0",
+  "status": "final",
+  "protocol": {
+    "id": "qwind-v1",
+    "depths": [
+      1,
+      2,
+      3
+    ],
+    "restarts": 2,
+    "maxiter": 60,
+    "shots": 1000,
+    "lam_ref_mult": 10.0,
+    "lam_multipliers": [
+      1.0,
+      3.0,
+      10.0
+    ],
+    "ramp_total_time_factor": 0.75,
+    "sa_reads": 5,
+    "variants": [
+      "penalty+x lam=1",
+      "penalty+x lam=3",
+      "penalty+x lam=10",
+      "penalty+x lam=10 ramp",
+      "xy+dicke",
+      "xy+dicke ramp"
+    ]
+  },
+  "environment": {
+    "python": "3.12.15",
+    "qiskit": "2.5.2",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0"
+  },
+  "datasets": [
+    {
+      "dataset": "real_bahia_blanca",
+      "status": "final",
+      "n_instances": 8
+    }
+  ],
+  "instances": [
+    {
+      "dataset": "real_bahia_blanca",
+      "instance_id": 0,
+      "wind_rose": "bahia_blanca",
+      "N": 6,
+      "K": 2,
+      "grid_rows": 3,
+      "grid_cols": 2,
+      "seed": 0
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "instance_id": 3,
+      "wind_rose": "bahia_blanca",
+      "N": 6,
+      "K": 3,
+      "grid_rows": 3,
+      "grid_cols": 2,
+      "seed": 3
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "instance_id": 6,
+      "wind_rose": "bahia_blanca",
+      "N": 8,
+      "K": 3,
+      "grid_rows": 4,
+      "grid_cols": 2,
+      "seed": 6
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "instance_id": 9,
+      "wind_rose": "bahia_blanca",
+      "N": 8,
+      "K": 4,
+      "grid_rows": 4,
+      "grid_cols": 2,
+      "seed": 9
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "instance_id": 12,
+      "wind_rose": "bahia_blanca",
+      "N": 10,
+      "K": 3,
+      "grid_rows": 5,
+      "grid_cols": 2,
+      "seed": 12
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "instance_id": 15,
+      "wind_rose": "bahia_blanca",
+      "N": 10,
+      "K": 4,
+      "grid_rows": 5,
+      "grid_cols": 2,
+      "seed": 15
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "instance_id": 18,
+      "wind_rose": "bahia_blanca",
+      "N": 12,
+      "K": 4,
+      "grid_rows": 6,
+      "grid_cols": 2,
+      "seed": 18
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "instance_id": 21,
+      "wind_rose": "bahia_blanca",
+      "N": 12,
+      "K": 5,
+      "grid_rows": 6,
+      "grid_cols": 2,
+      "seed": 21
+    }
+  ],
+  "results": [
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "exact",
+      "variant": "exact",
+      "p": null,
+      "n_instances": 8,
+      "metrics": {
+        "energy_gap": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "time_s": {
+          "mean": 0.06182947475000011,
+          "std": 0.08260385242738102,
+          "ci95_low": 0.004587925430536821,
+          "ci95_high": 0.1190710240694634
+        }
+      }
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "sa",
+      "variant": "sa",
+      "p": null,
+      "n_instances": 8,
+      "metrics": {
+        "energy_gap": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "time_s": {
+          "mean": 0.22144664874999975,
+          "std": 0.06646826532455298,
+          "ci95_low": 0.17538649082819566,
+          "ci95_high": 0.2675068066718038
+        }
+      }
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "greedy",
+      "variant": "greedy",
+      "p": null,
+      "n_instances": 8,
+      "metrics": {
+        "energy_gap": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "time_s": {
+          "mean": 0.0022786316249998606,
+          "std": 0.0020716843275476477,
+          "ci95_low": 0.0008430276292427628,
+          "ci95_high": 0.0037142356207569586
+        }
+      }
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "penalty+x lam=1",
+      "p": 1,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.0087300469340526,
+          "std": 0.012297686734697144,
+          "ci95_low": 0.00020818480470064307,
+          "ci95_high": 0.017251909063404555
+        },
+        "p_feasible": {
+          "mean": 0.29088104676021376,
+          "std": 0.17647980778695418,
+          "ci95_low": 0.16858677930813307,
+          "ci95_high": 0.4131753142122945
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.4790469678066229,
+          "std": 0.03140655242101884,
+          "ci95_low": 0.4572833373398416,
+          "ci95_high": 0.5008105982734042
+        },
+        "n_evals": {
+          "mean": 85.0,
+          "std": 15.008331019803634,
+          "ci95_low": 74.59975721437235,
+          "ci95_high": 95.40024278562765
+        },
+        "time_s": {
+          "mean": 0.5992623501250001,
+          "std": 0.22785643752653958,
+          "ci95_low": 0.44136589465521553,
+          "ci95_high": 0.7571588055947847
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.375,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "penalty+x lam=3",
+      "p": 1,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.0038873338094431486,
+          "std": 0.004873375090680705,
+          "ci95_low": 0.000510257167034935,
+          "ci95_high": 0.0072644104518513625
+        },
+        "p_feasible": {
+          "mean": 0.21958646496045228,
+          "std": 0.16215110941270594,
+          "ci95_low": 0.10722147889865903,
+          "ci95_high": 0.33195145102224555
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.48648852196562686,
+          "std": 0.042607563460495136,
+          "ci95_low": 0.45696298685392966,
+          "ci95_high": 0.5160140570773241
+        },
+        "n_evals": {
+          "mean": 81.25,
+          "std": 12.162956055170142,
+          "ci95_low": 72.82150146823291,
+          "ci95_high": 89.67849853176709
+        },
+        "time_s": {
+          "mean": 0.5732435955000001,
+          "std": 0.24944055041648172,
+          "ci95_low": 0.40039011289164905,
+          "ci95_high": 0.7460970781083512
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.625,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10",
+      "p": 1,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.009752891742127456,
+          "std": 0.012520757361220394,
+          "ci95_low": 0.0010764495551313404,
+          "ci95_high": 0.018429333929123572
+        },
+        "p_feasible": {
+          "mean": 0.41366123397989607,
+          "std": 0.15929834064280018,
+          "ci95_low": 0.30327311581761324,
+          "ci95_high": 0.524049352142179
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.4842514179995142,
+          "std": 0.04087790007000251,
+          "ci95_low": 0.4559244784661527,
+          "ci95_high": 0.5125783575328757
+        },
+        "n_evals": {
+          "mean": 109.0,
+          "std": 16.963195453687373,
+          "ci95_low": 97.24510527482275,
+          "ci95_high": 120.75489472517725
+        },
+        "time_s": {
+          "mean": 0.7319358035000003,
+          "std": 0.2732598842435402,
+          "ci95_low": 0.5425763646686392,
+          "ci95_high": 0.9212952423313614
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.625,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10 ramp",
+      "p": 1,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.010658884121831365,
+          "std": 0.013018638557838661,
+          "ci95_low": 0.0016374278678882807,
+          "ci95_high": 0.01968034037577445
+        },
+        "p_feasible": {
+          "mean": 0.43538857489066507,
+          "std": 0.13000398495942622,
+          "ci95_low": 0.34530040953150254,
+          "ci95_high": 0.5254767402498276
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.4847337855595425,
+          "std": 0.04010205874669805,
+          "ci95_low": 0.4569444766337976,
+          "ci95_high": 0.5125230944852873
+        },
+        "n_evals": {
+          "mean": 108.875,
+          "std": 14.434658811347084,
+          "ci95_low": 98.87229177297468,
+          "ci95_high": 118.87770822702532
+        },
+        "time_s": {
+          "mean": 0.7353612106249998,
+          "std": 0.2277817682135925,
+          "ci95_low": 0.577516498349196,
+          "ci95_high": 0.8932059229008036
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.75,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "xy+dicke",
+      "p": 1,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.03548147831195137,
+          "std": 0.03531613177311638,
+          "ci95_low": 0.01100864757514406,
+          "ci95_high": 0.05995430904875868
+        },
+        "p_feasible": {
+          "mean": 1.0,
+          "std": 1.3316892628506722e-15,
+          "ci95_low": 0.9999999999999991,
+          "ci95_high": 1.0000000000000009
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5865432723791003,
+          "std": 0.050344563524887184,
+          "ci95_low": 0.5516562697600622,
+          "ci95_high": 0.6214302749981384
+        },
+        "n_evals": {
+          "mean": 115.875,
+          "std": 10.913724158141436,
+          "ci95_low": 108.31217500698317,
+          "ci95_high": 123.43782499301683
+        },
+        "time_s": {
+          "mean": 0.9535372028750002,
+          "std": 0.781899422861975,
+          "ci95_low": 0.4117085464456809,
+          "ci95_high": 1.4953658593043195
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 1.0
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "xy+dicke ramp",
+      "p": 1,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.02466548248743574,
+          "std": 0.02926696712499193,
+          "ci95_low": 0.004384508986967104,
+          "ci95_high": 0.04494645598790438
+        },
+        "p_feasible": {
+          "mean": 1.0000000000000007,
+          "std": 8.750712804614061e-16,
+          "ci95_low": 1.0,
+          "ci95_high": 1.0000000000000013
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5346001231142157,
+          "std": 0.04490713681197279,
+          "ci95_low": 0.5034810649700661,
+          "ci95_high": 0.5657191812583653
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 0.9829792494999996,
+          "std": 0.7758261687761708,
+          "ci95_low": 0.4453591434356625,
+          "ci95_high": 1.5205993555643367
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.5
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "penalty+x lam=1",
+      "p": 2,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.010500137115453308,
+          "std": 0.012576399096050453,
+          "ci95_low": 0.0017851371734021806,
+          "ci95_high": 0.019215137057504435
+        },
+        "p_feasible": {
+          "mean": 0.318666908128305,
+          "std": 0.16641838073697293,
+          "ci95_low": 0.2033448539057707,
+          "ci95_high": 0.4339889623508393
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5053935770424872,
+          "std": 0.06139843012234314,
+          "ci95_low": 0.46284663567464435,
+          "ci95_high": 0.5479405184103301
+        },
+        "n_evals": {
+          "mean": 118.75,
+          "std": 3.307189138830738,
+          "ci95_low": 116.45823485060096,
+          "ci95_high": 121.04176514939904
+        },
+        "time_s": {
+          "mean": 1.0991954800000006,
+          "std": 0.45772142664599863,
+          "ci95_low": 0.7820107138177494,
+          "ci95_high": 1.4163802461822517
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.75,
+      "frac_beating_uniform_p_optimal": 0.125
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "penalty+x lam=3",
+      "p": 2,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.011748637177115164,
+          "std": 0.01579923111868544,
+          "ci95_low": 0.0008003285847902868,
+          "ci95_high": 0.022696945769440043
+        },
+        "p_feasible": {
+          "mean": 0.494449560680453,
+          "std": 0.2904832980446583,
+          "ci95_low": 0.29315490500901836,
+          "ci95_high": 0.6957442163518877
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.48402650232506883,
+          "std": 0.041026854230202504,
+          "ci95_low": 0.4555963428248792,
+          "ci95_high": 0.5124566618252584
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.088849725374999,
+          "std": 0.4703731075015351,
+          "ci95_low": 0.762897791652917,
+          "ci95_high": 1.4148016590970807
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.25,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10",
+      "p": 2,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.014671018769734154,
+          "std": 0.019330676902262565,
+          "ci95_low": 0.001275543101668452,
+          "ci95_high": 0.028066494437799856
+        },
+        "p_feasible": {
+          "mean": 0.5215088106379826,
+          "std": 0.24305481892086295,
+          "ci95_low": 0.35308041419215225,
+          "ci95_high": 0.689937207083813
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.4774877836751651,
+          "std": 0.03950884001505203,
+          "ci95_low": 0.4501095543575365,
+          "ci95_high": 0.5048660129927937
+        },
+        "n_evals": {
+          "mean": 114.875,
+          "std": 8.328227602557462,
+          "ci95_low": 109.1038327112273,
+          "ci95_high": 120.6461672887727
+        },
+        "time_s": {
+          "mean": 1.039186611999999,
+          "std": 0.4232048149453858,
+          "ci95_low": 0.7459206374108924,
+          "ci95_high": 1.3324525865891057
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.125,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10 ramp",
+      "p": 2,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.011512880711409384,
+          "std": 0.015612714128938074,
+          "ci95_low": 0.0006938217987762351,
+          "ci95_high": 0.022331939624042535
+        },
+        "p_feasible": {
+          "mean": 0.4144817359765901,
+          "std": 0.16257819623124084,
+          "ci95_low": 0.30182079384896626,
+          "ci95_high": 0.527142678104214
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.4837802537852118,
+          "std": 0.040903432898310485,
+          "ci95_low": 0.4554356209045316,
+          "ci95_high": 0.512124886665892
+        },
+        "n_evals": {
+          "mean": 118.25,
+          "std": 4.630064794363034,
+          "ci95_low": 115.04152879084134,
+          "ci95_high": 121.45847120915866
+        },
+        "time_s": {
+          "mean": 1.1017565201250017,
+          "std": 0.5091195684238993,
+          "ci95_low": 0.7489546588430402,
+          "ci95_high": 1.4545583814069631
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.625,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "xy+dicke",
+      "p": 2,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.04429521717371918,
+          "std": 0.040370580915907166,
+          "ci95_low": 0.016319831878162567,
+          "ci95_high": 0.0722706024692758
+        },
+        "p_feasible": {
+          "mean": 0.9999999999999999,
+          "std": 1.5632082117998628e-15,
+          "ci95_low": 0.9999999999999988,
+          "ci95_high": 1.0000000000000009
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.6708060441684719,
+          "std": 0.06441802419768791,
+          "ci95_low": 0.6261666308624642,
+          "ci95_high": 0.7154454574744796
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.0119090095,
+          "std": 0.5152955161737056,
+          "ci95_low": 0.6548274347745796,
+          "ci95_high": 1.3689905842254206
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.875
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "xy+dicke ramp",
+      "p": 2,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.013687119419343124,
+          "std": 0.012729186391151247,
+          "ci95_low": 0.0048662432834959725,
+          "ci95_high": 0.022507995555190275
+        },
+        "p_feasible": {
+          "mean": 1.0000000000000002,
+          "std": 1.1729809684177493e-15,
+          "ci95_low": 0.9999999999999994,
+          "ci95_high": 1.000000000000001
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5625430624687315,
+          "std": 0.039092533517633685,
+          "ci95_low": 0.5354533188355319,
+          "ci95_high": 0.5896328061019311
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 0.9664216366249994,
+          "std": 0.475319479065242,
+          "ci95_low": 0.6370420422854512,
+          "ci95_high": 1.2958012309645475
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.25
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "penalty+x lam=1",
+      "p": 3,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.015611552796099413,
+          "std": 0.020547064141841914,
+          "ci95_low": 0.0013731637756914748,
+          "ci95_high": 0.029849941816507353
+        },
+        "p_feasible": {
+          "mean": 0.4432383957038095,
+          "std": 0.15100834604220634,
+          "ci95_low": 0.33859495071164486,
+          "ci95_high": 0.5478818406959742
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5018825396992411,
+          "std": 0.05283376935339004,
+          "ci95_low": 0.46527060544552157,
+          "ci95_high": 0.5384944739529607
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.1479007089999973,
+          "std": 0.33921398830342,
+          "ci95_low": 0.9128374078253685,
+          "ci95_high": 1.3829640101746261
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.875,
+      "frac_beating_uniform_p_optimal": 0.125
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "penalty+x lam=3",
+      "p": 3,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.012119298589847987,
+          "std": 0.018925712484369923,
+          "ci95_low": -0.0009955510539071885,
+          "ci95_high": 0.025234148233603163
+        },
+        "p_feasible": {
+          "mean": 0.5289324881398554,
+          "std": 0.19459982636249742,
+          "ci95_low": 0.39408168843798175,
+          "ci95_high": 0.663783287841729
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.4796698183634888,
+          "std": 0.03676978521428057,
+          "ci95_low": 0.454189657185054,
+          "ci95_high": 0.5051499795419236
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.1581507581249975,
+          "std": 0.31151399979542144,
+          "ci95_low": 0.9422825696689079,
+          "ci95_high": 1.374018946581087
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.5,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10",
+      "p": 3,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.00856907874538546,
+          "std": 0.012698500557874798,
+          "ci95_low": -0.0002305331928814762,
+          "ci95_high": 0.017368690683652398
+        },
+        "p_feasible": {
+          "mean": 0.348699725258165,
+          "std": 0.28950859404583096,
+          "ci95_low": 0.14808050499780642,
+          "ci95_high": 0.5493189455185236
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.49566134461181244,
+          "std": 0.02677474993319052,
+          "ci95_low": 0.477107389514326,
+          "ci95_high": 0.5142152997092988
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.1267836720000002,
+          "std": 0.30463964097338747,
+          "ci95_low": 0.9156791711684931,
+          "ci95_high": 1.3378881728315073
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.375,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10 ramp",
+      "p": 3,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.008080073647413614,
+          "std": 0.009358001922428232,
+          "ci95_low": 0.001595309162061978,
+          "ci95_high": 0.01456483813276525
+        },
+        "p_feasible": {
+          "mean": 0.3720477038099266,
+          "std": 0.25345937812103775,
+          "ci95_low": 0.19640931568570977,
+          "ci95_high": 0.5476860919341434
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.4920971284901304,
+          "std": 0.03615936388530046,
+          "ci95_low": 0.46703996771157624,
+          "ci95_high": 0.5171542892686846
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.1219258468750022,
+          "std": 0.33088471525263713,
+          "ci95_low": 0.892634437447805,
+          "ci95_high": 1.3512172563021994
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.875,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "xy+dicke",
+      "p": 3,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.06484024704490869,
+          "std": 0.0575030275248112,
+          "ci95_low": 0.024992681957389018,
+          "ci95_high": 0.10468781213242837
+        },
+        "p_feasible": {
+          "mean": 1.0000000000000007,
+          "std": 1.0569008315563939e-15,
+          "ci95_low": 0.9999999999999999,
+          "ci95_high": 1.0000000000000013
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.6852834315741707,
+          "std": 0.0680087934965997,
+          "ci95_low": 0.6381557420936447,
+          "ci95_high": 0.7324111210546967
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.1847637960000013,
+          "std": 0.5369826996710857,
+          "ci95_low": 0.812653769849063,
+          "ci95_high": 1.5568738221509395
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 1.0
+    },
+    {
+      "dataset": "real_bahia_blanca",
+      "method": "qaoa",
+      "variant": "xy+dicke ramp",
+      "p": 3,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.02572405681450235,
+          "std": 0.032121310919729786,
+          "ci95_low": 0.0034651239779987693,
+          "ci95_high": 0.04798298965100593
+        },
+        "p_feasible": {
+          "mean": 0.9999999999999991,
+          "std": 1.6846514078731632e-15,
+          "ci95_low": 0.9999999999999979,
+          "ci95_high": 1.0000000000000002
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5458425409971577,
+          "std": 0.031175588344075123,
+          "ci95_low": 0.5242389604700934,
+          "ci95_high": 0.5674461215242219
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 1.1889247185000027,
+          "std": 0.5329426355574625,
+          "ci95_low": 0.8196143139456125,
+          "ci95_high": 1.558235123054393
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.4845359201707631,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.75
+    }
+  ],
+  "caveats": [
+    "Pairwise-additive Jensen wake losses (documented approximation, docs/model.md).",
+    "Small instances (6-12 cells) on an ideal statevector simulator; no hardware, no noise.",
+    "No quantum advantage is claimed. At these sizes classical methods solve the problem exactly in milliseconds.",
+    "Random feasible sampling with the same number of shots also finds the optimum almost surely; compare the distributions (P(optimal), approximation ratio), not the best sample.",
+    "QAOA with the XY mixer and Dicke start uses a generic exponential-size state preparation in this simulation.",
+    "The 95% intervals are normal approximations over instances.",
+    "The real-farm datasets are a curtailment/selection problem (choose K of the existing turbine positions to keep operating), not layout design.",
+    "Kelmarsh (dataset real_kelmarsh, 6 turbines, C(6,K) <= 20 subsets) is a trivial contrast: exact enumeration is instantaneous; it is reported on its own and never averaged with other datasets.",
+    "Real datasets use a real wind rose (ERA5 100 m, docs/DATA.md) on a synthetic grid of candidate cells, not a real farm layout; the wake model does not use mean wind speed yet."
+  ]
+}

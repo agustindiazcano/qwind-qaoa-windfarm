@@ -1,0 +1,1030 @@
+{
+  "schema_version": "1.0",
+  "status": "final",
+  "protocol": {
+    "id": "qwind-v1",
+    "depths": [
+      1,
+      2,
+      3
+    ],
+    "restarts": 2,
+    "maxiter": 60,
+    "shots": 1000,
+    "lam_ref_mult": 10.0,
+    "lam_multipliers": [
+      1.0,
+      3.0,
+      10.0
+    ],
+    "ramp_total_time_factor": 0.75,
+    "sa_reads": 5,
+    "variants": [
+      "penalty+x lam=1",
+      "penalty+x lam=3",
+      "penalty+x lam=10",
+      "penalty+x lam=10 ramp",
+      "xy+dicke",
+      "xy+dicke ramp"
+    ]
+  },
+  "environment": {
+    "python": "3.12.15",
+    "qiskit": "2.5.2",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0"
+  },
+  "datasets": [
+    {
+      "dataset": "real_chubut",
+      "status": "final",
+      "n_instances": 8
+    }
+  ],
+  "instances": [
+    {
+      "dataset": "real_chubut",
+      "instance_id": 0,
+      "wind_rose": "chubut",
+      "N": 6,
+      "K": 2,
+      "grid_rows": 3,
+      "grid_cols": 2,
+      "seed": 0
+    },
+    {
+      "dataset": "real_chubut",
+      "instance_id": 3,
+      "wind_rose": "chubut",
+      "N": 6,
+      "K": 3,
+      "grid_rows": 3,
+      "grid_cols": 2,
+      "seed": 3
+    },
+    {
+      "dataset": "real_chubut",
+      "instance_id": 6,
+      "wind_rose": "chubut",
+      "N": 8,
+      "K": 3,
+      "grid_rows": 4,
+      "grid_cols": 2,
+      "seed": 6
+    },
+    {
+      "dataset": "real_chubut",
+      "instance_id": 9,
+      "wind_rose": "chubut",
+      "N": 8,
+      "K": 4,
+      "grid_rows": 4,
+      "grid_cols": 2,
+      "seed": 9
+    },
+    {
+      "dataset": "real_chubut",
+      "instance_id": 12,
+      "wind_rose": "chubut",
+      "N": 10,
+      "K": 3,
+      "grid_rows": 5,
+      "grid_cols": 2,
+      "seed": 12
+    },
+    {
+      "dataset": "real_chubut",
+      "instance_id": 15,
+      "wind_rose": "chubut",
+      "N": 10,
+      "K": 4,
+      "grid_rows": 5,
+      "grid_cols": 2,
+      "seed": 15
+    },
+    {
+      "dataset": "real_chubut",
+      "instance_id": 18,
+      "wind_rose": "chubut",
+      "N": 12,
+      "K": 4,
+      "grid_rows": 6,
+      "grid_cols": 2,
+      "seed": 18
+    },
+    {
+      "dataset": "real_chubut",
+      "instance_id": 21,
+      "wind_rose": "chubut",
+      "N": 12,
+      "K": 5,
+      "grid_rows": 6,
+      "grid_cols": 2,
+      "seed": 21
+    }
+  ],
+  "results": [
+    {
+      "dataset": "real_chubut",
+      "method": "exact",
+      "variant": "exact",
+      "p": null,
+      "n_instances": 8,
+      "metrics": {
+        "energy_gap": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "time_s": {
+          "mean": 0.1318424228749997,
+          "std": 0.17689490680417871,
+          "ci95_low": 0.009260506479574535,
+          "ci95_high": 0.25442433927042485
+        }
+      }
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "sa",
+      "variant": "sa",
+      "p": null,
+      "n_instances": 8,
+      "metrics": {
+        "energy_gap": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "time_s": {
+          "mean": 0.5490231039999998,
+          "std": 0.17576007691276974,
+          "ci95_low": 0.42722758459804894,
+          "ci95_high": 0.6708186234019506
+        }
+      }
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "greedy",
+      "variant": "greedy",
+      "p": null,
+      "n_instances": 8,
+      "metrics": {
+        "energy_gap": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "time_s": {
+          "mean": 0.005862534500000294,
+          "std": 0.005111606093743741,
+          "ci95_low": 0.0023203721949924287,
+          "ci95_high": 0.009404696805008158
+        }
+      }
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "penalty+x lam=1",
+      "p": 1,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.009075576008530905,
+          "std": 0.012301856022701384,
+          "ci95_low": 0.0005508247099948408,
+          "ci95_high": 0.017600327307066968
+        },
+        "p_feasible": {
+          "mean": 0.29092662592641066,
+          "std": 0.18078978916954405,
+          "ci95_low": 0.16564569375316124,
+          "ci95_high": 0.4162075580996601
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5247354047254666,
+          "std": 0.04820597199445989,
+          "ci95_low": 0.4913303704283147,
+          "ci95_high": 0.5581404390226186
+        },
+        "n_evals": {
+          "mean": 86.625,
+          "std": 19.247970672255295,
+          "ci95_low": 73.28683682529712,
+          "ci95_high": 99.96316317470288
+        },
+        "time_s": {
+          "mean": 1.3401546947500025,
+          "std": 0.49522744920145517,
+          "ci95_low": 0.9969795809411384,
+          "ci95_high": 1.6833298085588666
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.625,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "penalty+x lam=3",
+      "p": 1,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.006175915607434845,
+          "std": 0.010463721190747783,
+          "ci95_low": -0.0010750732387798242,
+          "ci95_high": 0.013426904453649514
+        },
+        "p_feasible": {
+          "mean": 0.26281320412470477,
+          "std": 0.22080868668507098,
+          "ci95_low": 0.10980059081879356,
+          "ci95_high": 0.415825817430616
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5344711892908833,
+          "std": 0.042668991626158975,
+          "ci95_low": 0.5049030866321393,
+          "ci95_high": 0.5640392919496273
+        },
+        "n_evals": {
+          "mean": 84.5,
+          "std": 14.517231140957975,
+          "ci95_low": 74.44007206785257,
+          "ci95_high": 94.55992793214743
+        },
+        "time_s": {
+          "mean": 1.2510871803750012,
+          "std": 0.4402896377332106,
+          "ci95_low": 0.945982027618226,
+          "ci95_high": 1.5561923331317764
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.75,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10",
+      "p": 1,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.009645428858905344,
+          "std": 0.012654233878843395,
+          "ci95_low": 0.0008764921641836454,
+          "ci95_high": 0.018414365553627042
+        },
+        "p_feasible": {
+          "mean": 0.3951957315325846,
+          "std": 0.18026666433251937,
+          "ci95_low": 0.27027730637660907,
+          "ci95_high": 0.5201141566885601
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5298957531661128,
+          "std": 0.040006514799551425,
+          "ci95_low": 0.5021726528178381,
+          "ci95_high": 0.5576188535143876
+        },
+        "n_evals": {
+          "mean": 106.25,
+          "std": 18.833148966649205,
+          "ci95_low": 93.1992936014942,
+          "ci95_high": 119.3007063985058
+        },
+        "time_s": {
+          "mean": 1.6193212649999982,
+          "std": 0.7171092510136489,
+          "ci95_low": 1.1223899070415082,
+          "ci95_high": 2.116252622958488
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.625,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10 ramp",
+      "p": 1,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.010670176624409016,
+          "std": 0.012997060459116382,
+          "ci95_low": 0.001663673229998934,
+          "ci95_high": 0.019676680018819098
+        },
+        "p_feasible": {
+          "mean": 0.44703235287798826,
+          "std": 0.1305398231668628,
+          "ci95_low": 0.35657287058533044,
+          "ci95_high": 0.5374918351706461
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5267480329387361,
+          "std": 0.04421186626578838,
+          "ci95_low": 0.4961107727021934,
+          "ci95_high": 0.5573852931752787
+        },
+        "n_evals": {
+          "mean": 105.875,
+          "std": 19.412866223203622,
+          "ci95_low": 92.42257003827933,
+          "ci95_high": 119.32742996172067
+        },
+        "time_s": {
+          "mean": 1.5086584788750006,
+          "std": 0.3653528907094421,
+          "ci95_low": 1.2554818424591816,
+          "ci95_high": 1.7618351152908196
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.625,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "xy+dicke",
+      "p": 1,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.05408515074087268,
+          "std": 0.04001201870318822,
+          "ci95_low": 0.026358236381965074,
+          "ci95_high": 0.08181206509978028
+        },
+        "p_feasible": {
+          "mean": 1.0000000000000007,
+          "std": 1.3118730877277856e-15,
+          "ci95_low": 0.9999999999999998,
+          "ci95_high": 1.0000000000000016
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.6776475355207444,
+          "std": 0.05508800115280757,
+          "ci95_low": 0.6394734983271251,
+          "ci95_high": 0.7158215727143638
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.4665382942499994,
+          "std": 1.863410848451387,
+          "ci95_low": 1.1752604561149769,
+          "ci95_high": 3.757816132385022
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 1.0
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "xy+dicke ramp",
+      "p": 1,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.032887926363529336,
+          "std": 0.031715425024748,
+          "ci95_low": 0.01091025810238076,
+          "ci95_high": 0.05486559462467791
+        },
+        "p_feasible": {
+          "mean": 1.0,
+          "std": 1.1260693919046712e-15,
+          "ci95_low": 0.9999999999999992,
+          "ci95_high": 1.0000000000000009
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.6218214443082286,
+          "std": 0.05079118360094814,
+          "ci95_low": 0.5866249497664816,
+          "ci95_high": 0.6570179388499756
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.451045331000002,
+          "std": 1.8311158351885917,
+          "ci95_low": 1.182146795284079,
+          "ci95_high": 3.7199438667159255
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.875
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "penalty+x lam=1",
+      "p": 2,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.011747808486634146,
+          "std": 0.01088080266937834,
+          "ci95_low": 0.004207796921409438,
+          "ci95_high": 0.019287820051858855
+        },
+        "p_feasible": {
+          "mean": 0.41896486812790223,
+          "std": 0.17723531665582828,
+          "ci95_low": 0.29614705974028266,
+          "ci95_high": 0.5417826765155218
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5658561076714053,
+          "std": 0.041061956534395316,
+          "ci95_low": 0.5374016235154322,
+          "ci95_high": 0.5943105918273783
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.47273224775,
+          "std": 1.0304875524335935,
+          "ci95_low": 1.7586408062209604,
+          "ci95_high": 3.186823689279039
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.875,
+      "frac_beating_uniform_p_optimal": 0.125
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "penalty+x lam=3",
+      "p": 2,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.01166641702864383,
+          "std": 0.01559341049131896,
+          "ci95_low": 0.0008607348544114827,
+          "ci95_high": 0.022472099202876177
+        },
+        "p_feasible": {
+          "mean": 0.41758524903481636,
+          "std": 0.2746958584464835,
+          "ci95_low": 0.22723073084887532,
+          "ci95_high": 0.6079397672207574
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5139526407859812,
+          "std": 0.06002600867502359,
+          "ci95_low": 0.47235673895994296,
+          "ci95_high": 0.5555485426120195
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.4267094957500035,
+          "std": 1.0592140439055364,
+          "ci95_low": 1.692711611239846,
+          "ci95_high": 3.160707380260161
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.25,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10",
+      "p": 2,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.009708772612139887,
+          "std": 0.01655819583126687,
+          "ci95_low": -0.001765471693233666,
+          "ci95_high": 0.02118301691751344
+        },
+        "p_feasible": {
+          "mean": 0.4335517701475793,
+          "std": 0.2695667472821074,
+          "ci95_low": 0.2467515446617124,
+          "ci95_high": 0.6203519956334462
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5301686279677205,
+          "std": 0.050635603051533744,
+          "ci95_low": 0.4950799452462549,
+          "ci95_high": 0.565257310689186
+        },
+        "n_evals": {
+          "mean": 112.625,
+          "std": 10.160431831374098,
+          "ci95_low": 105.58417995720669,
+          "ci95_high": 119.66582004279331
+        },
+        "time_s": {
+          "mean": 2.2473531992499964,
+          "std": 0.9997665562396288,
+          "ci95_low": 1.5545503219598444,
+          "ci95_high": 2.9401560765401484
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.25,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10 ramp",
+      "p": 2,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.012706946191464053,
+          "std": 0.01613805537719005,
+          "ci95_low": 0.0015238443669364464,
+          "ci95_high": 0.02389004801599166
+        },
+        "p_feasible": {
+          "mean": 0.4336029632852392,
+          "std": 0.21973604115980677,
+          "ci95_low": 0.2813336554055572,
+          "ci95_high": 0.5858722711649211
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5291041573658464,
+          "std": 0.04066207932678077,
+          "ci95_low": 0.5009267739773167,
+          "ci95_high": 0.5572815407543761
+        },
+        "n_evals": {
+          "mean": 116.75,
+          "std": 7.5291101731877985,
+          "ci95_low": 111.53259283743353,
+          "ci95_high": 121.96740716256647
+        },
+        "time_s": {
+          "mean": 2.297569133875,
+          "std": 0.9310323697815776,
+          "ci95_low": 1.6523966177418001,
+          "ci95_high": 2.9427416500082
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.75,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "xy+dicke",
+      "p": 2,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.08766030625148447,
+          "std": 0.04412213203416147,
+          "ci95_low": 0.057085228664955974,
+          "ci95_high": 0.11823538383801296
+        },
+        "p_feasible": {
+          "mean": 1.0000000000000002,
+          "std": 1.4087150935148696e-15,
+          "ci95_low": 0.9999999999999992,
+          "ci95_high": 1.000000000000001
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.7201302941666797,
+          "std": 0.0523568719447284,
+          "ci95_low": 0.6838488329567233,
+          "ci95_high": 0.7564117553766362
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.786298465125001,
+          "std": 1.5701313000349686,
+          "ci95_low": 1.6982529853091848,
+          "ci95_high": 3.8743439449408177
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 1.0
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "xy+dicke ramp",
+      "p": 2,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.05124249759646581,
+          "std": 0.04675963157154012,
+          "ci95_low": 0.018839726077845634,
+          "ci95_high": 0.08364526911508599
+        },
+        "p_feasible": {
+          "mean": 1.0000000000000004,
+          "std": 1.4309607670626436e-15,
+          "ci95_low": 0.9999999999999994,
+          "ci95_high": 1.0000000000000013
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.6404021296421667,
+          "std": 0.06296290601696442,
+          "ci95_low": 0.596771061790516,
+          "ci95_high": 0.6840331974938174
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.467619488625,
+          "std": 1.1308278054121923,
+          "ci95_low": 1.6839957992549626,
+          "ci95_high": 3.2512431779950375
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 1.0
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "penalty+x lam=1",
+      "p": 3,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.016366257258771843,
+          "std": 0.020947121863877736,
+          "ci95_low": 0.0018506423808086845,
+          "ci95_high": 0.030881872136735003
+        },
+        "p_feasible": {
+          "mean": 0.49589605637133327,
+          "std": 0.19392564325613115,
+          "ci95_low": 0.36151244172680713,
+          "ci95_high": 0.6302796710158594
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5304267018618236,
+          "std": 0.07054837004011823,
+          "ci95_low": 0.48153917562193865,
+          "ci95_high": 0.5793142281017085
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.551162907000001,
+          "std": 0.7034192305053076,
+          "ci95_low": 2.0637182492508215,
+          "ci95_high": 3.0386075647491806
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.5,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "penalty+x lam=3",
+      "p": 3,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.009922732389968335,
+          "std": 0.017512144823116617,
+          "ci95_low": -0.002212564840427384,
+          "ci95_high": 0.022058029620364055
+        },
+        "p_feasible": {
+          "mean": 0.39063767907454283,
+          "std": 0.2327758908923073,
+          "ci95_low": 0.22933221634678624,
+          "ci95_high": 0.5519431418022994
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5266716069013477,
+          "std": 0.03219748465781068,
+          "ci95_low": 0.5043598883574337,
+          "ci95_high": 0.5489833254452617
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.572711979000003,
+          "std": 0.7087567034656013,
+          "ci95_low": 2.081568641192692,
+          "ci95_high": 3.0638553168073135
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.375,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10",
+      "p": 3,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.010928763607431809,
+          "std": 0.014722756877624027,
+          "ci95_low": 0.0007264136060215563,
+          "ci95_high": 0.02113111360884206
+        },
+        "p_feasible": {
+          "mean": 0.43072275429078116,
+          "std": 0.28743880882256095,
+          "ci95_low": 0.231537822014057,
+          "ci95_high": 0.6299076865675053
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.520602304063192,
+          "std": 0.042679116391573305,
+          "ci95_low": 0.4910271852999712,
+          "ci95_high": 0.5501774228264128
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 2.580207906124997,
+          "std": 0.6951654482726441,
+          "ci95_low": 2.0984828276552276,
+          "ci95_high": 3.0619329845947663
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.375,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10 ramp",
+      "p": 3,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.005208768098294501,
+          "std": 0.006508572004560167,
+          "ci95_low": 0.0006985578060343944,
+          "ci95_high": 0.009718978390554607
+        },
+        "p_feasible": {
+          "mean": 0.31673396437355006,
+          "std": 0.17035860110504497,
+          "ci95_low": 0.1986814767402153,
+          "ci95_high": 0.4347864520068848
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5318928092250047,
+          "std": 0.04255104790160382,
+          "ci95_low": 0.5024064373975434,
+          "ci95_high": 0.561379181052466
+        },
+        "n_evals": {
+          "mean": 118.75,
+          "std": 3.307189138830738,
+          "ci95_low": 116.45823485060096,
+          "ci95_high": 121.04176514939904
+        },
+        "time_s": {
+          "mean": 2.530548037375003,
+          "std": 0.6999897750677231,
+          "ci95_low": 2.0454798709976028,
+          "ci95_high": 3.0156162037524035
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 0.875,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "xy+dicke",
+      "p": 3,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.0921936340406968,
+          "std": 0.059131082186989814,
+          "ci95_low": 0.05121788463124363,
+          "ci95_high": 0.13316938345014998
+        },
+        "p_feasible": {
+          "mean": 1.0,
+          "std": 1.942890293094024e-15,
+          "ci95_low": 0.9999999999999987,
+          "ci95_high": 1.0000000000000013
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.7134636717202708,
+          "std": 0.059907170944493965,
+          "ci95_low": 0.6719501202400485,
+          "ci95_high": 0.7549772232004931
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 3.072139193749998,
+          "std": 1.3213273826640093,
+          "ci95_low": 2.156506032349789,
+          "ci95_high": 3.9877723551502076
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.875
+    },
+    {
+      "dataset": "real_chubut",
+      "method": "qaoa",
+      "variant": "xy+dicke ramp",
+      "p": 3,
+      "n_instances": 8,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.032287865187501534,
+          "std": 0.03816931847811129,
+          "ci95_low": 0.005837876936942883,
+          "ci95_high": 0.058737853438060185
+        },
+        "p_feasible": {
+          "mean": 1.0000000000000004,
+          "std": 1.956718868269488e-15,
+          "ci95_low": 0.9999999999999991,
+          "ci95_high": 1.0000000000000018
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.6531599475598744,
+          "std": 0.05104120819771901,
+          "ci95_low": 0.6177901948120441,
+          "ci95_high": 0.6885297003077047
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 3.091302607375,
+          "std": 1.2765681210325526,
+          "ci95_low": 2.2066860318468864,
+          "ci95_high": 3.9759191829031133
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.020648448773448774,
+        "uniform_feasible_ratio": 0.5272306041650033,
+        "random_p_hit": 0.9470340374105081
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.75
+    }
+  ],
+  "caveats": [
+    "Pairwise-additive Jensen wake losses (documented approximation, docs/model.md).",
+    "Small instances (6-12 cells) on an ideal statevector simulator; no hardware, no noise.",
+    "No quantum advantage is claimed. At these sizes classical methods solve the problem exactly in milliseconds.",
+    "Random feasible sampling with the same number of shots also finds the optimum almost surely; compare the distributions (P(optimal), approximation ratio), not the best sample.",
+    "QAOA with the XY mixer and Dicke start uses a generic exponential-size state preparation in this simulation.",
+    "The 95% intervals are normal approximations over instances.",
+    "The real-farm datasets are a curtailment/selection problem (choose K of the existing turbine positions to keep operating), not layout design.",
+    "Kelmarsh (dataset real_kelmarsh, 6 turbines, C(6,K) <= 20 subsets) is a trivial contrast: exact enumeration is instantaneous; it is reported on its own and never averaged with other datasets.",
+    "Real datasets use a real wind rose (ERA5 100 m, docs/DATA.md) on a synthetic grid of candidate cells, not a real farm layout; the wake model does not use mean wind speed yet."
+  ]
+}
