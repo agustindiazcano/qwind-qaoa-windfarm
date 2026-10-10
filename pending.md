@@ -4,9 +4,11 @@
 3. [x] Add a dedicated runtime requirements file for Qollab and enforce it with a test.
 4. [x] Fix the failing GitHub Actions workflows (ci.yml, pages.yml).
 5. [x] Implement QAOA in `qollab/qwind/qaoa.py` and integrate it into `main.py` (PR open on `feat/qaoa`, awaiting human review).
-6. [ ] Draft `docs/results_schema.md` and create an example `results/summary.json` (to enable parallel frontend work).
+6. [~] `docs/results_schema.md` is written and enforced by `tests/test_results_schema.py` (PR #19). The example `results/summary.json` / `per_instance.csv` now come from the `run_all.py --quick` smoke run (status `smoke`, 2 instances; PR `feat/run-all`).
 7. [ ] Run the uploaded `qollab/` folder in Qollab for real (built-in simulator) and check the table prints once.
 8. [ ] `experiments/run_all.py`: QAOA p = 1, 2, 3 on larger instances (restarts/maxiter/shots exposed as arguments of `run_qaoa`).
 9. [x] Compare QAOA variants (lam sweep, p = 3, ramp init, XY + Dicke). Result: XY + Dicke beats uniform-over-feasible in every instance; penalty + X mixer does not do so reliably (see `results/qaoa_variants_summary.csv`). PR open on `feat/qaoa-xy`, awaiting human review.
 10. [ ] Decide whether the live Run defaults of `main.py` should switch to xy + dicke (not changed yet; needs a human decision) and re-check the Qollab runtime with the Dicke state.
 11. [ ] Verify the Hadfield et al. (2019) and Sack and Serbyn (2021) references in `docs/model.md` before citing; the ramp total time 0.75 p is a placeholder.
+14. [ ] Run the FULL synthetic protocol: `python experiments/run_all.py --jobs 4` (24 instances x 6 variants x p = 1-3, estimated ~1 h serial, heavy: run it in the cloud / on a spare machine, not as a test). It overwrites the smoke `results/summary.json` (status `final`). Protocol `qwind-v1` is fixed in `experiments/run_all.py`; do not retune.
+15. [ ] Real dataset run after the wind data task (items 12-13): `python experiments/run_all.py --dataset real_<site> --site <site> --out ...` reads `qollab/data/windrose.json`. NOTE: the single-dataset script overwrites `results/` files; merge or use separate output dirs per dataset before publishing both.
