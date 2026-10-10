@@ -4,7 +4,7 @@
 3. [x] Add a dedicated runtime requirements file for Qollab and enforce it with a test.
 4. [x] Fix the failing GitHub Actions workflows (ci.yml, pages.yml).
 5. [x] Implement QAOA in `qollab/qwind/qaoa.py` and integrate it into `main.py` (PR open on `feat/qaoa`, awaiting human review).
-6. [ ] Draft `docs/results_schema.md` and create an example `results/summary.json` (to enable parallel frontend work).
+6. [~] `docs/results_schema.md` is written and enforced by `tests/test_results_schema.py` (PR open on `docs/results-schema`). The example `results/summary.json` comes from the `run_all.py --quick` smoke run in the next PR (`feat/run-all`).
 7. [ ] Run the uploaded `qollab/` folder in Qollab for real (built-in simulator) and check the table prints once.
 8. [ ] `experiments/run_all.py`: QAOA p = 1, 2, 3 on larger instances (restarts/maxiter/shots exposed as arguments of `run_qaoa`).
 9. [x] Compare QAOA variants (lam sweep, p = 3, ramp init, XY + Dicke). Result: XY + Dicke beats uniform-over-feasible in every instance; penalty + X mixer does not do so reliably (see `results/qaoa_variants_summary.csv`). PR open on `feat/qaoa-xy`, awaiting human review.
