@@ -1,7 +1,5 @@
 # Last Context
-- Merged layout branch into new feature branch.
-- Added `qollab/requirements.txt` to strictly pin runtime dependencies.
-- Refactored root `requirements.txt` and `requirements-dev.txt`.
-- Replaced `test_forbidden_imports.py` with `test_qollab_imports.py` which dynamically checks dependencies from `qollab/requirements.txt` using AST.
-- Enforced AST check to fail correctly if `matplotlib` or `qiskit-aer` is imported in `qollab/`.
-- Updated `README.md` and `agents.md` documenting strict requirements rules.
+- Investigated failing CI on `main`. Workflows were missing due to being empty files (0 bytes).
+- Re-created `.github/workflows/ci.yml` with `python-version: '3.12'`, configured it to install `requirements-dev.txt`, and run `pytest`.
+- Re-created `.github/workflows/pages.yml` and set its trigger to `workflow_dispatch` with appropriate permissions.
+- Ensured local tests run fast and green before pushing.
