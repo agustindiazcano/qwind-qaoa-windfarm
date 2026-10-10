@@ -1,0 +1,112 @@
+name: Run experiments
+
+# Manual only. Runs experiments/run_all.py with the fixed protocol qwind-v1 (never retuned here) for the chosen
+# datasets, one job per dataset, and returns the results as artifacts (nothing is committed or pushed).
+# Download the artifacts, check them, and commit results/ in a normal PR.
+on:
+  workflow_dispatch:
+    inputs:
+      datasets:
+        description: "Space-separated datasets: synthetic real_penmanshiel_sub10 real_penmanshiel real_kelmarsh real_chubut real_bahia_blanca"
+        default: "synthetic real_penmanshiel_sub10"   # datasets
+        required: true
+      quick:
+        description: "Tiny smoke run (status smoke) to test the workflow itself"
+        type: boolean
+        default: false
+      jobs:
+        description: "Worker processes per dataset"
+        default: "4"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.m.outputs.matrix }}
+    steps:
+    - id: m
+      env:
+        DATASETS: ${{ inputs.datasets }}
+      run: |
+        python3 - <<'PY'
+        import json, os, re, sys
+        ds = os.environ["DATASETS"].split()
+        ok = re.compile(r"^(synthetic|real_[a-z0-9_]+)$")
+        if not ds or not all(ok.match(d) for d in ds):
+            sys.exit("invalid dataset list")
+        with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+            f.write("matrix=" + json.dumps(ds) + "\n")
+        PY
+
+  run:
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        dataset: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+        cache: 'pip'
+        cache-dependency-path: qollab/requirements.txt
+    - name: Install runtime dependencies only
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r qollab/requirements.txt
+    - name: Run the fixed protocol
+      env:
+        DATASET: ${{ matrix.dataset }}
+        JOBS: ${{ inputs.jobs }}
+        QUICK: ${{ inputs.quick }}
+      run: |
+        EXTRA=""
+        if [ "$QUICK" = "true" ]; then EXTRA="--quick"; fi
+        python experiments/run_all.py --dataset "$DATASET" --jobs "$JOBS" $EXTRA --out "out/$DATASET"
+    - uses: actions/upload-artifact@v4
+      with:
+        name: results-${{ matrix.dataset }}
+        path: out/
+        if-no-files-found: error
+
+  merge:
+    needs: run
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+        cache: 'pip'
+        cache-dependency-path: qollab/requirements.txt
+    - name: Install runtime dependencies only
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r qollab/requirements.txt
+    - uses: actions/download-artifact@v4
+      with:
+        pattern: results-*
+        path: merge_in
+        merge-multiple: true
+    - name: Merge only the downloaded datasets (not the committed smoke runs)
+      run: |
+        python - <<'PY'
+        import sys
+        sys.path.insert(0, "experiments")
+        import run_all
+        merged = run_all.merge_results("merge_in", "merged")
+        print([d["dataset"] for d in merged["datasets"]], merged["status"])
+        PY
+    - uses: actions/upload-artifact@v4
+      with:
+        name: results-merged
+        path: merged/
+        if-no-files-found: error
