@@ -1,0 +1,129 @@
+{
+ "farms": {
+  "penmanshiel": {
+   "source_doi": "10.5281/zenodo.16807304",
+   "source_record": "https://zenodo.org/records/16807304",
+   "license": "CC-BY-4.0",
+   "manufacturer_model": "Senvion MM82",
+   "rotor_diameter_m": 82.0,
+   "hub_heights_m": [
+    59.0
+   ],
+   "turbines": [
+    {
+     "id": "T01",
+     "latitude": 55.902502,
+     "longitude": -2.306389
+    },
+    {
+     "id": "T02",
+     "latitude": 55.900008,
+     "longitude": -2.301268
+    },
+    {
+     "id": "T04",
+     "latitude": 55.905943,
+     "longitude": -2.30269
+    },
+    {
+     "id": "T05",
+     "latitude": 55.903294,
+     "longitude": -2.298367
+    },
+    {
+     "id": "T06",
+     "latitude": 55.900951,
+     "longitude": -2.293967
+    },
+    {
+     "id": "T07",
+     "latitude": 55.898741,
+     "longitude": -2.289856
+    },
+    {
+     "id": "T08",
+     "latitude": 55.907915,
+     "longitude": -2.297314
+    },
+    {
+     "id": "T09",
+     "latitude": 55.90499,
+     "longitude": -2.291806
+    },
+    {
+     "id": "T10",
+     "latitude": 55.903032,
+     "longitude": -2.287585
+    },
+    {
+     "id": "T11",
+     "latitude": 55.900852,
+     "longitude": -2.282371
+    },
+    {
+     "id": "T12",
+     "latitude": 55.908703,
+     "longitude": -2.290986
+    },
+    {
+     "id": "T13",
+     "latitude": 55.907026,
+     "longitude": -2.285887
+    },
+    {
+     "id": "T14",
+     "latitude": 55.90505,
+     "longitude": -2.28165
+    },
+    {
+     "id": "T15",
+     "latitude": 55.902463,
+     "longitude": -2.277329
+    }
+   ]
+  },
+  "kelmarsh": {
+   "source_doi": "10.5281/zenodo.16807551",
+   "source_record": "https://zenodo.org/records/16807551",
+   "license": "CC-BY-4.0",
+   "manufacturer_model": "Senvion MM92",
+   "rotor_diameter_m": 92.0,
+   "hub_heights_m": [
+    68.5,
+    78.5
+   ],
+   "turbines": [
+    {
+     "id": "KWF1",
+     "latitude": 52.400604,
+     "longitude": -0.947133
+    },
+    {
+     "id": "KWF2",
+     "latitude": 52.402551,
+     "longitude": -0.949527
+    },
+    {
+     "id": "KWF3",
+     "latitude": 52.403834,
+     "longitude": -0.94419
+    },
+    {
+     "id": "KWF4",
+     "latitude": 52.398781,
+     "longitude": -0.94115
+    },
+    {
+     "id": "KWF5",
+     "latitude": 52.402308,
+     "longitude": -0.940537
+    },
+    {
+     "id": "KWF6",
+     "latitude": 52.400687,
+     "longitude": -0.936093
+    }
+   ]
+  }
+ }
+}
