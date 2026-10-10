@@ -14,7 +14,7 @@ Wind turbines steal wind from each other: every turbine leaves a slower, turbule
 
 - **Putting the constraint inside the circuit helps.** A QAOA variant that always keeps exactly *K* turbines (XY mixer + Dicke start state) beats a uniform random choice over valid layouts in every instance we ran, at depths p = 1 to 3 (on the approximation ratio over feasible layouts).
 - **The standard penalty version does not.** Encoding "exactly K turbines" as a penalty does not beat the uniform baseline consistently, for any penalty weight we tested.
-- **Classical methods still win.** At these sizes they find the best layout exactly or almost exactly, with larger evaluation budgets than QAOA. **We do not claim a quantum advantage, a speedup, or energy or cost savings.**
+- **At these sizes, classical methods are enough.** Simulated annealing reaches the exact optimum on every dataset. The best layout sampled from the XY + Dicke QAOA also reaches it in every instance of five of the six datasets (and in 2 of 3 instances at N = 14), but random feasible sampling with the same 1000 samples is almost as good at N up to 12, so this is not evidence of an advantage. **We do not claim a quantum advantage, a speedup, or energy or cost savings.**
 
 Everything is simulated on a CPU (no quantum hardware), and the instances are small (at most 14 cells).
 
@@ -62,23 +62,23 @@ All numbers come from `results/summary.json` and `results/per_instance.csv` (fix
 | Chubut | 8 | 4 | 2-7/8 | 0-1/8 | 0.26-0.50 |
 | Bahia | 8 | 4 | 1-7/8 | 0-1/8 | 0.22-0.53 |
 
-**Classical methods and evaluation budgets** (budgets are not matched: simulated annealing uses far more evaluations than QAOA). Mean over the instances of each dataset:
+**Final solution quality against the classical methods** (gap to the exact optimum, mean over the instances of each dataset; XY + Dicke at depth p = 3, best layout of its 1000 samples). The budgets are not matched: simulated annealing uses far more objective evaluations than QAOA, and random feasible sampling uses the same 1000 samples as QAOA:
 
-| dataset | SA gap | SA evaluations | greedy gap | QAOA best-sampled gap | QAOA evaluations |
-|---|---|---|---|---|---|
-| Synthetic | 0.0000 | 5005 | 0.0129 | 0.0132 | 115 |
-| Penmanshiel | 0.0000 | 5005 | 0.0060 | 0.0308 | 111 |
-| Penmanshiel-10 | 0.0000 | 5005 | 0.0000 | 0.0026 | 115 |
-| Kelmarsh | 0.0000 | 5005 | 0.0000 | 0.0000 | 118 |
-| Chubut | 0.0000 | 5005 | 0.0000 | 0.0114 | 114 |
-| Bahia | 0.0000 | 5005 | 0.0000 | 0.0064 | 114 |
+| dataset | SA gap | SA evaluations | greedy gap | XY+Dicke best-sample gap | XY+Dicke found the optimum | random feasible sampling finds the optimum (probability) | XY+Dicke evaluations |
+|---|---|---|---|---|---|---|---|
+| Synthetic | 0.0000 | 5005 | 0.0129 | 0.0000 | 24/24 | 0.95 | 120 |
+| Penmanshiel | 0.0000 | 5005 | 0.0060 | 0.0060 | 2/3 | 0.35 | 120 |
+| Penmanshiel-10 | 0.0000 | 5005 | 0.0000 | 0.0000 | 3/3 | 0.99 | 120 |
+| Kelmarsh | 0.0000 | 5005 | 0.0000 | 0.0000 | 3/3 | 1.00 | 120 |
+| Chubut | 0.0000 | 5005 | 0.0000 | 0.0000 | 8/8 | 0.95 | 120 |
+| Bahia | 0.0000 | 5005 | 0.0000 | 0.0000 | 8/8 | 0.95 | 120 |
 <!-- RESULTS:END -->
 
 ### How to read the tables
 
 - The reference point is the *uniform distribution over feasible layouts*, not 1. QAOA's approximation ratios are well below 1; the absolute values are in the tables.
 - The constraint-preserving ansatz beats the uniform baseline on the approximation ratio in every instance reported here, at p = 1 to 3. On P(optimal) it does so in most instances but not all (counts in the table).
-- Classical methods solve these instances exactly or nearly so: simulated annealing reaches gap 0 in every dataset, and greedy search misses by a small margin on two. The best layout sampled from QAOA (1000 shots) is on average not better than the one found by simulated annealing.
+- Classical methods solve these instances exactly or nearly so: simulated annealing reaches gap 0 in every dataset (about 5005 evaluations), and greedy search misses by a small margin on two. The best layout sampled from the XY + Dicke QAOA reaches the exact optimum in every instance of five datasets and in 2 of 3 instances at N = 14 (p = 3); the penalty variants do so less often (`results/results_tables.md`). Random feasible sampling with the same 1000 samples already finds the optimum with probability 0.95 to 1.00 for N up to 12, so matching simulated annealing at those sizes does not show an advantage. At N = 14 random sampling finds it with probability 0.35 on average (XY + Dicke: 2 of 3 instances, too few to conclude).
 - Penmanshiel, Penmanshiel-10 and Kelmarsh have 3 instances each, too few for a mean or an interval: read them instance by instance in `results/results_tables.md`. The means above for those rows are only a summary.
 - At N = 14 (Penmanshiel) the probability of sampling the optimal layout is tiny in absolute terms for both QAOA and the uniform baseline; what improves is the distribution over feasible layouts.
 - One run per instance, one simulator, at most 14 cells. Results come from one environment (Python 3.12.15 in GitHub Actions). A Run on Qollab (Python 3.14.2) can give slightly different values; we do not claim reproducibility across environments.
