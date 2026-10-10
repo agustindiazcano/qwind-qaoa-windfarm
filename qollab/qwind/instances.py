@@ -61,9 +61,57 @@ def load_wind_rose(path, site):
     return rose_from_sectors(json.loads(text)["sites"][site]["sectors"])
 
 
-def build_instance(n_cells, wind_rose, seed, spacing_D=5.0):
-    """Grid (N/2, 2) with mildly heterogeneous, seeded per-site isolated power P0 in [1, 1.2]."""
-    P0 = 1.0 + 0.2 * np.random.default_rng(seed).random(n_cells)
+EARTH_RADIUS_M = 6371000.0
+
+
+def latlon_to_xy_m(lat, lon, lat0, lon0):
+    """Local equirectangular projection (x east, y north, meters) around (lat0, lon0); fine for a few km."""
+    lat, lon = np.asarray(lat, dtype=float), np.asarray(lon, dtype=float)
+    x = EARTH_RADIUS_M * np.radians(lon - lon0) * np.cos(np.radians(lat0))
+    y = EARTH_RADIUS_M * np.radians(lat - lat0)
+    return x, y
+
+
+def load_farm(path, name):
+    """One real farm of qollab/data/farms.json: {"farms": {name: {rotor_diameter_m, turbines: [{id, latitude, longitude}]}}}."""
+    with open(path, "r", encoding="utf-8") as f:
+        farm = json.load(f)["farms"][name]
+    return dict(farm, name=name)
+
+
+def farm_coords_D(farm):
+    """Turbine positions of a farm as (x east, y north) in rotor diameters, relative to the centroid."""
+    lat = [t["latitude"] for t in farm["turbines"]]
+    lon = [t["longitude"] for t in farm["turbines"]]
+    x, y = latlon_to_xy_m(lat, lon, float(np.mean(lat)), float(np.mean(lon)))
+    D = float(farm["rotor_diameter_m"])
+    return [(float(a) / D, float(b) / D) for a, b in zip(x, y)]
+
+
+def select_closest_to_centroid(ids, coords, n):
+    """
+    Fixed sub-instance rule: keep the n positions closest to the centroid of all positions (ties broken by the
+    original order of `ids`). Returns (ids, coords) of the kept cells in their ORIGINAL order, ids preserved.
+    """
+    if not 0 < n <= len(coords):
+        raise ValueError(f"cannot select {n} of {len(coords)} positions")
+    c = np.asarray(coords, dtype=float)
+    dist = np.linalg.norm(c - c.mean(axis=0), axis=1)
+    keep = sorted(sorted(range(len(c)), key=lambda i: (dist[i], i))[:n])
+    return [ids[i] for i in keep], [tuple(coords[i]) for i in keep]
+
+
+def build_instance(n_cells, wind_rose, seed, spacing_D=5.0, coords=None, P0=None):
+    """
+    Default: grid (N/2, 2) with mildly heterogeneous, seeded per-site isolated power P0 in [1, 1.2].
+    With `coords` (positions in rotor diameters, e.g. a real farm) the cells sit at those positions, there is no grid
+    (grid_shape = (N, 1)) and P0 defaults to 1 everywhere (no invented heterogeneity).
+    """
+    if coords is not None:
+        P0 = np.ones(n_cells) if P0 is None else np.broadcast_to(np.asarray(P0, dtype=float), (n_cells,)).copy()
+        h, J = generate_h_J(wind_rose=wind_rose, P0=P0, coords=coords)
+        return Instance(h=h, J=J, grid_shape=(n_cells, 1), P0=P0)
+    P0 = 1.0 + 0.2 * np.random.default_rng(seed).random(n_cells) if P0 is None else P0
     grid_shape = (n_cells // 2, 2)
     h, J = generate_h_J(grid_shape, spacing_D=spacing_D, wind_rose=wind_rose, P0=P0)
     return Instance(h=h, J=J, grid_shape=grid_shape, P0=P0)

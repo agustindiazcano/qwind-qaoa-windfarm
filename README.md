@@ -42,6 +42,14 @@ lam  = penalty weight for the "exactly K turbines" constraint
 - The Hamiltonian is built by hand as a `SparsePauliOp` (Ising mapping `x = (1 - Z) / 2`, qubit *i* = bit *i* of the state index).
 - Expectation values with `StatevectorEstimator`, classical optimization with `scipy.optimize` (COBYLA) and multiple seeded restarts, final sampling with `StatevectorSampler`.
 
+### How the circuit is simulated
+We simulate the full QAOA circuit in Qiskit and compare it against classical methods. `StatevectorEstimator` and `StatevectorSampler` compute the exact expectation values and the exact output distribution of the circuit on the CPU, so the optimization has no shot noise. We do **not** call `backend.run` inside the optimization loop (project rule): every backend call goes through the platform's job handling, and an optimization needs hundreds of evaluations. We have not benchmarked that route ourselves, so we state it as a design choice and not as a measurement. Nothing runs on quantum hardware and no advantage is claimed.
+
+### What this adds beyond running QAOA
+- A comparative benchmark with controls: uniform sampling over feasible layouts and random feasible sampling with the same number of shots, next to exact, simulated annealing and greedy search.
+- A constraint-preserving variant (XY mixer with a Dicke start state) against the penalty formulation.
+- Real data: operating-farm turbine positions and measured wind roses, plus ERA5 roses as a secondary dataset (sources and licenses in `docs/DATA.md`). It is a selection problem (choose *K* of the existing turbine positions to keep operating), not layout design.
+
 ### Classical baselines
 - Exact enumeration (ground truth)
 - Simulated annealing

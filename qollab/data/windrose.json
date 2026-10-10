@@ -191,6 +191,189 @@
      "mean_speed": 9.450719419341066
     }
    ]
+  },
+  "kelmarsh": {
+   "source": "measured 10-minute SCADA, nacelle anemometer and wind direction (Zenodo, CC-BY-4.0)",
+   "record": "https://zenodo.org/records/16807551",
+   "period": "2019-01-01 to 2019-12-31",
+   "n_readings": 314942,
+   "hub_height_m": [
+    68.5,
+    78.5
+   ],
+   "sectors": [
+    {
+     "direction_deg": 0.0,
+     "frequency": 0.039743825847298866,
+     "mean_speed": 5.137969362725923
+    },
+    {
+     "direction_deg": 22.5,
+     "frequency": 0.03486356217970293,
+     "mean_speed": 5.092507848395583
+    },
+    {
+     "direction_deg": 45.0,
+     "frequency": 0.0438556940643039,
+     "mean_speed": 5.120822158072401
+    },
+    {
+     "direction_deg": 67.5,
+     "frequency": 0.03797524623581485,
+     "mean_speed": 4.601966786103531
+    },
+    {
+     "direction_deg": 90.0,
+     "frequency": 0.03716557334366328,
+     "mean_speed": 5.17219026272793
+    },
+    {
+     "direction_deg": 112.5,
+     "frequency": 0.036990938013983524,
+     "mean_speed": 4.822490428602246
+    },
+    {
+     "direction_deg": 135.0,
+     "frequency": 0.03831499133173727,
+     "mean_speed": 4.963150239770893
+    },
+    {
+     "direction_deg": 157.5,
+     "frequency": 0.042639597132170366,
+     "mean_speed": 5.378067781860518
+    },
+    {
+     "direction_deg": 180.0,
+     "frequency": 0.061014409002292484,
+     "mean_speed": 5.952476458360113
+    },
+    {
+     "direction_deg": 202.5,
+     "frequency": 0.11665957541388573,
+     "mean_speed": 6.901600639870716
+    },
+    {
+     "direction_deg": 225.0,
+     "frequency": 0.1232766668148421,
+     "mean_speed": 7.0337021771417625
+    },
+    {
+     "direction_deg": 247.5,
+     "frequency": 0.12524528325850473,
+     "mean_speed": 6.9528613996466655
+    },
+    {
+     "direction_deg": 270.0,
+     "frequency": 0.08349156352598257,
+     "mean_speed": 6.404499629328448
+    },
+    {
+     "direction_deg": 292.5,
+     "frequency": 0.07263559639552679,
+     "mean_speed": 6.036156138446811
+    },
+    {
+     "direction_deg": 315.0,
+     "frequency": 0.0677362816010567,
+     "mean_speed": 5.4385096063813965
+    },
+    {
+     "direction_deg": 337.5,
+     "frequency": 0.038391195839233894,
+     "mean_speed": 4.821833760856095
+    }
+   ]
+  },
+  "penmanshiel": {
+   "source": "measured 10-minute SCADA, nacelle anemometer and wind direction (Zenodo, CC-BY-4.0)",
+   "record": "https://zenodo.org/records/16807304",
+   "period": "2019-01-01 to 2019-12-31",
+   "n_readings": 728900,
+   "hub_height_m": [
+    59.0
+   ],
+   "sectors": [
+    {
+     "direction_deg": 0.0,
+     "frequency": 0.04092742488681575,
+     "mean_speed": 7.651552425272679
+    },
+    {
+     "direction_deg": 22.5,
+     "frequency": 0.039146659349705036,
+     "mean_speed": 6.596666405930274
+    },
+    {
+     "direction_deg": 45.0,
+     "frequency": 0.02170256550967211,
+     "mean_speed": 5.615057706275441
+    },
+    {
+     "direction_deg": 67.5,
+     "frequency": 0.018160241459733845,
+     "mean_speed": 4.741846793072275
+    },
+    {
+     "direction_deg": 90.0,
+     "frequency": 0.025631773905885582,
+     "mean_speed": 5.176428208810152
+    },
+    {
+     "direction_deg": 112.5,
+     "frequency": 0.04149951982439292,
+     "mean_speed": 6.119988102548244
+    },
+    {
+     "direction_deg": 135.0,
+     "frequency": 0.08227740430786117,
+     "mean_speed": 6.263662239738021
+    },
+    {
+     "direction_deg": 157.5,
+     "frequency": 0.0722142955137879,
+     "mean_speed": 6.024884081116191
+    },
+    {
+     "direction_deg": 180.0,
+     "frequency": 0.08557278090273014,
+     "mean_speed": 6.561313963134214
+    },
+    {
+     "direction_deg": 202.5,
+     "frequency": 0.1522856358896968,
+     "mean_speed": 7.993868857078128
+    },
+    {
+     "direction_deg": 225.0,
+     "frequency": 0.09276169570585814,
+     "mean_speed": 7.314274778769398
+    },
+    {
+     "direction_deg": 247.5,
+     "frequency": 0.09018932638221978,
+     "mean_speed": 7.389581014266164
+    },
+    {
+     "direction_deg": 270.0,
+     "frequency": 0.09243243243243243,
+     "mean_speed": 8.185705229522915
+    },
+    {
+     "direction_deg": 292.5,
+     "frequency": 0.0647509946494718,
+     "mean_speed": 7.149114250260571
+    },
+    {
+     "direction_deg": 315.0,
+     "frequency": 0.04095760735354644,
+     "mean_speed": 6.407839612145384
+    },
+    {
+     "direction_deg": 337.5,
+     "frequency": 0.03948964192619015,
+     "mean_speed": 8.268077448937134
+    }
+   ]
   }
  }
 }

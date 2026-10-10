@@ -64,6 +64,7 @@ def test_qollab_requirements_pinned():
                 assert '==' in line, f"Requirement '{line}' is not strictly pinned with '=='"
                 assert '>=' not in line and '<=' not in line and '~=' not in line, f"Requirement '{line}' uses flexible pinning"
 
+@pytest.mark.heavy
 def test_qollab_runs_once_as_script_and_platform_call(capsys):
     """
     Qollab runs the uploaded file and (in some project shapes) may also call main() afterwards.
@@ -83,6 +84,7 @@ def test_qollab_runs_once_as_script_and_platform_call(capsys):
     assert "Method" in capsys.readouterr().out
 
 
+@pytest.mark.heavy
 def test_qollab_main_import_has_no_side_effects():
     """Importing main (as a module) prints nothing and runs no work; only the script guard may call main()."""
     import subprocess

@@ -24,7 +24,7 @@ def jensen_wake_deficit(x_dist, y_dist, k=0.075, Ct=0.8, D=1.0):
     deficit = (1.0 - np.sqrt(1.0 - Ct)) / ((1.0 + 2.0 * k * x_dist / D)**2)
     return deficit
 
-def generate_h_J(grid_shape=(4, 3), spacing_D=5.0, wind_rose=None, P0=1.0):
+def generate_h_J(grid_shape=(4, 3), spacing_D=5.0, wind_rose=None, P0=1.0, coords=None):
     """
     Generate linear terms h and quadratic terms J for the QUBO formulation.
     
@@ -32,6 +32,8 @@ def generate_h_J(grid_shape=(4, 3), spacing_D=5.0, wind_rose=None, P0=1.0):
     grid_shape: (rows, cols)
     spacing_D: distance between adjacent cells in units of rotor diameters
     wind_rose: list of tuples (angle_degrees, probability)
+    coords: optional list of (x, y) cell positions in rotor diameters (x east, y north); when given it replaces the
+        regular grid (grid_shape and spacing_D are then ignored), e.g. the real turbine positions of a farm
     """
     if wind_rose is None:
         # Default wind rose: mostly from North (270 deg in math if East is 0)
@@ -40,7 +42,7 @@ def generate_h_J(grid_shape=(4, 3), spacing_D=5.0, wind_rose=None, P0=1.0):
         # We will define angles as the direction the wind is blowing TOWARDS.
         wind_rose = [(0, 0.2), (90, 0.5), (180, 0.1), (270, 0.2)]
         
-    num_cells = grid_shape[0] * grid_shape[1]
+    num_cells = len(coords) if coords is not None else grid_shape[0] * grid_shape[1]
     
     if np.isscalar(P0):
         P0_array = P0 * np.ones(num_cells)
@@ -51,11 +53,12 @@ def generate_h_J(grid_shape=(4, 3), spacing_D=5.0, wind_rose=None, P0=1.0):
     J = np.zeros((num_cells, num_cells))
     
     # Calculate coordinates for each cell
-    coords = []
-    for r in range(grid_shape[0]):
-        for c in range(grid_shape[1]):
-            # x is col, y is row
-            coords.append((c * spacing_D, r * spacing_D))
+    if coords is None:
+        coords = []
+        for r in range(grid_shape[0]):
+            for c in range(grid_shape[1]):
+                # x is col, y is row
+                coords.append((c * spacing_D, r * spacing_D))
             
     for i in range(num_cells):
         for j in range(num_cells):

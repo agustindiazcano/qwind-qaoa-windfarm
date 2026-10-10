@@ -8,20 +8,28 @@ Files written by `experiments/run_all.py`:
 
 | File | Content |
 |---|---|
-| `results/summary.json` | Protocol, environment, instances and aggregated results (mean, std, 95% interval over instances). |
-| `results/per_instance.csv` | One row per instance x method x variant x depth. Source of every aggregate. |
+| `results/<dataset>/summary.json`, `results/<dataset>/per_instance.csv` | One run of one dataset (`synthetic`, `real_chubut`, `real_bahia_blanca`). A run only writes its own folder, so datasets never overwrite each other. |
+| `results/summary.json` | Merged file the website reads: protocol, environment, list of datasets, instances and aggregated results (mean, std, 95% interval over instances). Built by `python experiments/run_all.py --merge`. |
+| `results/per_instance.csv` | One row per instance x method x variant x depth, all datasets concatenated. Source of every aggregate. |
+
+`--merge` only reads sub-folders named after a dataset and refuses to merge runs made with different protocols. A single-dataset folder follows the same schema (a `datasets` list with one entry).
 
 ## `dataset` values
 `dataset` identifies where the wind rose comes from. Allowed values: `synthetic` or `real_<site>` (lowercase letters, digits and underscores, for example `real_chubut`). Synthetic and real results are stored side by side and never mixed in an aggregate.
+
+Real datasets (`docs/DATA.md`) are of two kinds:
+- `real_chubut`, `real_bahia_blanca`: a real ERA5 wind rose on the synthetic grid of candidate cells. They reuse only the (N, K) pairs and seeds of the synthetic A-rose instances (8 instances per site: N = 6, 8, 10, 12 with two K each), so `n_instances` = 8 (synthetic: 24).
+- `real_penmanshiel`, `real_penmanshiel_sub10`, `real_kelmarsh`: the real turbine positions of an operating farm are the candidate cells and a measured wind rose is used; one instance per K, so `n_instances` = 3 each (Penmanshiel N = 14, K = 5, 7, 9; `real_penmanshiel_sub10` N = 10, K = 3, 5, 7, the 10 turbines closest to the farm centroid; Kelmarsh N = 6, K = 2, 3, 4). A farm has no grid: `grid_rows` = N and `grid_cols` = 1. These are **curtailment/selection problems** (choose K of the existing turbine positions to keep operating), not layout design. `real_kelmarsh` is a trivial contrast (C(6,K) <= 20 subsets). Datasets are always reported separately; an aggregate row never mixes datasets.
 
 ## `results/summary.json`
 
 | Key | Type | Meaning |
 |---|---|---|
 | `schema_version` | string | `"1.0"`. |
-| `status` | string | `"final"` for the full protocol, `"smoke"` for a tiny test run. A `smoke` file is not a result and must not be quoted. |
+| `status` | string | `"final"` for the full protocol, `"smoke"` for a tiny test run. A `smoke` file is not a result and must not be quoted. In a merged file it is `"final"` only if every dataset is `"final"`, otherwise `"smoke"`. |
 | `protocol` | object | Everything fixed BEFORE running: id, datasets, depths, restarts, maxiter, shots, lam multipliers, ramp total time, variants. Never retuned after seeing results. |
 | `environment` | object | Python, Qiskit, NumPy and SciPy versions. |
+| `datasets` | list | One object per dataset in the file: `dataset`, `status` (`final` \| `smoke`), `n_instances`. Each dataset appears once; every `instances` and `results` entry refers to a listed dataset. Sorted by name in a merged file. |
 | `instances` | list | One object per instance: `dataset`, `instance_id`, `wind_rose`, `N`, `K`, `grid_rows`, `grid_cols`, `seed`. |
 | `results` | list | Aggregated rows, see below. |
 | `caveats` | list of strings | Model limitations (pairwise additive wake losses, small instances, simulator only, no advantage claimed). Must not be empty. |
