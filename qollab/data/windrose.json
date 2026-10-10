@@ -1,0 +1,196 @@
+{
+ "sites": {
+  "chubut": {
+   "source": "ERA5 hourly 100 m wind via Open-Meteo archive API",
+   "period": "2015-01-01 to 2024-12-31",
+   "requested_lat_lon": [
+    -45.87,
+    -67.5
+   ],
+   "grid_lat_lon": [
+    -45.75,
+    -67.5
+   ],
+   "hub_height_m": 100,
+   "n_hours": 87672,
+   "sectors": [
+    {
+     "direction_deg": 0.0,
+     "frequency": 0.039739027283511266,
+     "mean_speed": 5.453091274397244
+    },
+    {
+     "direction_deg": 22.5,
+     "frequency": 0.03141253764029565,
+     "mean_speed": 5.299495279593319
+    },
+    {
+     "direction_deg": 45.0,
+     "frequency": 0.03269002646226846,
+     "mean_speed": 5.6458374040474535
+    },
+    {
+     "direction_deg": 67.5,
+     "frequency": 0.02485400127748882,
+     "mean_speed": 5.250697567691602
+    },
+    {
+     "direction_deg": 90.0,
+     "frequency": 0.015375490464458436,
+     "mean_speed": 4.2034347181008895
+    },
+    {
+     "direction_deg": 112.5,
+     "frequency": 0.013151291176202208,
+     "mean_speed": 4.5221942758022555
+    },
+    {
+     "direction_deg": 135.0,
+     "frequency": 0.015215804361711835,
+     "mean_speed": 4.933500749625187
+    },
+    {
+     "direction_deg": 157.5,
+     "frequency": 0.01587736107309061,
+     "mean_speed": 5.213426724137931
+    },
+    {
+     "direction_deg": 180.0,
+     "frequency": 0.024260881467287162,
+     "mean_speed": 6.068594264221908
+    },
+    {
+     "direction_deg": 202.5,
+     "frequency": 0.03922575052468291,
+     "mean_speed": 7.030203547542891
+    },
+    {
+     "direction_deg": 225.0,
+     "frequency": 0.053278127566383796,
+     "mean_speed": 7.356673089274245
+    },
+    {
+     "direction_deg": 247.5,
+     "frequency": 0.08272880737293549,
+     "mean_speed": 8.59448228319316
+    },
+    {
+     "direction_deg": 270.0,
+     "frequency": 0.2525891960945342,
+     "mean_speed": 10.969172273650935
+    },
+    {
+     "direction_deg": 292.5,
+     "frequency": 0.20462633451957296,
+     "mean_speed": 10.328943701226311
+    },
+    {
+     "direction_deg": 315.0,
+     "frequency": 0.09903960215348116,
+     "mean_speed": 7.842628123920304
+    },
+    {
+     "direction_deg": 337.5,
+     "frequency": 0.05593576056209508,
+     "mean_speed": 6.47152528548124
+    }
+   ]
+  },
+  "bahia_blanca": {
+   "source": "ERA5 hourly 100 m wind via Open-Meteo archive API",
+   "period": "2015-01-01 to 2024-12-31",
+   "requested_lat_lon": [
+    -38.72,
+    -62.27
+   ],
+   "grid_lat_lon": [
+    -38.75,
+    -62.25
+   ],
+   "hub_height_m": 100,
+   "n_hours": 87672,
+   "sectors": [
+    {
+     "direction_deg": 0.0,
+     "frequency": 0.11450634181950908,
+     "mean_speed": 8.579982069927285
+    },
+    {
+     "direction_deg": 22.5,
+     "frequency": 0.054167807281686284,
+     "mean_speed": 6.913516529795746
+    },
+    {
+     "direction_deg": 45.0,
+     "frequency": 0.040377771694497674,
+     "mean_speed": 6.013853107344633
+    },
+    {
+     "direction_deg": 67.5,
+     "frequency": 0.03691030203485719,
+     "mean_speed": 5.88906674907293
+    },
+    {
+     "direction_deg": 90.0,
+     "frequency": 0.04036636554430149,
+     "mean_speed": 6.057312800226053
+    },
+    {
+     "direction_deg": 112.5,
+     "frequency": 0.04533944702983849,
+     "mean_speed": 6.558377358490566
+    },
+    {
+     "direction_deg": 135.0,
+     "frequency": 0.046776621954557895,
+     "mean_speed": 7.039846378931967
+    },
+    {
+     "direction_deg": 157.5,
+     "frequency": 0.034264075189342096,
+     "mean_speed": 6.932200399467377
+    },
+    {
+     "direction_deg": 180.0,
+     "frequency": 0.029439273656355507,
+     "mean_speed": 6.712677256877178
+    },
+    {
+     "direction_deg": 202.5,
+     "frequency": 0.035313441007391186,
+     "mean_speed": 6.891217700258398
+    },
+    {
+     "direction_deg": 225.0,
+     "frequency": 0.04267040788393101,
+     "mean_speed": 7.192093023255813
+    },
+    {
+     "direction_deg": 247.5,
+     "frequency": 0.05412218268090154,
+     "mean_speed": 7.523079030558481
+    },
+    {
+     "direction_deg": 270.0,
+     "frequency": 0.06921251939045533,
+     "mean_speed": 7.684770929466052
+    },
+    {
+     "direction_deg": 292.5,
+     "frequency": 0.08313942877999818,
+     "mean_speed": 7.608689806557827
+    },
+    {
+     "direction_deg": 315.0,
+     "frequency": 0.11310338534537823,
+     "mean_speed": 8.339537111738604
+    },
+    {
+     "direction_deg": 337.5,
+     "frequency": 0.1602906287069988,
+     "mean_speed": 9.450719419341066
+    }
+   ]
+  }
+ }
+}
