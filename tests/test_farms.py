@@ -4,7 +4,7 @@ import os
 import numpy as np
 import pytest
 
-from qwind.instances import (build_instance, farm_coords_D, latlon_to_xy_m, load_farm)
+from qwind.instances import (build_instance, farm_coords_D, latlon_to_xy_m, load_farm, select_closest_to_centroid)
 from qwind.wake import generate_h_J
 
 FARMS = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "qollab", "data", "farms.json"))
@@ -75,3 +75,41 @@ def test_farm_coords_in_rotor_diameters(farms, name):
 def test_load_farm_returns_name_and_ids():
     farm = load_farm(FARMS, "kelmarsh")
     assert farm["name"] == "kelmarsh" and len(farm["turbines"]) == 6
+
+
+# --- fixed sub-instance rule (written before looking at any result): the n turbines closest to the farm centroid ---
+
+def test_select_closest_to_centroid_known_case():
+    # centroid of these five points is (0, 0); the corner point (10, 10) is the farthest
+    coords = [(1.0, 0.0), (-1.0, 0.0), (0.0, 1.0), (0.0, -1.0), (0.0, 0.0)]
+    coords = coords[:4] + [(10.0, 10.0)] + [(-10.0, -10.0)]          # centroid stays (0, 0); two far corners
+    ids = ["a", "b", "c", "d", "e", "f"]
+    sel_ids, sel_coords = select_closest_to_centroid(ids, coords, 4)
+    assert sel_ids == ["a", "b", "c", "d"] and sel_coords == coords[:4]    # original order and ids preserved
+
+
+def test_select_closest_to_centroid_tie_break_by_id_order():
+    coords = [(1.0, 0.0), (-1.0, 0.0), (0.0, 1.0), (0.0, -1.0)]            # all at the same distance
+    ids = ["t1", "t2", "t3", "t4"]
+    sel_ids, _ = select_closest_to_centroid(ids, coords, 2)
+    assert sel_ids == ["t1", "t2"]
+    assert select_closest_to_centroid(ids, coords, 2) == select_closest_to_centroid(ids, coords, 2)
+
+
+def test_select_closest_to_centroid_rejects_bad_n():
+    with pytest.raises(ValueError):
+        select_closest_to_centroid(["a", "b"], [(0.0, 0.0), (1.0, 1.0)], 3)
+
+
+def test_penmanshiel_sub10_removes_the_four_farthest(farms):
+    farm = load_farm(FARMS, "penmanshiel")
+    coords = farm_coords_D(farm)
+    ids = [t["id"] for t in farm["turbines"]]
+    sel_ids, sel_coords = select_closest_to_centroid(ids, coords, 10)
+    assert len(sel_ids) == 10 and set(sel_ids) <= set(ids)
+    c = np.array(coords)
+    dist = np.linalg.norm(c - c.mean(axis=0), axis=1)
+    dropped = [dist[ids.index(i)] for i in ids if i not in sel_ids]
+    kept = [dist[ids.index(i)] for i in sel_ids]
+    assert max(kept) <= min(dropped)
+    assert [i for i in ids if i in sel_ids] == sel_ids          # original ordering kept

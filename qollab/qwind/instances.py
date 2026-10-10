@@ -88,6 +88,19 @@ def farm_coords_D(farm):
     return [(float(a) / D, float(b) / D) for a, b in zip(x, y)]
 
 
+def select_closest_to_centroid(ids, coords, n):
+    """
+    Fixed sub-instance rule: keep the n positions closest to the centroid of all positions (ties broken by the
+    original order of `ids`). Returns (ids, coords) of the kept cells in their ORIGINAL order, ids preserved.
+    """
+    if not 0 < n <= len(coords):
+        raise ValueError(f"cannot select {n} of {len(coords)} positions")
+    c = np.asarray(coords, dtype=float)
+    dist = np.linalg.norm(c - c.mean(axis=0), axis=1)
+    keep = sorted(sorted(range(len(c)), key=lambda i: (dist[i], i))[:n])
+    return [ids[i] for i in keep], [tuple(coords[i]) for i in keep]
+
+
 def build_instance(n_cells, wind_rose, seed, spacing_D=5.0, coords=None, P0=None):
     """
     Default: grid (N/2, 2) with mildly heterogeneous, seeded per-site isolated power P0 in [1, 1.2].

@@ -182,3 +182,32 @@ def test_run_instance_on_real_farm_layout(tmp_path):
     assert {(r["grid_rows"], r["grid_cols"]) for r in rows} == {(6, 1)}
     assert next(r for r in rows if r["method"] == "exact")["energy_gap"] == pytest.approx(0.0)
     assert all(r["energy_gap"] >= -1e-9 for r in rows)
+
+
+# --- sub-instance, Kelmarsh as trivial contrast, datasets never mixed ---
+
+def test_penmanshiel_sub10_specs_are_fixed():
+    specs = run_all.specs_for_dataset("real_penmanshiel_sub10")
+    assert [(s.N, s.K) for s in specs] == [(10, 3), (10, 5), (10, 7)]
+    assert {s.dataset for s in specs} == {"real_penmanshiel_sub10"} and {s.wind_rose for s in specs} == {"penmanshiel"}
+    assert all(run_all.is_farm(s) and run_all.grid_for(s) == (10, 1) for s in specs)
+
+
+def test_farm_cells_sub10_vs_full():
+    full = run_all.farm_cells(run_all.specs_for_dataset("real_penmanshiel")[0], FARMS_PATH)
+    sub = run_all.farm_cells(run_all.specs_for_dataset("real_penmanshiel_sub10")[0], FARMS_PATH)
+    assert len(full) == 14 and len(sub) == 10
+    assert all(c in full for c in sub)                      # sub-instance uses real positions of the same farm
+    assert len(run_all.farm_cells(run_all.specs_for_dataset("real_kelmarsh")[0], FARMS_PATH)) == 6
+
+
+def test_kelmarsh_is_labeled_as_trivial_contrast():
+    assert any("Kelmarsh" in c and "trivial" in c for c in run_all.CAVEATS)
+
+
+def test_aggregate_never_mixes_datasets():
+    def r(dataset, gap):
+        return dict(dataset=dataset, method="exact", variant="exact", p="", energy_gap=gap, time_s=0.1)
+    out = run_all.aggregate([r("real_penmanshiel", 0.0), r("real_kelmarsh", 1.0), r("synthetic", 2.0)])
+    assert sorted(x["dataset"] for x in out) == ["real_kelmarsh", "real_penmanshiel", "synthetic"]
+    assert all(x["n_instances"] == 1 for x in out)

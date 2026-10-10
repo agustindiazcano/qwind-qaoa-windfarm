@@ -50,6 +50,7 @@ def test_qubit_ordering_matches_qubo_table():
     assert not np.allclose(table, table[[int(format(i, f"0{n}b")[::-1], 2) for i in range(2 ** n)]])
 
 
+@pytest.mark.heavy
 def test_p1_beats_uniform_baseline():
     """3. After optimization (p=1) optimum probability and feasible mass beat the uniform distribution."""
     Q, n = make_instance((3, 2), K=3)
@@ -60,6 +61,7 @@ def test_p1_beats_uniform_baseline():
     assert res.nfev > 0 and res.wall_time > 0
 
 
+@pytest.mark.heavy
 def test_same_seed_is_reproducible():
     """4. Same seed gives identical results."""
     Q, n = make_instance((3, 2), K=3)
@@ -113,6 +115,7 @@ def _without_timings(text):
     return "\n".join(line.rsplit("|", 1)[0] if "|" in line else line for line in text.splitlines())
 
 
+@pytest.mark.heavy
 def test_main_output_table_labels_and_determinism(capsys):
     import main
     main.main(n_cells=6, K=3, p=1)
@@ -127,11 +130,20 @@ def test_main_output_table_labels_and_determinism(capsys):
     assert _without_timings(first) == _without_timings(second)
 
 
-def test_main_refuses_large_instances(capsys):
+def test_live_run_limits_are_fixed():
+    """Live Run: recommended <= 10 cells, hard limit 12, default N = 8 (N = 14 took 42.8 s in Qollab, over budget)."""
+    import inspect
     import main
-    main.main(n_cells=16)
+    assert main.RECOMMENDED_LIVE_CELLS == 10 and main.MAX_LIVE_CELLS == 12
+    assert inspect.signature(main.main).parameters["n_cells"].default == 8
+
+
+@pytest.mark.parametrize("n_cells", [13, 14, 16])
+def test_main_refuses_large_instances(capsys, n_cells):
+    import main
+    main.main(n_cells=n_cells)
     out = capsys.readouterr().out
-    assert "limited" in out
+    assert "limited" in out and "hard limit 12" in out and "offline" in out
     assert "Method" not in out
 
 

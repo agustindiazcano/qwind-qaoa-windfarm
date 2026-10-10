@@ -19,7 +19,7 @@ Files written by `experiments/run_all.py`:
 
 Real datasets (`docs/DATA.md`) are of two kinds:
 - `real_chubut`, `real_bahia_blanca`: a real ERA5 wind rose on the synthetic grid of candidate cells. They reuse only the (N, K) pairs and seeds of the synthetic A-rose instances (8 instances per site: N = 6, 8, 10, 12 with two K each), so `n_instances` = 8 (synthetic: 24).
-- `real_penmanshiel`, `real_kelmarsh`: the real turbine positions of an operating farm are the candidate cells and a measured wind rose is used; one instance per K (Penmanshiel N = 14, K = 5, 7, 9; Kelmarsh N = 6, K = 2, 3, 4), so `n_instances` = 3. A farm has no grid: `grid_rows` = N and `grid_cols` = 1.
+- `real_penmanshiel`, `real_penmanshiel_sub10`, `real_kelmarsh`: the real turbine positions of an operating farm are the candidate cells and a measured wind rose is used; one instance per K, so `n_instances` = 3 each (Penmanshiel N = 14, K = 5, 7, 9; `real_penmanshiel_sub10` N = 10, K = 3, 5, 7, the 10 turbines closest to the farm centroid; Kelmarsh N = 6, K = 2, 3, 4). A farm has no grid: `grid_rows` = N and `grid_cols` = 1. These are **curtailment/selection problems** (choose K of the existing turbine positions to keep operating), not layout design. `real_kelmarsh` is a trivial contrast (C(6,K) <= 20 subsets). Datasets are always reported separately; an aggregate row never mixes datasets.
 
 ## `results/summary.json`
 

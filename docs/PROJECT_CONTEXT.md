@@ -82,7 +82,7 @@ Scientific principles of the owner for this project: model rooted in the real ph
 - Gap to optimum in energy; probability of sampling the exact optimum; probability mass on feasible states; approximation ratio of the expected energy.
 - Effect of depth p; number of restarts and function evaluations; wall-clock time versus number of qubits (scaling).
 - Multiple instances (different wind roses, K, grid shapes), reported with confidence intervals or distributions, fixed seeds.
-- Planned instance sizes: 9, 12, 16, 20 cells (live Run in Qollab: up to 12 cells recommended, hard limit 14).
+- Planned instance sizes: 9, 12, 16, 20 cells (live Run in Qollab: up to 10 cells recommended, hard limit 12, default N = 8).
 
 ### 4.6 Optional: noise
 - Not available through `qiskit_aer` in Qollab. The platform offers noise-model simulators (IBM, IonQ), selected in the Run dialog; whether and how they can be used from code is an open question for a mentor. Noise results are optional and do not score extra points.
@@ -112,7 +112,7 @@ QAOA-like workload timings (parameterized circuit, all-to-all RZZ, Estimator plu
 | 12 | 0.086 | 40 evals in 4.1 s |
 | 14 | 0.229 | 20 evals in 4.9 s |
 
-Rules derived from this: The live Run is limited to small instances: up to 12 cells recommended, hard limit 14. Larger instances are computed offline. The live Run must finish well under a minute; instances above 14 are computed offline and stored in `results/`. Timings come from one machine and one run; leave a safety margin.
+Rules derived from this: The live Run is limited to small instances: up to 10 cells recommended, hard limit 12, default N = 8. **Measured in the live Run: N = 14 took 42.8 s (penalty QAOA, one run), over the 30 s budget**, so the limits were lowered from 12/14 to 10/12 and N = 14 is offline only. The live Run must finish well under a minute; larger instances (including the 14-turbine Penmanshiel farm) are computed offline and stored in `results/`. Timings come from one machine and one run; leave a safety margin.
 
 Run dialog (QPU selector): Built-in simulator (24q, ideal, free, local) is the default and the one judges use. AWS Braket local simulator (25q), IBM noise-model simulators (free, local), remote IonQ simulators (Aria 1/2 25q, Forte 1 29q; noise model, free) and real IonQ Forte 1 36q (credits apply). Use the built-in simulator for development. Do not use remote simulators or QPUs.
 
@@ -174,12 +174,13 @@ Rules: `qollab/` may import only numpy, scipy, qiskit and the standard library. 
 - Task 2 (`chore/qollab-layout`): Repository structured according to Qollab constraints (`qollab/` self-contained, strict dependencies). **PR #6 merged.**
 - Task 3 (`feat/qollab-requirements`): Added strict requirements.txt checking for `qollab/` using AST. **PR #7 open.**
 - Chore: `.gitignore` added and committed `.pyc` files untracked (PR #13 merged). `main.py` only defines `main()` (PR #12 merged), covered by an import-side-effects test.
-- Task 4 (`feat/qaoa`): `qaoa.py` (hand-built circuit, Estimator + COBYLA, exact distribution, Sampler) and `main(n_cells=8, K=3, p=2, seed=0)` with a QAOA row and detail block; live Run limited to N <= 14. Default run ~6.5 s locally (120 evaluations at 8 qubits). Output reports QAOA next to uniform and random-feasible-sampling baselines and a feasible-only approximation ratio. **PR #14 merged, awaiting human review. Not yet run inside Qollab.**
+- Task 4 (`feat/qaoa`): `qaoa.py` (hand-built circuit, Estimator + COBYLA, exact distribution, Sampler) and `main(n_cells=8, K=3, p=2, seed=0)` with a QAOA row and detail block; live Run limited to N <= 12 (lowered from 14 after N = 14 took 42.8 s in the live Run). Default run ~6.5 s locally (120 evaluations at 8 qubits). Output reports QAOA next to uniform and random-feasible-sampling baselines and a feasible-only approximation ratio. **PR #14 merged, awaiting human review. Not yet run inside Qollab.**
 - Task 6 (`feat/qaoa-xy`): constraint-preserving QAOA (XY mixer + Dicke start, no penalty) and ramp initialization, selectable by arguments; offline comparison in `experiments/compare_qaoa_variants.py` with CSVs in `results/`. On 7 small instances xy + dicke beats the uniform-over-feasible baseline everywhere while the penalty QAOA does not reliably do so; with 1000 shots even random feasible sampling finds the optimum at these sizes. **PR open, awaiting human review.** Live Run defaults unchanged.
 - Task 7 (`docs/results-schema`, PR #19 and `feat/run-all`): results schema enforced by tests, `instances.py`, `run_all.py` with the fixed protocol `qwind-v1`. Only a smoke run exists in `results/`; the full synthetic run (~1 h, heavy) is pending.
 - Task 8 (`data/real-wind-roses`): two real ERA5 100 m wind roses (`chubut`, `bahia_blanca`, 16 sectors) in `qollab/data/windrose.json`, derivation and licenses in `docs/DATA.md`, tests in `tests/test_windrose_data.py`. PR open, awaiting human review. Real runs not executed yet.
 - Task 9 (`feat/run-all-datasets`, stacked on Task 8): per-dataset result folders plus `--merge` into the single `results/summary.json` (schema gains `datasets`). Smoke runs only; full runs of the three datasets pending a human decision (local vs cloud).
 - Task 10 (`feat/real-farms`, stacked on Task 9): real farms Penmanshiel (14 turbines) and Kelmarsh (6) with real positions (`qollab/data/farms.json`) and measured 2019 SCADA roses (`windrose.json`); `wake.generate_h_J(coords=...)`, `build_instance(coords=...)`, `run_all.py` datasets `real_penmanshiel` and `real_kelmarsh` (K fixed before running). Smoke runs only; full runs pending.
+- Task 10b (same PR, live-Run limits): `main()` hard limit 12 (recommended 10, default 8), `tests/test_live_run_isolation.py` (live Run never loads farm or rose files), fixed sub-instance `real_penmanshiel_sub10` (10 turbines closest to the farm centroid, K = 3, 5, 7; offline only), Kelmarsh labeled trivial contrast, offline cost estimate in `docs/DATA.md`. **Hard stop: if Penmanshiel is not producing results by Sunday 2026-10-11 10:00 ART, we ship with the ERA5 datasets (`real_chubut`, `real_bahia_blanca`) as primary.**
 
 **Next tasks (in order)**
 1. Merge the Task 4 PR (`feat/qaoa`), then run the uploaded `qollab/` folder in Qollab for real.

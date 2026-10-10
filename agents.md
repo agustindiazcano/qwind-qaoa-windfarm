@@ -28,7 +28,7 @@ QWind: a Qiskit QAOA benchmark for wind-farm layout optimization (wake-loss QUBO
 
 ## Runtime constraints
 - `qollab/main.py` MUST define `main(...)` and end with the script guard `if __name__ == "__main__": main()`. Observed on Qollab (uploaded files): a Run WITHOUT the guard printed nothing, so the platform does not call `main()` by itself in that project shape; a bare module-level `main()` ran once. `main()` ignores one immediate repeat call with the same arguments, so the benchmark never runs twice. Importing the module (tests, `import main`) must print nothing. The live Run must finish in well under a minute.
-- The live Run is limited to small instances: up to 12 cells recommended, hard limit 14. Larger instances are computed offline. (`main()` refuses `n_cells > 14`.)
+- The live Run is limited to small instances: up to 10 cells recommended, hard limit 12, default N = 8. Larger instances are computed offline. (`main()` refuses `n_cells > 12`.) N = 14 took 42.8 s in the live Run (penalty QAOA, one run), over the 30 s budget, so the full 14-turbine Penmanshiel instance is OFFLINE ONLY and the live Run never loads `farms.json` or `windrose.json` (enforced by `tests/test_live_run_isolation.py`). Do not raise these limits.
 - Do not use `backend.run` in optimization loops.
 - Use fixed random seeds everywhere. Results must be reproducible. Figures must be generated from `results/`.
 - No network access at runtime.

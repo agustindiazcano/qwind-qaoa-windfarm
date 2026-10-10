@@ -7,8 +7,8 @@ from qwind.qubo import build_qubo
 from qwind.classical import exact_enumeration, simulated_annealing, greedy_local_search
 from qwind.qaoa import run_qaoa
 
-RECOMMENDED_LIVE_CELLS = 12  # recommended maximum for the live Run
-MAX_LIVE_CELLS = 14          # hard limit: larger instances are computed offline
+RECOMMENDED_LIVE_CELLS = 10  # recommended maximum for the live Run (default N = 8)
+MAX_LIVE_CELLS = 12          # hard limit; N = 14 took 42.8 s in the live Run (over the 30 s budget): offline only
 
 
 def say(*args):

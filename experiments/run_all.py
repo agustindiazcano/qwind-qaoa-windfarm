@@ -18,7 +18,8 @@ Usage:
   python experiments/run_all.py --dataset real_chubut    # site defaults to the name after "real_"
   python experiments/run_all.py --dataset real_bahia_blanca
   python experiments/run_all.py --dataset real_penmanshiel   # real turbine layout (14 cells, K = 5, 7, 9)
-  python experiments/run_all.py --dataset real_kelmarsh      # real turbine layout (6 cells, K = 2, 3, 4)
+  python experiments/run_all.py --dataset real_penmanshiel_sub10  # 10 turbines closest to the centroid (K = 3, 5, 7)
+  python experiments/run_all.py --dataset real_kelmarsh      # real turbine layout (6 cells, K = 2, 3, 4), trivial contrast
   python experiments/run_all.py --merge                  # results/<dataset>/ -> results/summary.json + per_instance.csv
 """
 import argparse
@@ -43,13 +44,16 @@ from qwind.classical import exact_enumeration, simulated_annealing, greedy_local
 from qwind.qaoa import run_qaoa, energy_table  # noqa: E402
 from qwind.instances import (  # noqa: E402
     InstanceSpec, SYNTHETIC_ROSES, build_instance, farm_coords_D, load_farm, load_wind_rose,
-    synthetic_instance_specs)
+    select_closest_to_centroid, synthetic_instance_specs)
 
 DATASET_RE = re.compile(r"^(synthetic|real_[a-z0-9_]+)$")
 
 # Real farms (qollab/data/farms.json): the N candidate cells ARE the real turbine positions and we choose K of them.
 # Fixed before running: K is about 1/3, 1/2 and 2/3 of N. Dataset name = "real_" + farm key.
 REAL_FARMS = {"penmanshiel": (14, (5, 7, 9)), "kelmarsh": (6, (2, 3, 4))}
+# Fixed sub-instances of a real farm (OFFLINE datasets): dataset -> (farm key, N, K values). Rule written before any
+# result: the N turbines closest to the farm centroid (ties by turbine id order), original ids kept. K ~ 1/3, 1/2, 2/3 of N.
+REAL_FARM_SUBSETS = {"real_penmanshiel_sub10": ("penmanshiel", 10, (3, 5, 7))}
 FARMS_PATH = os.path.join(ROOT, "qollab", "data", "farms.json")
 
 FULL_PROTOCOL = {
@@ -72,6 +76,8 @@ CAVEATS = [
     "Random feasible sampling with the same number of shots also finds the optimum almost surely; compare the distributions (P(optimal), approximation ratio), not the best sample.",
     "QAOA with the XY mixer and Dicke start uses a generic exponential-size state preparation in this simulation.",
     "The 95% intervals are normal approximations over instances.",
+    "The real-farm datasets are a curtailment/selection problem (choose K of the existing turbine positions to keep operating), not layout design.",
+    "Kelmarsh (dataset real_kelmarsh, 6 turbines, C(6,K) <= 20 subsets) is a trivial contrast: exact enumeration is instantaneous; it is reported on its own and never averaged with other datasets.",
     "Real datasets use a real wind rose (ERA5 100 m, docs/DATA.md) on a synthetic grid of candidate cells, not a real farm layout; the wake model does not use mean wind speed yet.",
 ]
 
@@ -122,15 +128,22 @@ def rose_for(spec, windrose_path=None):
     return load_wind_rose(windrose_path or os.path.join(ROOT, "qollab", "data", "windrose.json"), spec.wind_rose)
 
 
+def farm_cells(spec, farms_path=None):
+    """Candidate-cell positions (rotor diameters) of a real-farm spec: all turbines, or the fixed sub-instance."""
+    farm = load_farm(farms_path or FARMS_PATH, spec.wind_rose)
+    ids = [t["id"] for t in farm["turbines"]]
+    coords = farm_coords_D(farm)
+    if spec.dataset in REAL_FARM_SUBSETS:
+        _, coords = select_closest_to_centroid(ids, coords, spec.N)
+    if len(coords) != spec.N:
+        raise ValueError(f"{spec.dataset} has {len(coords)} cells, spec asks for N = {spec.N}")
+    return coords
+
+
 def run_instance(spec, protocol, windrose_path=None, farms_path=None):
     """All rows (classical + every QAOA variant and depth) of one instance."""
     import time
-    coords = None
-    if is_farm(spec):
-        farm = load_farm(farms_path or FARMS_PATH, spec.wind_rose)
-        if len(farm["turbines"]) != spec.N:
-            raise ValueError(f"{spec.wind_rose} has {len(farm['turbines'])} turbines, spec asks for N = {spec.N}")
-        coords = farm_coords_D(farm)
+    coords = farm_cells(spec, farms_path) if is_farm(spec) else None
     inst = build_instance(spec.N, rose_for(spec, windrose_path), spec.seed, coords=coords)
     n, K = spec.N, spec.K
     hmax = float(np.abs(inst.h).max())
@@ -247,7 +260,9 @@ def dataset_dir(base, dataset):
 
 
 def site_from_dataset(dataset):
-    """'real_chubut' -> 'chubut' (the site key in qollab/data/windrose.json)."""
+    """'real_chubut' -> 'chubut' (the site key in qollab/data/windrose.json); 'real_penmanshiel_sub10' -> 'penmanshiel'."""
+    if dataset in REAL_FARM_SUBSETS:
+        return REAL_FARM_SUBSETS[dataset][0]
     if not dataset.startswith("real_"):
         raise ValueError(f"{dataset!r} is not a real_<site> dataset")
     return dataset[len("real_"):]
@@ -309,7 +324,7 @@ def real_instance_specs(dataset, site):
 def farm_instance_specs(dataset):
     """One instance per K of a real farm (all its turbines are the candidate cells); seed = instance id."""
     site = site_from_dataset(dataset)
-    n, ks = REAL_FARMS[site]
+    n, ks = REAL_FARM_SUBSETS[dataset][1:] if dataset in REAL_FARM_SUBSETS else REAL_FARMS[site]
     return [InstanceSpec(dataset, i, site, n, K, i) for i, K in enumerate(ks)]
 
 
@@ -318,7 +333,7 @@ def specs_for_dataset(dataset, site=None):
     if dataset == "synthetic":
         return synthetic_instance_specs()
     site = site or site_from_dataset(dataset)
-    if site in REAL_FARMS:
+    if site in REAL_FARMS or dataset in REAL_FARM_SUBSETS:
         return farm_instance_specs(dataset)
     return real_instance_specs(dataset, site)
 
