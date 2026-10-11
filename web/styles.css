@@ -856,25 +856,7 @@ footer {
     margin-bottom: 20px;
 }
 
-.logo-slot {
-    display: inline-block;
-    padding: 8px 18px;
-    border: 1px dashed var(--border-hover);
-    border-radius: 12px;
-    font-weight: 600;
-    color: var(--text-main);
-    text-decoration: none;
-}
-
-a.logo-slot:hover {
-    background: var(--border-subtle);
-}
-
-.support-line .logo-slot {
-    padding: 4px 12px;
-}
-
-.footer-members {
+.support-line .footer-members {
     margin-top: 16px;
 }
 
@@ -981,4 +963,33 @@ nav.glass-surface {
 
 .demo-toggle[aria-checked="true"] + .demo-label {
     display: inline;
+}
+
+/* Footer logos: same height, each on a plate so they read in light and dark schemes. */
+.logo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 56px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: 1px solid var(--border-subtle);
+    background: #fff;
+    color: #0f172a;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.logo-link img {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+.logo-link.plate-dark {
+    background: #0b1120;
+}
+
+.logo-link:hover {
+    border-color: var(--accent-cyan);
 }
