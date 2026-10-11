@@ -3,13 +3,13 @@
 This note estimates the **scale** of the energy and value at stake in the decision QWind addresses: which K of a farm's turbines to keep running when the farm has to run fewer. It is an illustration built from a model and from measured production data, **not a forecast and not a measured saving**.
 
 <!-- IMPACT:START -->
-**Illustrative estimate for Penmanshiel.** Assumptions: each kept turbine produces its measured 2019 average (637 kW, a capacity factor of 31.1%); the farm runs with only K of its 14 turbines for 1,000 hours; the wake losses are the modelled ones, for the best choice against an average random choice of the same K turbines; the prices are round numbers for illustration.
+**Illustrative estimate for Penmanshiel.** Assumptions: each kept turbine produces its measured 2019 average (637 kW, a capacity factor of 31.1%); the farm runs with only K of its 14 turbines for 1,000 hours; the wake losses are the modelled ones, for the best choice against an average random choice of the same K turbines; the prices are round numbers of £50, £75 and £100 per MWh, shown in US dollars as $66, $99 and $132 per MWh (1 GBP = 1.3220 USD, from the ECB euro reference rates of 2026-10-09).
 
-| Turbines kept (K of 14) | Modelled power lost to wakes: best vs average random choice | More energy from the same K turbines | Extra energy per 1,000 hours | Value at £50/MWh | Value at £75/MWh | Value at £100/MWh |
+| Turbines kept (K of 14) | Modelled power lost to wakes: best vs average random choice | More energy from the same K turbines | Extra energy per 1,000 hours | Value at $66/MWh | Value at $99/MWh | Value at $132/MWh |
 |---|---|---|---|---|---|---|
-| 5 | 1.0% vs 5.3% | +4.5% | 136 MWh | £6.8k | £10.2k | £13.6k |
-| 7 | 4.0% vs 8.0% | +4.3% | 176 MWh | £8.8k | £13.2k | £17.6k |
-| 9 | 7.0% vs 10.6% | +4.0% | 207 MWh | £10.3k | £15.5k | £20.7k |
+| 5 | 1.0% vs 5.3% | +4.5% | 136 MWh | $9.0k | $13.5k | $18.0k |
+| 7 | 4.0% vs 8.0% | +4.3% | 176 MWh | $11.6k | $17.4k | $23.2k |
+| 9 | 7.0% vs 10.6% | +4.0% | 207 MWh | $13.7k | $20.5k | $27.3k |
 
 This is an illustrative estimate of scale, not a forecast. It comes from a model, it compares with an average random choice (not with what an operator does today), it assumes 1,000 hours in that configuration (a year has 8,760; how many hours a farm is curtailed is not in our data), and it counts neither costs nor the structure of any contract. Details and sources: [docs/IMPACT.md](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/docs/IMPACT.md).
 <!-- IMPACT:END -->
@@ -22,7 +22,7 @@ This is an illustrative estimate of scale, not a forecast. It comes from a model
 | Wake losses | Share of the K kept turbines' potential power lost to wakes, for the best choice and for the average of all choices | The QWind model (Jensen wake, pairwise-additive losses, equal turbines) with the measured Penmanshiel 2019 wind rose, by exact enumeration of every way of choosing K of the 14 turbines (`experiments/make_illustrations.py`) |
 | Comparison | The best choice against the **average random choice** of the same K turbines | Chosen because we have no data on how operators choose today |
 | Hours | 1,000 hours with only K turbines running | A round number for scale. A year has 8,760 hours; the number of hours a farm is curtailed is not in our data |
-| Price of energy | £50, £75 and £100 per MWh | Round numbers for illustration. A reference point: the UK government's administrative strike price for onshore wind (more than 5 MW) in Contracts for Difference Allocation Round 6 is **£64/MWh in 2012 prices** ([CfD AR6 budget notice](https://assets.publishing.service.gov.uk/media/65e867c162ff48001a87b252/cfd-ar6-budget-notice.pdf), Table 2). The value scales linearly: use your own price |
+| Price of energy | £50, £75 and £100 per MWh, shown in US dollars as $66, $99 and $132 per MWh | Round numbers for illustration, converted at **1 GBP = 1.3220 USD**, the cross of the ECB euro reference rates of **2026-10-09** (1.1206 USD and 0.84763 GBP per euro; the last working day published before 2026-10-11; [data](https://data-api.ecb.europa.eu/service/data/EXR/D.USD+GBP.EUR.SP00.A?lastNObservations=3&format=csvdata)). A reference point: the UK government's administrative strike price for onshore wind (more than 5 MW) in Contracts for Difference Allocation Round 6 is **£64/MWh in 2012 prices** ([CfD AR6 budget notice](https://assets.publishing.service.gov.uk/media/65e867c162ff48001a87b252/cfd-ar6-budget-notice.pdf), Table 2), about **$85** at the same rate; the price base stays 2012, so the dollar figure is only for orientation. The value scales linearly: use your own price |
 
 ## How to read it
 

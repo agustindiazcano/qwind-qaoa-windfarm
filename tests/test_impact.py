@@ -45,7 +45,7 @@ def test_estimate_by_hand():
     assert e["potential_mwh"] == pytest.approx(potential)
     assert e["gain_mwh"] == pytest.approx(potential * 0.04)                       # (0.08 - 0.04) of the potential
     assert e["gain_pct"] == pytest.approx(100 * (0.96 / 0.92 - 1))
-    assert e["value_gbp"](75) == pytest.approx(potential * 0.04 * 75)
+    assert e["value"](75) == pytest.approx(potential * 0.04 * 75)
 
 
 def test_estimate_is_zero_when_the_choice_does_not_matter():
@@ -93,3 +93,33 @@ def test_impact_doc_cites_the_price_source_and_lists_the_assumptions():
     assert "zenodo.16807304" in text
     for must in ("Assumptions", "Limits"):
         assert must in text
+
+
+def test_inputs_carry_the_exchange_rate_with_its_date_and_source():
+    fx = json.load(open(INPUTS, encoding="utf-8"))["fx"]
+    assert fx["pair"] == "GBP/USD" and fx["date"] == "2026-10-09" and "data-api.ecb.europa.eu" in fx["source"]
+    assert fx["rate"] == pytest.approx(fx["eur_usd"] / fx["eur_gbp"], abs=1e-4)      # crossed from the two ECB reference rates
+    assert 1.0 < fx["rate"] < 2.0
+
+
+def test_the_table_is_in_us_dollars_and_the_note_names_the_rate_and_the_date():
+    inputs = json.load(open(INPUTS, encoding="utf-8"))
+    fx = inputs["fx"]
+    block = imp.impact_block(inputs, DATA)
+    rows = imp.impact_rows(inputs, DATA)
+    usd = [round(p * fx["rate"]) for p in imp.PRICES]
+    for price in usd:
+        assert f"Value at ${price}/MWh" in block
+    assert "£" not in block.split("| Turbines kept")[1].split("This is an illustrative")[0]            # no pounds in the table itself
+    assert f"1 GBP = {fx['rate']:.4f} USD" in block and fx["date"] in block and "ECB" in block
+    for r in rows:                                                                                          # values are MWh times the dollar price
+        for price in usd:
+            assert r["values"][price] == pytest.approx(r["gain_mwh"] * price)
+
+
+def test_the_docs_convert_the_uk_reference_price_with_the_same_rate():
+    fx = json.load(open(INPUTS, encoding="utf-8"))["fx"]
+    text = open(os.path.join(ROOT, "docs", "IMPACT.md"), encoding="utf-8").read()
+    assert f"{fx['rate']:.4f}" in text and fx["date"] in text
+    assert f"${round(64 * fx['rate'])}" in text                  # the 64 GBP/MWh (2012 prices) AR6 reference, converted for orientation
+    assert "2012 prices" in text
