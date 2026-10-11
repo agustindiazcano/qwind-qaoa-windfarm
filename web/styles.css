@@ -1442,3 +1442,55 @@ body.demo-on footer.demo-footer {
 .team-name a:hover {
     color: var(--accent-cyan);
 }
+
+/* --- PAGE TRANSITIONS --- */
+/* Smooth cross-document fade between pages (supported browsers); the navbar stays in place. */
+@view-transition {
+    navigation: auto;
+}
+
+html {
+    background-color: var(--bg-base);
+}
+
+nav.glass-surface {
+    view-transition-name: site-nav;
+}
+
+::view-transition-group(root) {
+    animation-duration: 0.35s;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Fallback for browsers without view transitions: a soft fade-in of the page content. */
+@keyframes page-in {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@supports not (view-transition-name: none) {
+    main,
+    header {
+        animation: page-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    @view-transition {
+        navigation: none;
+    }
+    main,
+    header {
+        animation: none;
+    }
+}
