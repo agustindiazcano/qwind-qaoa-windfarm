@@ -1,0 +1,19 @@
+# Console output of the backend probe on a real quantum computer, copied by the project owner on 2026-10-11 from a separate Qollab test project.
+# Runner header: QPU IonQ Forte 1 (36q), 168.20 credits, 9m 11s, 'You have 0.00 credits' afterwards (balance before the run: 100 credits).
+# The line 'Circuit predicted execution time: 98942ms' was printed 49 times while the job waited; it is shown once here.
+
+Backend probe started
+Backend: <qiskit_ionq.ionq_backend.IonQQPUBackend object at 0x6dd23f0>
+Circuit predicted execution time: 98942ms
+Circuit execution time: 200920ms
+--- Backend probe: ionq_qpu.forte-1 ---
+N = 6 cells, K = 3 turbines, QAOA depth p = 1 (XY mixer + Dicke start), 997 shots
+compiled circuit: 123 one-qubit gates, 78 two-qubit gates, depth 174
+
+                 ideal (exact)    measured   uniform
+P(optimal)              0.1784      0.1304    0.0312
+P(feasible)             1.0000      0.7834    0.3125
+
+P(optimal), valid samples only (uniform over valid layouts as the baseline):
+  ideal 0.1784 | measured 0.1665 | uniform over valid layouts 0.1000
+best sampled layout: gap 0.0000 to the exact optimum
