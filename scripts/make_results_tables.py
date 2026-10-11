@@ -105,18 +105,46 @@ def readme_block(summary, rows):
                        f"{min(r['metrics']['p_feasible']['mean'] for r in pen):.2f}-{max(r['metrics']['p_feasible']['mean'] for r in pen):.2f}"])
     out += [_md(["dataset", "instances", "settings", "beat uniform ratio", "beat uniform P(optimal)", "P(feasible) range"], b_rows), ""]
 
-    out += ["**Classical methods and evaluation budgets** (budgets are not matched: simulated annealing uses far more "
-            "evaluations than QAOA). Mean over the instances of each dataset:", ""]
+    out += [f"**Final solution quality against the classical methods** (gap to the exact optimum, mean over the instances of each "
+            f"dataset; XY + Dicke at depth p = {p_top}, best layout of its 1000 samples). The budgets are not matched: simulated "
+            f"annealing uses far more objective evaluations than QAOA, and random feasible sampling uses the same 1000 samples "
+            f"as QAOA:", ""]
     c_rows = []
     for name in names:
-        def stat(method, col):
-            sel = [r for r in rows if r["dataset"] == name and r["method"] == method and r[col] != ""]
+        def stat(method, col, variant=None, p=None):
+            sel = [r for r in rows if r["dataset"] == name and r["method"] == method and r[col] != ""
+                   and (variant is None or r["variant"] == variant) and (p is None or r["p"] == str(p))]
             return sum(float(r[col]) for r in sel) / len(sel) if sel else None
-        qaoa_evals = stat("qaoa", "n_evals")
+        xy = [r for r in rows if r["dataset"] == name and r["variant"] == "xy+dicke" and r["p"] == str(p_top)]
+        found = sum(1 for r in xy if abs(float(r["energy_gap"])) < 1e-9)
         c_rows.append([SHORT_NAMES.get(name, name), f"{stat('sa', 'energy_gap'):.4f}", f"{stat('sa', 'n_evals'):.0f}",
-                       f"{stat('greedy', 'energy_gap'):.4f}", f"{stat('qaoa', 'energy_gap'):.4f}", f"{qaoa_evals:.0f}"])
-    out += [_md(["dataset", "SA gap", "SA evaluations", "greedy gap", "QAOA best-sampled gap", "QAOA evaluations"], c_rows)]
+                       f"{stat('greedy', 'energy_gap'):.4f}", f"{stat('qaoa', 'energy_gap', 'xy+dicke', p_top):.4f}",
+                       f"{found}/{len(xy)}", f"{stat('qaoa', 'random_p_hit', 'xy+dicke', p_top):.2f}",
+                       f"{stat('qaoa', 'n_evals', 'xy+dicke', p_top):.0f}"])
+    out += [_md(["dataset", "SA gap", "SA evaluations", "greedy gap", "XY+Dicke best-sample gap", "XY+Dicke found the optimum",
+                 "random feasible sampling finds the optimum (probability)", "XY+Dicke evaluations"], c_rows)]
     return "\n".join(out)
+
+
+def headline_multipliers(summary, rows):
+    """Numbers quoted in the README prose, at the deepest p: how many times higher P(optimal) is for XY + Dicke than for the
+    uniform baseline and than for the best penalty variant (range over datasets), and in how many datasets its best sample is
+    the exact optimum in every instance."""
+    p_top = max(summary["protocol"]["depths"])
+    vs_uniform, vs_penalty, all_found = [], [], 0
+    names = [d["dataset"] for d in summary["datasets"]]
+    for d in names:
+        xy = next(r for r in summary["results"] if r["dataset"] == d and r["variant"] == "xy+dicke" and r["p"] == p_top)
+        pen = max(r["metrics"]["p_optimal"]["mean"] for r in summary["results"]
+                  if r["dataset"] == d and r["method"] == "qaoa" and r["variant"].startswith("penalty") and r["p"] == p_top)
+        p = xy["metrics"]["p_optimal"]["mean"]
+        vs_uniform.append(p / xy["baselines"]["uniform_feasible_p_optimal"])
+        vs_penalty.append(p / pen)
+        sel = [r for r in rows if r["dataset"] == d and r["variant"] == "xy+dicke"]      # every depth and instance of the dataset
+        if sel and all(abs(float(r["energy_gap"])) < 1e-9 for r in sel):
+            all_found += 1
+    return {"vs_uniform": (min(vs_uniform), max(vs_uniform)), "vs_penalty": (min(vs_penalty), max(vs_penalty)),
+            "found_optimum_datasets": all_found, "datasets": len(names)}
 
 
 START, END = "<!-- RESULTS:START -->", "<!-- RESULTS:END -->"

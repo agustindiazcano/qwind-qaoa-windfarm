@@ -126,6 +126,27 @@ def test_readme_headline_table_is_one_row_per_dataset_at_the_deepest_p(summary, 
     assert float(row[2]) == pytest.approx(rec["metrics"]["p_optimal"]["mean"], abs=5e-4)
 
 
+def test_readme_classical_table_reports_the_xy_dicke_best_sample_not_a_pooled_average(summary, rows):
+    """The best-sampled gap must be per variant: pooling the penalty variants into 'QAOA' hid that XY+Dicke finds the optimum."""
+    md = tables.readme_block(summary, rows)
+    assert "QAOA best-sampled gap" not in md                                   # the pooled column is gone
+    parts = md.split("\n\n")
+    i = next(k for k, p in enumerate(parts) if p.startswith("**Final solution quality"))
+    header = _cells(parts[i + 1].splitlines()[0])
+    body = _section(md, "Final solution quality")
+    assert "XY+Dicke best-sample gap" in header and "XY+Dicke found the optimum" in header
+    assert any("random" in h.lower() for h in header)
+    for name, ds in (("Synthetic", "synthetic"), ("Penmanshiel", "real_penmanshiel")):
+        row = next(b for b in body if b[0] == name)
+        xy = [r for r in rows if r["dataset"] == ds and r["variant"] == "xy+dicke" and r["p"] == "3"]
+        gaps = [float(r["energy_gap"]) for r in xy]
+        found = sum(1 for g in gaps if abs(g) < 1e-9)
+        assert float(row[header.index("XY+Dicke best-sample gap")]) == pytest.approx(sum(gaps) / len(gaps), abs=5e-5)
+        assert row[header.index("XY+Dicke found the optimum")] == f"{found}/{len(xy)}"
+        rnd = [float(r["random_p_hit"]) for r in xy]
+        assert float(row[[i for i, h in enumerate(header) if "random" in h.lower()][0]]) == pytest.approx(sum(rnd) / len(rnd), abs=5.1e-3)   # shown with 2 decimals
+
+
 def test_readme_block_penalty_sweep_range_is_computed(summary, rows):
     md = tables.readme_block(summary, rows)
     pen = [r for r in summary["results"] if r["dataset"] == "synthetic" and r["method"] == "qaoa" and r["variant"].startswith("penalty")]
@@ -147,3 +168,32 @@ def test_update_readme_needs_markers(tmp_path):
     readme.write_text("no markers\n", encoding="utf-8")
     with pytest.raises(ValueError, match="RESULTS"):
         tables.update_readme(str(readme), "x")
+
+
+# ---- numbers quoted in the README prose ("What we found") must come from results/ ----
+
+def _independent_multipliers(summary):
+    vs_uniform, vs_penalty = [], []
+    for d in {x["dataset"] for x in summary["datasets"]}:
+        xy = next(r for r in summary["results"] if r["dataset"] == d and r["variant"] == "xy+dicke" and r["p"] == 3)
+        pen = max(r["metrics"]["p_optimal"]["mean"] for r in summary["results"]
+                  if r["dataset"] == d and r["method"] == "qaoa" and r["variant"].startswith("penalty") and r["p"] == 3)
+        p = xy["metrics"]["p_optimal"]["mean"]
+        vs_uniform.append(p / xy["baselines"]["uniform_feasible_p_optimal"])
+        vs_penalty.append(p / pen)
+    return min(vs_uniform), max(vs_uniform), min(vs_penalty), max(vs_penalty)
+
+
+def test_headline_multipliers_are_computed_from_the_file(summary, rows):
+    m = tables.headline_multipliers(summary, rows)
+    lo_u, hi_u, lo_p, hi_p = _independent_multipliers(summary)
+    assert m["vs_uniform"] == (pytest.approx(lo_u), pytest.approx(hi_u))
+    assert m["vs_penalty"] == (pytest.approx(lo_p), pytest.approx(hi_p))
+    assert m["found_optimum_datasets"] == 5 and m["datasets"] == 6          # best sample is the optimum in every instance of 5 of 6
+
+
+def test_readme_prose_quotes_the_computed_multipliers(summary, rows):
+    readme = open(os.path.join(ROOT, "README.md"), encoding="utf-8").read()
+    m = tables.headline_multipliers(summary, rows)
+    assert f"{round(m['vs_uniform'][0], 1):g} to {round(m['vs_uniform'][1], 1):g} times" in readme
+    assert f"{round(m['vs_penalty'][0], 1):g} to {round(m['vs_penalty'][1], 1):g} times" in readme

@@ -6,17 +6,27 @@
 
 ## In plain words
 
-Wind turbines steal wind from each other: every turbine leaves a slower, turbulent "wake" behind it, and any turbine standing in that wake produces less energy. So *which* turbines you use matters.
+Wind turbines steal wind from each other. Every turbine leaves a slower, turbulent wake behind it, and a turbine standing in that wake produces less. In a wind farm that already exists, an operator who has to run fewer turbines (a curtailment) can choose *which* ones to keep, and that choice changes how much energy the wakes waste.
 
-**QWind** picks the best *K* turbines out of *N* candidate positions. It does this with a quantum algorithm (QAOA, built and simulated with Qiskit) and compares it honestly against classical methods. On real wind farms it is a **selection (curtailment) problem**: choose which *K* of the existing turbine positions to keep operating. It is not layout design.
+We turned that choice into an optimization problem, pick the best *K* of *N* turbine positions, and asked a concrete question: **can a quantum algorithm (QAOA, simulated in Qiskit) solve it well, and does the way you build the circuit matter?** We tested it the way a skeptic would: against exact enumeration, simulated annealing, greedy search and plain random choice among valid layouts, on six datasets, including the real turbine positions and measured winds of two operating wind farms (Penmanshiel and Kelmarsh).
 
 ## What we found
 
-- **Putting the constraint inside the circuit helps.** A QAOA variant that always keeps exactly *K* turbines (XY mixer + Dicke start state) beats a uniform random choice over valid layouts in every instance we ran, at depths p = 1 to 3 (on the approximation ratio over feasible layouts).
-- **The standard penalty version does not.** Encoding "exactly K turbines" as a penalty does not beat the uniform baseline consistently, for any penalty weight we tested.
-- **Classical methods still win.** At these sizes they find the best layout exactly or almost exactly, with larger evaluation budgets than QAOA. **We do not claim a quantum advantage, a speedup, or energy or cost savings.**
+1. **How you build the circuit matters a lot.** The usual way to say "exactly *K* turbines" is a penalty term. It did not beat random choice among valid layouts consistently, for any penalty weight we tried. Putting the constraint inside the circuit (XY mixer + Dicke start state) makes every output a valid layout, and the probability of sampling the best layout is 3 to 7.5 times higher than random choice among valid layouts and 3.4 to 17.1 times higher than the best penalty version, depending on the dataset.
+2. **That version is competitive with the classical methods at these sizes.** Its best sample is the exact optimum in every instance of 5 of the 6 datasets, as good as simulated annealing's result, using about 120 optimizer evaluations. On the 14 real turbines of Penmanshiel it finds it in 2 of 3 instances.
+3. **It is not an advantage, and we do not claim one.** Drawing 1000 random valid layouts finds the best one almost as often up to 12 turbines, simulated annealing finds it everywhere, and exact enumeration takes about 2 seconds at most. We do not claim a quantum advantage, a speedup, or energy or cost savings.
+4. **Where the picture starts to separate.** At 14 real turbines, random sampling finds the best layout with probability about 0.35 on average, against 2 of 3 instances for the circuit. With only 3 instances that is a hint, not a result.
 
-Everything is simulated on a CPU (no quantum hardware), and the instances are small (at most 14 cells).
+The lesson we take is practical: when a problem has a hard constraint, build it into the circuit, and always benchmark against the boring baselines, because they decide whether a result means anything.
+
+## What we built
+
+- A wake-loss model (Jensen, pairwise additive) turned into a QUBO with an exactly-*K* constraint, and a QAOA written by hand in Qiskit with two ways of enforcing the constraint (penalty, or XY mixer + Dicke state).
+- A fixed experimental protocol (`qwind-v1`), decided before running and never retuned, run in GitHub Actions on six datasets: synthetic wind roses, the real positions and measured winds of Penmanshiel and Kelmarsh, and two ERA5 wind roses (open licenses for all the real data).
+- Controls next to every result: the uniform distribution over valid layouts, random valid sampling with the same 1000 samples, exact enumeration, simulated annealing and greedy search.
+- 150+ tests, continuous integration, and tables in this README that are generated from `results/`, so no number is typed by hand.
+
+Everything is simulated on a CPU (no quantum hardware), the instances are small (at most 14 cells), the wake model is simplified and there is one year of wind data per farm. The limitations are listed below.
 
 ## Try it
 
@@ -62,23 +72,23 @@ All numbers come from `results/summary.json` and `results/per_instance.csv` (fix
 | Chubut | 8 | 4 | 2-7/8 | 0-1/8 | 0.26-0.50 |
 | Bahia | 8 | 4 | 1-7/8 | 0-1/8 | 0.22-0.53 |
 
-**Classical methods and evaluation budgets** (budgets are not matched: simulated annealing uses far more evaluations than QAOA). Mean over the instances of each dataset:
+**Final solution quality against the classical methods** (gap to the exact optimum, mean over the instances of each dataset; XY + Dicke at depth p = 3, best layout of its 1000 samples). The budgets are not matched: simulated annealing uses far more objective evaluations than QAOA, and random feasible sampling uses the same 1000 samples as QAOA:
 
-| dataset | SA gap | SA evaluations | greedy gap | QAOA best-sampled gap | QAOA evaluations |
-|---|---|---|---|---|---|
-| Synthetic | 0.0000 | 5005 | 0.0129 | 0.0132 | 115 |
-| Penmanshiel | 0.0000 | 5005 | 0.0060 | 0.0308 | 111 |
-| Penmanshiel-10 | 0.0000 | 5005 | 0.0000 | 0.0026 | 115 |
-| Kelmarsh | 0.0000 | 5005 | 0.0000 | 0.0000 | 118 |
-| Chubut | 0.0000 | 5005 | 0.0000 | 0.0114 | 114 |
-| Bahia | 0.0000 | 5005 | 0.0000 | 0.0064 | 114 |
+| dataset | SA gap | SA evaluations | greedy gap | XY+Dicke best-sample gap | XY+Dicke found the optimum | random feasible sampling finds the optimum (probability) | XY+Dicke evaluations |
+|---|---|---|---|---|---|---|---|
+| Synthetic | 0.0000 | 5005 | 0.0129 | 0.0000 | 24/24 | 0.95 | 120 |
+| Penmanshiel | 0.0000 | 5005 | 0.0060 | 0.0060 | 2/3 | 0.35 | 120 |
+| Penmanshiel-10 | 0.0000 | 5005 | 0.0000 | 0.0000 | 3/3 | 0.99 | 120 |
+| Kelmarsh | 0.0000 | 5005 | 0.0000 | 0.0000 | 3/3 | 1.00 | 120 |
+| Chubut | 0.0000 | 5005 | 0.0000 | 0.0000 | 8/8 | 0.95 | 120 |
+| Bahia | 0.0000 | 5005 | 0.0000 | 0.0000 | 8/8 | 0.95 | 120 |
 <!-- RESULTS:END -->
 
 ### How to read the tables
 
 - The reference point is the *uniform distribution over feasible layouts*, not 1. QAOA's approximation ratios are well below 1; the absolute values are in the tables.
 - The constraint-preserving ansatz beats the uniform baseline on the approximation ratio in every instance reported here, at p = 1 to 3. On P(optimal) it does so in most instances but not all (counts in the table).
-- Classical methods solve these instances exactly or nearly so: simulated annealing reaches gap 0 in every dataset, and greedy search misses by a small margin on two. The best layout sampled from QAOA (1000 shots) is on average not better than the one found by simulated annealing.
+- Classical methods solve these instances exactly or nearly so: simulated annealing reaches gap 0 in every dataset (about 5005 evaluations), and greedy search misses by a small margin on two. The best layout sampled from the XY + Dicke QAOA reaches the exact optimum in every instance of five datasets and in 2 of 3 instances at N = 14 (p = 3); the penalty variants do so less often (`results/results_tables.md`). Random feasible sampling with the same 1000 samples already finds the optimum with probability 0.95 to 1.00 for N up to 12, so matching simulated annealing at those sizes does not show an advantage. At N = 14 random sampling finds it with probability 0.35 on average (XY + Dicke: 2 of 3 instances, too few to conclude).
 - Penmanshiel, Penmanshiel-10 and Kelmarsh have 3 instances each, too few for a mean or an interval: read them instance by instance in `results/results_tables.md`. The means above for those rows are only a summary.
 - At N = 14 (Penmanshiel) the probability of sampling the optimal layout is tiny in absolute terms for both QAOA and the uniform baseline; what improves is the distribution over feasible layouts.
 - One run per instance, one simulator, at most 14 cells. Results come from one environment (Python 3.12.15 in GitHub Actions). A Run on Qollab (Python 3.14.2) can give slightly different values; we do not claim reproducibility across environments.
