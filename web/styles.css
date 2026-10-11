@@ -6,6 +6,78 @@
     --text-muted: #94a3b8;
     --accent-cyan: #06b6d4;
     --accent-blue: #38bdf8;
+    --focus: #38bdf8;
+    --glass-a: rgba(255, 255, 255, 0.09);
+    --glass-b: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-shadow: rgba(0, 0, 0, 0.5);
+    --flap-a: #0b1120;
+    --flap-b: #060913;
+    --flap-text: #06b6d4;
+    --glow-a: rgba(6, 182, 212, 0.08);
+    --glow-b: rgba(56, 189, 248, 0.05);
+    --dashed: rgba(255, 255, 255, 0.15);
+    --dashed-bg: rgba(0, 0, 0, 0.2);
+}
+
+/* Light mode: the page is dark by default; this only applies to visitors who ask for a light scheme. */
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg-base: #f4f7fb;
+        --border-subtle: rgba(15, 23, 42, 0.12);
+        --border-hover: rgba(14, 116, 144, 0.5);
+        --text-main: #0f172a;
+        --text-muted: #475569;
+        --accent-cyan: #0e7490;
+        --accent-blue: #1d4ed8;
+        --focus: #1d4ed8;
+        --glass-a: rgba(255, 255, 255, 0.9);
+        --glass-b: rgba(255, 255, 255, 0.6);
+        --glass-border: rgba(15, 23, 42, 0.12);
+        --glass-shadow: rgba(15, 23, 42, 0.12);
+        --flap-a: #e2e8f0;
+        --flap-b: #cbd5e1;
+        --flap-text: #0e7490;
+        --glow-a: rgba(14, 116, 144, 0.08);
+        --glow-b: rgba(29, 78, 216, 0.05);
+        --dashed: rgba(15, 23, 42, 0.25);
+        --dashed-bg: rgba(15, 23, 42, 0.04);
+    }
+}
+
+html {
+    scroll-padding-top: 90px;
+}
+
+/* --- ACCESSIBILITY --- */
+:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+}
+
+.skip-link {
+    position: absolute;
+    left: -999px;
+    top: 8px;
+}
+
+.skip-link:focus {
+    left: 8px;
+    z-index: 200;
+    padding: 8px 12px;
+    background: var(--bg-base);
+    color: var(--text-main);
+    border: 2px solid var(--focus);
+    border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+    .glass-surface:hover {
+        transform: none;
+    }
 }
 
 * {
@@ -21,8 +93,8 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     background-image: 
-        radial-gradient(circle at 20% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 45%),
-        radial-gradient(circle at 80% 80%, rgba(56, 189, 248, 0.05) 0%, transparent 45%);
+        radial-gradient(circle at 20% 20%, var(--glow-a) 0%, transparent 45%),
+        radial-gradient(circle at 80% 80%, var(--glow-b) 0%, transparent 45%);
 }
 
 /* --- COMPONENTE GLASS SURFACE (Adaptación Nativa Avanzada) --- */
@@ -30,14 +102,14 @@ body {
     position: relative;
     background: linear-gradient(
         135deg, 
-        rgba(255, 255, 255, 0.09) 0%, 
-        rgba(255, 255, 255, 0.03) 100%
+        var(--glass-a) 0%, 
+        var(--glass-b) 100%
     );
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--glass-border);
     box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 20px 50px var(--glass-shadow),
         inset 0 1px 0 rgba(255, 255, 255, 0.2),
         inset 0 -1px 0 rgba(0, 0, 0, 0.6);
     border-radius: 24px;
@@ -137,6 +209,7 @@ header {
 }
 
 .split-flap-container {
+    font-weight: 700;
     display: inline-flex;
     gap: 8px;
     justify-content: center;
@@ -150,8 +223,8 @@ header {
     font-weight: 700;
     width: 70px;
     height: 85px;
-    background: linear-gradient(180deg, #0b1120 0%, #060913 100%);
-    color: var(--accent-cyan);
+    background: linear-gradient(180deg, var(--flap-a) 0%, var(--flap-b) 100%);
+    color: var(--flap-text);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -178,7 +251,7 @@ header {
 
 .split-flap-char.flipping {
     transform: rotateX(-90deg);
-    color: #38bdf8;
+    color: var(--accent-blue);
     filter: brightness(1.3);
 }
 
@@ -247,11 +320,11 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border: 1px dashed var(--dashed);
     border-radius: 12px;
     color: var(--text-muted);
     font-size: 0.95rem;
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--dashed-bg);
 }
 
 .team-grid {
@@ -286,4 +359,33 @@ main {
     font-size: 0.85rem;
     color: var(--text-muted);
     line-height: 1.5;
+}
+
+/* --- SMALL SCREENS / ZOOM 200% --- */
+@media (max-width: 640px) {
+    nav {
+        padding: 14px 20px;
+    }
+    header {
+        padding-top: 120px;
+    }
+    .split-flap-char {
+        width: 52px;
+        height: 66px;
+        font-size: 2.4rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .nav-status {
+        display: none;
+    }
+    .split-flap-container {
+        gap: 4px;
+    }
+    .split-flap-char {
+        width: 44px;
+        height: 58px;
+        font-size: 2rem;
+    }
 }
