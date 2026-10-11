@@ -1175,3 +1175,7 @@ footer .footer-meta .footer-members {
 .icon-pending {
     opacity: 0.85;
 }
+
+.footer-meta .footer-license {
+    color: var(--text-muted);
+}
