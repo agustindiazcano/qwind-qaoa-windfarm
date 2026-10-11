@@ -907,3 +907,27 @@ nav.glass-surface {
     border-left: 0;
     border-right: 0;
 }
+
+/* Squarer navbar buttons. */
+.nav-links .btn,
+.demo-toggle,
+.slide-btn {
+    border-radius: 6px;
+}
+
+/* Big logo: dark flaps in both schemes, with a white Q. */
+@media (prefers-color-scheme: light) {
+    :root {
+        --flap-a: #0b1120;
+        --flap-b: #060913;
+        --flap-text: #22d3ee;
+    }
+}
+
+.split-flap-char[data-target="Q"] {
+    color: #fff;
+}
+
+.split-flap-char[data-target="Q"].flipping {
+    color: var(--accent-blue);
+}
