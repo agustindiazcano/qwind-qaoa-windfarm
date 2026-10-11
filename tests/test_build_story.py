@@ -88,11 +88,11 @@ def test_home_cards_use_the_glass_style_and_hover_but_slides_do_not(story):
     assert "home-lift" not in slides
 
 
-def test_short_demo_deck_has_nine_slides_in_both_languages(story):
+def test_short_demo_deck_has_eleven_slides_in_both_languages(story):
     html = story["index"]
     for lang in ("en", "es"):
         short = re.findall(rf'<section class="slide[^"]*" id="slide-{lang}-s\d+" lang="{lang}" data-lang="{lang}" data-deck="short"', html)
-        assert len(short) == 9, lang
+        assert len(short) == 11, lang
 
 
 def test_short_demo_switch_exists_but_starts_hidden(story):
@@ -101,13 +101,32 @@ def test_short_demo_switch_exists_but_starts_hidden(story):
     assert re.search(r'id="shortSwitch"[^>]*hidden', html)
 
 
-def test_short_deck_follows_the_planned_story(story):
+def _short(html, lang, n):
+    start = html.index(f'id="slide-{lang}-s{n}"')
+    nxt = html.find(f'id="slide-{lang}-s{n + 1}"', start)
+    return html[start:nxt if nxt > 0 else len(html)]
+
+
+def test_short_deck_order_hardware_first_then_problem_data_impact_money(story):
     html = story["index"]
-    es = html[html.index('id="slide-es-s1"'):]
-    # title, problem, impact, why quantum, solution, results, classical, hardware, claims, closing
-    for needle in ("estela", "Penmanshiel", "3 billones", "interruptores", "100%", "recocido", "IonQ Forte 1", "Run your code"):
-        assert needle in es, needle
-    assert "This effort is supported by Qollab &amp; IonQ" in html[html.index('id="slide-en-s9"'):]
+    expected = {2: "Tested on real quantum hardware", 3: "turbines steal wind", 4: "Tested on real wind farms and real winds",
+                5: "Which 7 of the 14 turbines", 6: "What the choice could be worth", 7: "Why a quantum computer", 8: "Wake model", 9: "Key results"}
+    for n, text in expected.items():
+        assert text in _short(html, "en", n), (n, text)
+    es = {2: "hardware cuántico real", 3: "roban viento", 4: "Probado en parques", 6: "Cuánto podría valer", 7: "computadora cuántica"}
+    for n, text in es.items():
+        assert text in _short(html, "es", n), (n, text)
+
+
+def test_short_deck_merges_both_classical_comparisons_in_one_slide_and_has_no_solution_slide(story):
+    html = story["index"]
+    merged = _short(html, "en", 10)
+    for text in ("Simulated annealing", "Greedy search", "Average gap to the exact best answer", "120"):
+        assert text in merged, text
+    short_deck = html[html.index('id="slide-en-s1"'):html.index('id="slide-es-s1"')]
+    assert "Always exactly 3 on" not in short_deck
+    assert "QAOA" in _short(html, "en", 11)
+    assert "This effort is supported by Qollab &amp; IonQ" in _short(html, "en", 11)
 
 
 def test_what_we_do_not_claim_section_is_gone_from_the_web_and_the_readme(story):
