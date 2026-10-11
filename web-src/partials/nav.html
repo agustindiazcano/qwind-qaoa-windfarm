@@ -1,29 +1,52 @@
     <!-- NAVBAR WITH GLASS SURFACE -->
-    <nav class="glass-surface" aria-label="Site">
-        <a class="nav-logo" href="index.html" aria-label="QWind, back to the top">Q<span>Wind</span></a>
+    <nav class="glass-surface" aria-label="Site" data-es-label="Sitio">
+        <a class="nav-logo" href="index.html" aria-label="QWind, back to the top" data-es-label="QWind, volver al inicio">Q<span>Wind</span></a>
         <div class="nav-links">
-            <a class="btn btn-icon" href="https://github.com/agustindiazcano/qwind-qaoa-windfarm" aria-label="GitHub repository"><svg viewBox="0 0 16 16" width="17" height="17" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
-            <a class="btn" href="https://qollab.xyz/u/agustindiazcano/qwind">Qollab page</a>
+            <a class="btn btn-icon" href="https://github.com/agustindiazcano/qwind-qaoa-windfarm" aria-label="GitHub repository" data-es-label="Repositorio de GitHub"><svg viewBox="0 0 16 16" width="17" height="17" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+            <a class="btn" href="https://qollab.xyz/u/agustindiazcano/qwind"><span lang="en" data-lang="en">Qollab page</span><span lang="es" data-lang="es">Página en Qollab</span></a>
             <!-- TODO(owner): replace with the public demo video URL (the video must have captions) -->
-            <span class="btn btn-icon btn-todo" role="img" aria-label="Demo video on YouTube, link pending" title="Demo video: link pending"><svg viewBox="0 0 24 17" width="22" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M4 0h16a4 4 0 014 4v9a4 4 0 01-4 4H4a4 4 0 01-4-4V4a4 4 0 014-4zm5.5 4.5v8l7-4z"/></svg></span>
-            <a class="btn" href="references.html"{{current:references.html}}>References</a>
-            <a class="btn" href="team.html"{{current:team.html}}>Team</a>
+            <span class="btn btn-icon btn-todo" role="img" aria-label="Demo video on YouTube, link pending" data-es-label="Video de la demo en YouTube, enlace pendiente" title="Demo video: link pending"><svg viewBox="0 0 24 17" width="22" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M4 0h16a4 4 0 014 4v9a4 4 0 01-4 4H4a4 4 0 01-4-4V4a4 4 0 014-4zm5.5 4.5v8l7-4z"/></svg></span>
+            <a class="btn" href="references.html"{{current:references.html}}><span lang="en" data-lang="en">References</span><span lang="es" data-lang="es">Referencias</span></a>
+            <a class="btn" href="team.html"{{current:team.html}}><span lang="en" data-lang="en">Team</span><span lang="es" data-lang="es">Equipo</span></a>
         </div>
 {{#demo}}
-        <div class="demo-nav" id="demoNav" role="group" aria-label="Demo slides" hidden>
-            <button type="button" class="slide-btn" data-slide="1" aria-label="Slide 1">1</button>
-            <button type="button" class="slide-btn" data-slide="2" aria-label="Slide 2">2</button>
-            <button type="button" class="slide-btn" data-slide="3" aria-label="Slide 3">3</button>
-            <button type="button" class="slide-btn" data-slide="4" aria-label="Slide 4">4</button>
-            <button type="button" class="slide-btn" data-slide="5" aria-label="Slide 5">5</button>
-            <button type="button" class="slide-btn" data-slide="6" aria-label="Slide 6">6</button>
-            <button type="button" class="slide-btn" data-slide="7" aria-label="Slide 7">7</button>
-            <button type="button" class="slide-btn" data-slide="8" aria-label="Slide 8">8</button>
-            <button type="button" class="slide-btn" data-slide="9" aria-label="Slide 9">9</button>
-            <button type="button" class="slide-btn" data-slide="10" aria-label="Slide 10">10</button>
+        <div class="demo-nav" id="demoNav" role="group" aria-label="Demo slides" data-es-label="Diapositivas del demo" hidden>
+            <button type="button" class="slide-btn" data-slide="1" aria-label="Slide 1" data-es-label="Diapositiva 1">1</button>
+            <button type="button" class="slide-btn" data-slide="2" aria-label="Slide 2" data-es-label="Diapositiva 2">2</button>
+            <button type="button" class="slide-btn" data-slide="3" aria-label="Slide 3" data-es-label="Diapositiva 3">3</button>
+            <button type="button" class="slide-btn" data-slide="4" aria-label="Slide 4" data-es-label="Diapositiva 4">4</button>
+            <button type="button" class="slide-btn" data-slide="5" aria-label="Slide 5" data-es-label="Diapositiva 5">5</button>
+            <button type="button" class="slide-btn" data-slide="6" aria-label="Slide 6" data-es-label="Diapositiva 6">6</button>
+            <button type="button" class="slide-btn" data-slide="7" aria-label="Slide 7" data-es-label="Diapositiva 7">7</button>
+            <button type="button" class="slide-btn" data-slide="8" aria-label="Slide 8" data-es-label="Diapositiva 8">8</button>
+            <button type="button" class="slide-btn" data-slide="9" aria-label="Slide 9" data-es-label="Diapositiva 9">9</button>
+            <button type="button" class="slide-btn" data-slide="10" aria-label="Slide 10" data-es-label="Diapositiva 10">10</button>
+            <button type="button" class="slide-btn" data-slide="11" aria-label="Slide 11" data-es-label="Diapositiva 11">11</button>
+            <button type="button" class="slide-btn" data-slide="12" aria-label="Slide 12" data-es-label="Diapositiva 12">12</button>
+            <button type="button" class="slide-btn" data-slide="13" aria-label="Slide 13" data-es-label="Diapositiva 13">13</button>
+            <button type="button" class="slide-btn" data-slide="14" aria-label="Slide 14" data-es-label="Diapositiva 14">14</button>
+            <button type="button" class="slide-btn" data-slide="15" aria-label="Slide 15" data-es-label="Diapositiva 15">15</button>
+            <button type="button" class="slide-btn" data-slide="16" aria-label="Slide 16" data-es-label="Diapositiva 16">16</button>
+            <button type="button" class="slide-btn" data-slide="17" aria-label="Slide 17" data-es-label="Diapositiva 17">17</button>
+            <button type="button" class="slide-btn" data-slide="18" aria-label="Slide 18" data-es-label="Diapositiva 18">18</button>
+            <button type="button" class="slide-btn" data-slide="19" aria-label="Slide 19" data-es-label="Diapositiva 19">19</button>
+            <button type="button" class="slide-btn" data-slide="20" aria-label="Slide 20" data-es-label="Diapositiva 20">20</button>
+            <button type="button" class="slide-btn" data-slide="21" aria-label="Slide 21" data-es-label="Diapositiva 21">21</button>
+            <button type="button" class="slide-btn" data-slide="22" aria-label="Slide 22" data-es-label="Diapositiva 22">22</button>
+            <button type="button" class="slide-btn" data-slide="23" aria-label="Slide 23" data-es-label="Diapositiva 23">23</button>
+            <button type="button" class="slide-btn" data-slide="24" aria-label="Slide 24" data-es-label="Diapositiva 24">24</button>
+            <button type="button" class="slide-btn" data-slide="25" aria-label="Slide 25" data-es-label="Diapositiva 25">25</button>
+            <button type="button" class="slide-btn" data-slide="26" aria-label="Slide 26" data-es-label="Diapositiva 26">26</button>
+            <button type="button" class="slide-btn" data-slide="27" aria-label="Slide 27" data-es-label="Diapositiva 27">27</button>
         </div>
+{{/demo}}
+        <div class="lang-switch" role="group" aria-label="Language" data-es-label="Idioma">
+            <button type="button" class="lang-btn" data-set-lang="en" aria-pressed="true" aria-label="English">EN</button>
+            <button type="button" class="lang-btn" data-set-lang="es" aria-pressed="false" aria-label="Español">ES</button>
+        </div>
+{{#demo}}
         <div class="demo-switch">
-            <button type="button" class="demo-toggle" id="demoToggle" role="switch" aria-checked="false" aria-label="Demo mode"><span class="knob" aria-hidden="true"></span></button>
+            <button type="button" class="demo-toggle" id="demoToggle" role="switch" aria-checked="false" aria-label="Demo mode" data-es-label="Modo demo"><span class="knob" aria-hidden="true"></span></button>
             <span class="demo-label">demo</span>
         </div>
 {{/demo}}

@@ -16,10 +16,18 @@
             setTimeout(done, 1000);
         })();
     </script>
+    <script>
+        // Language (EN/ES): chosen with the switch in the navbar, remembered in the browser. English by default.
+        (function () {
+            var lang = 'en';
+            try { var saved = localStorage.getItem('qwind-lang'); if (saved === 'es' || saved === 'en') lang = saved; } catch (e) {}
+            document.documentElement.setAttribute('data-ui', lang);
+        })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main"><span lang="en" data-lang="en">Skip to content</span><span lang="es" data-lang="es">Saltar al contenido</span></a>

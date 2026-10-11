@@ -1,0 +1,141 @@
+    <script>
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        function runSplitFlapCycle() {
+            document.querySelectorAll('.split-flap-char').forEach((el, index) => {
+                const target = el.getAttribute('data-target');
+                let iterations = 0;
+                
+                setTimeout(() => {
+                    const interval = setInterval(() => {
+                        el.textContent = chars[Math.floor(Math.random() * chars.length)];
+                        el.classList.add('flipping');
+                        
+                        setTimeout(() => el.classList.remove('flipping'), 60);
+
+                        iterations++;
+                        if (iterations > 6 + (index * 2)) {
+                            clearInterval(interval);
+                            el.textContent = target;
+                        }
+                    }, 70);
+                }, index * 120);
+            });
+        }
+
+        // Respect "reduce motion": leave the letters still.
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            setTimeout(runSplitFlapCycle, 900);
+            setInterval(runSplitFlapCycle, 5000);
+        }
+    </script>
+
+    <script>
+        // Demo mode: full-screen slides, buttons 1-N, left/right arrow keys, Escape to exit. Slides exist in English and Spanish.
+        (function () {
+            const toggle = document.getElementById('demoToggle');
+            const demo = document.getElementById('demo');
+            const nav = document.getElementById('demoNav');
+            const buttons = Array.from(nav.querySelectorAll('.slide-btn'));
+            const lang = () => (window.qwindLang ? window.qwindLang() : 'en');
+            const all = Array.from(demo.querySelectorAll('.slide'));
+            const current = () => all.filter((el) => el.dataset.lang === lang());
+            let index = 0;
+
+            function show(i) {
+                const slides = current();
+                index = Math.max(0, Math.min(slides.length - 1, i));
+                all.forEach((el) => { el.hidden = true; });
+                slides[index].hidden = false;
+                buttons.forEach((b, k) => {
+                    if (k === index) b.setAttribute('aria-current', 'true');
+                    else b.removeAttribute('aria-current');
+                });
+            }
+
+            function applyDemo(on) {
+                document.body.classList.toggle('demo-on', on);
+                demo.hidden = !on;
+                nav.hidden = !on;
+                toggle.setAttribute('aria-checked', String(on));
+                if (on) show(index);
+            }
+
+            // Cross-fade between normal and demo mode (browsers without view transitions switch instantly).
+            function setDemo(on) {
+                const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (document.startViewTransition && !reduce) document.startViewTransition(() => applyDemo(on));
+                else applyDemo(on);
+            }
+
+            toggle.addEventListener('click', () => setDemo(toggle.getAttribute('aria-checked') !== 'true'));
+            buttons.forEach((b, k) => b.addEventListener('click', () => show(k)));
+            document.addEventListener('qwind:lang', () => { if (document.body.classList.contains('demo-on')) show(index); });
+            document.addEventListener('keydown', (e) => {
+                if (!document.body.classList.contains('demo-on')) return;
+                if (e.key === 'ArrowRight') { show(index + 1); e.preventDefault(); }
+                else if (e.key === 'ArrowLeft') { show(index - 1); e.preventDefault(); }
+                else if (e.key === 'Escape') { setDemo(false); toggle.focus(); }
+            });
+        })();
+    </script>
+
+    <script>
+        // Results tables: read data/summary.json (copied from results/summary.json) and show one dataset at a time.
+        (function () {
+            const select = document.getElementById('datasetSelect');
+            const body = document.querySelector('#resultsTable tbody');
+            const caption = document.getElementById('resultsCaption');
+            const meta = document.getElementById('resultsMeta');
+            let summary = null;
+            const lang = () => (window.qwindLang ? window.qwindLang() : 'en');
+
+            const fmt = (m, digits) => (m && typeof m.mean === 'number') ? m.mean.toFixed(digits) : '\u2013';
+
+            function render(name) {
+                body.textContent = '';
+                const rows = summary.results.filter((r) => r.dataset === name);
+                rows.forEach((r) => {
+                    const tr = document.createElement('tr');
+                    const cells = [
+                        r.method,
+                        r.variant,
+                        r.p === null ? '\u2013' : String(r.p),
+                        fmt(r.metrics.p_optimal, 3),
+                        fmt(r.metrics.p_feasible, 3),
+                        fmt(r.metrics.energy_gap, 4),
+                        fmt(r.metrics.time_s, 2)
+                    ];
+                    cells.forEach((text) => {
+                        const td = document.createElement('td');
+                        td.textContent = text;
+                        tr.appendChild(td);
+                    });
+                    body.appendChild(tr);
+                });
+                const ds = summary.datasets.find((d) => d.dataset === name);
+                const es = lang() === 'es';
+                caption.textContent = (es ? 'Conjunto de datos ' : 'Dataset ') + name + ': ' + (ds ? ds.n_instances : '?') + (es ? ' casos, promedio por método' : ' instances, mean per method');
+                meta.textContent = (es ? 'Protocolo ' : 'Protocol ') + summary.protocol.id;
+            }
+
+            fetch('data/summary.json')
+                .then((res) => { if (!res.ok) throw new Error(res.status); return res.json(); })
+                .then((data) => {
+                    summary = data;
+                    summary.datasets.forEach((d) => {
+                        const o = document.createElement('option');
+                        o.value = d.dataset;
+                        o.textContent = d.dataset;
+                        select.appendChild(o);
+                    });
+                    select.disabled = false;
+                    select.addEventListener('change', () => render(select.value));
+                    document.addEventListener('qwind:lang', () => render(select.value));
+                    render(select.value);
+                })
+                .catch(() => {
+                    caption.textContent = lang() === 'es' ? 'No se pudieron cargar los resultados acá. Los mismos números están en el README del repositorio.' : 'The results could not be loaded here. The same numbers are in the README of the repository.';
+                });
+        })();
+    </script>

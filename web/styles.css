@@ -1552,3 +1552,197 @@ body {
 .slide .wind {
     color: var(--accent-cyan);
 }
+
+/* --- DEMO: README-order slides (header image, text slides, wide tables) --- */
+.slide-header-img { width: min(100%, 1000px); max-height: 45vh; object-fit: contain; border-radius: 12px; }
+.slide-title-sm { font-size: clamp(3rem, 9vw, 7rem); }
+.slide-note { font-size: clamp(1rem, 1.8vw, 1.5rem); line-height: 1.4; color: var(--text-muted); max-width: 1100px; }
+.slide-table-sm { font-size: clamp(0.85rem, 1.5vw, 1.25rem); }
+.slide-table sup { font-size: 0.6em; }
+.slide code { font-size: 0.85em; background: rgba(127, 127, 127, 0.18); padding: 2px 6px; border-radius: 6px; }
+.slide-lead-xl { font-size: clamp(1.6rem, 4vw, 3.2rem); color: var(--text-main); }
+.slide .slide-table { width: 100%; max-width: 1300px; }
+
+/* --- DEMO: traffic-light cells, flags, legend --- */
+.slide-table td.tl,
+.slide-table th.tl { font-weight: 600; }
+.tl-green { background: #1f7a3d; color: #fff; }
+.tl-yellow { background: #f2c230; color: #1a1a1a; }
+.tl-red { background: #c0392b; color: #fff; }
+.slide-legend { font-size: clamp(0.85rem, 1.3vw, 1.1rem); color: var(--text-muted); }
+.slide-legend .tl { padding: 2px 10px; border-radius: 6px; margin: 0 4px 0 12px; }
+.slide-legend .tl:first-child { margin-left: 0; }
+.flag { vertical-align: middle; margin-right: 10px; border-radius: 3px; }
+
+/* --- DEMO: illustrations, cards, bars, switches (animations restart when a slide is shown) --- */
+.illus { width: min(100%, 900px); max-height: 42vh; align-self: center; color: var(--text-muted); }
+.illus .spin { transform-box: view-box; transform-origin: 0 0; animation: spin 3s linear infinite; }
+.illus .spin.slow { animation-duration: 7s; }
+.illus .wind-line { stroke-dasharray: 14 12; animation: wind-flow 1.2s linear infinite; }
+.illus .wake { animation: wake-pulse 3s ease-in-out infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes wind-flow { to { stroke-dashoffset: -26; } }
+@keyframes wake-pulse { 50% { opacity: 0.55; } }
+
+.cards { display: grid; gap: 2vw; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); width: 100%; max-width: 1400px; }
+.cards-4 { grid-template-columns: repeat(4, 1fr); }
+.cards-3 { grid-template-columns: repeat(3, 1fr); }
+.card { padding: 2.2vh 1.6vw; border-radius: 16px; border: 1px solid var(--border-subtle); background: rgba(127, 127, 127, 0.1); text-align: center; animation: card-in 0.6s ease both; }
+.card:nth-child(2) { animation-delay: 0.15s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.45s; }
+.card-big { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: clamp(2rem, 5vw, 4.2rem); line-height: 1.1; }
+.card-label { margin-top: 1vh; font-size: clamp(0.95rem, 1.6vw, 1.35rem); line-height: 1.35; }
+.card.tl-green, .card.tl-yellow, .card.tl-red { border-color: transparent; }
+@keyframes card-in { from { opacity: 0; transform: translateY(24px); } }
+
+.pbars { display: grid; gap: 1.4vh; width: 100%; max-width: 1200px; }
+.pbar-row { display: grid; grid-template-columns: minmax(150px, 22%) 1fr 5.5em; align-items: center; gap: 16px; font-size: clamp(1rem, 1.8vw, 1.5rem); }
+.pbar-track { height: clamp(18px, 3vh, 30px); border-radius: 8px; background: rgba(127, 127, 127, 0.18); overflow: hidden; }
+.pbar-fill { display: block; height: 100%; width: var(--w); border-radius: 8px; transform-origin: left; animation: bar-grow 1s ease both; }
+.pf-green { background: #1f7a3d; }
+.pf-red { background: #c0392b; }
+.pf-blue { background: #2b6cb0; }
+.pbar-val { font-weight: 700; }
+@keyframes bar-grow { from { transform: scaleX(0); } }
+
+.switches { text-align: center; }
+.sw-row { display: flex; gap: 2.5vw; justify-content: center; }
+.sw { position: relative; width: clamp(56px, 7vw, 96px); height: clamp(30px, 3.8vw, 52px); border-radius: 999px; background: #6b7280; }
+.sw .knob { position: absolute; top: 12%; left: 6%; width: 38%; height: 76%; border-radius: 50%; background: #fff; }
+.sw.a { animation: sw-track-a 5.2s ease-in-out infinite; animation-delay: var(--d); }
+.sw.a .knob { animation: sw-knob-a 5.2s ease-in-out infinite; animation-delay: var(--d); }
+.sw.b { animation: sw-track-b 5.2s ease-in-out infinite; animation-delay: var(--d); }
+.sw.b .knob { animation: sw-knob-b 5.2s ease-in-out infinite; animation-delay: var(--d); }
+@keyframes sw-track-a { 0%, 35% { background: #1f7a3d; } 50%, 85% { background: #6b7280; } 100% { background: #1f7a3d; } }
+@keyframes sw-knob-a { 0%, 35% { transform: translateX(120%); } 50%, 85% { transform: translateX(0); } 100% { transform: translateX(120%); } }
+@keyframes sw-track-b { 0%, 35% { background: #6b7280; } 50%, 85% { background: #1f7a3d; } 100% { background: #6b7280; } }
+@keyframes sw-knob-b { 0%, 35% { transform: translateX(0); } 50%, 85% { transform: translateX(120%); } 100% { transform: translateX(0); } }
+.sw-count { margin-top: 1.5vh; font-size: clamp(1.1rem, 2.2vw, 1.8rem); font-weight: 700; }
+
+.steps { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5vw; width: 100%; max-width: 1400px; font-size: clamp(0.95rem, 1.7vw, 1.4rem); }
+.steps li { display: flex; align-items: center; gap: 12px; padding: 1.5vh 1vw; border-radius: 12px; background: rgba(127, 127, 127, 0.1); border: 1px solid var(--border-subtle); }
+.steps li span { flex: none; display: inline-grid; place-items: center; width: 2em; height: 2em; border-radius: 50%; background: var(--accent-cyan); color: var(--bg-base); font-weight: 700; }
+
+@media (max-width: 800px) {
+    .cards-4, .cards-3, .steps { grid-template-columns: 1fr 1fr; }
+    .pbar-row { grid-template-columns: 1fr; gap: 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .illus .spin, .illus .wind-line, .illus .wake, .card, .pbar-fill, .sw, .sw .knob { animation: none; }
+}
+.sw.a { background: #1f7a3d; }
+.sw.a .knob { transform: translateX(120%); }
+.card-big .icon { width: clamp(48px, 6vw, 84px); height: auto; color: var(--accent-cyan); }
+
+/* --- DEMO: "How QWind works" flow built in HTML and CSS --- */
+.flow { list-style: none; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2.4vw; width: 100%; max-width: 1500px; counter-reset: none; }
+.flow-step { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1vh; padding: 2.4vh 1vw; border-radius: 18px; border: 3px solid var(--border-subtle); background: rgba(127, 127, 127, 0.1); font-size: clamp(0.9rem, 1.4vw, 1.2rem); line-height: 1.35; animation: card-in 0.6s ease both; }
+.flow-step:nth-child(2) { animation-delay: 0.25s; }
+.flow-step:nth-child(3) { animation-delay: 0.5s; }
+.flow-step:nth-child(4) { animation-delay: 0.75s; }
+.flow-step:nth-child(5) { animation-delay: 1s; }
+.flow-step strong { font-family: 'Space Grotesk', sans-serif; font-size: 1.25em; }
+.flow-step:not(:last-child)::after { content: ""; position: absolute; top: 50%; right: calc(-2.4vw - 2px); width: 2.4vw; height: 12px; transform: translateY(-50%); background: linear-gradient(90deg, var(--accent-cyan) 50%, transparent 50%) 0 50% / 14px 3px repeat-x; animation: flow-dash 1s linear infinite; }
+.flow-step:not(:last-child)::before { content: ""; position: absolute; top: 50%; right: calc(-2.4vw - 2px); width: 10px; height: 10px; border-top: 3px solid var(--accent-cyan); border-right: 3px solid var(--accent-cyan); transform: translateY(-50%) rotate(45deg); }
+.flow-num { display: inline-grid; place-items: center; width: 1.9em; height: 1.9em; border-radius: 50%; background: var(--accent-cyan); color: var(--bg-base); font-weight: 700; }
+.flow-icon .icon { width: clamp(44px, 5vw, 72px); height: auto; color: var(--accent-cyan); }
+.flow-hot { border-color: var(--accent-cyan); background: rgba(34, 211, 238, 0.14); }
+@keyframes flow-dash { to { background-position: 14px 50%; } }
+@media (max-width: 800px) {
+    .flow { grid-template-columns: 1fr; gap: 20px; }
+    .flow-step:not(:last-child)::after, .flow-step:not(:last-child)::before { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .flow-step, .flow-step::after { animation: none; } }
+
+/* --- DEMO: decision map (slide 19) built as inline SVG + CSS --- */
+.dmap-wrap { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 3vw; align-items: center; width: 100%; max-width: 1500px; min-height: 0; flex: 1; }
+.dmap { width: 100%; max-height: 62vh; }
+.dmap text { font-size: 15px; fill: var(--text-muted); text-anchor: middle; }
+.dmap .dmap-note { text-anchor: start; font-size: 17px; }
+.dmap-wake { fill: #38bdf8; opacity: 0.25; animation: wake-pulse 3.5s ease-in-out infinite; }
+.dmap-on circle:not(.dmap-ring) { fill: #2b7bd8; stroke: #fff; stroke-width: 2; }
+.dmap-ring { fill: none; stroke: #2b7bd8; stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: ring-pulse 2.4s ease-out infinite; }
+.dmap-off circle { fill: none; stroke: #8a8a85; stroke-width: 3; }
+.dmap-arrow path { stroke: var(--text-main); stroke-width: 5; stroke-linecap: round; fill: var(--text-main); }
+.dmap-arrow path:first-child { fill: none; }
+.dmap-side { display: grid; gap: 1.2vh; }
+.dmap-key { display: flex; align-items: center; gap: 12px; font-size: clamp(1rem, 1.7vw, 1.4rem); }
+.dot { display: inline-block; width: 1.1em; height: 1.1em; border-radius: 50%; }
+.dot-on { background: #2b7bd8; }
+.dot-off { border: 3px solid #8a8a85; }
+.dot-wake { background: rgba(56, 189, 248, 0.35); border-radius: 4px; }
+.cards-2 { grid-template-columns: 1fr 1fr; }
+@keyframes ring-pulse { from { transform: scale(1); opacity: 0.9; } to { transform: scale(2); opacity: 0; } }
+@media (max-width: 800px) { .dmap-wrap { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .dmap-wake, .dmap-ring { animation: none; } }
+
+.card.tl-green { background: #1f7a3d; color: #fff; }
+.card.tl-yellow { background: #f2c230; color: #1a1a1a; }
+.card.tl-red { background: #c0392b; color: #fff; }
+
+/* Demo footer: team in two small lines (name + role) */
+.demo-footer .demo-team { list-style: none; padding: 0; margin: 0; display: grid; align-content: center; gap: 2px; text-align: right; white-space: normal; font-size: 0.72rem; line-height: 1.25; }
+.demo-footer .demo-team strong { color: #fff; font-weight: 600; }
+.demo-footer .demo-team span { color: #94a3b8; font-size: 0.68rem; margin-left: 6px; }
+.demo-footer .demo-team li { margin: 0; }
+
+/* --- Language (EN/ES): only the blocks of the chosen language are shown --- */
+html:not([data-ui="es"]) [data-lang="es"],
+html[data-ui="es"] [data-lang="en"] { display: none !important; }
+
+.lang-switch { display: inline-flex; border: 1px solid var(--border-subtle); border-radius: 8px; overflow: hidden; }
+.lang-btn { font: inherit; font-size: 0.8rem; font-weight: 700; padding: 0 10px; height: 29px; border: 0; background: transparent; color: var(--text-muted); cursor: pointer; }
+.lang-btn[aria-pressed="true"] { background: var(--accent-cyan); color: var(--bg-base); }
+.lang-btn:focus-visible { outline: 2px solid var(--accent-cyan); outline-offset: -2px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* --- Minimalist wind turbine next to the logo (home hero and first demo slide) --- */
+.hero-brand { display: flex; align-items: center; justify-content: center; gap: clamp(14px, 3vw, 40px); }
+.hero-turbine { width: clamp(52px, 8vw, 104px); height: auto; flex: none; }
+.hero-turbine .ht-tower { fill: var(--text-muted); opacity: 0.55; }
+.hero-turbine .ht-ground { stroke: var(--text-muted); stroke-width: 3; stroke-linecap: round; opacity: 0.4; }
+.hero-turbine .ht-blades { fill: var(--accent-cyan); }
+.hero-turbine .ht-hub { fill: var(--text-main); }
+.hero-turbine .ht-spin { transform-box: view-box; transform-origin: 60px 60px; animation: spin 7s linear infinite; }
+.slide-brand { display: flex; align-items: center; justify-content: center; gap: clamp(16px, 3vw, 48px); max-width: 100%; }
+.slide-brand .slide-header-img { max-height: 40vh; }
+.slide-brand .hero-turbine { width: clamp(70px, 9vw, 130px); }
+.hero-text { max-width: 900px; margin: 0 auto; }
+
+/* --- Home story: the demo blocks, in normal page flow --- */
+.home-story { max-width: 1200px; margin: 0 auto; padding: 0 5vw; display: grid; gap: 72px; }
+.home-section { display: grid; gap: 22px; }
+.home-section .section-title { margin: 0; }
+.home-story .slide-table { font-size: clamp(0.85rem, 1.3vw, 1.05rem); width: 100%; max-width: none; }
+.home-story .slide-table caption { font-size: 0.9rem; }
+.home-story .slide-lead { font-size: clamp(1.05rem, 1.8vw, 1.35rem); }
+.home-story .slide-note { font-size: 1rem; }
+.home-story .slide-legend { font-size: 0.9rem; }
+.home-story .cards { max-width: none; gap: 16px; }
+.home-story .cards-4, .home-story .cards-3 { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.home-story .card { padding: 20px 16px; }
+.home-story .card-big { font-size: clamp(1.8rem, 3.2vw, 2.8rem); }
+.home-story .card-label { font-size: 1rem; }
+.home-story .card-big .icon { width: 56px; }
+.home-story .pbars { max-width: none; }
+.home-story .pbar-row { font-size: 1rem; }
+.home-story .illus { max-height: 280px; }
+.home-story .dmap { max-height: 520px; }
+.home-story .dmap-wrap { max-width: none; }
+.home-story .flow { max-width: none; font-size: 1rem; }
+.home-story .steps { max-width: none; font-size: 1rem; }
+.home-story .sw { width: 64px; height: 34px; }
+.home-story .sw-count { font-size: 1.2rem; }
+.home-story figure { display: grid; gap: 8px; margin: 0; }
+.home-story figure img { width: 100%; height: auto; border-radius: 12px; background: #fff; }
+.home-story figcaption { color: var(--text-muted); font-size: 0.95rem; }
+.chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+.chart-card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+.home-details { max-width: 1200px; margin: 28px auto 0; padding: 0 5vw; }
+.home-details > summary { cursor: pointer; font-weight: 600; font-size: 1.1rem; padding: 10px 0; }
+.home-details > summary:focus-visible { outline: 2px solid var(--accent-cyan); outline-offset: 4px; }
+.home-story .home-details { padding: 0; margin: 0; }
+@media (max-width: 800px) { .home-story .dmap-wrap { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .hero-turbine .ht-spin { animation: none; } }
