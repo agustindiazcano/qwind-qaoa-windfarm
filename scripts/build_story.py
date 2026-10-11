@@ -338,6 +338,51 @@ def span2(en, es):
     return f'<span lang="en" data-lang="en">{en}</span><span lang="es" data-lang="es">{es}</span>'
 
 
+def decision_short():
+    """Penmanshiel map with the key numbers and the money, for the short deck."""
+    base = decision()
+    svg = base[base.index("<svg"):base.index("</svg>") + 6]
+    keys = base[base.index('<p class="dmap-key">'):base.index('<div class="cards cards-2">')]
+    stats = base[base.index('<div class="cards cards-2">'):base.index('<p class="slide-note">')]
+    money = cards([("176 MWh", L("extra energy per 1,000 hours, keeping 7 turbines", "de energía extra por cada 1.000 horas, dejando 7 turbinas"), ""),
+                   (L("$11.6k to $23.2k", "$11,6k a $23,2k"), L("what it could be worth, at $66 to $132 per MWh", "lo que podría valer, a $66 a $132 por MWh"), G)], "cards-2")
+    note = f'<p class="slide-note">{L("Real Penmanshiel layout, modelled losses. An illustrative scale, not a forecast and not a measured saving.", "Disposición real de Penmanshiel, pérdidas calculadas con un modelo. Una escala ilustrativa, no un pronóstico ni un ahorro medido.")}</p>'
+    return '<div class="dmap-wrap short-dmap">' + svg + '<div class="dmap-side">' + keys + stats + money + note + "</div></div>"
+
+
+def short_deck(first):
+    """Condensed presentation (10 slides): problem, impact, why quantum, solution, results, classical, hardware, claims, closing."""
+    U = {u["key"]: u for u in units()}
+    K = L
+    slides = [("QWind", first, "slide-center")]
+    slides.append((K("The problem", "El problema"), f'<h2>{K("The problem: turbines steal wind from each other", "El problema: las turbinas se roban viento entre sí")}</h2>\n            ' + U["what"]["body"], ""))
+    slides.append((K("The impact", "El impacto"), f'<h2>{K("Choosing well: less energy lost, real money", "Elegir bien: menos energía perdida, dinero real")}</h2>\n            ' + decision_short(), ""))
+    slides.append((K("Why quantum", "Por qué cuántica"), f'<h2>{U["why"]["title"]}</h2>\n            ' + U["why"]["body"], ""))
+    slides.append((K("The solution", "La solución"), f'<h2>{K("The solution: QWind", "La solución: QWind")}</h2>\n            ' + U["quantum"]["body"], ""))
+    charts = "".join(U[f"chart{i}"]["body"] for i in (0, 1, 2))
+    results = (cards([("100%", K("valid plans, always", "de planes válidos, siempre"), G),
+                      (K("up to 17.1&times;", "hasta 17,1&times;"), K("more likely to find the best layout than the usual quantum penalty version", "más chance de encontrar la mejor elección que la versión cuántica habitual con penalización"), G),
+                      (K("5 of 6", "5 de 6"), K("datasets: the exact best layout in every case", "conjuntos de datos: la mejor elección exacta en todos los casos"), G)], "cards-3")
+               + f'<div class="short-charts">{charts}</div>')
+    slides.append((K("Key results", "Resultados clave"), f'<h2>{K("Key results", "Resultados clave")}</h2>\n            ' + results, "short-results"))
+    slides.append((K("Against the classical methods", "Frente a los métodos clásicos"), f'<h2>{U["versus"]["title"]}</h2>\n            ' + U["versus"]["body"], ""))
+    hw = (cards([("IonQ Forte 1", K("Real quantum computer, 36 qubits, through Qollab. A small case: 6 positions, keep 3 turbines, 997 shots, one run.", "Computadora cuántica real, 36 qubits, a través de Qollab. Un caso chico: 6 posiciones, dejar 3 turbinas, 997 disparos, una corrida."), ""),
+                 ("22%", K("of the samples were invalid because of real noise; they are spotted and discarded", "de las muestras fueron inválidas por el ruido real; se detectan y se descartan"), Y)], "cards-2")
+          + f'<p class="slide-note">{K("Chance of sampling the best layout, valid samples only.", "Chance de muestrear la mejor elección, solo con muestras válidas.")}</p>'
+          + pbars([(K("Ideal simulator", "Simulador ideal"), d("0.1784"), 100, "pf-blue"), (K("IonQ Forte 1 (real hardware)", "IonQ Forte 1 (hardware real)"), d("0.1665"), 93, "pf-green"), (K("Random valid choice", "Elección válida al azar"), d("0.1000"), 56, "pf-red")])
+          + f'<p class="slide-note">{K("Even with real noise, the best sample was the exact best layout.", "Aun con ruido real, la mejor muestra fue la mejor elección exacta.")}</p>')
+    slides.append((K("Real quantum hardware", "Hardware cuántico real"), f'<h2>{K("Tested on real quantum hardware", "Probado en hardware cuántico real")}</h2>\n            ' + hw, ""))
+    slides.append((K("What we do not claim", "Lo que no afirmamos"), f'<h2>{U["noclaim"]["title"]}</h2>\n            ' + U["noclaim"]["body"], ""))
+    closing = (f'<h2>{K("Built on Qollab, open source, try it yourself", "Hecho en Qollab, código abierto, probalo vos")}</h2>\n            ' + cards([
+        (K("Qiskit + Qollab", "Qiskit + Qollab"), K("Built with the hackathon kit; runs on Qollab's built-in simulator in about 20 seconds.", "Hecho con el kit del hackatón; corre en el simulador integrado de Qollab en unos 20 segundos."), ""),
+        (K("Open source", "Código abierto"), K("MIT license, 150+ tests, protocol fixed before running.", "Licencia MIT, más de 150 tests, protocolo fijado antes de correr."), ""),
+        (K("Try it", "Probalo"), K("Open the project page on Qollab and click <strong>Run your code</strong>.", "Abrí la página del proyecto en Qollab y hacé clic en <strong>Run your code</strong>."), "")], "cards-3")
+        + f'\n            <p class="slide-lead">{K("Thank you.", "Gracias.")}</p>'
+        + f'\n            <p class="slide-support"><strong>This effort is supported by Qollab &amp; IonQ</strong> · {K("MIT License", "Licencia MIT")} · <a href="https://github.com/agustindiazcano/qwind-qaoa-windfarm">github.com/agustindiazcano/qwind-qaoa-windfarm</a> · <a href="https://qollab.xyz/u/agustindiazcano/qwind">{K("Qollab project page", "Página del proyecto en Qollab")}</a></p>')
+    slides.append((K("Thank you", "Gracias"), closing, ""))
+    return slides
+
+
 def slides_html():
     global LANG
     out = ""
@@ -360,7 +405,11 @@ def slides_html():
         n = len(slides)
         for i, (t, body, cls) in enumerate(slides, 1):
             label = L(f"Slide {i} of {n}: {t}", f"Diapositiva {i} de {n}: {t}")
-            out += f'        <section class="slide {cls}" id="slide-{lang}-{i}" lang="{lang}" data-lang="{lang}" aria-label="{esc(label)}" hidden>\n            {body}\n        </section>\n'
+            out += f'        <section class="slide {cls}" id="slide-{lang}-{i}" lang="{lang}" data-lang="{lang}" data-deck="full" aria-label="{esc(label)}" hidden>\n            {body}\n        </section>\n'
+        short = short_deck(first)
+        for i, (t, body, cls) in enumerate(short, 1):
+            label = L(f"Short demo, slide {i} of {len(short)}: {t}", f"Demo corta, diapositiva {i} de {len(short)}: {t}")
+            out += f'        <section class="slide {cls}" id="slide-{lang}-s{i}" lang="{lang}" data-lang="{lang}" data-deck="short" aria-label="{esc(label)}" hidden>\n            {body}\n        </section>\n'
     LANG = "en"
     return n, out
 
@@ -506,6 +555,12 @@ def nav_html(n):
         <span class="nav-spacer" aria-hidden="true"></span>
 {{{{/demo}}}}
     </nav>
+{{{{#demo}}}}
+    <div class="short-switch" id="shortSwitch" hidden>
+        <button type="button" class="demo-toggle" id="shortToggle" role="switch" aria-checked="false" aria-label="Short demo" data-es-label="Demo corta"><span class="knob" aria-hidden="true"></span></button>
+        <span class="demo-label">{span2("short demo", "demo corta")}</span>
+    </div>
+{{{{/demo}}}}
 """
 
 

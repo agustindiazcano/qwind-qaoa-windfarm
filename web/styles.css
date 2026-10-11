@@ -1757,3 +1757,20 @@ html[data-ui="es"] [data-lang="en"] { display: none !important; }
 .theme-toggle:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 html:not([data-theme="light"]) .theme-toggle .i-moon,
 html[data-theme="light"] .theme-toggle .i-sun { display: none; }
+
+/* --- Short demo: switch under the demo switch (demo mode only) and condensed slides --- */
+.slide-btn[hidden] { display: none; }
+.short-switch { position: fixed; top: 62px; right: 40px; z-index: 101; display: inline-flex; align-items: center; gap: 8px; padding: 4px 10px; border-radius: 999px; background: rgba(4, 6, 11, 0.85); border: 1px solid rgba(255, 255, 255, 0.14); }
+.short-switch[hidden] { display: none; }
+.short-switch .demo-label { color: #cbd5e1; }
+.short-dmap .dmap { max-height: 46vh; }
+.short-dmap .dmap-side { gap: 0.8vh; }
+.short-dmap .card-big { font-size: clamp(1.4rem, 3vw, 2.4rem); }
+.short-dmap .card-label { font-size: clamp(0.8rem, 1.2vw, 1rem); }
+.short-charts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5vw; width: 100%; max-width: 1500px; }
+.short-charts figure { display: flex; flex-direction: column; gap: 4px; min-height: 0; }
+.short-charts figure img { max-height: 30vh; width: 100%; object-fit: contain; border-radius: 10px; background: #fff; }
+.short-charts figcaption { font-size: clamp(0.7rem, 1vw, 0.9rem); color: var(--text-muted); }
+.short-results .cards .card-big { font-size: clamp(1.5rem, 3.2vw, 2.6rem); }
+.short-results .cards .card-label { font-size: clamp(0.85rem, 1.3vw, 1.1rem); }
+@media (max-width: 800px) { .short-charts { grid-template-columns: 1fr; } .short-switch { right: 16px; } }

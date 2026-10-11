@@ -39,7 +39,10 @@
             const buttons = Array.from(nav.querySelectorAll('.slide-btn'));
             const lang = () => (window.qwindLang ? window.qwindLang() : 'en');
             const all = Array.from(demo.querySelectorAll('.slide'));
-            const current = () => all.filter((el) => el.dataset.lang === lang());
+            const shortSwitch = document.getElementById('shortSwitch');
+            const shortToggle = document.getElementById('shortToggle');
+            let deck = 'full';
+            const current = () => all.filter((el) => el.dataset.lang === lang() && el.dataset.deck === deck);
             let index = 0;
 
             function show(i) {
@@ -48,6 +51,7 @@
                 all.forEach((el) => { el.hidden = true; });
                 slides[index].hidden = false;
                 buttons.forEach((b, k) => {
+                    b.hidden = k >= slides.length;
                     if (k === index) b.setAttribute('aria-current', 'true');
                     else b.removeAttribute('aria-current');
                 });
@@ -58,6 +62,7 @@
                 demo.hidden = !on;
                 nav.hidden = !on;
                 toggle.setAttribute('aria-checked', String(on));
+                shortSwitch.hidden = !on;
                 if (on) show(index);
             }
 
@@ -70,6 +75,12 @@
 
             toggle.addEventListener('click', () => setDemo(toggle.getAttribute('aria-checked') !== 'true'));
             buttons.forEach((b, k) => b.addEventListener('click', () => show(k)));
+            // Short demo: a condensed deck of 10 slides, only available while demo mode is on.
+            shortToggle.addEventListener('click', () => {
+                deck = deck === 'short' ? 'full' : 'short';
+                shortToggle.setAttribute('aria-checked', String(deck === 'short'));
+                show(0);
+            });
             document.addEventListener('qwind:lang', () => { if (document.body.classList.contains('demo-on')) show(index); });
             document.addEventListener('keydown', (e) => {
                 if (!document.body.classList.contains('demo-on')) return;

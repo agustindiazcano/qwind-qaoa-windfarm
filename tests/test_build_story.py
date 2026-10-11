@@ -43,7 +43,7 @@ def test_slides_exist_in_both_languages_with_the_same_count(story):
 
 def test_navbar_has_one_button_per_slide_and_a_language_switch(story):
     nav = story["nav"]
-    n = len(re.findall(r'<section class="slide[^"]*" id="slide-en-', story["index"]))
+    n = len(re.findall(r'<section class="slide[^"]*" id="slide-en-\d+"', story["index"]))
     assert len(re.findall(r'class="slide-btn"', nav)) == n
     assert 'data-set-lang="en"' in nav and 'data-set-lang="es"' in nav
 
@@ -86,3 +86,25 @@ def test_home_cards_use_the_glass_style_and_hover_but_slides_do_not(story):
         assert needle in home, needle
     assert "glass-surface" not in slides.replace('<nav class="glass-surface"', "")
     assert "home-lift" not in slides
+
+
+def test_short_demo_deck_has_ten_slides_in_both_languages(story):
+    html = story["index"]
+    for lang in ("en", "es"):
+        short = re.findall(rf'<section class="slide[^"]*" id="slide-{lang}-s\d+" lang="{lang}" data-lang="{lang}" data-deck="short"', html)
+        assert len(short) == 10, lang
+
+
+def test_short_demo_switch_exists_but_starts_hidden(story):
+    html = story["index"] + story["nav"]
+    assert 'id="shortToggle"' in html and 'role="switch"' in html
+    assert re.search(r'id="shortSwitch"[^>]*hidden', html)
+
+
+def test_short_deck_follows_the_planned_story(story):
+    html = story["index"]
+    es = html[html.index('id="slide-es-s1"'):]
+    # title, problem, impact, why quantum, solution, results, classical, hardware, claims, closing
+    for needle in ("estela", "Penmanshiel", "3 billones", "interruptores", "100%", "recocido", "IonQ Forte 1", "ventaja cuántica", "Run your code"):
+        assert needle in es, needle
+    assert "This effort is supported by Qollab &amp; IonQ" in html[html.index('id="slide-en-s10"'):]
