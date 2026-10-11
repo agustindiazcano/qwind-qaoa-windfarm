@@ -1179,3 +1179,14 @@ footer .footer-meta .footer-members {
 .footer-meta .footer-license {
     color: var(--text-muted);
 }
+
+/* Footer text: one grey for everything, links included (they stay underlined). */
+footer .footer-meta p,
+footer .footer-meta .support-line,
+footer .footer-meta a {
+    color: var(--text-muted);
+}
+
+footer .footer-meta a:hover {
+    color: var(--text-main);
+}
