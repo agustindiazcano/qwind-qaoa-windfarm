@@ -17,7 +17,7 @@ The Qollab project page is the **same Markdown as the README** (`README.md`): pa
 
 **Description (max 240 characters):**
 
-> QWind compares QAOA in Qiskit (XY mixer + Dicke state) with exact, annealing and greedy search to choose which K of N turbines to keep, on real farm positions and wind roses. Simulator only; no quantum advantage claimed.
+> QWind compares QAOA in Qiskit (XY mixer + Dicke state) with exact, annealing and greedy search to choose which K of N turbines to keep, on real farm positions and wind roses. Also run once on IonQ Forte 1. No quantum advantage claimed.
 
 ## Before pasting: checklist
 
@@ -36,6 +36,7 @@ All numbers come from the README RESULTS block, which is generated from `results
 | 0:20-0:45 | The QUBO formula in the README | "We turned that choice into an optimization problem and built a quantum circuit for it in Qiskit, with the rule 'keep exactly K turbines' inside the circuit itself." |
 | 0:45-1:30 | Click **Run your code** on Qollab and show the table and the detail block | "Eight cells, three turbines. Every result is a valid plan, and the circuit samples the best layout about four times more often than random valid choice." |
 | 1:30-2:10 | The README headline and results table | "We tested it on six datasets, including the real positions and measured winds of the Penmanshiel and Kelmarsh wind farms. It finds the exact optimum on five of six, matching simulated annealing, and it beats the standard penalty approach by 3.4 to 17 times." |
-| 2:10-2:30 | The repository page | "It's open source under MIT, fully reproducible, with 150 tests and a protocol fixed in advance. QWind: a rigorous foundation for quantum optimization on real wind farms. This effort is supported by Qollab and IonQ." |
+| 2:10-2:35 | The README section "Run on real quantum hardware" | "We also ran the circuit once on IonQ Forte 1, a real quantum computer: 997 shots on a small instance, six cells and three turbines. About 78% of the samples were valid plans, and the rest can be discarded because the rule is inside the circuit. Among the valid ones, the best layout showed up with probability 0.1665, close to the ideal 0.1784 and above the 0.1000 of a random valid choice, and the best sample was the exact optimum. It was a single run." |
+| 2:35-2:55 | The repository page | "It's open source under MIT, fully reproducible, with 150 tests and a protocol fixed in advance. QWind: a rigorous foundation for quantum optimization on real wind farms. This effort is supported by Qollab and IonQ." |
 
-Captions: upload an `.srt` or burn them in; the text above is the caption source. Do not say "we ran on a quantum computer".
+Captions: upload an `.srt` or burn them in; the text above is the caption source. Say it plainly: the hardware result is one small run on IonQ Forte 1 (N = 6, 997 shots, numbers in the README section "Run on real quantum hardware"). The benchmark itself is simulated, and the live Run on Qollab uses the built-in simulator. Do not claim a quantum advantage.
