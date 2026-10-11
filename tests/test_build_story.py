@@ -76,3 +76,13 @@ def test_no_quantum_advantage_claim_is_made(story):
     low = story["index"].lower()
     assert "we claim no quantum advantage" in low
     assert "no afirmamos ventaja cu" in low
+
+
+def test_home_cards_use_the_glass_style_and_hover_but_slides_do_not(story):
+    html = story["index"]
+    home = html[html.index('<main id="main">'):html.index("</main>")]
+    slides = html[html.index('<div id="demo"'):]
+    for needle in ('card glass-surface', 'figure-card glass-surface', 'home-box glass-surface', 'flow-step home-lift'):
+        assert needle in home, needle
+    assert "glass-surface" not in slides.replace('<nav class="glass-surface"', "")
+    assert "home-lift" not in slides

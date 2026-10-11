@@ -365,6 +365,22 @@ def slides_html():
     return n, out
 
 
+def glassify(body):
+    """Home only: give the blocks the glass look and hover lift of the original home cards (slides keep their own look)."""
+    body = body.replace('<div class="card ', '<div class="card glass-surface ')
+    body = body.replace('<li class="flow-step ', '<li class="flow-step home-lift ')
+    body = body.replace('<li><span>', '<li class="home-lift"><span>')
+    body = body.replace('<figure>', '<figure class="figure-card glass-surface">')
+    body = body.replace('<div class="pbars">', '<div class="pbars home-box glass-surface">')
+    body = body.replace('<div class="dmap-wrap">', '<div class="dmap-wrap home-box glass-surface">')
+    body = body.replace('<div class="switches"', '<div class="switches home-box glass-surface"')
+    body = re.sub(r'<table class="slide-table.*?</table>', lambda m: f'<div class="home-box glass-surface"><div class="table-wrap">{m.group(0)}</div></div>', body, flags=re.S)
+    body = body.replace('<svg class="illus"', '<div class="home-box glass-surface"><svg class="illus"', 1)
+    if '<div class="home-box glass-surface"><svg class="illus"' in body:
+        body = body.replace('</svg>', '</svg></div>', 1)
+    return body
+
+
 def home_html():
     parts = []
     for lang, _ in (("en", 0), ("es", 0)):
@@ -377,11 +393,11 @@ def home_html():
             if u["home"] is False:
                 continue
             if u["home"] == "details":
-                h += f'\n        <details class="home-details"><summary>{u["title"]}</summary>{u["body"]}</details>'
+                h += f'\n        <details class="home-details"><summary>{u["title"]}</summary>{glassify(u["body"])}</details>'
             elif u["home"] == "chart":
-                charts += f'<div class="chart-card"><h3>{u["title"]}</h3>{u["body"]}</div>'
+                charts += f'<div class="chart-card"><h3>{u["title"]}</h3>{glassify(u["body"])}</div>'
             else:
-                h += f'\n        <section class="home-section"><h2 class="section-title">{u["title"]}</h2>{u["body"]}</section>'
+                h += f'\n        <section class="home-section"><h2 class="section-title">{u["title"]}</h2>{glassify(u["body"])}</section>'
             if u["key"] == "decision":
                 pass
         h += (f'\n        <section class="home-section"><h2 class="section-title">{L("More charts", "Más gráficos")}</h2>'
