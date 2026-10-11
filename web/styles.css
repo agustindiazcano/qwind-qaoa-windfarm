@@ -1547,3 +1547,8 @@ body {
         animation: demo-in 0.4s ease both;
     }
 }
+
+/* In demo slides, "Wind" in QWind is light blue like the navbar logo. */
+.slide .wind {
+    color: var(--accent-cyan);
+}
