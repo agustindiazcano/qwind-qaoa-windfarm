@@ -1,0 +1,15 @@
+# Console output of the backend probe (qollab/qwind/probe.py, run from a separate Qollab test project), copied by the project owner on 2026-10-11.
+# The probe version of this run did not yet print the 'valid samples only' lines; see summary.md for that figure.
+
+Backend probe started
+Backend: <qiskit_ionq.ionq_backend.IonQSimulatorBackend object at 0x6d67ca8>
+Circuit execution time: 1000ms
+--- Backend probe: ionq_simulator ---
+N = 6 cells, K = 3 turbines, QAOA depth p = 1 (XY mixer + Dicke start), 1000 shots
+compiled circuit: 123 one-qubit gates, 78 two-qubit gates, depth 174
+
+                 ideal (exact)    measured   uniform
+P(optimal)              0.1784      0.1010    0.0312
+P(feasible)             1.0000      0.6650    0.3125
+
+best sampled layout: gap 0.0000 to the exact optimum

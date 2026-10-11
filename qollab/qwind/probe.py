@@ -7,6 +7,8 @@ runner is acceptable, a quantum computer. The live Run (qollab/main.py) never im
 The parameters are optimized on the exact statevector (never on the backend): one backend call, not a loop.
 Uses only qiskit, numpy and scipy (through the rest of qwind) and the standard library.
 """
+from math import comb
+
 import numpy as np
 from qiskit import transpile
 
@@ -65,12 +67,16 @@ def run_probe(n_cells=6, K=3, p=1, shots=1000, seed=0, backend=None, restarts=2,
     p_opt = sum(c for b, c in counts.items() if optimal[int(b, 2)]) / total      # big-endian string <-> little-endian index
     p_feas = sum(c for b, c in counts.items() if b.count("1") == K) / total
     best_gap = min(table[int(b, 2)] for b in counts) - float(table.min())
+    n_opt = int(optimal.sum())                        # optimal bitstrings (all have exactly K ones)
+    post = p_opt / p_feas if p_feas > 0 else 0.0      # P(optimal) among the valid samples (noise can leave the valid subspace)
     return {
         "backend": _backend_name(backend), "n_cells": n_cells, "K": K, "p": p, "shots": int(round(total)),
         "counts": {b: int(round(c)) for b, c in counts.items()},
         "measured_p_optimal": p_opt, "measured_p_feasible": p_feas, "best_sampled_gap": float(best_gap),
         "ideal_p_optimal": float(res.p_optimal), "ideal_p_feasible": float(res.p_feasible),
         "uniform_p_optimal": float(res.uniform_p_optimal), "uniform_p_feasible": float(res.uniform_p_feasible),
+        "uniform_valid_p_optimal": n_opt / comb(n_cells, K), "postselected_p_optimal": post,
+        "ideal_postselected_p_optimal": float(res.p_optimal / res.p_feasible),
         "ideal_probabilities": res.probabilities, "one_qubit_gates": one_q, "two_qubit_gates": two_q, "depth": depth,
     }
 
@@ -87,5 +93,8 @@ def format_report(r, label=None):
              f"N = {r['n_cells']} cells, K = {r['K']} turbines, QAOA depth p = {r['p']} (XY mixer + Dicke start), {r['shots']} shots",
              f"compiled circuit: {r['one_qubit_gates']} one-qubit gates, {r['two_qubit_gates']} two-qubit gates, depth {r['depth']}", ""]
     lines += [f"{a:<14}{b:>16}{c:>12}{d:>10}" for a, b, c, d in rows]
-    lines += ["", f"best sampled layout: gap {r['best_sampled_gap']:.4f} to the exact optimum"]
+    lines += ["", "P(optimal), valid samples only (uniform over valid layouts as the baseline):",
+              f"  ideal {r['ideal_postselected_p_optimal']:.4f} | measured {r['postselected_p_optimal']:.4f} | "
+              f"uniform over valid layouts {r['uniform_valid_p_optimal']:.4f}",
+              f"best sampled layout: gap {r['best_sampled_gap']:.4f} to the exact optimum"]
     return "\n".join(lines)
