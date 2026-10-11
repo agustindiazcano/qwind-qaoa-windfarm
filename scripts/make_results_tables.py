@@ -71,10 +71,10 @@ def _range(values, n):
     return f"{lo}/{n}" if lo == hi else f"{lo}-{hi}/{n}"
 
 
-def readme_block(summary, rows):
+def readme_block(summary, rows, datasets=None):
     """Condensed README tables (every number read from the files). Few-instance datasets are not summarized as mean +/- interval."""
     present = [d["dataset"] for d in summary["datasets"]]
-    names = [d for d in README_ORDER if d in present] + [d for d in present if d not in README_ORDER]
+    names = [d for d in (README_ORDER if datasets is None else datasets) if d in present]   # default: the first batch only
     p_top = max(summary["protocol"]["depths"])      # compact headline: the deepest circuit; all depths are in results_tables.md
     n_inst = {d["dataset"]: d["n_instances"] for d in summary["datasets"]}
     out = ["**Datasets** (short name used in the tables below; the full name is the dataset id in `results/`)", "",
@@ -126,13 +126,14 @@ def readme_block(summary, rows):
     return "\n".join(out)
 
 
-def headline_multipliers(summary, rows):
+def headline_multipliers(summary, rows, datasets=None):
     """Numbers quoted in the README prose, at the deepest p: how many times higher P(optimal) is for XY + Dicke than for the
     uniform baseline and than for the best penalty variant (range over datasets), and in how many datasets its best sample is
     the exact optimum in every instance."""
     p_top = max(summary["protocol"]["depths"])
     vs_uniform, vs_penalty, all_found = [], [], 0
-    names = [d["dataset"] for d in summary["datasets"]]
+    present = [d["dataset"] for d in summary["datasets"]]
+    names = [d for d in (README_ORDER if datasets is None else datasets) if d in present]
     for d in names:
         xy = next(r for r in summary["results"] if r["dataset"] == d and r["variant"] == "xy+dicke" and r["p"] == p_top)
         pen = max(r["metrics"]["p_optimal"]["mean"] for r in summary["results"]
@@ -148,12 +149,21 @@ def headline_multipliers(summary, rows):
 
 
 START, END = "<!-- RESULTS:START -->", "<!-- RESULTS:END -->"
+START2, END2 = "<!-- RESULTS2:START -->", "<!-- RESULTS2:END -->"      # second batch (docs/PROTOCOL_EXTENSION.md)
+BATCH2 = ["real_penmanshiel_allk", "synthetic_n16"]
+
+
+def batch2_datasets(summary):
+    present = {d["dataset"] for d in summary["datasets"]}
+    return [d for d in BATCH2 if d in present]
 # Order of the datasets in the README tables: the synthetic set, the real farms, then the secondary ERA5 sets
 README_ORDER = ["synthetic", "real_penmanshiel", "real_penmanshiel_sub10", "real_kelmarsh", "real_chubut", "real_bahia_blanca"]
 # Short names used in the README tables (the full dataset id is the index in the legend table)
-SHORT_NAMES = {"synthetic": "Synthetic", "real_penmanshiel": "Penmanshiel", "real_penmanshiel_sub10": "Penmanshiel-10",
+SHORT_NAMES = {"real_penmanshiel_allk": "Penmanshiel-allK", "synthetic_n16": "Synthetic-16", "synthetic": "Synthetic", "real_penmanshiel": "Penmanshiel", "real_penmanshiel_sub10": "Penmanshiel-10",
                "real_kelmarsh": "Kelmarsh", "real_chubut": "Chubut", "real_bahia_blanca": "Bahia"}
 DESCRIPTIONS = {
+    "real_penmanshiel_allk": "All 14 real Penmanshiel positions with every K from 3 to 11 (9 instances)",
+    "synthetic_n16": "Synthetic roses on a synthetic grid with N = 16 (6 instances)",
     "synthetic": "Synthetic wind roses on a synthetic grid",
     "real_penmanshiel": "All 14 real turbine positions of the Penmanshiel farm, measured wind rose",
     "real_penmanshiel_sub10": "The 10 Penmanshiel turbines closest to the farm centroid (a subset)",
@@ -163,15 +173,15 @@ DESCRIPTIONS = {
 }
 
 
-def update_readme(path, block):
+def update_readme(path, block, start=START, end=END):
     with open(path, encoding="utf-8") as f:
         text = f.read()
-    if START not in text or END not in text:
-        raise ValueError(f"{path} needs the {START} ... {END} markers (RESULTS block)")
-    head, rest = text.split(START, 1)
-    _, tail = rest.split(END, 1)
+    if start not in text or end not in text:
+        raise ValueError(f"{path} needs the {start} ... {end} markers (RESULTS block)")
+    head, rest = text.split(start, 1)
+    _, tail = rest.split(end, 1)
     with open(path, "w", encoding="utf-8") as f:
-        f.write(head + START + "\n" + block + "\n" + END + tail)
+        f.write(head + start + "\n" + block + "\n" + end + tail)
 
 
 def main(argv=None):
@@ -209,6 +219,10 @@ def main(argv=None):
     if args.readme:
         update_readme(args.readme, readme_block(summary, rows))
         print("updated", args.readme)
+        second = batch2_datasets(summary)
+        if second and START2 in open(args.readme, encoding="utf-8").read():
+            update_readme(args.readme, readme_block(summary, rows, datasets=second), START2, END2)
+            print("updated the second-batch block of", args.readme)
 
 
 if __name__ == "__main__":
