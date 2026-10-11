@@ -1,0 +1,10 @@
+{
+ "farm": "penmanshiel",
+ "year": 2019,
+ "rated_kw": 2050,
+ "mean_power_kw": 637.2,
+ "capacity_factor": 0.3108,
+ "n_turbines": 14,
+ "n_readings": 728898,
+ "source": "Zenodo 10.5281/zenodo.16807304 (SCADA 10-minute 'Power (kW)', calendar year 2019, mean of each turbine's mean)"
+}

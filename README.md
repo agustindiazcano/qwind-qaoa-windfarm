@@ -51,7 +51,23 @@ The lesson we take is practical: when a problem has a hard constraint, build it 
 
 When a wind farm has to run fewer turbines, the choice of which ones to keep decides how much of the production that remains is lost to wakes. In our model, using the real Penmanshiel layout and its measured wind rose, the share of potential power lost to wakes is 4.0% against 8.0% for 7 of the 14 turbines (the best choice against an average random choice), 1.0% against 5.3% for 5 turbines, and 7.0% against 10.6% for 9 turbines. QWind is a way to search that decision systematically, and at this size exact search can verify the choices it finds.
 
-These are modelled wake losses (a Jensen wake model, equal turbines), not measured production or costs. We have no cost or production data from a real farm, so the impact is potential: the decision affects the energy a curtailed farm still delivers and, through it, the value of that energy.
+These are modelled wake losses (a Jensen wake model, equal turbines), not measured production or costs. We have not measured costs, or the algorithm working in a real farm, so the impact is potential: the decision affects the energy a curtailed farm still delivers and, through it, the value of that energy. The next section puts an illustrative scale on it.
+
+## What it could be worth
+
+Using the measured production of the Penmanshiel turbines, this is the scale of what the choice is worth in an illustrative scenario:
+
+<!-- IMPACT:START -->
+**Illustrative estimate for Penmanshiel.** Assumptions: each kept turbine produces its measured 2019 average (637 kW, a capacity factor of 31.1%); the farm runs with only K of its 14 turbines for 1,000 hours; the wake losses are the modelled ones, for the best choice against an average random choice of the same K turbines; the prices are round numbers for illustration.
+
+| Turbines kept (K of 14) | Modelled power lost to wakes: best vs average random choice | More energy from the same K turbines | Extra energy per 1,000 hours | Value at £50/MWh | Value at £75/MWh | Value at £100/MWh |
+|---|---|---|---|---|---|---|
+| 5 | 1.0% vs 5.3% | +4.5% | 136 MWh | £6.8k | £10.2k | £13.6k |
+| 7 | 4.0% vs 8.0% | +4.3% | 176 MWh | £8.8k | £13.2k | £17.6k |
+| 9 | 7.0% vs 10.6% | +4.0% | 207 MWh | £10.3k | £15.5k | £20.7k |
+
+This is an illustrative estimate of scale, not a forecast. It comes from a model, it compares with an average random choice (not with what an operator does today), it assumes 1,000 hours in that configuration (a year has 8,760; how many hours a farm is curtailed is not in our data), and it counts neither costs nor the structure of any contract. Details and sources: [docs/IMPACT.md](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/docs/IMPACT.md).
+<!-- IMPACT:END -->
 
 ## What we built
 
