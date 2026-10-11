@@ -407,12 +407,6 @@ main {
     color: var(--text-main);
 }
 
-.hardware-line {
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin: -8px 0 20px;
-}
-
 a {
     color: var(--accent-cyan);
 }
