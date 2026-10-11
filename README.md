@@ -1,22 +1,82 @@
 **This effort is supported by Qollab & IonQ**
 
-# QWind: QAOA for Wind Farm Turbine Selection
+<p align="center"><img src="https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/docs/img/qwind-logo.png" alt="QWind logo: the word QWind, with Q in white and Wind in light blue, on a dark background" width="300"></p>
+
+<p align="center"><img src="https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/docs/img/partners-banner.png" alt="Qollab x IonQ x Facultad de Ciencias Exactas, UNICEN" width="700"></p>
+
+# QWind: Quantum Optimization for Wind Farms
 
 **Theme:** Quantum Impact · **Status:** Hackathon submission (Qollab)
 
-**Ran on real quantum hardware: [IonQ Forte 1 (36q)](#run-on-real-quantum-hardware), IonQ's quantum computer, through Qollab.**
+**Ran on real quantum hardware: [IonQ Forte 1 (36q)](#run-on-real-quantum-hardware), IonQ's real quantum computer, through Qollab. Among the valid samples the circuit reached 93% of its ideal success probability (N = 6, one run, 997 shots).**
 
-**A quantum algorithm that picks which wind turbines to keep running, and never proposes an invalid plan.** Tested on the real turbines and measured winds of two operating wind farms.
+## 1. What is it?
 
-- **3.4 to 17.1 times** more likely to find the best layout than the standard quantum formulation.
-- **Exact optimum** in every instance of 5 of 6 datasets, matching simulated annealing, with about 120 optimizer evaluations.
-- **100% valid plans:** the "keep exactly *K* turbines" rule is built into the circuit.
-- **Run on a real quantum computer (IonQ Forte 1):** among the valid samples the circuit reached 93% of its ideal success probability (N = 6, one run, 997 shots), and its best sample was the exact optimum.
-- **Real data:** the 14 real turbine positions of Penmanshiel (Scotland) and the 6 of Kelmarsh (England), with measured winds, plus wind roses from Argentina (Chubut, Bahia Blanca).
-- **Open source (MIT)**, 150+ tests, protocol fixed before running, and it runs on Qollab in about 20 seconds.
+Wind turbines steal wind from each other. When a turbine runs, it leaves a turbulent "wake" of slower air behind it. If a second turbine stands in that wake, it generates less power. QWind is a quantum algorithm that decides which turbines to keep running and which to turn off when a farm has to reduce its power output. By choosing the right combination, it minimizes the energy wasted by these wakes. We tested the algorithm using real measured turbine positions and wind data from Penmanshiel (Scotland, UK) and Kelmarsh (England, UK), alongside reanalysis wind datasets from Chubut and Bahia Blanca (Argentina).
+
+**Why a quantum computer? The space of plans explodes with farm size.**
+
+| Farm size | Turbines kept | Possible plans |
+|---|---|---|
+| 14 turbines (Penmanshiel, our largest test) | 7 | 3,432 |
+| 50 turbines | 25 | about 10^14 (126 trillion) |
+| 100 turbines | 50 | about 10^29 |
+| 1,000 turbines (illustrative, hypothetical) | 500 | about 10^299 |
+
+Real farms typically have tens to a couple of hundred turbines; the 1,000-turbine row is only there to show how fast the space grows. A laptop checks 3,432 plans instantly, which is why we could verify every answer we report. Exact search is the classical bottleneck: checking plans one by one at a billion plans per second would take about 3 trillion years for 100 turbines, and at 1,000 turbines the count exceeds the number of atoms in the universe (about 10^80). Classical heuristics such as simulated annealing keep working at larger sizes, but they do not guarantee the optimum. Whether a constraint-preserving quantum circuit can match or beat them at 50 to 100 turbines is the open question that motivates this project; we do not answer it here.
+
+## 2. Why does it matter, and who is it for?
+
+This tool is for wind farm operators who need to temporarily curtail power because of grid limits, maintenance or environmental restrictions, and for quantum developers looking for a reproducible, honest benchmark. The choice of which turbines to shut down has a financial footprint. In an illustrative scenario using the measured wind and layout of Penmanshiel, our modelled wake losses show the potential extra energy value of picking the best layout instead of an average random choice:
+
+| Turbines kept (of 14) | Power lost to wakes: best vs average random | Extra energy per 1,000 h | Value |
+|---|---|---|---|
+| 5 | 1.0% vs 5.3% | 136 MWh | $9.0k to $18.0k |
+| 7 | 4.0% vs 8.0% | 176 MWh | $11.6k to $23.2k |
+| 9 | 7.0% vs 10.6% | 207 MWh | $13.7k to $27.3k |
+
+Values use $66 to $132 per MWh and assume 1,000 hours in that configuration. This is a modelled, illustrative scale (Jensen wake model), not a forecast and not a measured saving. Assumptions and sources: [What it could be worth](#what-it-could-be-worth).
+
+## 3. How does the quantum part work?
+
+The usual quantum approach adds a mathematical penalty to discourage invalid answers, but it still produces many of them. We built a circuit that enforces the rule by design (a Quantum Approximate Optimization Algorithm, QAOA, with an XY mixer and a Dicke initial state). Think of one switch per turbine: the circuit starts from a valid plan (exactly the right number of switches on) and only ever swaps them in pairs, so the ideal circuit never outputs an invalid layout. The wake losses between every pair of turbines are encoded as a QUBO cost, and a classical optimizer (COBYLA, about 120 evaluations) tunes the circuit angles; we then sample 1,000 times and keep the best layout.
+
+| | XY mixer + Dicke circuit (ours) | Standard penalty formulation | Random valid choice |
+|---|---|---|---|
+| Share of output that is a valid plan | 100% | 26% to 64% | 100% |
+| Chance of sampling the best layout | reference | ours is 3.4 to 17.1 times more likely, depending on dataset | ours is 3 to 7.5 times more likely than one random valid draw, depending on dataset |
+| Best sampled layout is the exact optimum | all instances of 5 of 6 datasets; 2 of 3 on Penmanshiel (14 turbines) | less often | with the same 1,000 draws it finds it with probability 0.95 to 1.00 up to 12 turbines, 0.35 on average at 14 turbines |
+
+We also ran the optimized circuit once on a real quantum computer (IonQ Forte 1) for a small instance (6 cells, 3 turbines, 997 shots). Under real noise, 22% of the samples were not valid layouts; they are recognized and discarded, and among the valid ones the circuit came close to the ideal and the best sample found was the exact optimum. [Details](#run-on-real-quantum-hardware).
+
+| | P(optimal) | P(valid layout) | P(optimal), valid samples only |
+|---|---|---|---|
+| Ideal simulator | 0.1784 | 1.0000 | 0.1784 |
+| IonQ Forte 1 | 0.1304 | 0.7834 | 0.1665 |
+| Random valid choice | 0.1000 | 1.0000 | 0.1000 |
+
+**What we do not claim:** quantum advantage. At these sizes classical simulated annealing solves all the instances we tested exactly, and picking valid layouts at random already finds the best one with probability 0.95 or higher for up to 12 cells. We could only test up to 14 turbines because we simulate the circuit exactly on a CPU, which stops being possible at around 30 qubits. Settling the large-farm question needs larger hardware runs. Our contribution is the constraint-preserving circuit design, a benchmark with honest baselines, and a first execution on noisy quantum hardware (one small run).
+
+## 4. How do I run it?
+
+**On Qollab:** click **Run your code** on this page with the built-in simulator selected. The default run takes about 20 seconds and prints a comparison table (exact search, simulated annealing, greedy, QAOA).
+
+**Locally:** clone the GitHub repository and run:
+```
+pip install -r qollab/requirements.txt pytest
+python qollab/main.py
+python -m pytest
+```
+
+<!-- TODO(owner): add the public YouTube link to the 3-minute demo video (with captions) here and in the top banner -->
+
+Open source (MIT), 150+ tests, protocol fixed before running. Source: https://github.com/agustindiazcano/qwind-qaoa-windfarm. More options in [How to run](#how-to-run).
+
+**Quick links:** [The problem in pictures](#the-problem-in-pictures) · [Results at a glance](#results-at-a-glance) · [Run on real quantum hardware](#run-on-real-quantum-hardware) · [What it could be worth](#what-it-could-be-worth) · [Limitations](#limitations)
 
 **Contents**
 
+- **The four questions:** [1. What is it?](#1-what-is-it) · [2. Why does it matter, and who is it for?](#2-why-does-it-matter-and-who-is-it-for) · [3. How does the quantum part work?](#3-how-does-the-quantum-part-work) · [4. How do I run it?](#4-how-do-i-run-it)
 - **Overview:** [The problem in pictures](#the-problem-in-pictures) · [Results at a glance](#results-at-a-glance) · [In plain words](#in-plain-words) · [What we found](#what-we-found)
 - **Impact and hardware:** [Why it matters](#why-it-matters) · [What it could be worth](#what-it-could-be-worth) · [Run on real quantum hardware](#run-on-real-quantum-hardware)
 - **The project:** [What we built](#what-we-built) · [Try it](#try-it) · [Results](#results) · [How to run](#how-to-run) · [What this adds beyond running QAOA](#what-this-adds-beyond-running-qaoa) · [Technical details](#technical-details)
