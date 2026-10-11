@@ -1681,3 +1681,9 @@ body {
 .card.tl-green { background: #1f7a3d; color: #fff; }
 .card.tl-yellow { background: #f2c230; color: #1a1a1a; }
 .card.tl-red { background: #c0392b; color: #fff; }
+
+/* Demo footer: team in two small lines (name + role) */
+.demo-footer .demo-team { list-style: none; padding: 0; margin: 0; display: grid; align-content: center; gap: 2px; text-align: right; white-space: normal; font-size: 0.72rem; line-height: 1.25; }
+.demo-footer .demo-team strong { color: #fff; font-weight: 600; }
+.demo-footer .demo-team span { color: #94a3b8; font-size: 0.68rem; margin-left: 6px; }
+.demo-footer .demo-team li { margin: 0; }
