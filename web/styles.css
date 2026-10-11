@@ -993,3 +993,60 @@ nav.glass-surface {
 .logo-link:hover {
     border-color: var(--accent-cyan);
 }
+
+/* Footer: everything on one row (wraps only on narrow screens); members on their own row. */
+footer {
+    max-width: 1400px;
+}
+
+.footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 14px 18px;
+}
+
+@media (min-width: 1240px) {
+    .footer-row {
+        flex-wrap: nowrap;
+    }
+}
+
+.footer-row > * {
+    margin: 0;
+}
+
+.footer-row .footer-logos,
+.footer-row .footer-social {
+    flex-wrap: nowrap;
+    gap: 10px;
+    margin: 0;
+}
+
+.footer-row .support-line {
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.footer-row .logo-link {
+    height: 46px;
+    padding: 6px 12px;
+    gap: 8px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.footer-row .logo-link img {
+    height: 32px;
+}
+
+.footer-row .footer-social .btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+footer .footer-members {
+    margin-top: 28px;
+}
