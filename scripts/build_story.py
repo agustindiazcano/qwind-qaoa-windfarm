@@ -275,10 +275,6 @@ def units():
         f'<p class="slide-note">{K("Chance of sampling the best layout, valid samples only (22% of the hardware samples were invalid and are discarded).", "Chance de muestrear la mejor elección, solo con muestras válidas (el 22% de las muestras del hardware eran inválidas y se descartan).")}</p>'
         + pbars([(K("Ideal simulator", "Simulador ideal"), d("0.1784"), 100, "pf-blue"), (K("IonQ Forte 1 (real hardware)", "IonQ Forte 1 (hardware real)"), d("0.1665"), 93, "pf-green"), (K("Random valid choice", "Elección válida al azar"), d("0.1000"), 56, "pf-red")])
         + f'<p class="slide-note">{K("The hardware came close to the ideal and stayed above random. The best sample was the exact best layout. Without filtering: 0.1304 chance of the best layout, 78% valid layouts.", "El hardware se acercó al ideal y quedó por encima del azar. La mejor muestra fue la mejor elección exacta. Sin filtrar: chance de 0,1304 de la mejor elección y 78% de elecciones válidas.")}</p>')
-    add("noclaim", K("What we do not claim", "Lo que no afirmamos"),
-        cards([(K("No advantage", "Sin ventaja"), K("We do not claim quantum advantage. Classical methods solve every instance we tested.", "No afirmamos ventaja cuántica. Los métodos clásicos resuelven todos los casos que probamos."), R),
-               (K("Up to 14", "Hasta 14"), K("turbines tested: we simulate the circuit exactly on a CPU, which stops around 30 qubits.", "turbinas probadas: simulamos el circuito de forma exacta en una CPU, y eso deja de ser posible cerca de los 30 qubits."), Y),
-               (K("Never invalid", "Nunca inválido"), K("What we do contribute: a circuit that never gives an invalid plan, comparisons against simple baselines, and a first real hardware run.", "Lo que sí aportamos: un circuito que nunca da un plan inválido, comparaciones con alternativas simples y una primera corrida en hardware real."), G)], "cards-3"))
     add("run", K("4. How do I run it?", "4. ¿Cómo lo ejecuto?"),
         cards([(K("On Qollab", "En Qollab"), K("Open the project page and click <strong>Run your code</strong> with the built-in simulator. About 20 seconds.", "Abrí la página del proyecto y hacé clic en <strong>Run your code</strong> con el simulador integrado. Unos 20 segundos."), ""),
                (K("Locally", "En tu computadora"), "<code>pip install -r qollab/requirements.txt pytest</code><br><code>python qollab/main.py</code>", ""),
@@ -351,7 +347,7 @@ def decision_short():
 
 
 def short_deck(first):
-    """Condensed presentation (10 slides): problem, impact, why quantum, solution, results, classical, hardware, claims, closing."""
+    """Condensed presentation (9 slides): problem, impact, why quantum, solution, results, classical, hardware, closing."""
     U = {u["key"]: u for u in units()}
     K = L
     slides = [("QWind", first, "slide-center")]
@@ -372,7 +368,6 @@ def short_deck(first):
           + pbars([(K("Ideal simulator", "Simulador ideal"), d("0.1784"), 100, "pf-blue"), (K("IonQ Forte 1 (real hardware)", "IonQ Forte 1 (hardware real)"), d("0.1665"), 93, "pf-green"), (K("Random valid choice", "Elección válida al azar"), d("0.1000"), 56, "pf-red")])
           + f'<p class="slide-note">{K("Even with real noise, the best sample was the exact best layout.", "Aun con ruido real, la mejor muestra fue la mejor elección exacta.")}</p>')
     slides.append((K("Real quantum hardware", "Hardware cuántico real"), f'<h2>{K("Tested on real quantum hardware", "Probado en hardware cuántico real")}</h2>\n            ' + hw, ""))
-    slides.append((K("What we do not claim", "Lo que no afirmamos"), f'<h2>{U["noclaim"]["title"]}</h2>\n            ' + U["noclaim"]["body"], ""))
     closing = (f'<h2>{K("Built on Qollab, open source, try it yourself", "Hecho en Qollab, código abierto, probalo vos")}</h2>\n            ' + cards([
         (K("Qiskit + Qollab", "Qiskit + Qollab"), K("Built with the hackathon kit; runs on Qollab's built-in simulator in about 20 seconds.", "Hecho con el kit del hackatón; corre en el simulador integrado de Qollab en unos 20 segundos."), ""),
         (K("Open source", "Código abierto"), K("MIT license, 150+ tests, protocol fixed before running.", "Licencia MIT, más de 150 tests, protocolo fijado antes de correr."), ""),
