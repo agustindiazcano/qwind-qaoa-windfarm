@@ -88,11 +88,11 @@ def test_home_cards_use_the_glass_style_and_hover_but_slides_do_not(story):
     assert "home-lift" not in slides
 
 
-def test_short_demo_deck_has_ten_slides_in_both_languages(story):
+def test_short_demo_deck_has_nine_slides_in_both_languages(story):
     html = story["index"]
     for lang in ("en", "es"):
         short = re.findall(rf'<section class="slide[^"]*" id="slide-{lang}-s\d+" lang="{lang}" data-lang="{lang}" data-deck="short"', html)
-        assert len(short) == 10, lang
+        assert len(short) == 9, lang
 
 
 def test_short_demo_switch_exists_but_starts_hidden(story):
@@ -105,6 +105,12 @@ def test_short_deck_follows_the_planned_story(story):
     html = story["index"]
     es = html[html.index('id="slide-es-s1"'):]
     # title, problem, impact, why quantum, solution, results, classical, hardware, claims, closing
-    for needle in ("estela", "Penmanshiel", "3 billones", "interruptores", "100%", "recocido", "IonQ Forte 1", "ventaja cuántica", "Run your code"):
+    for needle in ("estela", "Penmanshiel", "3 billones", "interruptores", "100%", "recocido", "IonQ Forte 1", "Run your code"):
         assert needle in es, needle
-    assert "This effort is supported by Qollab &amp; IonQ" in html[html.index('id="slide-en-s10"'):]
+    assert "This effort is supported by Qollab &amp; IonQ" in html[html.index('id="slide-en-s9"'):]
+
+
+def test_what_we_do_not_claim_section_is_gone_from_the_web_and_the_readme(story):
+    for text in (story["index"], _read("README.md"), _read("qollab/README.md")):
+        assert "What we do not claim" not in text
+        assert "Lo que no afirmamos" not in text
