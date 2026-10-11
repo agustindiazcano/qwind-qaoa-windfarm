@@ -25,6 +25,6 @@ Legend: [x] done, [~] partly done, [ ] open. Owner = the human captain/author; o
 18. [ ] 🟢 Optional: histogram of the optimal circuit with one final `backend.run` (few shots); any change in `main.py` requires re-checking in Qollab that the table prints once.
 19. [ ] 🟢 Optional: measure 120 evaluations with `backend.run` against 120 with `StatevectorEstimator` (N = 8) to be able to cite "too slow" (today the README says it is a design choice, not measured).
 20. [ ] 🟢 Optional: simulated-annealing control with an evaluation budget matched to QAOA (~120), labeled as a later control, not part of `qwind-v1`.
-21. [ ] ⚪ Noise (IBM noise-model simulators in Qollab): not done; do not claim it.
+21. [ ] ⚪ Noise (IBM noise-model simulators in Qollab): not done; do not claim it. (The IonQ Forte 1 run is real-hardware noise, but only one small probe, not a noise study.)
 22. [ ] Captain submits at least 2-3 hours before Sunday 2026-10-11 19:00 ET (20:00 Argentina time).
-23. [ ] Optional: backend probe on Qollab (separate test project from build/probe_project): built-in simulator, IonQ noise-model simulator (free), then one small QPU job only if the quoted price is acceptable; save the outputs under results/ before quoting numbers.
+23. [x] Backend probe done: the optimized circuit ran once on IonQ Forte 1 (N = 6, K = 3, p = 1, 997 shots); outputs in `results/backend_probe`, summarized in the README section "Run on real quantum hardware". Single run; no advantage claimed.

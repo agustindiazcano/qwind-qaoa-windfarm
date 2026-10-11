@@ -38,7 +38,7 @@ QWind: a Qiskit QAOA benchmark for wind-farm layout optimization (wake-loss QUBO
 - Never claim quantum advantage, speedups, energy or cost savings.
 - Every number in the README, the Qollab page or the website must come from a file in `results/`. Nothing hand-written.
 - If QAOA loses to classical methods, report it plainly.
-- State model limitations explicitly (pairwise additive wake losses, small instances, simulator only).
+- State model limitations explicitly (pairwise additive wake losses, small instances, simulated experiments with one small run on real hardware).
 
 ## Required text
 - The README and the Qollab project page must include exactly: `This effort is supported by Qollab & IonQ`
