@@ -59,3 +59,9 @@ Decision, following the rule above:
 - **`synthetic_n18` is dropped and not run.** Its instance definition stays in the code only so that this decision is reproducible.
 - `synthetic_n16` (about 100 minutes per instance, six instances, run with 6 worker processes) and `real_penmanshiel_allk` (about 6 to 7 minutes per instance, nine instances) are run with the unchanged `qwind-v1` settings.
 - The QAOA settings are not reduced.
+
+## Outcome of `synthetic_n16` (recorded after the run)
+
+`real_penmanshiel_allk` finished (28 minutes, 9 instances) and is reported in the README. **`synthetic_n16` did not finish**: the GitHub Actions job (run 38097697100, 6 instances, 6 worker processes on a 4-core runner) reached its 5-hour limit and was cancelled at 5 h 0 min, with no results saved. The extrapolation of about 100 minutes per instance (about 2.5 hours in total) was too optimistic, most likely because 6 processes shared 4 cores.
+
+Following the rules of this note, an instance that fails or times out is reported as missing: **no N = 16 result is reported and none is claimed.** The QAOA settings were not reduced. Re-running it would need the instances split across several jobs and is left out of the submission.

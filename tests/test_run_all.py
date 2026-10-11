@@ -260,3 +260,9 @@ def test_protocol_extension_is_documented_before_running():
     text = open(path, encoding="utf-8").read()
     for name in ("synthetic_n16", "synthetic_n18", "real_penmanshiel_allk", "qwind-v1", "not changed", "published, whatever they show"):
         assert name in text
+
+
+def test_protocol_extension_records_that_n16_did_not_finish():
+    path = os.path.join(os.path.dirname(__file__), "..", "docs", "PROTOCOL_EXTENSION.md")
+    text = open(path, encoding="utf-8").read()
+    assert "did not finish" in text and "no N = 16 result is reported" in text
