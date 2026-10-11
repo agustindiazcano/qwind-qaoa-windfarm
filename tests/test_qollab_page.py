@@ -66,6 +66,6 @@ def test_readme_references_list_the_data_sources_and_related_work_with_links():
                  "cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels", "open-meteo.com",   # ERA5 via Open-Meteo
                  "cfd-ar6-budget-notice.pdf", "creativecommons.org/licenses/by/4.0",                      # price reference, license
                  "arxiv.org/abs/2312.13123", "arxiv.org/abs/2512.17582",                                   # Hancock et al.
-                 "doi.org/10.1002/qute.202500358",                                                         # Nigro et al.
+                 "advanced.onlinelibrary.wiley.com/doi/10.1002/qute.202500358",                                                         # Nigro et al.
                  "arxiv.org/abs/2505.18396", "arxiv.org/abs/2602.14827"):                                  # XY mixers, Dicke + XY
         assert link in refs, f"missing from the References footer: {link}"

@@ -257,7 +257,7 @@ Competing at the **UNICEN** node (Universidad Nacional del Centro de la Provinci
 
 4. Hancock, J., Craven, M. J., McNeile, C., Vadacchino, D. "Investigating Techniques to Optimise the Layout of Turbines in a Windfarm using a Quantum Computer." [arXiv:2312.13123](https://arxiv.org/abs/2312.13123)
 5. Hancock, J., Craven, M., McNeile, C. "Investigating methods to solve large windfarm optimization problems with a minimum number of qubits using circuit-based quantum computers." [arXiv:2512.17582](https://arxiv.org/abs/2512.17582)
-6. Nigro, L., Sala, S., Amendola, A., Prati, E. "Leveraging Quantum Annealing for Layout Optimization." *Advanced Quantum Technologies* 8(11), e00358 (2025). [doi:10.1002/qute.202500358](https://doi.org/10.1002/qute.202500358)
+6. Nigro, L., Sala, S., Amendola, A., Prati, E. "Leveraging Quantum Annealing for Layout Optimization." *Advanced Quantum Technologies* 8(11), e00358 (2025). [doi:10.1002/qute.202500358](https://advanced.onlinelibrary.wiley.com/doi/10.1002/qute.202500358)
 7. Kordonowy, S., Leipold, H. "The Lie Algebra of XY-mixer Topologies and Warm Starting QAOA for Constrained Optimization." *npj Quantum Information* 12, 61 (2026). [arXiv:2505.18396](https://arxiv.org/abs/2505.18396)
 8. Mancilla, J., Bouloumis, T. D., Goguikian, F. "Constrained Portfolio Optimization via QAOA with XY-Mixers and Trotterized Initialization: A Hybrid Approach for Direct Indexing." [arXiv:2602.14827](https://arxiv.org/abs/2602.14827)
 
