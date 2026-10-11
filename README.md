@@ -4,6 +4,8 @@
 
 **Theme:** Quantum Impact · **Status:** Hackathon submission (Qollab)
 
+**Ran on real quantum hardware: [IonQ Forte 1 (36q)](#run-on-real-quantum-hardware), IonQ's quantum computer, through Qollab.**
+
 **A quantum algorithm that picks which wind turbines to keep running, and never proposes an invalid plan.** Tested on the real turbines and measured winds of two operating wind farms.
 
 - **3.4 to 17.1 times** more likely to find the best layout than the standard quantum formulation.
@@ -12,6 +14,13 @@
 - **Run on a real quantum computer (IonQ Forte 1):** among the valid samples the circuit reached 93% of its ideal success probability (N = 6, one run, 997 shots), and its best sample was the exact optimum.
 - **Real data:** the 14 real turbine positions of Penmanshiel (Scotland) and the 6 of Kelmarsh (England), with measured winds, plus wind roses from Argentina (Chubut, Bahia Blanca).
 - **Open source (MIT)**, 150+ tests, protocol fixed before running, and it runs on Qollab in about 20 seconds.
+
+**Contents**
+
+- **Overview:** [The problem in pictures](#the-problem-in-pictures) · [Results at a glance](#results-at-a-glance) · [In plain words](#in-plain-words) · [What we found](#what-we-found)
+- **Impact and hardware:** [Why it matters](#why-it-matters) · [What it could be worth](#what-it-could-be-worth) · [Run on real quantum hardware](#run-on-real-quantum-hardware)
+- **The project:** [What we built](#what-we-built) · [Try it](#try-it) · [Results](#results) · [How to run](#how-to-run) · [What this adds beyond running QAOA](#what-this-adds-beyond-running-qaoa) · [Technical details](#technical-details)
+- **Limits and credits:** [Limitations](#limitations) · [Tech Stack](#tech-stack) · [Hackathon node and team](#hackathon-node-and-team) · [Disclosure](#disclosure) · [References](#references)
 
 ## The problem in pictures
 
