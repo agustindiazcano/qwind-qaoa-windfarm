@@ -931,3 +931,21 @@ nav.glass-surface {
 .split-flap-char[data-target="Q"].flipping {
     color: var(--accent-blue);
 }
+
+/* Footer social buttons */
+.footer-social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.footer-social .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    border-radius: 6px;
+}
