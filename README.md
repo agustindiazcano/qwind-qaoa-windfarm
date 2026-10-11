@@ -6,7 +6,7 @@
 
 # QWind: Quantum Optimization for Wind Farms
 
-**Theme:** Quantum Impact · **Status:** Hackathon submission (Qollab)
+**Theme:** Quantum Impact · **Status:** Hackathon submission (Qollab) · [Project page on Qollab](https://qollab.xyz/u/agustindiazcano/qwind)
 
 **Ran on real quantum hardware: [IonQ Forte 1 (36q)](#run-on-real-quantum-hardware), IonQ's real quantum computer, through Qollab. Among the valid samples the circuit reached 93% of its ideal success probability (N = 6, one run, 997 shots).**
 
@@ -59,7 +59,7 @@ We also ran the optimized circuit once on a real quantum computer (IonQ Forte 1)
 
 ## 4. How do I run it?
 
-**On Qollab:** click **Run your code** on this page with the built-in simulator selected. The default run takes about 20 seconds and prints a comparison table (exact search, simulated annealing, greedy, QAOA).
+**On Qollab:** open the [project page](https://qollab.xyz/u/agustindiazcano/qwind) and click **Run your code** with the built-in simulator selected. The default run takes about 20 seconds and prints a comparison table (exact search, simulated annealing, greedy, QAOA).
 
 **Locally:** clone the GitHub repository and run:
 ```
