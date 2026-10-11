@@ -197,3 +197,61 @@ def test_readme_prose_quotes_the_computed_multipliers(summary, rows):
     m = tables.headline_multipliers(summary, rows)
     assert f"{round(m['vs_uniform'][0], 1):g} to {round(m['vs_uniform'][1], 1):g} times" in readme
     assert f"{round(m['vs_penalty'][0], 1):g} to {round(m['vs_penalty'][1], 1):g} times" in readme
+
+
+# ---- two generated README blocks: first batch (unchanged by new datasets) and second batch ----
+
+def _with_extra_dataset(summary, rows, source="real_penmanshiel", new="real_penmanshiel_allk"):
+    """Copy of summary and rows with one extra dataset, as if the second batch had been merged into results/."""
+    import copy
+    s = copy.deepcopy(summary)
+    s["datasets"].append(dict(next(d for d in s["datasets"] if d["dataset"] == source), dataset=new))
+    s["results"] += [dict(copy.deepcopy(r), dataset=new) for r in summary["results"] if r["dataset"] == source]
+    s["instances"] += [dict(i, dataset=new) for i in summary["instances"] if i["dataset"] == source]
+    return s, rows + [dict(r, dataset=new) for r in rows if r["dataset"] == source]
+
+
+def test_first_batch_block_is_unchanged_when_second_batch_datasets_are_merged(summary, rows):
+    s2, rows2 = _with_extra_dataset(summary, rows)
+    assert tables.readme_block(s2, rows2) == tables.readme_block(summary, rows)
+    assert tables.headline_multipliers(s2, rows2) == tables.headline_multipliers(summary, rows)
+
+
+def test_second_batch_block_only_has_second_batch_datasets(summary, rows):
+    s2, rows2 = _with_extra_dataset(summary, rows)
+    md = tables.readme_block(s2, rows2, datasets=tables.BATCH2)
+    legend = _section(md, "Datasets")
+    assert [r[1].strip("`") for r in legend] == ["real_penmanshiel_allk"]
+    assert "Synthetic |" not in md and "real_kelmarsh" not in md
+    assert tables.SHORT_NAMES["real_penmanshiel_allk"] in md
+
+
+def test_second_batch_is_skipped_when_it_is_not_in_the_summary(summary, rows):
+    assert tables.batch2_datasets(summary) == []
+    s2, _ = _with_extra_dataset(summary, rows)
+    assert tables.batch2_datasets(s2) == ["real_penmanshiel_allk"]
+
+
+def test_update_readme_with_its_own_markers(tmp_path):
+    readme = tmp_path / "README.md"
+    readme.write_text("a\n<!-- RESULTS:START -->\nOLD1\n<!-- RESULTS:END -->\nb\n<!-- RESULTS2:START -->\nOLD2\n<!-- RESULTS2:END -->\nc\n", encoding="utf-8")
+    tables.update_readme(str(readme), "NEW2", tables.START2, tables.END2)
+    text = readme.read_text(encoding="utf-8")
+    assert "OLD1" in text and "NEW2" in text and "OLD2" not in text
+
+
+def test_cli_updates_both_blocks_when_the_second_batch_exists(tmp_path, summary, rows):
+    s2, rows2 = _with_extra_dataset(summary, rows)
+    results = tmp_path / "results"
+    results.mkdir()
+    (results / "summary.json").write_text(json.dumps(s2), encoding="utf-8")
+    with open(results / "per_instance.csv", "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=list(rows2[0].keys()))
+        w.writeheader()
+        w.writerows(rows2)
+    readme = tmp_path / "README.md"
+    readme.write_text("<!-- RESULTS:START -->\nx\n<!-- RESULTS:END -->\n<!-- RESULTS2:START -->\ny\n<!-- RESULTS2:END -->\n", encoding="utf-8")
+    tables.main(["--results", str(results), "--out", str(tmp_path / "t.md"), "--readme", str(readme)])
+    text = readme.read_text(encoding="utf-8")
+    first, second = text.split(tables.START2)
+    assert "`real_penmanshiel_allk`" not in first and "`real_penmanshiel_allk`" in second
