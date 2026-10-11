@@ -25,7 +25,7 @@ Real farms typically have tens to a couple of hundred turbines; the 1,000-turbin
 
 ## 2. Why does it matter, and who is it for?
 
-This tool is for wind farm operators who need to temporarily curtail power because of grid limits, maintenance or environmental restrictions, and for quantum developers looking for a reproducible, honest benchmark. The choice of which turbines to shut down has a financial footprint. In an illustrative scenario using the measured wind and layout of Penmanshiel, our modelled wake losses show the potential extra energy value of picking the best layout instead of an average random choice:
+This tool is for wind farm operators who need to temporarily curtail power because of grid limits, maintenance or environmental restrictions, and for quantum developers looking for a reproducible benchmark. The choice of which turbines to shut down has a financial footprint. In an illustrative scenario using the measured wind and layout of Penmanshiel, our modelled wake losses show the potential extra energy value of picking the best layout instead of an average random choice:
 
 | Turbines kept (of 14) | Power lost to wakes: best vs average random | Extra energy per 1,000 h | Value |
 |---|---|---|---|
@@ -53,7 +53,7 @@ We also ran the optimized circuit once on a real quantum computer (IonQ Forte 1)
 | IonQ Forte 1 | 0.1304 | 0.7834 | 0.1665 |
 | Random valid choice | 0.1000 | 1.0000 | 0.1000 |
 
-**What we do not claim:** quantum advantage. At these sizes classical simulated annealing solves all the instances we tested exactly, and picking valid layouts at random already finds the best one with probability 0.95 or higher for up to 12 cells. We could only test up to 14 turbines because we simulate the circuit exactly on a CPU, which stops being possible at around 30 qubits. Settling the large-farm question needs larger hardware runs. Our contribution is the constraint-preserving circuit design, a benchmark with honest baselines, and a first execution on noisy quantum hardware (one small run).
+**What we do not claim:** quantum advantage. At these sizes classical simulated annealing solves all the instances we tested exactly, and picking valid layouts at random already finds the best one with probability 0.95 or higher for up to 12 cells. We could only test up to 14 turbines because we simulate the circuit exactly on a CPU, which stops being possible at around 30 qubits. Settling the large-farm question needs larger hardware runs. Our contribution is the constraint-preserving circuit design, a benchmark against simple baselines, and a first execution on noisy quantum hardware (one small run).
 
 ## 4. How do I run it?
 
