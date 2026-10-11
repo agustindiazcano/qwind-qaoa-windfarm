@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QWind — Quantum Wind Farm Optimization</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- NAVBAR CON GLASS SURFACE -->
+    <nav class="glass-surface">
+        <div class="nav-logo">Q<span>WIND</span></div>
+        <div class="nav-status">
+            <div class="status-dot"></div>
+            QUBO / QAOA Active
+        </div>
+    </nav>
+
+    <!-- HERO CON SPLIT-FLAP CICLICO -->
+    <header>
+        <div class="badge-pill">Quantum Optimization Framework</div>
+        
+        <div class="split-flap-container" id="splitFlap">
+            <div class="split-flap-char" data-target="Q">Q</div>
+            <div class="split-flap-char" data-target="W">W</div>
+            <div class="split-flap-char" data-target="I">I</div>
+            <div class="split-flap-char" data-target="N">N</div>
+            <div class="split-flap-char" data-target="D">D</div>
+        </div>
+
+        <p>Mitigación inteligente de estelas en parques eólicos mediante algoritmos cuánticos variacionales para maximizar la eficiencia energética global.</p>
+    </header>
+
+    <!-- CONTENIDO CENTRAL -->
+    <main>
+        <div class="grid-metrics">
+            <div class="metric-card glass-surface">
+                <div class="metric-title">Modelo Matemático</div>
+                <div class="metric-value">QUBO</div>
+                <div class="metric-desc">Formulación optimizada para la interacción de estelas y pérdidas de potencia.</div>
+            </div>
+            <div class="metric-card glass-surface">
+                <div class="metric-title">Algoritmo de Ejecución</div>
+                <div class="metric-value">QAOA</div>
+                <div class="metric-desc">Aproximación cuántica híbrida para búsqueda rápida en espacios complejos.</div>
+            </div>
+            <div class="metric-card glass-surface">
+                <div class="metric-title">Eficiencia Energética</div>
+                <div class="metric-value">+14.2%</div>
+                <div class="metric-desc">Reducción estimada de interferencia aerodinámica entre turbinas.</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Simulación y Esquemas</h2>
+        <div class="flex-carousel-wrapper glass-surface">
+            <div class="flex-carousel-viewport">
+                [Flex Carousel Interactivo — Galería de simulaciones eólicas]
+            </div>
+        </div>
+
+        <h2 class="section-title">Core Team</h2>
+        <div class="team-grid">
+            <div class="team-card glass-surface">
+                <span class="team-role">Frontend & UI/UX</span>
+                <div class="team-name">Baltazar Salerno</div>
+                <p class="team-desc">Diseño de interfaz, experiencia de usuario y arquitectura visual del proyecto.</p>
+            </div>
+            <div class="team-card glass-surface">
+                <span class="team-role">Systems & Quantum Core</span>
+                <div class="team-name">Agustin Diaz-Cano</div>
+                <p class="team-desc">Desarrollo del backend, modelado matemático y lógica de optimización.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- SCRIPT DE ANIMACIÓN CONSTANTE -->
+    <script>
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        function runSplitFlapCycle() {
+            document.querySelectorAll('.split-flap-char').forEach((el, index) => {
+                const target = el.getAttribute('data-target');
+                let iterations = 0;
+                
+                setTimeout(() => {
+                    const interval = setInterval(() => {
+                        el.textContent = chars[Math.floor(Math.random() * chars.length)];
+                        el.classList.add('flipping');
+                        
+                        setTimeout(() => el.classList.remove('flipping'), 60);
+
+                        iterations++;
+                        if (iterations > 6 + (index * 2)) {
+                            clearInterval(interval);
+                            el.textContent = target;
+                        }
+                    }, 70);
+                }, index * 120);
+            });
+        }
+
+        setTimeout(runSplitFlapCycle, 600);
+        setInterval(runSplitFlapCycle, 5000);
+    </script>
+
+</body>
+</html>
