@@ -1050,3 +1050,39 @@ footer {
 footer .footer-members {
     margin-top: 28px;
 }
+
+/* Footer logos: desaturated; white on black except UNICEN. */
+.logo-link img {
+    filter: grayscale(1);
+}
+
+.logo-link.plate-dark {
+    background: #000;
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.footer-row .footer-social {
+    gap: 18px;
+    align-items: center;
+}
+
+.icon-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--text-main);
+    border-radius: 0;
+    border: 0;
+    background: none;
+    padding: 0;
+    opacity: 0.85;
+}
+
+a.icon-link:hover {
+    opacity: 1;
+    color: var(--accent-cyan);
+}
+
+.icon-pending {
+    opacity: 0.5;
+}
