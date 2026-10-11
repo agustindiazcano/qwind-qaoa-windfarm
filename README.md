@@ -17,8 +17,6 @@ We turned that choice into an optimization problem, pick the best *K* of *N* tur
 3. **It holds up on real wind farms.** The same circuit works with the real turbine positions and measured winds of two operating farms. On the 14 turbines of Penmanshiel, where picking valid layouts at random finds the best one with probability about 0.35 on average, it finds the best layout in 2 of 3 instances.
 4. **A reproducible benchmark.** Every result comes with controls and is generated from a protocol fixed before running.
 
-Scope: small instances simulated on a CPU. We make no claim of quantum advantage, speedup or savings; classical solvers are also excellent at these sizes (details in the tables and the limitations below).
-
 The lesson we take is practical: when a problem has a hard constraint, build it into the circuit, and always benchmark against the boring baselines, because they decide whether a result means anything.
 
 ## What we built
