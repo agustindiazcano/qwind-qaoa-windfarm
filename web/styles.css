@@ -408,8 +408,9 @@ main {
 }
 
 .hardware-line {
-    font-size: 1rem;
-    margin-bottom: 24px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: -8px 0 20px;
 }
 
 a {
