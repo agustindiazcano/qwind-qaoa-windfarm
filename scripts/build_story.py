@@ -193,7 +193,7 @@ def units():
     add("who", K("2. Why does it matter, and who is it for?", "2. ¿Por qué importa y para quién es?"),
         cards([
             (ICON_TURBINE, K("<strong>Wind farm operators</strong><br>who must produce less for a while: grid limits, maintenance, environmental rules", "<strong>Operadores de parques eólicos</strong><br>que deben producir menos por un tiempo: límites de la red, mantenimiento, reglas ambientales"), ""),
-            (ICON_ATOM, K("<strong>Quantum developers</strong><br>who want a reproducible, honest benchmark", "<strong>Desarrolladores cuánticos</strong><br>que quieren una referencia reproducible y honesta"), ""),
+            (ICON_ATOM, K("<strong>Quantum developers</strong><br>who want a reproducible benchmark", "<strong>Desarrolladores cuánticos</strong><br>que quieren una referencia reproducible"), ""),
             (ICON_COIN, K("<strong>The choice has a money value</strong><br>which turbines are switched off changes the energy lost to wakes", "<strong>La elección tiene un valor en dinero</strong><br>qué turbinas se apagan cambia la energía perdida por estelas"), "")], "cards-3"))
     add("bars", K("Choosing well wastes less energy", "Elegir bien desperdicia menos energía"),
         f'<p class="slide-note">{K("Share of power lost to wakes, Penmanshiel (14 turbines). Best layout against an average random choice.", "Porcentaje de energía perdida por estelas, Penmanshiel (14 turbinas). Mejor elección contra una elección al azar promedio.")}</p>'
@@ -278,7 +278,7 @@ def units():
     add("noclaim", K("What we do not claim", "Lo que no afirmamos"),
         cards([(K("No advantage", "Sin ventaja"), K("We do not claim quantum advantage. Classical methods solve every instance we tested.", "No afirmamos ventaja cuántica. Los métodos clásicos resuelven todos los casos que probamos."), R),
                (K("Up to 14", "Hasta 14"), K("turbines tested: we simulate the circuit exactly on a CPU, which stops around 30 qubits.", "turbinas probadas: simulamos el circuito de forma exacta en una CPU, y eso deja de ser posible cerca de los 30 qubits."), Y),
-               (K("Never invalid", "Nunca inválido"), K("What we do contribute: a circuit that never gives an invalid plan, honest comparisons, and a first real hardware run.", "Lo que sí aportamos: un circuito que nunca da un plan inválido, comparaciones honestas y una primera corrida en hardware real."), G)], "cards-3"))
+               (K("Never invalid", "Nunca inválido"), K("What we do contribute: a circuit that never gives an invalid plan, comparisons against simple baselines, and a first real hardware run.", "Lo que sí aportamos: un circuito que nunca da un plan inválido, comparaciones con alternativas simples y una primera corrida en hardware real."), G)], "cards-3"))
     add("run", K("4. How do I run it?", "4. ¿Cómo lo ejecuto?"),
         cards([(K("On Qollab", "En Qollab"), K("Open the project page and click <strong>Run your code</strong> with the built-in simulator. About 20 seconds.", "Abrí la página del proyecto y hacé clic en <strong>Run your code</strong> con el simulador integrado. Unos 20 segundos."), ""),
                (K("Locally", "En tu computadora"), "<code>pip install -r qollab/requirements.txt pytest</code><br><code>python qollab/main.py</code>", ""),
