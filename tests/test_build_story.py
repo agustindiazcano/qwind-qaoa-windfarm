@@ -114,3 +114,12 @@ def test_what_we_do_not_claim_section_is_gone_from_the_web_and_the_readme(story)
     for text in (story["index"], _read("README.md"), _read("qollab/README.md")):
         assert "What we do not claim" not in text
         assert "Lo que no afirmamos" not in text
+
+
+def test_slides_have_no_no_quantum_advantage_phrases_but_the_home_keeps_its_text(story):
+    html = story["index"]
+    slides = html[html.index('<div id="demo"'):].lower()
+    home = html[html.index('<main id="main">'):html.index("</main>")].lower()
+    for phrase in ("no quantum advantage", "no afirmamos ventaja", "claim no quantum", "still exact in every case", "budgets are not matched"):
+        assert phrase not in slides, phrase
+    assert "we claim no quantum advantage" in home
