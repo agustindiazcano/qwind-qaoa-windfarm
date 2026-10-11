@@ -4,6 +4,8 @@
 
 **Theme:** Quantum Impact · **Status:** Hackathon submission (Qollab)
 
+**Ran on real quantum hardware: [IonQ Forte 1 (36q)](#run-on-real-quantum-hardware), IonQ's quantum computer, through Qollab.**
+
 **A quantum algorithm that picks which wind turbines to keep running, and never proposes an invalid plan.** Tested on the real turbines and measured winds of two operating wind farms.
 
 - **3.4 to 17.1 times** more likely to find the best layout than the standard quantum formulation.
@@ -12,6 +14,13 @@
 - **Run on a real quantum computer (IonQ Forte 1):** among the valid samples the circuit reached 93% of its ideal success probability (N = 6, one run, 997 shots), and its best sample was the exact optimum.
 - **Real data:** the 14 real turbine positions of Penmanshiel (Scotland) and the 6 of Kelmarsh (England), with measured winds, plus wind roses from Argentina (Chubut, Bahia Blanca).
 - **Open source (MIT)**, 150+ tests, protocol fixed before running, and it runs on Qollab in about 20 seconds.
+
+**Contents**
+
+- **Overview:** [The problem in pictures](#the-problem-in-pictures) · [Results at a glance](#results-at-a-glance) · [In plain words](#in-plain-words) · [What we found](#what-we-found)
+- **Impact and hardware:** [Why it matters](#why-it-matters) · [What it could be worth](#what-it-could-be-worth) · [Run on real quantum hardware](#run-on-real-quantum-hardware)
+- **The project:** [What we built](#what-we-built) · [Try it](#try-it) · [Results](#results) · [How to run](#how-to-run) · [What this adds beyond running QAOA](#what-this-adds-beyond-running-qaoa) · [Technical details](#technical-details)
+- **Limits and credits:** [Limitations](#limitations) · [Tech Stack](#tech-stack) · [Hackathon node and team](#hackathon-node-and-team) · [Disclosure](#disclosure) · [References](#references)
 
 ## The problem in pictures
 
@@ -80,7 +89,7 @@ We also ran the optimized circuit once on **IonQ Forte 1**, a real quantum compu
 | IonQ Forte 1, measured | 0.1304 | 0.7834 | 0.1665 |
 | Random choice among valid layouts | 0.1000 | 1.0000 | 0.1000 |
 
-Because the circuit keeps exactly *K* turbines by construction, the 22% of samples that left the valid layouts can be recognized and discarded, and among the valid ones the best layout appears with probability 0.1665, close to the ideal 0.1784 and above the 0.1000 of a random valid choice. The best sampled layout was the exact optimum. Outputs from the simulators and from the quantum computer: [results/backend_probe](https://github.com/agustindiazcano/qwind-qaoa-windfarm/tree/main/results/backend_probe).
+Because the circuit keeps exactly *K* turbines by construction, the 22% of samples that left the valid layouts can be recognized and discarded, and among the valid ones the best layout appears with probability 0.1665, close to the ideal 0.1784 and above the 0.1000 of a random valid choice. The best sampled layout was the exact optimum. Outputs from the simulators and from the quantum computer: [results/backend_probe](https://github.com/agustindiazcano/qwind-qaoa-windfarm/tree/main/results/backend_probe). The original console export of the quantum computer run, as downloaded from Qollab: [agustindiazcano-qwind-output-completed-2026-10-11T03-37-01.138Z.html](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/results/backend_probe/agustindiazcano-qwind-output-completed-2026-10-11T03-37-01.138Z.html) (a static HTML file; download it and open it in a browser).
 
 ## What we built
 

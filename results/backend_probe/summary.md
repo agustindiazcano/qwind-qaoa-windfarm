@@ -16,3 +16,5 @@ Reading: the circuit works on Qollab's backend. With the IonQ noise model about 
 - One run, 997 shots, N = 6: the sampling error on the valid-only probability (about 780 valid samples) is about 0.013, so 0.1665 is within one error of the ideal 0.1784 and about five errors above the 0.1000 of a random valid choice.
 - The measured P(feasible) of 0.7834 is higher than the 0.6650 of the noise-model simulator: IonQ says its noise models are simplified approximations of the hardware and should not be expected to match it quantitatively.
 - Cost (reported by the owner from the runner): the console shows 168.20 credits and a balance of 0.00 afterwards, from a balance of 100. The circuit execution took 200.9 s against a predicted 98.9 s. The shot count was above the threshold at which IonQ's debiasing is on by default (500), which Qollab's documentation says can raise the price; the quoted price before approval was not recorded.
+
+The original console export of the quantum computer run, as downloaded from Qollab, is kept next to the text version: `agustindiazcano-qwind-output-completed-2026-10-11T03-37-01.138Z.html`.
