@@ -161,6 +161,7 @@ python -m pytest                 # tests (add -m "not heavy" to skip the slowest
 - A comparative benchmark with controls: uniform sampling over feasible layouts and random feasible sampling with the same number of shots, next to exact, simulated annealing and greedy search.
 - A constraint-preserving variant (XY mixer with a Dicke start state) measured against the penalty formulation, with the penalty weight swept.
 - Real data: operating-farm turbine positions and measured wind roses, plus ERA5 roses as a secondary dataset (sources and licenses: [docs/DATA.md](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/docs/DATA.md)).
+- A different question from related quantum work on wind farms [4, 6]. Those studies design new layouts on a grid; Nigro et al. set the number of turbines as a penalty and report that their quantum annealer sometimes placed the wrong number of turbines. QWind chooses which of the existing turbines to keep running, on real positions, and builds the number of turbines into the circuit so every answer has exactly *K*.
 
 ## Technical details
 
