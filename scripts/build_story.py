@@ -470,6 +470,10 @@ GITHUB_SVG = '<svg viewBox="0 0 16 16" width="17" height="17" aria-hidden="true"
 YT_SVG = '<svg viewBox="0 0 24 17" width="22" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M4 0h16a4 4 0 014 4v9a4 4 0 01-4 4H4a4 4 0 01-4-4V4a4 4 0 014-4zm5.5 4.5v8l7-4z"/></svg>'
 
 
+THEME_ICONS = ('<svg class="i-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+               '<svg class="i-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>')
+
+
 def nav_html(n):
     buttons = "".join(f'            <button type="button" class="slide-btn" data-slide="{i}" aria-label="Slide {i}" data-es-label="Diapositiva {i}">{i}</button>\n' for i in range(1, n + 1))
     return f"""    <!-- NAVBAR WITH GLASS SURFACE -->
@@ -491,6 +495,7 @@ def nav_html(n):
             <button type="button" class="lang-btn" data-set-lang="en" aria-pressed="true" aria-label="English">EN</button>
             <button type="button" class="lang-btn" data-set-lang="es" aria-pressed="false" aria-label="Español">ES</button>
         </div>
+        <button type="button" class="theme-toggle" id="themeToggle" aria-pressed="false" aria-label="Switch to light mode">{THEME_ICONS}</button>
 {{{{#demo}}}}
         <div class="demo-switch">
             <button type="button" class="demo-toggle" id="demoToggle" role="switch" aria-checked="false" aria-label="Demo mode" data-es-label="Modo demo"><span class="knob" aria-hidden="true"></span></button>
