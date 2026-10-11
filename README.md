@@ -251,3 +251,20 @@ Competing at the **UNICEN** node (Universidad Nacional del Centro de la Provinci
 1. Hadfield, S., Wang, Z., O'Gorman, B., Rieffel, E. G., Venturelli, D., Biswas, R. "From the Quantum Approximate Optimization Algorithm to a Quantum Alternating Operator Ansatz." *Algorithms* 12(2), 34 (2019). [doi:10.3390/a12020034](https://doi.org/10.3390/a12020034), [arXiv:1709.03489](https://arxiv.org/abs/1709.03489)
 2. Bärtschi, A., Eidenbenz, S. "Deterministic Preparation of Dicke States." *FCT 2019*, pp. 126-139. [doi:10.1007/978-3-030-25027-0_9](https://doi.org/10.1007/978-3-030-25027-0_9), [arXiv:1904.07358](https://arxiv.org/abs/1904.07358)
 3. Sack, S. H., Serbyn, M. "Quantum annealing initialization of the quantum approximate optimization algorithm." *Quantum* 5, 491 (2021). [doi:10.22331/q-2021-07-01-491](https://doi.org/10.22331/q-2021-07-01-491), [arXiv:2101.05742](https://arxiv.org/abs/2101.05742)
+
+### Related work
+
+4. Hancock, J., Craven, M. J., McNeile, C., Vadacchino, D. "Investigating Techniques to Optimise the Layout of Turbines in a Windfarm using a Quantum Computer." [arXiv:2312.13123](https://arxiv.org/abs/2312.13123)
+5. Hancock, J., Craven, M., McNeile, C. "Investigating methods to solve large windfarm optimization problems with a minimum number of qubits using circuit-based quantum computers." [arXiv:2512.17582](https://arxiv.org/abs/2512.17582)
+6. Nigro, L., Sala, S., Amendola, A., Prati, E. "Leveraging Quantum Annealing for Layout Optimization." *Advanced Quantum Technologies* 8(11), e00358 (2025). [doi:10.1002/qute.202500358](https://doi.org/10.1002/qute.202500358)
+7. Kordonowy, S., Leipold, H. "The Lie Algebra of XY-mixer Topologies and Warm Starting QAOA for Constrained Optimization." *npj Quantum Information* 12, 61 (2026). [arXiv:2505.18396](https://arxiv.org/abs/2505.18396)
+8. Mancilla, J., Bouloumis, T. D., Goguikian, F. "Constrained Portfolio Optimization via QAOA with XY-Mixers and Trotterized Initialization: A Hybrid Approach for Direct Indexing." [arXiv:2602.14827](https://arxiv.org/abs/2602.14827)
+
+### Data and sources
+
+- Penmanshiel wind farm data (Scotland, UK). Plumley, C., Takeuchi, R.; released by Cubico Sustainable Investments Ltd. Zenodo, CC BY 4.0. [doi:10.5281/zenodo.16807304](https://doi.org/10.5281/zenodo.16807304)
+- Kelmarsh wind farm data (England, UK). Plumley, C., Takeuchi, R.; released by Cubico Sustainable Investments Ltd. Zenodo, CC BY 4.0. [doi:10.5281/zenodo.16807551](https://doi.org/10.5281/zenodo.16807551)
+- ERA5 hourly data on single levels from 1940 to present. Copernicus Climate Change Service (C3S) Climate Data Store. [dataset page](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels), [doi:10.24381/cds.adbb2d47](https://doi.org/10.24381/cds.adbb2d47)
+- Open-Meteo Historical Weather API, used to access ERA5. Zippenfenig, P. (2023). Open-Meteo.com Weather API. [documentation](https://open-meteo.com/en/docs/historical-weather-api), [doi:10.5281/zenodo.7970649](https://doi.org/10.5281/zenodo.7970649)
+- UK Government, Contracts for Difference Allocation Round 6, budget notice (administrative strike prices, 2012 prices), used as a price reference in the impact estimate. [PDF](https://assets.publishing.service.gov.uk/media/65e867c162ff48001a87b252/cfd-ar6-budget-notice.pdf)
+- License of the data: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
