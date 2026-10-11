@@ -37,7 +37,10 @@
             <button type="button" class="slide-btn" data-slide="9" aria-label="Slide 9">9</button>
             <button type="button" class="slide-btn" data-slide="10" aria-label="Slide 10">10</button>
         </div>
-        <button type="button" class="demo-toggle" id="demoToggle" aria-pressed="false">Demo</button>
+        <div class="demo-switch">
+            <button type="button" class="demo-toggle" id="demoToggle" role="switch" aria-checked="false" aria-label="Demo mode"><span class="knob" aria-hidden="true"></span></button>
+            <span class="demo-label">demo</span>
+        </div>
     </nav>
 
     <!-- HERO WITH CYCLING SPLIT-FLAP -->
@@ -326,11 +329,11 @@
                 document.body.classList.toggle('demo-on', on);
                 demo.hidden = !on;
                 nav.hidden = !on;
-                toggle.setAttribute('aria-pressed', String(on));
+                toggle.setAttribute('aria-checked', String(on));
                 if (on) show(current);
             }
 
-            toggle.addEventListener('click', () => setDemo(toggle.getAttribute('aria-pressed') !== 'true'));
+            toggle.addEventListener('click', () => setDemo(toggle.getAttribute('aria-checked') !== 'true'));
             buttons.forEach((b, k) => b.addEventListener('click', () => show(k)));
             document.addEventListener('keydown', (e) => {
                 if (!document.body.classList.contains('demo-on')) return;

@@ -480,25 +480,6 @@ footer ul {
 }
 
 /* --- DEMO MODE --- */
-.demo-toggle {
-    font: inherit;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 8px 16px;
-    border-radius: 50px;
-    border: 1px solid var(--accent-cyan);
-    background: transparent;
-    color: var(--accent-cyan);
-    cursor: pointer;
-}
-
-.demo-toggle[aria-pressed="true"] {
-    background: var(--accent-cyan);
-    color: var(--bg-base);
-}
-
 .demo-nav {
     display: flex;
     flex-wrap: wrap;
@@ -910,7 +891,6 @@ nav.glass-surface {
 
 /* Squarer navbar buttons. */
 .nav-links .btn,
-.demo-toggle,
 .slide-btn {
     border-radius: 6px;
 }
@@ -948,4 +928,57 @@ nav.glass-surface {
     padding: 8px 16px;
     font-size: 0.9rem;
     border-radius: 6px;
+}
+
+/* --- DEMO SWITCH --- */
+.demo-switch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 64px;
+    justify-content: flex-end;
+}
+
+.demo-toggle {
+    position: relative;
+    width: 42px;
+    height: 24px;
+    padding: 0;
+    border-radius: 12px;
+    border: 1px solid var(--text-muted);
+    background: transparent;
+    cursor: pointer;
+}
+
+.demo-toggle .knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.demo-toggle[aria-checked="true"] {
+    background: var(--accent-cyan);
+    border-color: var(--accent-cyan);
+}
+
+.demo-toggle[aria-checked="true"] .knob {
+    transform: translateX(18px);
+    background: var(--bg-base);
+}
+
+.demo-label {
+    display: none;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--accent-cyan);
+}
+
+.demo-toggle[aria-checked="true"] + .demo-label {
+    display: inline;
 }
