@@ -240,6 +240,13 @@ def units():
             ["Kelmarsh", "6", ("100%", G), (n_of(3, 3), G), (n_of(3, 3), G), (n_of(3, 3), G)],
             ["Chubut", K("6 to 12", "6 a 12"), ("100%", G), (n_of(8, 8), G), (n_of(7, 8), Y), (n_of(8, 8), G)],
             ["Bahía Blanca" if LANG == "es" else "Bahia Blanca", K("6 to 12", "6 a 12"), ("100%", G), (n_of(8, 8), G), (n_of(8, 8), G), (n_of(8, 8), G)]], "slide-table-sm") + legend())
+    add("versus", K("Our circuit against the classical methods", "Nuestro circuito frente a los métodos clásicos"),
+        cards([("7 " + K("of", "de") + " 7", K("<strong>Simulated annealing</strong> (classical)<br>finds the exact best answer in every dataset", "<strong>Recocido simulado</strong> (clásico)<br>encuentra la mejor respuesta exacta en todos los conjuntos de datos"), G),
+               ("4 " + K("of", "de") + " 7", K("<strong>Greedy search</strong> (classical)<br>finds the exact best answer in 4 datasets", "<strong>Búsqueda voraz</strong> (clásico)<br>encuentra la mejor respuesta exacta en 4 conjuntos de datos"), Y),
+               ("5 " + K("of", "de") + " 7", K("<strong>Our circuit</strong> (quantum)<br>exact best in every case of 5 datasets; 2 of 3 and 8 of 9 cases in the other two", "<strong>Nuestro circuito</strong> (cuántico)<br>mejor exacta en todos los casos de 5 conjuntos; 2 de 3 y 8 de 9 casos en los otros dos"), Y)], "cards-3")
+        + f'<p class="slide-note">{K("Tries used to get there", "Intentos usados para llegar ahí")}</p>'
+        + pbars([(K("Simulated annealing", "Recocido simulado"), d("5,005") if LANG == "en" else "5.005", 100, "pf-blue"), (K("Our circuit", "Nuestro circuito"), "120", 2.4, "pf-green")])
+        + f'<p class="slide-note"><strong>{K("Almost the same result with about 40 times fewer tries, and we claim no quantum advantage:", "Casi el mismo resultado con unas 40 veces menos intentos, y no afirmamos ventaja cuántica:")}</strong> {K("the classical method is still exact in every case. The budgets are not matched (one circuit try costs more than a classical one) and the circuit is simulated on a CPU.", "el método clásico sigue siendo exacto en todos los casos. Los presupuestos no son equivalentes (un intento del circuito cuesta más que uno clásico) y el circuito se simula en una CPU.")}</p>')
     z, a1, a2, a3 = d("0.0000"), d("0.0129"), d("0.0060"), d("0.0020")
     add("competitive", K("Competitive with the classical methods", "Competitivo con los métodos clásicos"),
         table(K("Average gap to the exact best answer (0 = perfect). Same instances as the scorecard.", "Diferencia promedio con la mejor respuesta exacta (0 = perfecto). Mismos casos que el cuadro anterior."),
