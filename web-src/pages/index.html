@@ -130,83 +130,172 @@ demo: true
     <!-- CONSTANT ANIMATION SCRIPT -->
 {{> totop_button}}
 
-    <!-- DEMO MODE: 10 full-screen slides, shown only when the Demo switch is on -->
+    <!-- DEMO MODE: 26 full-screen slides, same order as the README, shown only when the Demo switch is on -->
     <div id="demo" hidden>
-        <section class="slide slide-center" id="slide-1" aria-label="Slide 1 of 10: QWind">
-            <p class="slide-kicker">Quantum Impact · Qollab x IonQ hackathon</p>
-            <p class="slide-title">Q<span class="wind">Wind</span></p>
-            <p class="slide-lead">A quantum algorithm (QAOA, in Qiskit) that picks which wind turbines to keep running, and never proposes an invalid plan.</p>
+        <section class="slide slide-center" id="slide-1" aria-label="Slide 1 of 26: QWind">
+            <img class="slide-header-img" src="img/qwind-header.png" alt="QWind, with Qollab, IonQ and Facultad de Ciencias Exactas UNICEN" width="1200" height="250">
+            <p class="slide-lead slide-lead-xl">Quantum Optimization for Wind Farms</p>
+            <p class="slide-kicker">Quantum Impact · Hackathon submission (Qollab)</p>
+            <p class="slide-support"><strong>This effort is supported by Qollab &amp; IonQ</strong></p>
         </section>
-        <section class="slide " id="slide-2" aria-label="Slide 2 of 10: Highlights" hidden>
-            <h2>What we found</h2>
-            <ul class="slide-list">
-                <li><strong>3 to 7.5 times</strong> more likely to find the best layout than a random valid choice, and <strong>3.4 to 17.1 times</strong> more likely than the usual penalty formulation.</li>
-                <li><strong>Exact optimum</strong> in every instance of 5 of 6 datasets, matching simulated annealing, with about 120 optimizer evaluations.</li>
-                <li><strong>100% valid plans:</strong> the "keep exactly K turbines" rule is built into the circuit.</li>
-            </ul>
+        <section class="slide " id="slide-2" aria-label="Slide 2 of 26: 1. What is it?" hidden>
+            <h2>1. What is it?</h2>
+            <svg class="illus" viewBox="0 0 640 200" role="img" aria-label="Two wind turbines in a row. The first turbine leaves a widening wake of slower air; the second turbine stands inside that wake and produces less power."><defs><linearGradient id="wk" x1="0" x2="1"><stop offset="0" stop-color="#38bdf8" stop-opacity=".55"/><stop offset="1" stop-color="#38bdf8" stop-opacity=".08"/></linearGradient></defs><path class="wind-line" d="M10 40H90M10 90H90M10 140H90" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/><polygon class="wake" points="170,70 600,10 600,170 170,110" fill="url(#wk)"/><g transform="translate(160 0)"><rect x="-4" y="95" width="8" height="85" fill="#cbd5e1"/><g transform="translate(0 90)"><g class="spin "><g fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"><path d="M0 0L-4 -72L4 -72Z"/><path d="M0 0L-4 -72L4 -72Z" transform="rotate(120)"/><path d="M0 0L-4 -72L4 -72Z" transform="rotate(240)"/></g></g></g><circle cx="0" cy="90" r="7" fill="#94a3b8"/></g><g transform="translate(430 0)"><rect x="-4" y="95" width="8" height="85" fill="#cbd5e1"/><g transform="translate(0 90)"><g class="spin slow"><g fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"><path d="M0 0L-4 -72L4 -72Z"/><path d="M0 0L-4 -72L4 -72Z" transform="rotate(120)"/><path d="M0 0L-4 -72L4 -72Z" transform="rotate(240)"/></g></g></g><circle cx="0" cy="90" r="7" fill="#94a3b8"/></g><text x="160" y="196" text-anchor="middle" fill="currentColor" font-size="15">full wind</text><text x="430" y="196" text-anchor="middle" fill="currentColor" font-size="15">slower wind, less power</text></svg>
+            <p class="slide-lead">QWind decides <strong>which turbines to keep running</strong> when a farm must produce less, so wakes waste as little energy as possible.</p>
         </section>
-        <section class="slide " id="slide-3" aria-label="Slide 3 of 10: Turbines steal wind from each other" hidden>
-            <h2>Turbines steal wind from each other</h2>
+        <section class="slide " id="slide-3" aria-label="Slide 3 of 26: Where the data comes from" hidden>
+            <h2>Tested on real wind farms and real winds</h2>
+            <table class="slide-table slide-table-sm">
+                <caption>What each dataset is, and how many turbine positions we choose from.</caption>
+                <thead><tr><th scope="col">Place</th><th scope="col">What it is</th><th scope="col">Turbine positions</th><th scope="col">Test cases</th></tr></thead>
+                <tbody><tr><th scope="row"><svg class="flag" viewBox="0 0 30 20" width="30" height="20" role="img" aria-label="Scotland flag"><rect width="30" height="20" fill="#0065bd"/><path d="M0 0L30 20M30 0L0 20" stroke="#fff" stroke-width="3"/></svg> Penmanshiel, Scotland</th><td>Real farm: real turbine positions and measured wind</td><td>14 (also a 10-turbine subset)</td><td>15 (3 + 3 + 9)</td></tr><tr><th scope="row"><svg class="flag" viewBox="0 0 30 20" width="30" height="20" role="img" aria-label="England flag"><rect width="30" height="20" fill="#fff" stroke="#999" stroke-width="0.6"/><path d="M15 0V20M0 10H30" stroke="#ce1124" stroke-width="4"/></svg> Kelmarsh, England</th><td>Real farm: real turbine positions and measured wind</td><td>6</td><td>3</td></tr><tr><th scope="row"><svg class="flag" viewBox="0 0 30 20" width="30" height="20" role="img" aria-label="Argentina flag"><rect width="30" height="20" fill="#74acdf"/><rect y="6.6" width="30" height="6.8" fill="#fff"/><circle cx="15" cy="10" r="1.8" fill="#f6b40e"/></svg> Chubut, Argentina</th><td>Real wind (reanalysis data) on a made-up grid of positions</td><td>6 to 12</td><td>8</td></tr><tr><th scope="row"><svg class="flag" viewBox="0 0 30 20" width="30" height="20" role="img" aria-label="Argentina flag"><rect width="30" height="20" fill="#74acdf"/><rect y="6.6" width="30" height="6.8" fill="#fff"/><circle cx="15" cy="10" r="1.8" fill="#f6b40e"/></svg> Bahia Blanca, Argentina</th><td>Real wind (reanalysis data) on a made-up grid of positions</td><td>6 to 12</td><td>8</td></tr><tr><th scope="row">Synthetic</th><td>Made-up wind and grid, generated by us</td><td>6 to 12</td><td>24</td></tr></tbody>
+            </table>
+            <p class="slide-note">A test case is one question: "keep K turbines out of N positions". Real wind data is open (CC BY 4.0).</p>
+        </section>
+        <section class="slide " id="slide-4" aria-label="Slide 4 of 26: Why a quantum computer?" hidden>
+            <h2>Why a quantum computer? The number of plans explodes</h2>
+            <div class="cards cards-4"><div class="card tl tl-green"><div class="card-big">3,432</div><div class="card-label">14 turbines, keep 7<br>Instant on a laptop</div></div><div class="card tl tl-yellow"><div class="card-big">10<sup>14</sup></div><div class="card-label">50 turbines, keep 25<br>About a day and a half to check them all</div></div><div class="card tl tl-red"><div class="card-big">10<sup>29</sup></div><div class="card-label">100 turbines, keep 50<br>About 3 trillion years</div></div><div class="card tl tl-red"><div class="card-big">10<sup>299</sup></div><div class="card-label">1,000 turbines (hypothetical)<br>More plans than atoms in the universe (10<sup>80</sup>)</div></div></div>
+            <p class="slide-note">Checking one by one at a billion plans per second. Classical shortcuts (simulated annealing) keep working at larger sizes but do not guarantee the best answer. Whether our circuit can match them at 50 to 100 turbines is the open question; we do not answer it here.</p>
+        </section>
+        <section class="slide " id="slide-5" aria-label="Slide 5 of 26: 2. Why does it matter?" hidden>
+            <h2>2. Why does it matter, and who is it for?</h2>
+            <div class="cards cards-3"><div class="card "><div class="card-big"><svg class="icon" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="9" r="1.6"/><path d="M12 7.4V2M13.4 9.8l4.6 2.7M10.6 9.8L6 12.5M12 10.600V22M9 22h6"/></svg></div><div class="card-label"><strong>Wind farm operators</strong><br>who must produce less for a while: grid limits, maintenance, environmental rules</div></div><div class="card "><div class="card-big"><svg class="icon" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="1.5" fill="currentColor"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg></div><div class="card-label"><strong>Quantum developers</strong><br>who want a reproducible, honest benchmark</div></div><div class="card "><div class="card-big"><svg class="icon" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M15 8.500c-.6-.9-1.700-1.500-3-1.500-1.700 0-3 .9-3 2.200 0 3 6 1.600 6 4.600 0 1.300-1.300 2.200-3 2.200-1.400 0-2.500-.6-3.100-1.600M12 5v14"/></svg></div><div class="card-label"><strong>The choice has a money value</strong><br>which turbines are switched off changes the energy lost to wakes</div></div></div>
+        </section>
+        <section class="slide " id="slide-6" aria-label="Slide 6 of 26: Power lost to wakes" hidden>
+            <h2>Choosing well wastes less energy</h2>
+            <p class="slide-note">Share of power lost to wakes, Penmanshiel (14 turbines). Best layout against an average random choice.</p><div class="pbars"><div class="pbar-row"><span class="pbar-label">Keep 5: best</span><span class="pbar-track"><span class="pbar-fill pf-green" style="--w:10%"></span></span><span class="pbar-val">1.0%</span></div><div class="pbar-row"><span class="pbar-label">Keep 5: random</span><span class="pbar-track"><span class="pbar-fill pf-red" style="--w:53%"></span></span><span class="pbar-val">5.3%</span></div><div class="pbar-row"><span class="pbar-label">Keep 7: best</span><span class="pbar-track"><span class="pbar-fill pf-green" style="--w:40%"></span></span><span class="pbar-val">4.0%</span></div><div class="pbar-row"><span class="pbar-label">Keep 7: random</span><span class="pbar-track"><span class="pbar-fill pf-red" style="--w:80%"></span></span><span class="pbar-val">8.0%</span></div><div class="pbar-row"><span class="pbar-label">Keep 9: best</span><span class="pbar-track"><span class="pbar-fill pf-green" style="--w:70%"></span></span><span class="pbar-val">7.0%</span></div><div class="pbar-row"><span class="pbar-label">Keep 9: random</span><span class="pbar-track"><span class="pbar-fill pf-red" style="--w:100%"></span></span><span class="pbar-val">10.6%</span></div></div><p class="slide-note">Modelled losses (Jensen wake model), not measured production.</p>
+        </section>
+        <section class="slide " id="slide-7" aria-label="Slide 7 of 26: What it could be worth" hidden>
+            <h2>What the choice could be worth (money)</h2>
+            <table class="slide-table slide-table-sm">
+                <caption>Penmanshiel, 14 turbines, 1,000 hours with only K turbines running. Best layout against an average random choice.</caption>
+                <thead><tr><th scope="col">Turbines kept (of 14)</th><th scope="col">Power lost to wakes: best vs random</th><th scope="col">More energy</th><th scope="col">Extra energy</th><th scope="col">At $66/MWh</th><th scope="col">At $99/MWh</th><th scope="col">At $132/MWh</th></tr></thead>
+                <tbody><tr><th scope="row">5</th><td>1.0% vs 5.3%</td><td>+4.5%</td><td>136 MWh</td><td class="tl tl-green">$9.0k</td><td class="tl tl-green">$13.5k</td><td class="tl tl-green">$18.0k</td></tr><tr><th scope="row">7</th><td>4.0% vs 8.0%</td><td>+4.3%</td><td>176 MWh</td><td class="tl tl-green">$11.6k</td><td class="tl tl-green">$17.4k</td><td class="tl tl-green">$23.2k</td></tr><tr><th scope="row">9</th><td>7.0% vs 10.6%</td><td>+4.0%</td><td>207 MWh</td><td class="tl tl-green">$13.7k</td><td class="tl tl-green">$20.5k</td><td class="tl tl-green">$27.3k</td></tr></tbody>
+            </table>
+            <p class="slide-note">An illustrative scale from a model, not a forecast and not a measured saving.</p>
+        </section>
+        <section class="slide " id="slide-8" aria-label="Slide 8 of 26: How the money numbers are built" hidden>
+            <h2>How the money numbers are built</h2>
+            <table class="slide-table slide-table-sm">
+                <caption>Every assumption behind the previous table.</caption>
+                <thead><tr><th scope="col">Assumption</th><th scope="col">Value</th></tr></thead>
+                <tbody><tr><th scope="row">Output of each running turbine</th><td>637 kW on average (measured in 2019, 31.1% capacity factor)</td></tr><tr><th scope="row">Time in that configuration</th><td>1,000 hours (a year has 8,760)</td></tr><tr><th scope="row">Wake losses</th><td>From our wake model (Jensen), best choice vs average random choice</td></tr><tr><th scope="row">Energy prices</th><td>£50, £75 and £100 per MWh = $66, $99 and $132 (1 GBP = 1.3220 USD, ECB rate of 2026-10-09)</td></tr><tr><th scope="row">Not counted</th><td>Costs, contracts, and what an operator does today</td></tr></tbody>
+            </table>
+        </section>
+        <section class="slide " id="slide-9" aria-label="Slide 9 of 26: 3. How does the quantum part work?" hidden>
+            <h2>3. How does the quantum part work?</h2>
+            <div class="switches" role="img" aria-label="Six switches, one per turbine. Switches are swapped in pairs, so the number of switches on never changes."><div class="sw-row"><span class="sw a" style="--d:0s"><span class="knob"></span></span><span class="sw b" style="--d:0s"><span class="knob"></span></span><span class="sw a" style="--d:1.3s"><span class="knob"></span></span><span class="sw b" style="--d:1.3s"><span class="knob"></span></span><span class="sw a" style="--d:2.6s"><span class="knob"></span></span><span class="sw b" style="--d:2.6s"><span class="knob"></span></span></div><p class="sw-count">Always exactly 3 on</p></div>
+            <ol class="steps">
+                <li><span>1</span>Start from a valid plan</li>
+                <li><span>2</span>Only swap switches in pairs</li>
+                <li><span>3</span>Tune the circuit (about 120 tries)</li>
+                <li><span>4</span>Sample 1,000 times, keep the best</li>
+            </ol>
+            <p class="slide-note">The usual approach discourages invalid answers with a penalty but still produces many. Ours makes them impossible. Technical names: QAOA with an XY mixer and a Dicke start state.</p>
+        </section>
+        <section class="slide " id="slide-10" aria-label="Slide 10 of 26: Our circuit against the baselines" hidden>
+            <h2>Our circuit against the alternatives</h2>
+            <table class="slide-table slide-table-sm">
+                <caption>Ranges across the six datasets.</caption>
+                <thead><tr><th scope="col"></th><th scope="col">Our circuit</th><th scope="col">Usual penalty version</th><th scope="col">Random valid choice</th></tr></thead>
+                <tbody><tr><th scope="row">Output that is a valid plan</th><td class="tl tl-green">100%</td><td class="tl tl-red">26% to 64%</td><td class="tl tl-green">100%</td></tr><tr><th scope="row">Chance of sampling the best layout</th><td class="tl tl-green">reference</td><td class="tl tl-red">3.4 to 17.1 times lower than ours</td><td class="tl tl-yellow">3 to 7.5 times lower than ours</td></tr><tr><th scope="row">Best sampled layout is the exact best</th><td class="tl tl-green">all instances of 5 of 6 datasets; 2 of 3 on Penmanshiel</td><td class="tl tl-red">less often</td><td class="tl tl-yellow">0.95 to 1.00 chance up to 12 positions, 0.35 on average at 14</td></tr></tbody>
+            </table><p class="slide-legend"><span class="tl tl-green">green</span> all instances / yes <span class="tl tl-yellow">yellow</span> most instances / partly <span class="tl tl-red">red</span> no / worse</p>
+        </section>
+        <section class="slide " id="slide-11" aria-label="Slide 11 of 26: Results scorecard" hidden>
+            <h2>Our test results</h2>
+            <table class="slide-table slide-table-sm">
+                <caption>Our circuit (XY mixer + Dicke start, depth 3) on every dataset. Counts are test cases.</caption>
+                <thead><tr><th scope="col">Dataset</th><th scope="col">Positions</th><th scope="col">Always a valid plan</th><th scope="col">Better average quality than random valid choice</th><th scope="col">Higher chance of the best layout than random valid choice</th><th scope="col">Finds the exact best layout</th></tr></thead>
+                <tbody><tr><th scope="row">Synthetic</th><td>6 to 12</td><td class="tl tl-green">100%</td><td class="tl tl-green">24 of 24</td><td class="tl tl-yellow">20 of 24</td><td class="tl tl-green">24 of 24</td></tr><tr><th scope="row">Penmanshiel</th><td>14</td><td class="tl tl-green">100%</td><td class="tl tl-green">3 of 3</td><td class="tl tl-green">3 of 3</td><td class="tl tl-yellow">2 of 3</td></tr><tr><th scope="row">Penmanshiel-10</th><td>10</td><td class="tl tl-green">100%</td><td class="tl tl-green">3 of 3</td><td class="tl tl-green">3 of 3</td><td class="tl tl-green">3 of 3</td></tr><tr><th scope="row">Penmanshiel, every K</th><td>14</td><td class="tl tl-green">100%</td><td class="tl tl-green">9 of 9</td><td class="tl tl-green">9 of 9</td><td class="tl tl-yellow">8 of 9</td></tr><tr><th scope="row">Kelmarsh</th><td>6</td><td class="tl tl-green">100%</td><td class="tl tl-green">3 of 3</td><td class="tl tl-green">3 of 3</td><td class="tl tl-green">3 of 3</td></tr><tr><th scope="row">Chubut</th><td>6 to 12</td><td class="tl tl-green">100%</td><td class="tl tl-green">8 of 8</td><td class="tl tl-yellow">7 of 8</td><td class="tl tl-green">8 of 8</td></tr><tr><th scope="row">Bahia Blanca</th><td>6 to 12</td><td class="tl tl-green">100%</td><td class="tl tl-green">8 of 8</td><td class="tl tl-green">8 of 8</td><td class="tl tl-green">8 of 8</td></tr></tbody>
+            </table><p class="slide-legend"><span class="tl tl-green">green</span> all instances / yes <span class="tl tl-yellow">yellow</span> most instances / partly <span class="tl tl-red">red</span> no / worse</p>
+        </section>
+        <section class="slide " id="slide-12" aria-label="Slide 12 of 26: Competitive with classical methods" hidden>
+            <h2>Competitive with the classical methods</h2>
+            <table class="slide-table slide-table-sm">
+                <caption>Average gap to the exact best answer (0 = perfect). Same instances as the scorecard.</caption>
+                <thead><tr><th scope="col">Dataset</th><th scope="col">Simulated annealing (about 5,005 tries)</th><th scope="col">Greedy search</th><th scope="col">Our circuit (about 120 tries, best of 1,000 samples)</th></tr></thead>
+                <tbody><tr><th scope="row">Synthetic</th><td class="tl tl-green">0.0000</td><td class="tl tl-yellow">0.0129</td><td class="tl tl-green">0.0000</td></tr><tr><th scope="row">Penmanshiel (14)</th><td class="tl tl-green">0.0000</td><td class="tl tl-yellow">0.0060</td><td class="tl tl-yellow">0.0060</td></tr><tr><th scope="row">Penmanshiel, every K (14)</th><td class="tl tl-green">0.0000</td><td class="tl tl-yellow">0.0020</td><td class="tl tl-yellow">0.0020</td></tr><tr><th scope="row">Penmanshiel-10</th><td class="tl tl-green">0.0000</td><td class="tl tl-green">0.0000</td><td class="tl tl-green">0.0000</td></tr><tr><th scope="row">Kelmarsh</th><td class="tl tl-green">0.0000</td><td class="tl tl-green">0.0000</td><td class="tl tl-green">0.0000</td></tr><tr><th scope="row">Chubut</th><td class="tl tl-green">0.0000</td><td class="tl tl-green">0.0000</td><td class="tl tl-green">0.0000</td></tr><tr><th scope="row">Bahia Blanca</th><td class="tl tl-green">0.0000</td><td class="tl tl-green">0.0000</td><td class="tl tl-green">0.0000</td></tr></tbody>
+            </table>
+            <p class="slide-note"><strong>Our results are competitive with classical methods at these sizes, and we claim no quantum advantage.</strong> Classical methods also solve all of these exactly.</p><p class="slide-legend"><span class="tl tl-green">green</span> all instances / yes <span class="tl tl-yellow">yellow</span> most instances / partly <span class="tl tl-red">red</span> no / worse</p>
+        </section>
+        <section class="slide " id="slide-13" aria-label="Slide 13 of 26: Built with the required kit" hidden>
+            <h2>Built with the hackathon kit</h2>
+            <table class="slide-table slide-table-sm">
+                <caption>What the rules asked for, and what we used.</caption>
+                <thead><tr><th scope="col">Requirement</th><th scope="col">What we did</th></tr></thead>
+                <tbody><tr><th scope="row">Use the Qiskit framework</th><td class="tl tl-green">Qiskit 2.5.2; the circuit is built by hand with Qiskit, plus NumPy and SciPy</td></tr><tr><th scope="row">Run on Qollab's free simulator</th><td class="tl tl-green">The live Run on Qollab uses its built-in simulator (about 20 seconds)</td></tr><tr><th scope="row">Published and runnable on Qollab, MIT license</th><td class="tl tl-green">Project page on Qollab; open source (MIT), 150+ tests</td></tr><tr><th scope="row">Full experiments</th><td>Same Qiskit code, run offline on a CPU (exact simulation, no noise) with a protocol fixed before running</td></tr></tbody>
+            </table>
+        </section>
+        <section class="slide " id="slide-14" aria-label="Slide 14 of 26: Tested on real quantum hardware" hidden>
+            <h2>Tested on real quantum hardware</h2>
+            <div class="cards cards-4"><div class="card "><div class="card-big">IonQ Forte 1</div><div class="card-label">Real quantum computer, 36 qubits, run through Qollab</div></div><div class="card "><div class="card-big">997</div><div class="card-label">shots (samples), one run</div></div><div class="card "><div class="card-big">78</div><div class="card-label">two-qubit gates (plus 123 one-qubit gates)</div></div><div class="card "><div class="card-big">6 / 3</div><div class="card-label">positions / turbines kept (a small case)</div></div></div>
+            <p class="slide-note">The circuit was tuned on the exact simulator; the real machine only produced the samples. A single small run, not a noise study.</p>
+        </section>
+        <section class="slide " id="slide-15" aria-label="Slide 15 of 26: Hardware result" hidden>
+            <h2>What the real quantum computer gave us</h2>
+            <p class="slide-note">Chance of sampling the best layout, valid samples only (22% of the hardware samples were invalid and are discarded).</p><div class="pbars"><div class="pbar-row"><span class="pbar-label">Ideal simulator</span><span class="pbar-track"><span class="pbar-fill pf-blue" style="--w:100%"></span></span><span class="pbar-val">0.1784</span></div><div class="pbar-row"><span class="pbar-label">IonQ Forte 1 (real hardware)</span><span class="pbar-track"><span class="pbar-fill pf-green" style="--w:93%"></span></span><span class="pbar-val">0.1665</span></div><div class="pbar-row"><span class="pbar-label">Random valid choice</span><span class="pbar-track"><span class="pbar-fill pf-red" style="--w:56%"></span></span><span class="pbar-val">0.1000</span></div></div>
+            <p class="slide-note">The hardware came close to the ideal and stayed above random. The best sample was the exact best layout. Without filtering: 0.1304 chance of the best layout, 78% valid layouts.</p>
+        </section>
+        <section class="slide " id="slide-16" aria-label="Slide 16 of 26: What we do not claim" hidden>
+            <h2>What we do not claim</h2>
+            <div class="cards cards-3"><div class="card tl tl-red"><div class="card-big">No advantage</div><div class="card-label">We do not claim quantum advantage. Classical methods solve every instance we tested.</div></div><div class="card tl tl-yellow"><div class="card-big">Up to 14</div><div class="card-label">turbines tested: we simulate the circuit exactly on a CPU, which stops around 30 qubits.</div></div><div class="card tl tl-green"><div class="card-big">Never invalid</div><div class="card-label">What we do contribute: a circuit that never gives an invalid plan, honest comparisons, and a first real hardware run.</div></div></div>
+        </section>
+        <section class="slide " id="slide-17" aria-label="Slide 17 of 26: 4. How do I run it?" hidden>
+            <h2>4. How do I run it?</h2>
+            <div class="cards cards-3"><div class="card "><div class="card-big">On Qollab</div><div class="card-label">Open the project page and click <strong>Run your code</strong> with the built-in simulator. About 20 seconds.</div></div><div class="card "><div class="card-big">Locally</div><div class="card-label"><code>pip install -r qollab/requirements.txt pytest</code><br><code>python qollab/main.py</code></div></div><div class="card "><div class="card-big">Open source</div><div class="card-label">MIT license, 150+ tests, protocol fixed before running.</div></div></div>
+        </section>
+        <section class="slide " id="slide-18" aria-label="Slide 18 of 26: The problem in pictures: wakes" hidden>
+            <h2>The problem in pictures</h2>
             <figure>
                 <img src="img/what_is_a_wake.png" alt="Schematic side view of two wind turbines in a row with the wind coming from the left. The first turbine has full wind and leaves behind a widening blue wake of slower, turbulent air; the second turbine stands inside that wake and gets slower wind and less power.">
                 <figcaption>A turbine standing inside another one's wake gets slower wind and produces less.</figcaption>
             </figure>
         </section>
-        <section class="slide " id="slide-4" aria-label="Slide 4 of 10: The decision: which turbines to keep" hidden>
-            <h2>The decision: which turbines to keep</h2>
-            <figure>
-                <img src="img/the_decision.png" alt="Top view of the 14 real turbine positions of the Penmanshiel wind farm in Scotland, with an arrow for the dominant wind direction. Seven turbines are blue (kept running) and seven are grey outlines (switched off); light blue strips downwind of the blue turbines show their wakes.">
-                <figcaption>The 14 real turbine positions of Penmanshiel (Scotland): seven are kept running.</figcaption>
-            </figure>
+        <section class="slide " id="slide-19" aria-label="Slide 19 of 26: The decision" hidden>
+            <h2>Which 7 of the 14 turbines should keep running?</h2>
+            <div class="dmap-wrap"><svg class="dmap" viewBox="230 190 760 620" role="img" aria-label="Top view of the 14 real turbine positions of the Penmanshiel wind farm in Scotland. Seven turbines are blue (kept running) and seven are grey outlines (switched off); light blue strips downwind of the blue turbines show their wakes. An arrow shows the dominant wind direction."><polygon class="dmap-wake" points="373,602 351,592 407,410 462,433"/><polygon class="dmap-wake" points="462,679 440,669 496,487 551,510"/><polygon class="dmap-wake" points="590,650 568,640 624,458 679,481"/><polygon class="dmap-wake" points="661,719 639,709 695,527 750,550"/><polygon class="dmap-wake" points="642,409 620,399 676,217 731,240"/><polygon class="dmap-wake" points="805,522 783,512 839,330 894,353"/><polygon class="dmap-wake" points="880,603 858,593 914,411 969,434"/><g class="dmap-on"><circle class="dmap-ring" cx="362" cy="597" r="14"/><circle cx="362" cy="597" r="11"/><text x="362" y="629">T01</text></g><g class="dmap-on"><circle class="dmap-ring" cx="451" cy="674" r="14"/><circle cx="451" cy="674" r="11"/><text x="451" y="706">T02</text></g><g class="dmap-on"><circle class="dmap-ring" cx="579" cy="645" r="14"/><circle cx="579" cy="645" r="11"/><text x="579" y="677">T06</text></g><g class="dmap-on"><circle class="dmap-ring" cx="650" cy="714" r="14"/><circle cx="650" cy="714" r="11"/><text x="650" y="746">T07</text></g><g class="dmap-on"><circle class="dmap-ring" cx="631" cy="404" r="14"/><circle cx="631" cy="404" r="11"/><text x="631" y="436">T12</text></g><g class="dmap-on"><circle class="dmap-ring" cx="794" cy="517" r="14"/><circle cx="794" cy="517" r="11"/><text x="794" y="549">T14</text></g><g class="dmap-on"><circle class="dmap-ring" cx="869" cy="598" r="14"/><circle cx="869" cy="598" r="11"/><text x="869" y="630">T15</text></g><g class="dmap-off"><circle cx="426" cy="490" r="10"/><text x="426" y="522">T04</text></g><g class="dmap-off"><circle cx="502" cy="572" r="10"/><text x="502" y="604">T05</text></g><g class="dmap-off"><circle cx="520" cy="428" r="10"/><text x="520" y="460">T08</text></g><g class="dmap-off"><circle cx="616" cy="519" r="10"/><text x="616" y="551">T09</text></g><g class="dmap-off"><circle cx="690" cy="580" r="10"/><text x="690" y="612">T10</text></g><g class="dmap-off"><circle cx="781" cy="648" r="10"/><text x="781" y="680">T11</text></g><g class="dmap-off"><circle cx="720" cy="456" r="10"/><text x="720" y="488">T13</text></g><g class="dmap-arrow"><path d="M270 770L318 668"/><path d="M300 676L320 652L330 682Z"/></g><text class="dmap-note" x="270" y="795">wind from 202.5 degrees</text></svg><div class="dmap-side"><p class="dmap-key"><span class="dot dot-on"></span> Kept running (7)</p><p class="dmap-key"><span class="dot dot-off"></span> Switched off (7)</p><p class="dmap-key"><span class="dot dot-wake"></span> Wake of a kept turbine</p><div class="cards cards-2"><div class="card tl tl-green"><div class="card-big">4.0%</div><div class="card-label">power lost to wakes with the best choice</div></div><div class="card tl tl-red"><div class="card-big">8.0%</div><div class="card-label">for an average random choice of 7</div></div></div><p class="slide-note">The best of 3,432 plans (exact search). Real positions of Penmanshiel, Scotland. Model units, not measured production.</p></div></div>
         </section>
-        <section class="slide " id="slide-5" aria-label="Slide 5 of 10: How QWind works" hidden>
+        <section class="slide " id="slide-20" aria-label="Slide 20 of 26: How QWind works" hidden>
             <h2>How Q<span class="wind">Wind</span> works</h2>
-            <figure>
-                <img src="img/how_it_works.png" alt="Flow diagram in five boxes: wind and turbine positions, wake model, choice problem, quantum circuit built in Qiskit that keeps exactly K turbines by construction, and the answer, the K turbines to keep running.">
-                <figcaption>Five steps, from wind and positions to the K turbines to keep.</figcaption>
-            </figure>
+            <ol class="flow"><li class="flow-step "><span class="flow-num">1</span><div class="flow-icon"><svg class="icon" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2 8h11a3 3 0 100-3M2 13h16a3 3 0 110 3M2 18h8"/></svg></div><strong>Wind and positions</strong><span>real positions and a measured wind rose</span></li><li class="flow-step "><span class="flow-num">2</span><div class="flow-icon"><svg class="icon" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="5" cy="12" r="2"/><path d="M8 11l13-6v14L8 13z"/></svg></div><strong>Wake model</strong><span>which turbine shades which, and how much</span></li><li class="flow-step "><span class="flow-num">3</span><div class="flow-icon"><svg class="icon" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17.500l2.500 2.500 4.500-5"/></svg></div><strong>Choice problem</strong><span>pick the K turbines with the least wake loss</span></li><li class="flow-step flow-hot"><span class="flow-num">4</span><div class="flow-icon"><svg class="icon" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="1.5" fill="currentColor"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/></svg></div><strong>Quantum circuit</strong><span>built in Qiskit; keeps exactly K by construction</span></li><li class="flow-step "><span class="flow-num">5</span><div class="flow-icon"><svg class="icon" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M7.500 12.500l3 3 6-7"/></svg></div><strong>Answer</strong><span>the K turbines to keep running</span></li></ol><p class="slide-note">From the wind and the turbine positions to the turbines to keep running. Compared against exact search, simulated annealing, greedy search and random valid choice.</p>
         </section>
-        <section class="slide " id="slide-6" aria-label="Slide 6 of 10: Better odds of finding the best layout" hidden>
-            <h2>Better odds of finding the best layout</h2>
+        <section class="slide " id="slide-21" aria-label="Slide 21 of 26: Results: odds of the best layout" hidden>
+            <h2>Results: better odds of the best layout</h2>
             <figure>
                 <img src="img/multipliers.png" alt="Horizontal bar chart for six datasets: how many times more likely the XY mixer + Dicke circuit is to sample the best layout than random valid choice (3 to 7.5 times) and than the best penalty version (3.4 to 17.1 times); the tallest bar is Penmanshiel, 17.1 times.">
                 <figcaption>How many times more likely the circuit is to sample the best layout, on six datasets.</figcaption>
             </figure>
         </section>
-        <section class="slide " id="slide-7" aria-label="Slide 7 of 10: Reaching the exact optimum" hidden>
-            <h2>Reaching the exact optimum</h2>
+        <section class="slide " id="slide-22" aria-label="Slide 22 of 26: Results: exact optimum" hidden>
+            <h2>Results: reaching the exact best layout</h2>
             <figure>
                 <img src="img/chance_of_best.png" alt="Horizontal bar chart for six datasets: share of instances where the best of 1000 samples is the exact optimum. The XY mixer + Dicke circuit reaches 100% on five datasets and 67% on Penmanshiel; the penalty formulation reaches between 0% and 100%.">
-                <figcaption>Share of instances where the best of 1000 samples is the exact optimum.</figcaption>
+                <figcaption>Share of instances where the best of 1000 samples is the exact best layout.</figcaption>
             </figure>
         </section>
-        <section class="slide " id="slide-8" aria-label="Slide 8 of 10: Always a valid plan" hidden>
-            <h2>Always a valid plan</h2>
+        <section class="slide " id="slide-23" aria-label="Slide 23 of 26: Results: valid plans" hidden>
+            <h2>Results: always a valid plan</h2>
             <figure>
                 <img src="img/valid_plans.png" alt="Horizontal bar chart for six datasets: share of the circuit&#x27;s probability that falls on valid layouts. The XY mixer + Dicke circuit is at 100% everywhere; the penalty formulation is between 26% and 64%.">
                 <figcaption>Share of the circuit's probability that falls on valid layouts.</figcaption>
             </figure>
         </section>
-        <section class="slide " id="slide-9" aria-label="Slide 9 of 10: Circuit depth" hidden>
-            <h2>Circuit depth</h2>
+        <section class="slide " id="slide-24" aria-label="Slide 24 of 26: Results: circuit depth" hidden>
+            <h2>Results: circuit depth</h2>
             <figure>
                 <img src="img/depth.png" alt="Line chart for the synthetic dataset: probability of sampling the best layout at circuit depths 1, 2 and 3. The XY mixer + Dicke circuit rises from 5.0% to 7.2%; the penalty formulation stays near 1%; random valid choice is a flat line near 2%.">
                 <figcaption>Probability of sampling the best layout at circuit depths 1, 2 and 3 (synthetic dataset).</figcaption>
             </figure>
         </section>
-        <section class="slide " id="slide-10" aria-label="Slide 10 of 10: Real hardware and credits" hidden>
-            <h2>Ran on real quantum hardware: IonQ Forte 1 (36q)</h2>
-            <table class="slide-table">
-                <caption>N = 6 cells, K = 3 turbines, depth p = 1, 997 shots, one run.</caption>
-                <thead><tr><th scope="col"></th><th scope="col">P(optimal), valid samples only</th></tr></thead>
-                <tbody>
-                    <tr><th scope="row">Ideal (exact)</th><td>0.1784</td></tr>
-                    <tr><th scope="row">IonQ Forte 1, measured</th><td>0.1665</td></tr>
-                    <tr><th scope="row">Random choice among valid layouts</th><td>0.1000</td></tr>
-                </tbody>
-            </table>
-            <p class="slide-lead">The best sampled layout was the exact optimum. No quantum advantage is claimed.</p>
-            <p class="slide-support"><strong>This effort is supported by Qollab &amp; IonQ</strong> · MIT License · <a href="https://github.com/agustindiazcano/qwind-qaoa-windfarm">github.com/agustindiazcano/qwind-qaoa-windfarm</a></p>
+        <section class="slide " id="slide-25" aria-label="Slide 25 of 26: What we found" hidden>
+            <h2>What we found</h2>
+            <div class="cards cards-4"><div class="card tl tl-green"><div class="card-big">3 to 7.5&times;</div><div class="card-label">more likely to sample the best layout than random valid choice (3.4 to 17.1&times; than the penalty version)</div></div><div class="card tl tl-green"><div class="card-big">5 of 6</div><div class="card-label">datasets: exact best layout in every instance, matching simulated annealing with about 120 tries</div></div><div class="card tl tl-yellow"><div class="card-big">2 of 3</div><div class="card-label">instances on the 14 real turbines of Penmanshiel</div></div><div class="card tl tl-green"><div class="card-big">100%</div><div class="card-label">valid plans, always, and a reproducible benchmark</div></div></div>
+        </section>
+        <section class="slide slide-center" id="slide-26" aria-label="Slide 26 of 26: Thank you" hidden>
+            <p class="slide-kicker">Quantum Impact · Qollab x IonQ hackathon</p>
+            <p class="slide-title slide-title-sm">Q<span class="wind">Wind</span></p>
+            <p class="slide-lead">Put the rule inside the circuit, and always compare against the simple baselines.</p>
+            <p class="slide-support"><strong>This effort is supported by Qollab &amp; IonQ</strong> · MIT License · <a href="https://github.com/agustindiazcano/qwind-qaoa-windfarm">github.com/agustindiazcano/qwind-qaoa-windfarm</a> · <a href="https://qollab.xyz/u/agustindiazcano/qwind">Qollab project page</a></p>
         </section>
         <footer class="demo-footer">
             <div class="demo-footer-logos">
