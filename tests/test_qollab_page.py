@@ -57,3 +57,15 @@ def test_readme_does_not_list_libraries_the_experiments_do_not_use():
     for lib in ("matplotlib", "qiskit-aer", "qiskit_aer"):
         if lib in readme:
             assert lib.replace("-", "_") in used or lib in used, f"README lists {lib} but no script imports it"
+
+
+def test_readme_references_list_the_data_sources_and_related_work_with_links():
+    """The footer must carry every source with a link: data, price reference, license and related work."""
+    refs = _read("README.md").split("## References", 1)[1]
+    for link in ("doi.org/10.5281/zenodo.16807304", "doi.org/10.5281/zenodo.16807551",           # Penmanshiel, Kelmarsh
+                 "cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels", "open-meteo.com",   # ERA5 via Open-Meteo
+                 "cfd-ar6-budget-notice.pdf", "creativecommons.org/licenses/by/4.0",                      # price reference, license
+                 "arxiv.org/abs/2312.13123", "arxiv.org/abs/2512.17582",                                   # Hancock et al.
+                 "advanced.onlinelibrary.wiley.com/doi/10.1002/qute.202500358",                                                         # Nigro et al.
+                 "arxiv.org/abs/2505.18396", "arxiv.org/abs/2602.14827"):                                  # XY mixers, Dicke + XY
+        assert link in refs, f"missing from the References footer: {link}"

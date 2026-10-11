@@ -12,6 +12,14 @@
 - **Real data:** the 14 real turbine positions of Penmanshiel (Scotland) and the 6 of Kelmarsh (England), with measured winds, plus wind roses from Argentina (Chubut, Bahia Blanca).
 - **Open source (MIT)**, 150+ tests, protocol fixed before running, and it runs on Qollab in about 20 seconds.
 
+## The problem in pictures
+
+![Schematic side view of two wind turbines in a row with the wind coming from the left. The first turbine has full wind and leaves behind a widening blue wake of slower, turbulent air; the second turbine stands inside that wake and gets slower wind and less power.](https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/results/figures/what_is_a_wake.png)
+
+![Top view of the 14 real turbine positions of the Penmanshiel wind farm in Scotland, with an arrow for the dominant wind direction. Seven turbines are blue (kept running) and seven are grey outlines (switched off); light blue strips downwind of the blue turbines show their wakes.](https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/results/figures/the_decision.png)
+
+![Flow diagram in five boxes: wind and turbine positions, wake model, choice problem, quantum circuit built in Qiskit that keeps exactly K turbines by construction, and the answer, the K turbines to keep running.](https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/results/figures/how_it_works.png)
+
 ## Results at a glance
 
 ![Horizontal bar chart for six datasets: how many times more likely the XY mixer + Dicke circuit is to sample the best layout than random valid choice (3 to 7.5 times) and than the best penalty version (3.4 to 17.1 times); the tallest bar is Penmanshiel, 17.1 times.](https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/results/figures/multipliers.png)
@@ -38,6 +46,28 @@ We turned that choice into an optimization problem, pick the best *K* of *N* tur
 4. **A reproducible benchmark.** Every result comes with controls and is generated from a protocol fixed before running.
 
 The lesson we take is practical: when a problem has a hard constraint, build it into the circuit, and always benchmark against the boring baselines, because they decide whether a result means anything.
+
+## Why it matters
+
+When a wind farm has to run fewer turbines, the choice of which ones to keep decides how much of the production that remains is lost to wakes. In our model, using the real Penmanshiel layout and its measured wind rose, the share of potential power lost to wakes is 4.0% against 8.0% for 7 of the 14 turbines (the best choice against an average random choice), 1.0% against 5.3% for 5 turbines, and 7.0% against 10.6% for 9 turbines. QWind is a way to search that decision systematically, and at this size exact search can verify the choices it finds.
+
+These are modelled wake losses (a Jensen wake model, equal turbines), not measured production or costs. We have not measured costs, or the algorithm working in a real farm, so the impact is potential: the decision affects the energy a curtailed farm still delivers and, through it, the value of that energy. The next section puts an illustrative scale on it.
+
+## What it could be worth
+
+Using the measured production of the Penmanshiel turbines, this is the scale of what the choice is worth in an illustrative scenario:
+
+<!-- IMPACT:START -->
+**Illustrative estimate for Penmanshiel.** Assumptions: each kept turbine produces its measured 2019 average (637 kW, a capacity factor of 31.1%); the farm runs with only K of its 14 turbines for 1,000 hours; the wake losses are the modelled ones, for the best choice against an average random choice of the same K turbines; the prices are round numbers for illustration.
+
+| Turbines kept (K of 14) | Modelled power lost to wakes: best vs average random choice | More energy from the same K turbines | Extra energy per 1,000 hours | Value at £50/MWh | Value at £75/MWh | Value at £100/MWh |
+|---|---|---|---|---|---|---|
+| 5 | 1.0% vs 5.3% | +4.5% | 136 MWh | £6.8k | £10.2k | £13.6k |
+| 7 | 4.0% vs 8.0% | +4.3% | 176 MWh | £8.8k | £13.2k | £17.6k |
+| 9 | 7.0% vs 10.6% | +4.0% | 207 MWh | £10.3k | £15.5k | £20.7k |
+
+This is an illustrative estimate of scale, not a forecast. It comes from a model, it compares with an average random choice (not with what an operator does today), it assumes 1,000 hours in that configuration (a year has 8,760; how many hours a farm is curtailed is not in our data), and it counts neither costs nor the structure of any contract. Details and sources: [docs/IMPACT.md](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/docs/IMPACT.md).
+<!-- IMPACT:END -->
 
 ## What we built
 
@@ -131,6 +161,7 @@ python -m pytest                 # tests (add -m "not heavy" to skip the slowest
 - A comparative benchmark with controls: uniform sampling over feasible layouts and random feasible sampling with the same number of shots, next to exact, simulated annealing and greedy search.
 - A constraint-preserving variant (XY mixer with a Dicke start state) measured against the penalty formulation, with the penalty weight swept.
 - Real data: operating-farm turbine positions and measured wind roses, plus ERA5 roses as a secondary dataset (sources and licenses: [docs/DATA.md](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/docs/DATA.md)).
+- A different question from related quantum work on wind farms [4, 6]. Those studies design new layouts on a grid; Nigro et al. set the number of turbines as a penalty and report that their quantum annealer sometimes placed the wrong number of turbines. QWind chooses which of the existing turbines to keep running, on real positions, and builds the number of turbines into the circuit so every answer has exactly *K*.
 
 ## Technical details
 
@@ -221,3 +252,20 @@ Competing at the **UNICEN** node (Universidad Nacional del Centro de la Provinci
 1. Hadfield, S., Wang, Z., O'Gorman, B., Rieffel, E. G., Venturelli, D., Biswas, R. "From the Quantum Approximate Optimization Algorithm to a Quantum Alternating Operator Ansatz." *Algorithms* 12(2), 34 (2019). [doi:10.3390/a12020034](https://doi.org/10.3390/a12020034), [arXiv:1709.03489](https://arxiv.org/abs/1709.03489)
 2. Bärtschi, A., Eidenbenz, S. "Deterministic Preparation of Dicke States." *FCT 2019*, pp. 126-139. [doi:10.1007/978-3-030-25027-0_9](https://doi.org/10.1007/978-3-030-25027-0_9), [arXiv:1904.07358](https://arxiv.org/abs/1904.07358)
 3. Sack, S. H., Serbyn, M. "Quantum annealing initialization of the quantum approximate optimization algorithm." *Quantum* 5, 491 (2021). [doi:10.22331/q-2021-07-01-491](https://doi.org/10.22331/q-2021-07-01-491), [arXiv:2101.05742](https://arxiv.org/abs/2101.05742)
+
+### Related work
+
+4. Hancock, J., Craven, M. J., McNeile, C., Vadacchino, D. "Investigating Techniques to Optimise the Layout of Turbines in a Windfarm using a Quantum Computer." [arXiv:2312.13123](https://arxiv.org/abs/2312.13123)
+5. Hancock, J., Craven, M., McNeile, C. "Investigating methods to solve large windfarm optimization problems with a minimum number of qubits using circuit-based quantum computers." [arXiv:2512.17582](https://arxiv.org/abs/2512.17582)
+6. Nigro, L., Sala, S., Amendola, A., Prati, E. "Leveraging Quantum Annealing for Layout Optimization." *Advanced Quantum Technologies* 8(11), e00358 (2025). [doi:10.1002/qute.202500358](https://advanced.onlinelibrary.wiley.com/doi/10.1002/qute.202500358)
+7. Kordonowy, S., Leipold, H. "The Lie Algebra of XY-mixer Topologies and Warm Starting QAOA for Constrained Optimization." *npj Quantum Information* 12, 61 (2026). [arXiv:2505.18396](https://arxiv.org/abs/2505.18396)
+8. Mancilla, J., Bouloumis, T. D., Goguikian, F. "Constrained Portfolio Optimization via QAOA with XY-Mixers and Trotterized Initialization: A Hybrid Approach for Direct Indexing." [arXiv:2602.14827](https://arxiv.org/abs/2602.14827)
+
+### Data and sources
+
+- Penmanshiel wind farm data (Scotland, UK). Plumley, C., Takeuchi, R.; released by Cubico Sustainable Investments Ltd. Zenodo, CC BY 4.0. [doi:10.5281/zenodo.16807304](https://doi.org/10.5281/zenodo.16807304)
+- Kelmarsh wind farm data (England, UK). Plumley, C., Takeuchi, R.; released by Cubico Sustainable Investments Ltd. Zenodo, CC BY 4.0. [doi:10.5281/zenodo.16807551](https://doi.org/10.5281/zenodo.16807551)
+- ERA5 hourly data on single levels from 1940 to present. Copernicus Climate Change Service (C3S) Climate Data Store. [dataset page](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels), [doi:10.24381/cds.adbb2d47](https://doi.org/10.24381/cds.adbb2d47)
+- Open-Meteo Historical Weather API, used to access ERA5. Zippenfenig, P. (2023). Open-Meteo.com Weather API. [documentation](https://open-meteo.com/en/docs/historical-weather-api), [doi:10.5281/zenodo.7970649](https://doi.org/10.5281/zenodo.7970649)
+- UK Government, Contracts for Difference Allocation Round 6, budget notice (administrative strike prices, 2012 prices), used as a price reference in the impact estimate. [PDF](https://assets.publishing.service.gov.uk/media/65e867c162ff48001a87b252/cfd-ar6-budget-notice.pdf)
+- License of the data: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
