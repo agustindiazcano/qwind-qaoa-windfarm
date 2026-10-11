@@ -27,3 +27,4 @@ Legend: [x] done, [~] partly done, [ ] open. Owner = the human captain/author; o
 20. [ ] 🟢 Optional: simulated-annealing control with an evaluation budget matched to QAOA (~120), labeled as a later control, not part of `qwind-v1`.
 21. [ ] ⚪ Noise (IBM noise-model simulators in Qollab): not done; do not claim it.
 22. [ ] Captain submits at least 2-3 hours before Sunday 2026-10-11 19:00 ET (20:00 Argentina time).
+23. [ ] Optional: backend probe on Qollab (separate test project from build/probe_project): built-in simulator, IonQ noise-model simulator (free), then one small QPU job only if the quoted price is acceptable; save the outputs under results/ before quoting numbers.
