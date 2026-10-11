@@ -6,17 +6,27 @@
 
 ## In plain words
 
-Wind turbines steal wind from each other: every turbine leaves a slower, turbulent "wake" behind it, and any turbine standing in that wake produces less energy. So *which* turbines you use matters.
+Wind turbines steal wind from each other. Every turbine leaves a slower, turbulent wake behind it, and a turbine standing in that wake produces less. In a wind farm that already exists, an operator who has to run fewer turbines (a curtailment) can choose *which* ones to keep, and that choice changes how much energy the wakes waste.
 
-**QWind** picks the best *K* turbines out of *N* candidate positions. It does this with a quantum algorithm (QAOA, built and simulated with Qiskit) and compares it honestly against classical methods. On real wind farms it is a **selection (curtailment) problem**: choose which *K* of the existing turbine positions to keep operating. It is not layout design.
+We turned that choice into an optimization problem, pick the best *K* of *N* turbine positions, and asked a concrete question: **can a quantum algorithm (QAOA, simulated in Qiskit) solve it well, and does the way you build the circuit matter?** We tested it the way a skeptic would: against exact enumeration, simulated annealing, greedy search and plain random choice among valid layouts, on six datasets, including the real turbine positions and measured winds of two operating wind farms (Penmanshiel and Kelmarsh).
 
 ## What we found
 
-- **Putting the constraint inside the circuit helps.** A QAOA variant that always keeps exactly *K* turbines (XY mixer + Dicke start state) beats a uniform random choice over valid layouts in every instance we ran, at depths p = 1 to 3 (on the approximation ratio over feasible layouts).
-- **The standard penalty version does not.** Encoding "exactly K turbines" as a penalty does not beat the uniform baseline consistently, for any penalty weight we tested.
-- **At these sizes, classical methods are enough.** Simulated annealing reaches the exact optimum on every dataset. The best layout sampled from the XY + Dicke QAOA also reaches it in every instance of five of the six datasets (and in 2 of 3 instances at N = 14), but random feasible sampling with the same 1000 samples is almost as good at N up to 12, so this is not evidence of an advantage. **We do not claim a quantum advantage, a speedup, or energy or cost savings.**
+1. **How you build the circuit matters a lot.** The usual way to say "exactly *K* turbines" is a penalty term. It did not beat random choice among valid layouts consistently, for any penalty weight we tried. Putting the constraint inside the circuit (XY mixer + Dicke start state) makes every output a valid layout, and the probability of sampling the best layout is 3 to 7.5 times higher than random choice among valid layouts and 3.4 to 17.1 times higher than the best penalty version, depending on the dataset.
+2. **That version is competitive with the classical methods at these sizes.** Its best sample is the exact optimum in every instance of 5 of the 6 datasets, as good as simulated annealing's result, using about 120 optimizer evaluations. On the 14 real turbines of Penmanshiel it finds it in 2 of 3 instances.
+3. **It is not an advantage, and we do not claim one.** Drawing 1000 random valid layouts finds the best one almost as often up to 12 turbines, simulated annealing finds it everywhere, and exact enumeration takes about 2 seconds at most. We do not claim a quantum advantage, a speedup, or energy or cost savings.
+4. **Where the picture starts to separate.** At 14 real turbines, random sampling finds the best layout with probability about 0.35 on average, against 2 of 3 instances for the circuit. With only 3 instances that is a hint, not a result.
 
-Everything is simulated on a CPU (no quantum hardware), and the instances are small (at most 14 cells).
+The lesson we take is practical: when a problem has a hard constraint, build it into the circuit, and always benchmark against the boring baselines, because they decide whether a result means anything.
+
+## What we built
+
+- A wake-loss model (Jensen, pairwise additive) turned into a QUBO with an exactly-*K* constraint, and a QAOA written by hand in Qiskit with two ways of enforcing the constraint (penalty, or XY mixer + Dicke state).
+- A fixed experimental protocol (`qwind-v1`), decided before running and never retuned, run in GitHub Actions on six datasets: synthetic wind roses, the real positions and measured winds of Penmanshiel and Kelmarsh, and two ERA5 wind roses (open licenses for all the real data).
+- Controls next to every result: the uniform distribution over valid layouts, random valid sampling with the same 1000 samples, exact enumeration, simulated annealing and greedy search.
+- 150+ tests, continuous integration, and tables in this README that are generated from `results/`, so no number is typed by hand.
+
+Everything is simulated on a CPU (no quantum hardware), the instances are small (at most 14 cells), the wake model is simplified and there is one year of wind data per farm. The limitations are listed below.
 
 ## Try it
 

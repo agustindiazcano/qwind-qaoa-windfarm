@@ -168,3 +168,32 @@ def test_update_readme_needs_markers(tmp_path):
     readme.write_text("no markers\n", encoding="utf-8")
     with pytest.raises(ValueError, match="RESULTS"):
         tables.update_readme(str(readme), "x")
+
+
+# ---- numbers quoted in the README prose ("What we found") must come from results/ ----
+
+def _independent_multipliers(summary):
+    vs_uniform, vs_penalty = [], []
+    for d in {x["dataset"] for x in summary["datasets"]}:
+        xy = next(r for r in summary["results"] if r["dataset"] == d and r["variant"] == "xy+dicke" and r["p"] == 3)
+        pen = max(r["metrics"]["p_optimal"]["mean"] for r in summary["results"]
+                  if r["dataset"] == d and r["method"] == "qaoa" and r["variant"].startswith("penalty") and r["p"] == 3)
+        p = xy["metrics"]["p_optimal"]["mean"]
+        vs_uniform.append(p / xy["baselines"]["uniform_feasible_p_optimal"])
+        vs_penalty.append(p / pen)
+    return min(vs_uniform), max(vs_uniform), min(vs_penalty), max(vs_penalty)
+
+
+def test_headline_multipliers_are_computed_from_the_file(summary, rows):
+    m = tables.headline_multipliers(summary, rows)
+    lo_u, hi_u, lo_p, hi_p = _independent_multipliers(summary)
+    assert m["vs_uniform"] == (pytest.approx(lo_u), pytest.approx(hi_u))
+    assert m["vs_penalty"] == (pytest.approx(lo_p), pytest.approx(hi_p))
+    assert m["found_optimum_datasets"] == 5 and m["datasets"] == 6          # best sample is the optimum in every instance of 5 of 6
+
+
+def test_readme_prose_quotes_the_computed_multipliers(summary, rows):
+    readme = open(os.path.join(ROOT, "README.md"), encoding="utf-8").read()
+    m = tables.headline_multipliers(summary, rows)
+    assert f"{round(m['vs_uniform'][0], 1):g} to {round(m['vs_uniform'][1], 1):g} times" in readme
+    assert f"{round(m['vs_penalty'][0], 1):g} to {round(m['vs_penalty'][1], 1):g} times" in readme

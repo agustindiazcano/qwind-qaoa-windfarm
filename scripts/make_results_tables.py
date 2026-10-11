@@ -126,6 +126,27 @@ def readme_block(summary, rows):
     return "\n".join(out)
 
 
+def headline_multipliers(summary, rows):
+    """Numbers quoted in the README prose, at the deepest p: how many times higher P(optimal) is for XY + Dicke than for the
+    uniform baseline and than for the best penalty variant (range over datasets), and in how many datasets its best sample is
+    the exact optimum in every instance."""
+    p_top = max(summary["protocol"]["depths"])
+    vs_uniform, vs_penalty, all_found = [], [], 0
+    names = [d["dataset"] for d in summary["datasets"]]
+    for d in names:
+        xy = next(r for r in summary["results"] if r["dataset"] == d and r["variant"] == "xy+dicke" and r["p"] == p_top)
+        pen = max(r["metrics"]["p_optimal"]["mean"] for r in summary["results"]
+                  if r["dataset"] == d and r["method"] == "qaoa" and r["variant"].startswith("penalty") and r["p"] == p_top)
+        p = xy["metrics"]["p_optimal"]["mean"]
+        vs_uniform.append(p / xy["baselines"]["uniform_feasible_p_optimal"])
+        vs_penalty.append(p / pen)
+        sel = [r for r in rows if r["dataset"] == d and r["variant"] == "xy+dicke"]      # every depth and instance of the dataset
+        if sel and all(abs(float(r["energy_gap"])) < 1e-9 for r in sel):
+            all_found += 1
+    return {"vs_uniform": (min(vs_uniform), max(vs_uniform)), "vs_penalty": (min(vs_penalty), max(vs_penalty)),
+            "found_optimum_datasets": all_found, "datasets": len(names)}
+
+
 START, END = "<!-- RESULTS:START -->", "<!-- RESULTS:END -->"
 # Order of the datasets in the README tables: the synthetic set, the real farms, then the secondary ERA5 sets
 README_ORDER = ["synthetic", "real_penmanshiel", "real_penmanshiel_sub10", "real_kelmarsh", "real_chubut", "real_bahia_blanca"]
