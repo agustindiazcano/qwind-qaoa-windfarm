@@ -1,8 +1,6 @@
 **This effort is supported by Qollab & IonQ**
 
-<p align="center"><img src="https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/docs/img/qwind-logo.png" alt="QWind logo: the word QWind, with Q in white and Wind in light blue, on a dark background" width="300"></p>
-
-<p align="center"><img src="https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/docs/img/partners-banner.png" alt="Qollab x IonQ x Facultad de Ciencias Exactas, UNICEN" width="700"></p>
+![QWind, with Qollab, IonQ and Facultad de Ciencias Exactas UNICEN](https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/docs/img/qwind-header.png)
 
 # QWind: Quantum Optimization for Wind Farms
 
