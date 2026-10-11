@@ -280,7 +280,7 @@ web/           presentation website
 
 ## Tech Stack
 
-Qiskit 2.5.2, NumPy, SciPy, Python 3.14 (Qollab) / 3.12 (GitHub Actions results).
+Qiskit 2.5.2, NumPy, SciPy, Python 3.14 (Qollab) / 3.12 (GitHub Actions results). Presentation website (`web/`): plain HTML, CSS and JavaScript, no framework.
 
 ## Hackathon node and team
 

@@ -19,7 +19,7 @@ Legend: [x] done, [~] partly done, [ ] open. Owner = the human captain/author; o
 ## Open (numbered by priority)
 13. [ ] 🔴 Owner: paste the README into the Qollab project page (title, description up to 240 characters, tags `qubo`, `quantumalgorithms`, `quantum`, `nisq`; the exact line `This effort is supported by Qollab & IonQ` is at the end of the README), Project Website field if the site is ready. See `docs/QOLLAB_PAGE.md`.
 14. [ ] 🔴 Owner: demo video 2-3 min, public, with captions (script in `docs/QOLLAB_PAGE.md`).
-15. [ ] 🟡 Website (`web/index.html` is still empty, teammate): read `web/data/summary.json` produced by `python scripts/sync_results_to_web.py`; alt text on every figure; `experiments/make_figures.py` is still empty.
+15. [~] 🟡 Website (`web/`, teammate): built (Home, References, Team; figures with alt text, `summary.json` tables, demo mode; sources in `web-src/`, generated with `python scripts/build_web.py`). Left: demo video URL in the navbar button (`web-src/partials/nav.html`, TODO), run the manual Pages workflow and put the URL in Project Website. Details in `PENDING-FRONT.md`.
 16. [x] Attribution details resolved: CC BY 4.0 link and wording, Copernicus notice year (2026, the year the derived material was generated; the license leaves it open), Open-Meteo non-commercial use (open-source research project, no ads or subscriptions). Global Wind Atlas not used.
 17. [ ] 🟢 Optional: use the fixed sub-instance `real_penmanshiel_sub10` inside the live Run (today offline only; needs a human decision and a new Qollab check).
 18. [ ] 🟢 Optional: histogram of the optimal circuit with one final `backend.run` (few shots); any change in `main.py` requires re-checking in Qollab that the table prints once.
