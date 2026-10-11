@@ -14,7 +14,7 @@
 
     <!-- NAVBAR WITH GLASS SURFACE -->
     <nav class="glass-surface" aria-label="Site">
-        <div class="nav-logo">Q<span>WIND</span></div>
+        <a class="nav-logo" href="index.html" aria-label="QWind, back to the top">Q<span>WIND</span></a>
         <div class="nav-links">
             <a class="btn btn-primary" href="https://github.com/agustindiazcano/qwind-qaoa-windfarm">Repository</a>
             <a class="btn" href="https://github.com/agustindiazcano/qwind-qaoa-windfarm#readme">README</a>
@@ -200,6 +200,10 @@
     </footer>
 
     <!-- CONSTANT ANIMATION SCRIPT -->
+    <button type="button" class="to-top" id="toTop" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+
     <!-- DEMO MODE: 10 full-screen slides, shown only when the Demo switch is on -->
     <div id="demo" hidden>
         <section class="slide slide-center" id="slide-1" aria-label="Slide 1 of 10: QWind">
@@ -404,6 +408,20 @@
                 .catch(() => {
                     caption.textContent = 'The results could not be loaded here. The same numbers are in the README of the repository.';
                 });
+        })();
+    </script>
+
+    <script>
+        // Back to top: shown after scrolling down, hidden in demo mode (CSS).
+        (function () {
+            const btn = document.getElementById('toTop');
+            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+            function update() { btn.classList.toggle('visible', window.scrollY > 400); }
+            window.addEventListener('scroll', update, { passive: true });
+            btn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: reduce.matches ? 'auto' : 'smooth' });
+            });
+            update();
         })();
     </script>
 

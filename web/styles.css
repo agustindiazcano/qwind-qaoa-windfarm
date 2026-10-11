@@ -1190,3 +1190,59 @@ footer .footer-meta a {
 footer .footer-meta a:hover {
     color: var(--text-main);
 }
+
+/* Pointer cursor on both logos; the navbar logo is a link back to the top. */
+.nav-logo {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.split-flap-container {
+    cursor: pointer;
+}
+
+/* --- BACK TO TOP --- */
+.to-top {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 90;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    border: 1px solid var(--accent-cyan);
+    background: #04060b;
+    color: var(--accent-cyan);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.to-top:hover {
+    background: var(--accent-cyan);
+    color: #04060b;
+}
+
+body.demo-on .to-top {
+    display: none;
+}
+
+/* The pending YouTube mark reacts to hover like the GitHub one, even without a link. */
+.icon-pending {
+    cursor: pointer;
+    transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.icon-pending:hover {
+    opacity: 1;
+    color: var(--accent-cyan);
+}
