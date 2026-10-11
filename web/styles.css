@@ -786,3 +786,8 @@ body.demo-on .skip-link {
         gap: 6px;
     }
 }
+
+/* The navbar keeps its hover glow but does not move. */
+nav.glass-surface:hover {
+    transform: none;
+}
