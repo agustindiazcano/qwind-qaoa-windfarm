@@ -11,7 +11,7 @@ def _text():
 
 def test_every_file_the_list_mentions_exists():
     text = _text()
-    paths = set(re.findall(r"`((?:results|scripts|docs|web|\.github)/[A-Za-z0-9_./-]+\.[a-z]+)`", text))
+    paths = set(re.findall(r"(?<![\w/])((?:results|scripts|docs|web|experiments|\.github)/[A-Za-z0-9_./-]+\.[a-z]+)", text))
     paths = {p for p in paths if not p.startswith("web/data/")}          # created by scripts/sync_results_to_web.py
     assert len(paths) >= 6
     for p in sorted(paths):
