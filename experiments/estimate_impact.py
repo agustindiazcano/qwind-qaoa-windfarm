@@ -26,7 +26,7 @@ import make_results_tables as tables  # noqa: E402
 START, END = "<!-- IMPACT:START -->", "<!-- IMPACT:END -->"
 KS = (5, 7, 9)
 HOURS = 1000
-PRICES = (50, 75, 100)        # GBP per MWh: round numbers for illustration; docs/IMPACT.md gives the reference value
+PRICES = (50, 75, 100)        # GBP per MWh: round numbers for illustration (docs/IMPACT.md gives the reference value); shown in USD
 INPUTS = os.path.join(ROOT, "results", "impact_inputs.json")
 
 
@@ -66,31 +66,40 @@ def estimate(K, mean_power_kw, loss_best, loss_avg, hours):
     potential = K * mean_power_kw / 1000.0 * hours          # MWh
     gain = potential * (loss_avg - loss_best)
     return {"K": K, "hours": hours, "potential_mwh": potential, "gain_mwh": gain,
-            "gain_pct": 100.0 * ((1 - loss_best) / (1 - loss_avg) - 1), "value_gbp": lambda price: gain * price}
+            "gain_pct": 100.0 * ((1 - loss_best) / (1 - loss_avg) - 1), "value": lambda price: gain * price}
+
+
+def usd_prices(inputs):
+    """The illustrative GBP prices converted to whole US dollars per MWh at the stored rate."""
+    return [round(p * inputs["fx"]["rate"]) for p in PRICES]
 
 
 def impact_rows(inputs, data_dir, ks=KS, hours=HOURS):
     rows = []
+    dollars = usd_prices(inputs)
     for K in ks:
         s = ill.wake_loss_stats(inputs["farm"], K, data_dir)
         e = estimate(K, inputs["mean_power_kw"], s["best"], s["average"], hours)
         rows.append({"K": K, "hours": hours, "loss_best": s["best"], "loss_avg": s["average"], "gain_mwh": e["gain_mwh"],
-                     "gain_pct": e["gain_pct"], "values": {p: e["value_gbp"](p) for p in PRICES}})
+                     "gain_pct": e["gain_pct"], "values": {p: e["value"](p) for p in dollars}})
     return rows
 
 
 def impact_block(inputs, data_dir):
     rows = impact_rows(inputs, data_dir)
+    fx, dollars = inputs["fx"], usd_prices(inputs)
     table = tables._md(
         ["Turbines kept (K of 14)", "Modelled power lost to wakes: best vs average random choice", "More energy from the same K turbines",
-         f"Extra energy per {HOURS:,} hours"] + [f"Value at £{p}/MWh" for p in PRICES],
+         f"Extra energy per {HOURS:,} hours"] + [f"Value at ${p}/MWh" for p in dollars],
         [[r["K"], f"{100 * r['loss_best']:.1f}% vs {100 * r['loss_avg']:.1f}%", f"+{r['gain_pct']:.1f}%", f"{r['gain_mwh']:.0f} MWh"]
-         + [f"£{r['values'][p] / 1000:.1f}k" for p in PRICES] for r in rows])
+         + [f"${r['values'][p] / 1000:.1f}k" for p in dollars] for r in rows])
     return (
         f"**Illustrative estimate for Penmanshiel.** Assumptions: each kept turbine produces its measured 2019 average "
         f"({inputs['mean_power_kw']:.0f} kW, a capacity factor of {100 * inputs['capacity_factor']:.1f}%); the farm runs with only K of its "
         f"{inputs['n_turbines']} turbines for {HOURS:,} hours; the wake losses are the modelled ones, for the best choice against an "
-        f"average random choice of the same K turbines; the prices are round numbers for illustration.\n\n{table}\n\n"
+        f"average random choice of the same K turbines; the prices are round numbers of £{PRICES[0]}, £{PRICES[1]} and £{PRICES[2]} per MWh, "
+        f"shown in US dollars as ${dollars[0]}, ${dollars[1]} and ${dollars[2]} per MWh (1 GBP = {fx['rate']:.4f} USD, from the ECB euro "
+        f"reference rates of {fx['date']}).\n\n{table}\n\n"
         f"This is an illustrative estimate of scale, not a forecast. It comes from a model, it compares with an average random choice "
         f"(not with what an operator does today), it assumes {HOURS:,} hours in that configuration (a year has 8,760; how many hours a "
         f"farm is curtailed is not in our data), and it counts neither costs nor the structure of any contract. Details and sources: "
@@ -107,6 +116,8 @@ def main(argv=None):
         inputs = {"farm": "penmanshiel", "year": 2019, "rated_kw": 2050, "mean_power_kw": round(s["mean_power_kw"], 1),
                   "capacity_factor": round(s["capacity_factor"], 4), "n_turbines": s["n_turbines"], "n_readings": s["n_readings"],
                   "source": "Zenodo 10.5281/zenodo.16807304 (SCADA 10-minute 'Power (kW)', calendar year 2019, mean of each turbine's mean)"}
+        if os.path.exists(INPUTS):                       # keep the stored exchange rate when the power is measured again
+            inputs["fx"] = json.load(open(INPUTS, encoding="utf-8")).get("fx")
         with open(INPUTS, "w", encoding="utf-8") as f:
             json.dump(inputs, f, indent=1)
             f.write("\n")

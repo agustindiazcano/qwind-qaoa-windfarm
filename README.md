@@ -68,13 +68,13 @@ These are modelled wake losses (a Jensen wake model, equal turbines), not measur
 Using the measured production of the Penmanshiel turbines, this is the scale of what the choice is worth in an illustrative scenario:
 
 <!-- IMPACT:START -->
-**Illustrative estimate for Penmanshiel.** Assumptions: each kept turbine produces its measured 2019 average (637 kW, a capacity factor of 31.1%); the farm runs with only K of its 14 turbines for 1,000 hours; the wake losses are the modelled ones, for the best choice against an average random choice of the same K turbines; the prices are round numbers for illustration.
+**Illustrative estimate for Penmanshiel.** Assumptions: each kept turbine produces its measured 2019 average (637 kW, a capacity factor of 31.1%); the farm runs with only K of its 14 turbines for 1,000 hours; the wake losses are the modelled ones, for the best choice against an average random choice of the same K turbines; the prices are round numbers of £50, £75 and £100 per MWh, shown in US dollars as $66, $99 and $132 per MWh (1 GBP = 1.3220 USD, from the ECB euro reference rates of 2026-10-09).
 
-| Turbines kept (K of 14) | Modelled power lost to wakes: best vs average random choice | More energy from the same K turbines | Extra energy per 1,000 hours | Value at £50/MWh | Value at £75/MWh | Value at £100/MWh |
+| Turbines kept (K of 14) | Modelled power lost to wakes: best vs average random choice | More energy from the same K turbines | Extra energy per 1,000 hours | Value at $66/MWh | Value at $99/MWh | Value at $132/MWh |
 |---|---|---|---|---|---|---|
-| 5 | 1.0% vs 5.3% | +4.5% | 136 MWh | £6.8k | £10.2k | £13.6k |
-| 7 | 4.0% vs 8.0% | +4.3% | 176 MWh | £8.8k | £13.2k | £17.6k |
-| 9 | 7.0% vs 10.6% | +4.0% | 207 MWh | £10.3k | £15.5k | £20.7k |
+| 5 | 1.0% vs 5.3% | +4.5% | 136 MWh | $9.0k | $13.5k | $18.0k |
+| 7 | 4.0% vs 8.0% | +4.3% | 176 MWh | $11.6k | $17.4k | $23.2k |
+| 9 | 7.0% vs 10.6% | +4.0% | 207 MWh | $13.7k | $20.5k | $27.3k |
 
 This is an illustrative estimate of scale, not a forecast. It comes from a model, it compares with an average random choice (not with what an operator does today), it assumes 1,000 hours in that configuration (a year has 8,760; how many hours a farm is curtailed is not in our data), and it counts neither costs nor the structure of any contract. Details and sources: [docs/IMPACT.md](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/docs/IMPACT.md).
 <!-- IMPACT:END -->
@@ -322,4 +322,5 @@ Competing at the **UNICEN** node (Universidad Nacional del Centro de la Provinci
 - ERA5 hourly data on single levels from 1940 to present. Copernicus Climate Change Service (C3S) Climate Data Store. [dataset page](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels), [doi:10.24381/cds.adbb2d47](https://doi.org/10.24381/cds.adbb2d47)
 - Open-Meteo Historical Weather API, used to access ERA5. Zippenfenig, P. (2023). Open-Meteo.com Weather API. [documentation](https://open-meteo.com/en/docs/historical-weather-api), [doi:10.5281/zenodo.7970649](https://doi.org/10.5281/zenodo.7970649)
 - UK Government, Contracts for Difference Allocation Round 6, budget notice (administrative strike prices, 2012 prices), used as a price reference in the impact estimate. [PDF](https://assets.publishing.service.gov.uk/media/65e867c162ff48001a87b252/cfd-ar6-budget-notice.pdf)
+- European Central Bank, euro foreign exchange reference rates (USD and GBP per euro, 2026-10-09), crossed to convert pounds to US dollars in the impact estimate (1 GBP = 1.3220 USD). [data](https://data-api.ecb.europa.eu/service/data/EXR/D.USD+GBP.EUR.SP00.A?lastNObservations=3&format=csvdata)
 - License of the data: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
