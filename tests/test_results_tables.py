@@ -106,7 +106,7 @@ def test_readme_legend_maps_short_names_to_full_dataset_ids(summary, rows):
     assert len({r[0] for r in legend}) == len(legend)                      # short names are unique
     assert "Bahia" in [r[0] for r in legend] and "Penmanshiel-10" in [r[0] for r in legend]
     n_inst = {d["dataset"]: d["n_instances"] for d in summary["datasets"]}
-    assert all(int(r[3]) == n_inst[r[1].strip("`")] for r in legend)       # instance counts come from the file
+    assert all(int(r[5]) == n_inst[r[1].strip("`")] for r in legend)       # instance counts come from the file
 
 
 def test_readme_tables_use_short_names_only(summary, rows):
@@ -255,3 +255,22 @@ def test_cli_updates_both_blocks_when_the_second_batch_exists(tmp_path, summary,
     text = readme.read_text(encoding="utf-8")
     first, second = text.split(tables.START2)
     assert "`real_penmanshiel_allk`" not in first and "`real_penmanshiel_allk`" in second
+
+
+def test_legend_gives_country_and_a_source_link_for_every_dataset(summary, rows):
+    md = tables.readme_block(summary, rows)
+    header = _cells(md.split("\n\n")[1].splitlines()[0])         # the table that follows the "Datasets" title
+    assert header == ["name", "dataset", "country", "what it is", "source", "instances"]
+    legend = {r[1].strip("`"): r for r in _section(md, "Datasets")}
+    assert legend["real_penmanshiel"][2] == "Scotland, UK" and legend["real_kelmarsh"][2] == "England, UK"
+    assert legend["real_chubut"][2] == "Argentina" and legend["real_bahia_blanca"][2] == "Argentina"
+    for ds in ("real_penmanshiel", "real_penmanshiel_sub10", "real_kelmarsh", "real_chubut", "real_bahia_blanca"):
+        assert "](https://" in legend[ds][4], f"{ds} needs a source link"
+    assert "zenodo.16807304" in legend["real_penmanshiel"][4] and "zenodo.16807551" in legend["real_kelmarsh"][4]
+    assert "cds.climate.copernicus.eu" in legend["real_chubut"][4] and "open-meteo.com" in legend["real_chubut"][4]
+    assert "docs/DATA.md" in legend["synthetic"][4]
+
+
+def test_every_dataset_has_a_country_and_a_source_entry():
+    for d in tables.README_ORDER + tables.BATCH2:
+        assert tables.COUNTRIES.get(d) and tables.SOURCES.get(d), d
