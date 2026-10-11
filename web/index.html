@@ -19,6 +19,19 @@
             <div class="status-dot" aria-hidden="true"></div>
             QUBO / QAOA Active
         </div>
+        <div class="demo-nav" id="demoNav" role="group" aria-label="Demo slides" hidden>
+            <button type="button" class="slide-btn" data-slide="1" aria-label="Slide 1">1</button>
+            <button type="button" class="slide-btn" data-slide="2" aria-label="Slide 2">2</button>
+            <button type="button" class="slide-btn" data-slide="3" aria-label="Slide 3">3</button>
+            <button type="button" class="slide-btn" data-slide="4" aria-label="Slide 4">4</button>
+            <button type="button" class="slide-btn" data-slide="5" aria-label="Slide 5">5</button>
+            <button type="button" class="slide-btn" data-slide="6" aria-label="Slide 6">6</button>
+            <button type="button" class="slide-btn" data-slide="7" aria-label="Slide 7">7</button>
+            <button type="button" class="slide-btn" data-slide="8" aria-label="Slide 8">8</button>
+            <button type="button" class="slide-btn" data-slide="9" aria-label="Slide 9">9</button>
+            <button type="button" class="slide-btn" data-slide="10" aria-label="Slide 10">10</button>
+        </div>
+        <button type="button" class="demo-toggle" id="demoToggle" aria-pressed="false">Demo</button>
     </nav>
 
     <!-- HERO WITH CYCLING SPLIT-FLAP -->
@@ -134,6 +147,86 @@
     </footer>
 
     <!-- CONSTANT ANIMATION SCRIPT -->
+    <!-- DEMO MODE: 10 full-screen slides, shown only when the Demo switch is on -->
+    <div id="demo" hidden>
+        <section class="slide slide-center" id="slide-1" aria-label="Slide 1 of 10: QWind">
+            <p class="slide-kicker">Quantum Impact · Qollab x IonQ hackathon</p>
+            <p class="slide-title">QWind</p>
+            <p class="slide-lead">A quantum algorithm (QAOA, in Qiskit) that picks which wind turbines to keep running, and never proposes an invalid plan.</p>
+        </section>
+        <section class="slide " id="slide-2" aria-label="Slide 2 of 10: Highlights" hidden>
+            <h2>What we found</h2>
+            <ul class="slide-list">
+                <li><strong>3 to 7.5 times</strong> more likely to find the best layout than a random valid choice, and <strong>3.4 to 17.1 times</strong> more likely than the usual penalty formulation.</li>
+                <li><strong>Exact optimum</strong> in every instance of 5 of 6 datasets, matching simulated annealing, with about 120 optimizer evaluations.</li>
+                <li><strong>100% valid plans:</strong> the "keep exactly K turbines" rule is built into the circuit.</li>
+            </ul>
+        </section>
+        <section class="slide " id="slide-3" aria-label="Slide 3 of 10: Turbines steal wind from each other" hidden>
+            <h2>Turbines steal wind from each other</h2>
+            <figure>
+                <img src="img/what_is_a_wake.png" alt="Schematic side view of two wind turbines in a row with the wind coming from the left. The first turbine has full wind and leaves behind a widening blue wake of slower, turbulent air; the second turbine stands inside that wake and gets slower wind and less power.">
+                <figcaption>A turbine standing inside another one's wake gets slower wind and produces less.</figcaption>
+            </figure>
+        </section>
+        <section class="slide " id="slide-4" aria-label="Slide 4 of 10: The decision: which turbines to keep" hidden>
+            <h2>The decision: which turbines to keep</h2>
+            <figure>
+                <img src="img/the_decision.png" alt="Top view of the 14 real turbine positions of the Penmanshiel wind farm in Scotland, with an arrow for the dominant wind direction. Seven turbines are blue (kept running) and seven are grey outlines (switched off); light blue strips downwind of the blue turbines show their wakes.">
+                <figcaption>The 14 real turbine positions of Penmanshiel (Scotland): seven are kept running.</figcaption>
+            </figure>
+        </section>
+        <section class="slide " id="slide-5" aria-label="Slide 5 of 10: How QWind works" hidden>
+            <h2>How QWind works</h2>
+            <figure>
+                <img src="img/how_it_works.png" alt="Flow diagram in five boxes: wind and turbine positions, wake model, choice problem, quantum circuit built in Qiskit that keeps exactly K turbines by construction, and the answer, the K turbines to keep running.">
+                <figcaption>Five steps, from wind and positions to the K turbines to keep.</figcaption>
+            </figure>
+        </section>
+        <section class="slide " id="slide-6" aria-label="Slide 6 of 10: Better odds of finding the best layout" hidden>
+            <h2>Better odds of finding the best layout</h2>
+            <figure>
+                <img src="img/multipliers.png" alt="Horizontal bar chart for six datasets: how many times more likely the XY mixer + Dicke circuit is to sample the best layout than random valid choice (3 to 7.5 times) and than the best penalty version (3.4 to 17.1 times); the tallest bar is Penmanshiel, 17.1 times.">
+                <figcaption>How many times more likely the circuit is to sample the best layout, on six datasets.</figcaption>
+            </figure>
+        </section>
+        <section class="slide " id="slide-7" aria-label="Slide 7 of 10: Reaching the exact optimum" hidden>
+            <h2>Reaching the exact optimum</h2>
+            <figure>
+                <img src="img/chance_of_best.png" alt="Horizontal bar chart for six datasets: share of instances where the best of 1000 samples is the exact optimum. The XY mixer + Dicke circuit reaches 100% on five datasets and 67% on Penmanshiel; the penalty formulation reaches between 0% and 100%.">
+                <figcaption>Share of instances where the best of 1000 samples is the exact optimum.</figcaption>
+            </figure>
+        </section>
+        <section class="slide " id="slide-8" aria-label="Slide 8 of 10: Always a valid plan" hidden>
+            <h2>Always a valid plan</h2>
+            <figure>
+                <img src="img/valid_plans.png" alt="Horizontal bar chart for six datasets: share of the circuit&#x27;s probability that falls on valid layouts. The XY mixer + Dicke circuit is at 100% everywhere; the penalty formulation is between 26% and 64%.">
+                <figcaption>Share of the circuit's probability that falls on valid layouts.</figcaption>
+            </figure>
+        </section>
+        <section class="slide " id="slide-9" aria-label="Slide 9 of 10: Circuit depth" hidden>
+            <h2>Circuit depth</h2>
+            <figure>
+                <img src="img/depth.png" alt="Line chart for the synthetic dataset: probability of sampling the best layout at circuit depths 1, 2 and 3. The XY mixer + Dicke circuit rises from 5.0% to 7.2%; the penalty formulation stays near 1%; random valid choice is a flat line near 2%.">
+                <figcaption>Probability of sampling the best layout at circuit depths 1, 2 and 3 (synthetic dataset).</figcaption>
+            </figure>
+        </section>
+        <section class="slide " id="slide-10" aria-label="Slide 10 of 10: Real hardware and credits" hidden>
+            <h2>Ran on real quantum hardware: IonQ Forte 1 (36q)</h2>
+            <table class="slide-table">
+                <caption>N = 6 cells, K = 3 turbines, depth p = 1, 997 shots, one run.</caption>
+                <thead><tr><th scope="col"></th><th scope="col">P(optimal), valid samples only</th></tr></thead>
+                <tbody>
+                    <tr><th scope="row">Ideal (exact)</th><td>0.1784</td></tr>
+                    <tr><th scope="row">IonQ Forte 1, measured</th><td>0.1665</td></tr>
+                    <tr><th scope="row">Random choice among valid layouts</th><td>0.1000</td></tr>
+                </tbody>
+            </table>
+            <p class="slide-lead">The best sampled layout was the exact optimum. No quantum advantage is claimed.</p>
+            <p class="slide-support"><strong>This effort is supported by Qollab &amp; IonQ</strong> · MIT License · <a href="https://github.com/agustindiazcano/qwind-qaoa-windfarm">github.com/agustindiazcano/qwind-qaoa-windfarm</a></p>
+        </section>
+    </div>
+
     <script>
         const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
@@ -164,6 +257,44 @@
             setTimeout(runSplitFlapCycle, 600);
             setInterval(runSplitFlapCycle, 5000);
         }
+    </script>
+
+    <script>
+        // Demo mode: full-screen slides, buttons 1-10, left/right arrow keys, Escape to exit.
+        (function () {
+            const toggle = document.getElementById('demoToggle');
+            const demo = document.getElementById('demo');
+            const nav = document.getElementById('demoNav');
+            const slides = Array.from(demo.querySelectorAll('.slide'));
+            const buttons = Array.from(nav.querySelectorAll('.slide-btn'));
+            let current = 0;
+
+            function show(i) {
+                current = Math.max(0, Math.min(slides.length - 1, i));
+                slides.forEach((el, k) => { el.hidden = k !== current; });
+                buttons.forEach((b, k) => {
+                    if (k === current) b.setAttribute('aria-current', 'true');
+                    else b.removeAttribute('aria-current');
+                });
+            }
+
+            function setDemo(on) {
+                document.body.classList.toggle('demo-on', on);
+                demo.hidden = !on;
+                nav.hidden = !on;
+                toggle.setAttribute('aria-pressed', String(on));
+                if (on) show(current);
+            }
+
+            toggle.addEventListener('click', () => setDemo(toggle.getAttribute('aria-pressed') !== 'true'));
+            buttons.forEach((b, k) => b.addEventListener('click', () => show(k)));
+            document.addEventListener('keydown', (e) => {
+                if (!document.body.classList.contains('demo-on')) return;
+                if (e.key === 'ArrowRight') { show(current + 1); e.preventDefault(); }
+                else if (e.key === 'ArrowLeft') { show(current - 1); e.preventDefault(); }
+                else if (e.key === 'Escape') { setDemo(false); toggle.focus(); }
+            });
+        })();
     </script>
 
 </body>
