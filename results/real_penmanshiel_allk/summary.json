@@ -1,0 +1,1040 @@
+{
+  "schema_version": "1.0",
+  "status": "final",
+  "protocol": {
+    "id": "qwind-v1",
+    "depths": [
+      1,
+      2,
+      3
+    ],
+    "restarts": 2,
+    "maxiter": 60,
+    "shots": 1000,
+    "lam_ref_mult": 10.0,
+    "lam_multipliers": [
+      1.0,
+      3.0,
+      10.0
+    ],
+    "ramp_total_time_factor": 0.75,
+    "sa_reads": 5,
+    "variants": [
+      "penalty+x lam=1",
+      "penalty+x lam=3",
+      "penalty+x lam=10",
+      "penalty+x lam=10 ramp",
+      "xy+dicke",
+      "xy+dicke ramp"
+    ]
+  },
+  "environment": {
+    "python": "3.12.15",
+    "qiskit": "2.5.2",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0"
+  },
+  "datasets": [
+    {
+      "dataset": "real_penmanshiel_allk",
+      "status": "final",
+      "n_instances": 9
+    }
+  ],
+  "instances": [
+    {
+      "dataset": "real_penmanshiel_allk",
+      "instance_id": 0,
+      "wind_rose": "penmanshiel",
+      "N": 14,
+      "K": 3,
+      "grid_rows": 14,
+      "grid_cols": 1,
+      "seed": 0
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "instance_id": 1,
+      "wind_rose": "penmanshiel",
+      "N": 14,
+      "K": 4,
+      "grid_rows": 14,
+      "grid_cols": 1,
+      "seed": 1
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "instance_id": 2,
+      "wind_rose": "penmanshiel",
+      "N": 14,
+      "K": 5,
+      "grid_rows": 14,
+      "grid_cols": 1,
+      "seed": 2
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "instance_id": 3,
+      "wind_rose": "penmanshiel",
+      "N": 14,
+      "K": 6,
+      "grid_rows": 14,
+      "grid_cols": 1,
+      "seed": 3
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "instance_id": 4,
+      "wind_rose": "penmanshiel",
+      "N": 14,
+      "K": 7,
+      "grid_rows": 14,
+      "grid_cols": 1,
+      "seed": 4
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "instance_id": 5,
+      "wind_rose": "penmanshiel",
+      "N": 14,
+      "K": 8,
+      "grid_rows": 14,
+      "grid_cols": 1,
+      "seed": 5
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "instance_id": 6,
+      "wind_rose": "penmanshiel",
+      "N": 14,
+      "K": 9,
+      "grid_rows": 14,
+      "grid_cols": 1,
+      "seed": 6
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "instance_id": 7,
+      "wind_rose": "penmanshiel",
+      "N": 14,
+      "K": 10,
+      "grid_rows": 14,
+      "grid_cols": 1,
+      "seed": 7
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "instance_id": 8,
+      "wind_rose": "penmanshiel",
+      "N": 14,
+      "K": 11,
+      "grid_rows": 14,
+      "grid_cols": 1,
+      "seed": 8
+    }
+  ],
+  "results": [
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "exact",
+      "variant": "exact",
+      "p": null,
+      "n_instances": 9,
+      "metrics": {
+        "energy_gap": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "time_s": {
+          "mean": 2.89211442022225,
+          "std": 0.7509726193605214,
+          "ci95_low": 2.4014789755733763,
+          "ci95_high": 3.382749864871124
+        }
+      }
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "sa",
+      "variant": "sa",
+      "p": null,
+      "n_instances": 9,
+      "metrics": {
+        "energy_gap": {
+          "mean": 0.0,
+          "std": 0.0,
+          "ci95_low": 0.0,
+          "ci95_high": 0.0
+        },
+        "time_s": {
+          "mean": 1.2719500976666624,
+          "std": 0.3045686916020323,
+          "ci95_low": 1.0729652191533348,
+          "ci95_high": 1.4709349761799901
+        }
+      }
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "greedy",
+      "variant": "greedy",
+      "p": null,
+      "n_instances": 9,
+      "metrics": {
+        "energy_gap": {
+          "mean": 0.002008991652257603,
+          "std": 0.00568228648263407,
+          "ci95_low": -0.0017034355163966556,
+          "ci95_high": 0.005721418820911862
+        },
+        "time_s": {
+          "mean": 0.027889481444453343,
+          "std": 0.012107063531172805,
+          "ci95_low": 0.019979533270753774,
+          "ci95_high": 0.03579942961815291
+        }
+      }
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "penalty+x lam=1",
+      "p": 1,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.0014627786572151136,
+          "std": 0.0037572101296252354,
+          "ci95_low": -0.000991931960806707,
+          "ci95_high": 0.003917489275236934
+        },
+        "p_feasible": {
+          "mean": 0.14835016440230459,
+          "std": 0.09913269608831331,
+          "ci95_low": 0.08358346962460655,
+          "ci95_high": 0.21311685918000262
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5137615887973976,
+          "std": 0.04891147598505286,
+          "ci95_low": 0.4818060911538298,
+          "ci95_high": 0.5457170864409655
+        },
+        "n_evals": {
+          "mean": 79.88888888888889,
+          "std": 21.44991294695852,
+          "ci95_low": 65.87494576354266,
+          "ci95_high": 93.90283201423512
+        },
+        "time_s": {
+          "mean": 18.53363613133335,
+          "std": 5.490087297670465,
+          "ci95_low": 14.946779096855312,
+          "ci95_high": 22.120493165811386
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 0.4444444444444444,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "penalty+x lam=3",
+      "p": 1,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.0015658278619579827,
+          "std": 0.004000660541437309,
+          "ci95_low": -0.0010479370251143922,
+          "ci95_high": 0.004179592749030358
+        },
+        "p_feasible": {
+          "mean": 0.24668819676765874,
+          "std": 0.17784766101167723,
+          "ci95_low": 0.13049439157336296,
+          "ci95_high": 0.3628820019619545
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.515124031703757,
+          "std": 0.047520078870717006,
+          "ci95_low": 0.48407758017488856,
+          "ci95_high": 0.5461704832326254
+        },
+        "n_evals": {
+          "mean": 90.11111111111111,
+          "std": 28.297799068103608,
+          "ci95_low": 71.6232157199501,
+          "ci95_high": 108.59900650227213
+        },
+        "time_s": {
+          "mean": 20.23892095644445,
+          "std": 5.732808803442848,
+          "ci95_low": 16.493485871528456,
+          "ci95_high": 23.984356041360442
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 0.8888888888888888,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10",
+      "p": 1,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.00034030160381095246,
+          "std": 0.0004022595058042168,
+          "ci95_low": 7.74920600188642e-05,
+          "ci95_high": 0.0006031111476030407
+        },
+        "p_feasible": {
+          "mean": 0.22914922373301472,
+          "std": 0.1186724688040519,
+          "ci95_low": 0.15161654411436748,
+          "ci95_high": 0.30668190335166196
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5135157319105027,
+          "std": 0.046898271516852455,
+          "ci95_low": 0.4828755278528258,
+          "ci95_high": 0.5441559359681797
+        },
+        "n_evals": {
+          "mean": 100.11111111111111,
+          "std": 15.786382630077412,
+          "ci95_low": 89.79734112612721,
+          "ci95_high": 110.42488109609502
+        },
+        "time_s": {
+          "mean": 19.69109575299999,
+          "std": 5.477171301105563,
+          "ci95_low": 16.112677169611022,
+          "ci95_high": 23.269514336388955
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 0.4444444444444444,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10 ramp",
+      "p": 1,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.0016145540982412138,
+          "std": 0.003788277659333191,
+          "ci95_low": -0.0008604539725231375,
+          "ci95_high": 0.004089562169005565
+        },
+        "p_feasible": {
+          "mean": 0.27807232379473396,
+          "std": 0.04842207672006846,
+          "ci95_low": 0.24643656700428923,
+          "ci95_high": 0.3097080805851787
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5114030297043759,
+          "std": 0.04633025299992412,
+          "ci95_low": 0.4811339310777588,
+          "ci95_high": 0.541672128330993
+        },
+        "n_evals": {
+          "mean": 85.77777777777777,
+          "std": 22.943301020742307,
+          "ci95_low": 70.78815444422614,
+          "ci95_high": 100.7674011113294
+        },
+        "time_s": {
+          "mean": 18.27594510333336,
+          "std": 9.14551138588526,
+          "ci95_low": 12.300877664554989,
+          "ci95_high": 24.25101254211173
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 0.4444444444444444,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "xy+dicke",
+      "p": 1,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.01121778105530997,
+          "std": 0.022533197858540542,
+          "ci95_low": -0.003503908212269851,
+          "ci95_high": 0.02593947032288979
+        },
+        "p_feasible": {
+          "mean": 1.0000000000000007,
+          "std": 1.3989593314471656e-15,
+          "ci95_low": 0.9999999999999998,
+          "ci95_high": 1.0000000000000016
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.6121828391062147,
+          "std": 0.045403106560307875,
+          "ci95_low": 0.5825194761534802,
+          "ci95_high": 0.6418462020589493
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 59.291728988888885,
+          "std": 10.963967193986125,
+          "ci95_low": 52.12860375548462,
+          "ci95_high": 66.45485422229315
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.6666666666666666
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "xy+dicke ramp",
+      "p": 1,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.006521106471812089,
+          "std": 0.01370424133807088,
+          "ci95_low": -0.0024323312023942197,
+          "ci95_high": 0.015474544146018399
+        },
+        "p_feasible": {
+          "mean": 0.9999999999999996,
+          "std": 2.073737585520563e-15,
+          "ci95_low": 0.9999999999999982,
+          "ci95_high": 1.0000000000000009
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5525302373474291,
+          "std": 0.033182374213383,
+          "ci95_low": 0.5308510861946856,
+          "ci95_high": 0.5742093885001727
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 60.205141487555565,
+          "std": 11.690974300522395,
+          "ci95_low": 52.56703827788093,
+          "ci95_high": 67.84324469723019
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.5555555555555556
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "penalty+x lam=1",
+      "p": 2,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.0007707665613779753,
+          "std": 0.0016038109916086862,
+          "ci95_low": -0.0002770566198063663,
+          "ci95_high": 0.001818589742562317
+        },
+        "p_feasible": {
+          "mean": 0.215630320252734,
+          "std": 0.1240206342089348,
+          "ci95_low": 0.1346035059028966,
+          "ci95_high": 0.29665713460257137
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5112520678043291,
+          "std": 0.045753653727847086,
+          "ci95_low": 0.48135968070213564,
+          "ci95_high": 0.5411444549065225
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 36.37327978444444,
+          "std": 8.367517372268328,
+          "ci95_low": 30.9065017678958,
+          "ci95_high": 41.84005780099308
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 0.4444444444444444,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "penalty+x lam=3",
+      "p": 2,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.002618662089151576,
+          "std": 0.00652956942950239,
+          "ci95_low": -0.0016473232714566519,
+          "ci95_high": 0.006884647449759805
+        },
+        "p_feasible": {
+          "mean": 0.39420391375988795,
+          "std": 0.12729735865834585,
+          "ci95_low": 0.311036306103102,
+          "ci95_high": 0.4773715214166739
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5127728358625628,
+          "std": 0.04792404429928233,
+          "ci95_low": 0.4814624602536984,
+          "ci95_high": 0.5440832114714272
+        },
+        "n_evals": {
+          "mean": 119.11111111111111,
+          "std": 2.514157444218836,
+          "ci95_low": 117.46852824755481,
+          "ci95_high": 120.75369397466741
+        },
+        "time_s": {
+          "mean": 36.75305523222222,
+          "std": 9.122662546722049,
+          "ci95_low": 30.79291570169715,
+          "ci95_high": 42.71319476274729
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 0.6666666666666666,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10",
+      "p": 2,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.00323679730294406,
+          "std": 0.008249602324910739,
+          "ci95_low": -0.0021529428826642895,
+          "ci95_high": 0.00862653748855241
+        },
+        "p_feasible": {
+          "mean": 0.32518288858462713,
+          "std": 0.22534386958778851,
+          "ci95_low": 0.1779582271206053,
+          "ci95_high": 0.472407550048649
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5146566287806734,
+          "std": 0.047273304761712084,
+          "ci95_low": 0.4837714030030215,
+          "ci95_high": 0.5455418545583253
+        },
+        "n_evals": {
+          "mean": 114.0,
+          "std": 8.339997335464536,
+          "ci95_low": 108.55120174082984,
+          "ci95_high": 119.44879825917016
+        },
+        "time_s": {
+          "mean": 34.603768381999984,
+          "std": 8.005708266881319,
+          "ci95_low": 29.373372314304188,
+          "ci95_high": 39.83416444969578
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 0.5555555555555556,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10 ramp",
+      "p": 2,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.001964100770298589,
+          "std": 0.004413335781362077,
+          "ci95_low": -0.0009192786068579675,
+          "ci95_high": 0.004847480147455146
+        },
+        "p_feasible": {
+          "mean": 0.3858313868383237,
+          "std": 0.0900706725442402,
+          "ci95_low": 0.3269852141094201,
+          "ci95_high": 0.44467755956722727
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5179700030268658,
+          "std": 0.04703392864994921,
+          "ci95_low": 0.4872411696422323,
+          "ci95_high": 0.5486988364114993
+        },
+        "n_evals": {
+          "mean": 114.11111111111111,
+          "std": 8.359219055024013,
+          "ci95_low": 108.64975466182875,
+          "ci95_high": 119.57246756039348
+        },
+        "time_s": {
+          "mean": 38.892012669222225,
+          "std": 11.885568958612327,
+          "ci95_low": 31.12677428292884,
+          "ci95_high": 46.657251055515616
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 0.8888888888888888,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "xy+dicke",
+      "p": 2,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.018652172258648334,
+          "std": 0.03403903631226481,
+          "ci95_low": -0.0035866647986980103,
+          "ci95_high": 0.04089100931599468
+        },
+        "p_feasible": {
+          "mean": 1.0000000000000002,
+          "std": 1.5154984844421956e-15,
+          "ci95_low": 0.9999999999999992,
+          "ci95_high": 1.000000000000001
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.6557017619111633,
+          "std": 0.03502371358313439,
+          "ci95_low": 0.6328196023701821,
+          "ci95_high": 0.6785839214521444
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 70.82656133622226,
+          "std": 12.986529171172396,
+          "ci95_low": 62.342028944389625,
+          "ci95_high": 79.31109372805489
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 1.0
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "xy+dicke ramp",
+      "p": 2,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.005930473449365575,
+          "std": 0.013404240184426201,
+          "ci95_low": -0.002826963471126211,
+          "ci95_high": 0.01468791036985736
+        },
+        "p_feasible": {
+          "mean": 0.9999999999999998,
+          "std": 2.42843222812582e-15,
+          "ci95_low": 0.9999999999999982,
+          "ci95_high": 1.0000000000000013
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5740760116188549,
+          "std": 0.04288052469084229,
+          "ci95_low": 0.5460607354875047,
+          "ci95_high": 0.6020912877502052
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 69.53067875333335,
+          "std": 13.468347839825592,
+          "ci95_low": 60.7313581646473,
+          "ci95_high": 78.3299993420194
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.3333333333333333
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "penalty+x lam=1",
+      "p": 3,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.0018072332852268366,
+          "std": 0.004375146784810328,
+          "ci95_low": -0.0010511959475159108,
+          "ci95_high": 0.004665662517969584
+        },
+        "p_feasible": {
+          "mean": 0.2688452438554404,
+          "std": 0.13009770246198013,
+          "ci95_low": 0.1838480782469467,
+          "ci95_high": 0.3538424094639341
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5158780399218265,
+          "std": 0.06526133252236503,
+          "ci95_low": 0.47324063600721467,
+          "ci95_high": 0.5585154438364383
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 50.721950943666656,
+          "std": 14.176959301393026,
+          "ci95_low": 41.45967086675655,
+          "ci95_high": 59.984231020576765
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 0.4444444444444444,
+      "frac_beating_uniform_p_optimal": 0.1111111111111111
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "penalty+x lam=3",
+      "p": 3,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.0006655900427055988,
+          "std": 0.0015546602949341403,
+          "ci95_low": -0.00035012134998470604,
+          "ci95_high": 0.0016813014353959036
+        },
+        "p_feasible": {
+          "mean": 0.16258715634242282,
+          "std": 0.14358282989969742,
+          "ci95_low": 0.06877970747462052,
+          "ci95_high": 0.2563946052102251
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5049947340847833,
+          "std": 0.0463648938986305,
+          "ci95_low": 0.47470300340434474,
+          "ci95_high": 0.5352864647652219
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 52.44575005177777,
+          "std": 13.110586802968118,
+          "ci95_low": 43.8801666738386,
+          "ci95_high": 61.01133342971694
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 0.1111111111111111,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10",
+      "p": 3,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.002643552115812043,
+          "std": 0.007044142269026641,
+          "ci95_low": -0.0019586208332853625,
+          "ci95_high": 0.007245725064909449
+        },
+        "p_feasible": {
+          "mean": 0.2452352391391046,
+          "std": 0.18759217333786196,
+          "ci95_low": 0.1226750192250348,
+          "ci95_high": 0.3677954590531744
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5116176645637596,
+          "std": 0.047542964733924796,
+          "ci95_low": 0.48055626093759535,
+          "ci95_high": 0.5426790681899237
+        },
+        "n_evals": {
+          "mean": 118.44444444444444,
+          "std": 2.9481109247603556,
+          "ci95_low": 116.51834530693435,
+          "ci95_high": 120.37054358195454
+        },
+        "time_s": {
+          "mean": 47.26931127866669,
+          "std": 8.754902294927021,
+          "ci95_low": 41.54944177931437,
+          "ci95_high": 52.98918077801901
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 0.4444444444444444,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "penalty+x lam=10 ramp",
+      "p": 3,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.0022503629147041576,
+          "std": 0.005166136600114935,
+          "ci95_low": -0.001124846330704267,
+          "ci95_high": 0.005625572160112582
+        },
+        "p_feasible": {
+          "mean": 0.42515067191675093,
+          "std": 0.18420463132240986,
+          "ci95_low": 0.30480364611944316,
+          "ci95_high": 0.5454976977140586
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5171409403537295,
+          "std": 0.047175379031189506,
+          "ci95_low": 0.486319692720019,
+          "ci95_high": 0.54796218798744
+        },
+        "n_evals": {
+          "mean": 117.66666666666667,
+          "std": 4.371625682868001,
+          "ci95_low": 114.81053788719291,
+          "ci95_high": 120.52279544614044
+        },
+        "time_s": {
+          "mean": 49.811193441666624,
+          "std": 10.16165670691945,
+          "ci95_low": 43.17224439314592,
+          "ci95_high": 56.45014249018733
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 0.8888888888888888,
+      "frac_beating_uniform_p_optimal": 0.0
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "xy+dicke",
+      "p": 3,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.02097991654552231,
+          "std": 0.03534011960680844,
+          "ci95_low": -0.0021089615975925374,
+          "ci95_high": 0.044068794688637156
+        },
+        "p_feasible": {
+          "mean": 0.999999999999999,
+          "std": 2.4032047603860196e-15,
+          "ci95_low": 0.9999999999999974,
+          "ci95_high": 1.0000000000000007
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.6679289821099825,
+          "std": 0.02864802960013494,
+          "ci95_low": 0.6492122694378943,
+          "ci95_high": 0.6866456947820707
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 80.8653559615556,
+          "std": 14.810290955829815,
+          "ci95_low": 71.18929920374678,
+          "ci95_high": 90.5414127193644
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 1.0
+    },
+    {
+      "dataset": "real_penmanshiel_allk",
+      "method": "qaoa",
+      "variant": "xy+dicke ramp",
+      "p": 3,
+      "n_instances": 9,
+      "metrics": {
+        "p_optimal": {
+          "mean": 0.0065008555280645225,
+          "std": 0.013074391165809215,
+          "ci95_low": -0.0020410800335974987,
+          "ci95_high": 0.015042791089726544
+        },
+        "p_feasible": {
+          "mean": 1.0000000000000009,
+          "std": 2.8846814226072755e-15,
+          "ci95_low": 0.999999999999999,
+          "ci95_high": 1.0000000000000027
+        },
+        "approx_ratio_feasible": {
+          "mean": 0.5814077203167454,
+          "std": 0.04207153614970539,
+          "ci95_low": 0.5539209833656045,
+          "ci95_high": 0.6088944572678863
+        },
+        "n_evals": {
+          "mean": 120.0,
+          "std": 0.0,
+          "ci95_low": 120.0,
+          "ci95_high": 120.0
+        },
+        "time_s": {
+          "mean": 76.21016131033336,
+          "std": 16.18968818606605,
+          "ci95_low": 65.63289836210355,
+          "ci95_high": 86.78742425856318
+        }
+      },
+      "baselines": {
+        "uniform_feasible_p_optimal": 0.00524013024013024,
+        "uniform_feasible_ratio": 0.5142596430015358,
+        "random_p_hit": 0.5693536373007613
+      },
+      "frac_beating_uniform_ratio": 1.0,
+      "frac_beating_uniform_p_optimal": 0.3333333333333333
+    }
+  ],
+  "caveats": [
+    "Pairwise-additive Jensen wake losses (documented approximation, docs/model.md).",
+    "Small instances (6-12 cells) on an ideal statevector simulator; no hardware, no noise.",
+    "No quantum advantage is claimed. At these sizes classical methods solve the problem exactly in milliseconds.",
+    "Random feasible sampling with the same number of shots also finds the optimum almost surely; compare the distributions (P(optimal), approximation ratio), not the best sample.",
+    "QAOA with the XY mixer and Dicke start uses a generic exponential-size state preparation in this simulation.",
+    "The 95% intervals are normal approximations over instances.",
+    "The real-farm datasets are a curtailment/selection problem (choose K of the existing turbine positions to keep operating), not layout design.",
+    "Kelmarsh (dataset real_kelmarsh, 6 turbines, C(6,K) <= 20 subsets) is a trivial contrast: exact enumeration is instantaneous; it is reported on its own and never averaged with other datasets.",
+    "Real datasets use a real wind rose (ERA5 100 m, docs/DATA.md) on a synthetic grid of candidate cells, not a real farm layout; the wake model does not use mean wind speed yet."
+  ]
+}

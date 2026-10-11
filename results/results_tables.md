@@ -196,6 +196,40 @@ Evaluation budgets are not matched across methods (simulated annealing uses far 
 | 9 | 14 | 2 | 0.000 | 0.000 | 0.503 | 0.501 | 120 |
 | 9 | 14 | 3 | 0.000 | 0.000 | 0.502 | 0.501 | 120 |
 
+## real_penmanshiel_allk (9 instances, status final)
+
+### QAOA against the uniform-over-feasible baseline
+
+| variant | p | instances | P(optimal) | uniform P(optimal) | P(feasible) | approx. ratio (feasible) | uniform approx. ratio | beat uniform ratio | beat uniform P(optimal) | optimizer evaluations |
+|---|---|---|---|---|---|---|---|---|---|---|
+| penalty+x lam=1 | 1 | 9 | 0.001 | 0.005 | 0.148 | 0.514 | 0.514 | 4/9 | 0/9 | 80 |
+| penalty+x lam=3 | 1 | 9 | 0.002 | 0.005 | 0.247 | 0.515 | 0.514 | 8/9 | 0/9 | 90 |
+| penalty+x lam=10 | 1 | 9 | 0.000 | 0.005 | 0.229 | 0.514 | 0.514 | 4/9 | 0/9 | 100 |
+| penalty+x lam=10 ramp | 1 | 9 | 0.002 | 0.005 | 0.278 | 0.511 | 0.514 | 4/9 | 0/9 | 86 |
+| xy+dicke | 1 | 9 | 0.011 | 0.005 | 1.000 | 0.612 | 0.514 | 9/9 | 6/9 | 120 |
+| xy+dicke ramp | 1 | 9 | 0.007 | 0.005 | 1.000 | 0.553 | 0.514 | 9/9 | 5/9 | 120 |
+| penalty+x lam=1 | 2 | 9 | 0.001 | 0.005 | 0.216 | 0.511 | 0.514 | 4/9 | 0/9 | 120 |
+| penalty+x lam=3 | 2 | 9 | 0.003 | 0.005 | 0.394 | 0.513 | 0.514 | 6/9 | 0/9 | 119 |
+| penalty+x lam=10 | 2 | 9 | 0.003 | 0.005 | 0.325 | 0.515 | 0.514 | 5/9 | 0/9 | 114 |
+| penalty+x lam=10 ramp | 2 | 9 | 0.002 | 0.005 | 0.386 | 0.518 | 0.514 | 8/9 | 0/9 | 114 |
+| xy+dicke | 2 | 9 | 0.019 | 0.005 | 1.000 | 0.656 | 0.514 | 9/9 | 9/9 | 120 |
+| xy+dicke ramp | 2 | 9 | 0.006 | 0.005 | 1.000 | 0.574 | 0.514 | 9/9 | 3/9 | 120 |
+| penalty+x lam=1 | 3 | 9 | 0.002 | 0.005 | 0.269 | 0.516 | 0.514 | 4/9 | 1/9 | 120 |
+| penalty+x lam=3 | 3 | 9 | 0.001 | 0.005 | 0.163 | 0.505 | 0.514 | 1/9 | 0/9 | 120 |
+| penalty+x lam=10 | 3 | 9 | 0.003 | 0.005 | 0.245 | 0.512 | 0.514 | 4/9 | 0/9 | 118 |
+| penalty+x lam=10 ramp | 3 | 9 | 0.002 | 0.005 | 0.425 | 0.517 | 0.514 | 8/9 | 0/9 | 118 |
+| xy+dicke | 3 | 9 | 0.021 | 0.005 | 1.000 | 0.668 | 0.514 | 9/9 | 9/9 | 120 |
+| xy+dicke ramp | 3 | 9 | 0.007 | 0.005 | 1.000 | 0.581 | 0.514 | 9/9 | 3/9 | 120 |
+
+### Evaluation budget per method
+
+| method | mean evaluations | mean energy gap | mean time (s) |
+|---|---|---|---|
+| exact | 16384 | 0.0000 | 2.892 |
+| sa | 5005 | 0.0000 | 1.272 |
+| greedy | n/a | 0.0020 | 0.028 |
+| qaoa | 112 | 0.0250 | 46.697 |
+
 ## real_penmanshiel_sub10 (3 instances, status final)
 
 ### QAOA against the uniform-over-feasible baseline

@@ -143,6 +143,38 @@ All numbers come from `results/summary.json` and `results/per_instance.csv` (fix
 - At N = 14 (Penmanshiel) the probability of sampling the optimal layout is tiny in absolute terms for both QAOA and the uniform baseline; what improves is the distribution over feasible layouts.
 - One run per instance, one simulator, at most 14 cells. Results come from one environment (Python 3.12.15 in GitHub Actions). A Run on Qollab (Python 3.14.2) can give slightly different values; we do not claim reproducibility across environments.
 
+### More instances: Penmanshiel with every K
+
+The first batch has three values of K for Penmanshiel. To test the result on more instances, we ran the same protocol on the 14 real turbines with every K from 3 to 11. The design was written down before running ([docs/PROTOCOL_EXTENSION.md](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/docs/PROTOCOL_EXTENSION.md)).
+
+The best sample of the XY mixer + Dicke circuit is the exact optimum for 8 of the 9 values of K, and its probability of sampling the best layout is 1.5 to 14.0 times higher than random valid choice. Random valid choice finds the best layout with probability 0.25 to 1.00, depending on K.
+
+<!-- RESULTS2:START -->
+**Datasets** (short name used in the tables below; the full name is the dataset id in `results/`)
+
+| name | dataset | country | what it is | source | instances |
+|---|---|---|---|---|---|
+| Penmanshiel-allK | `real_penmanshiel_allk` | Scotland, UK | All 14 real Penmanshiel positions with every K from 3 to 11 (9 instances) | [Zenodo](https://doi.org/10.5281/zenodo.16807304), CC BY 4.0 | 9 |
+
+**Constraint-preserving QAOA (XY mixer + Dicke start) against the uniform-over-feasible baseline, depth p = 3**
+
+| dataset | instances | P(optimal) | uniform P(optimal) | approx. ratio (feasible) | uniform ratio | beat uniform ratio | beat uniform P(optimal) | evaluations |
+|---|---|---|---|---|---|---|---|---|
+| Penmanshiel-allK | 9 | 0.021 | 0.005 | 0.668 | 0.514 | 9/9 | 9/9 | 120 |
+
+**Penalty QAOA (X mixer), all settings of the sweep** (penalty weight 1, 3 and 10 times max|h|, plus one ramp variant; p = 1-3). Range of instances that beat the uniform baseline over settings and depths:
+
+| dataset | instances | settings | beat uniform ratio | beat uniform P(optimal) | P(feasible) range |
+|---|---|---|---|---|---|
+| Penmanshiel-allK | 9 | 4 | 1-8/9 | 0-1/9 | 0.15-0.43 |
+
+**Final solution quality against the classical methods** (gap to the exact optimum, mean over the instances of each dataset; XY + Dicke at depth p = 3, best layout of its 1000 samples). The budgets are not matched: simulated annealing uses far more objective evaluations than QAOA, and random feasible sampling uses the same 1000 samples as QAOA:
+
+| dataset | SA gap | SA evaluations | greedy gap | XY+Dicke best-sample gap | XY+Dicke found the optimum | random feasible sampling finds the optimum (probability) | XY+Dicke evaluations |
+|---|---|---|---|---|---|---|---|
+| Penmanshiel-allK | 0.0000 | 5005 | 0.0020 | 0.0020 | 8/9 | 0.57 | 120 |
+<!-- RESULTS2:END -->
+
 ## How to run
 
 **On Qollab:** click **Run your code** with the built-in simulator.
