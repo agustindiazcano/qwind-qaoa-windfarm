@@ -126,3 +126,19 @@ def synthetic_instance_specs():
                 i = len(specs)
                 specs.append(InstanceSpec("synthetic", i, rose, n, K, i))
     return specs
+
+
+# Extended synthetic sets (docs/PROTOCOL_EXTENSION.md), fixed before running: larger N at the same protocol.
+# dataset -> (N, K values); 2 K values x 3 roses = 6 instances each, seeds 100+ so they never overlap the base set.
+SYNTHETIC_EXTENDED = {"synthetic_n16": (16, (5, 8)), "synthetic_n18": (18, (6, 9))}
+
+
+def extended_synthetic_specs(dataset):
+    n, ks = SYNTHETIC_EXTENDED[dataset]
+    first_seed = 100 if dataset == "synthetic_n16" else 110
+    specs = []
+    for K in ks:
+        for rose in SYNTHETIC_ROSES:
+            i = len(specs)
+            specs.append(InstanceSpec(dataset, i, rose, n, K, first_seed + i))
+    return specs

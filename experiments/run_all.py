@@ -43,17 +43,19 @@ from qwind.qubo import build_qubo  # noqa: E402
 from qwind.classical import exact_enumeration, simulated_annealing, greedy_local_search  # noqa: E402
 from qwind.qaoa import run_qaoa, energy_table  # noqa: E402
 from qwind.instances import (  # noqa: E402
-    InstanceSpec, SYNTHETIC_ROSES, build_instance, farm_coords_D, load_farm, load_wind_rose,
+    InstanceSpec, SYNTHETIC_EXTENDED, SYNTHETIC_ROSES, extended_synthetic_specs, build_instance, farm_coords_D, load_farm, load_wind_rose,
     select_closest_to_centroid, synthetic_instance_specs)
 
-DATASET_RE = re.compile(r"^(synthetic|real_[a-z0-9_]+)$")
+DATASET_RE = re.compile(r"^(synthetic(_[a-z0-9]+)?|real_[a-z0-9_]+)$")
 
 # Real farms (qollab/data/farms.json): the N candidate cells ARE the real turbine positions and we choose K of them.
 # Fixed before running: K is about 1/3, 1/2 and 2/3 of N. Dataset name = "real_" + farm key.
 REAL_FARMS = {"penmanshiel": (14, (5, 7, 9)), "kelmarsh": (6, (2, 3, 4))}
 # Fixed sub-instances of a real farm (OFFLINE datasets): dataset -> (farm key, N, K values). Rule written before any
 # result: the N turbines closest to the farm centroid (ties by turbine id order), original ids kept. K ~ 1/3, 1/2, 2/3 of N.
-REAL_FARM_SUBSETS = {"real_penmanshiel_sub10": ("penmanshiel", 10, (3, 5, 7))}
+# dataset -> (farm, number of cells, K values). real_penmanshiel_allk: all 14 turbines with K = 3..11 (docs/PROTOCOL_EXTENSION.md)
+REAL_FARM_SUBSETS = {"real_penmanshiel_sub10": ("penmanshiel", 10, (3, 5, 7)),
+                     "real_penmanshiel_allk": ("penmanshiel", 14, tuple(range(3, 12)))}
 FARMS_PATH = os.path.join(ROOT, "qollab", "data", "farms.json")
 
 FULL_PROTOCOL = {
@@ -123,7 +125,7 @@ def grid_for(spec):
 
 
 def rose_for(spec, windrose_path=None):
-    if spec.dataset == "synthetic":
+    if spec.dataset.startswith("synthetic"):
         return SYNTHETIC_ROSES[spec.wind_rose]
     return load_wind_rose(windrose_path or os.path.join(ROOT, "qollab", "data", "windrose.json"), spec.wind_rose)
 
@@ -332,6 +334,8 @@ def specs_for_dataset(dataset, site=None):
     """synthetic | real_<farm> (real turbine layout) | real_<site> (real rose on the synthetic grid)."""
     if dataset == "synthetic":
         return synthetic_instance_specs()
+    if dataset in SYNTHETIC_EXTENDED:
+        return extended_synthetic_specs(dataset)
     site = site or site_from_dataset(dataset)
     if site in REAL_FARMS or dataset in REAL_FARM_SUBSETS:
         return farm_instance_specs(dataset)
