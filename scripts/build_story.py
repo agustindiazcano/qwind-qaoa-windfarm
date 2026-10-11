@@ -387,7 +387,7 @@ def short_deck(first):
         (K("Open source", "Código abierto"), K("MIT license, 150+ tests, protocol fixed before running.", "Licencia MIT, más de 150 tests, protocolo fijado antes de correr."), ""),
         (K("Try it", "Probalo"), K("Open the project page on Qollab and click <strong>Run your code</strong>.", "Abrí la página del proyecto en Qollab y hacé clic en <strong>Run your code</strong>."), "")], "cards-3")
         + f'\n            <p class="slide-lead">{K("Thank you.", "Gracias.")}</p>'
-        + f'\n            <p class="slide-support"><strong>This effort is supported by Qollab &amp; IonQ</strong> · {K("MIT License", "Licencia MIT")} · <a href="https://github.com/agustindiazcano/qwind-qaoa-windfarm">github.com/agustindiazcano/qwind-qaoa-windfarm</a> · <a href="https://qollab.xyz/u/agustindiazcano/qwind">{K("Qollab project page", "Página del proyecto en Qollab")}</a></p>')
+        + f'\n            <p class="slide-support"><strong>This effort is supported by Qollab &amp; IonQ</strong> · {K("MIT License", "Licencia MIT")} · <a href="https://github.com/agustindiazcano/qwind-qaoa-windfarm">github.com/agustindiazcano/qwind-qaoa-windfarm</a> · <a href="https://qollab.xyz/u/agustindiazcano/qwind">{K("Qollab project page", "Página del proyecto en Qollab")}</a> · <a href="https://youtu.be/UGVkgYGXkF4">{K("Demo video", "Video de la demo")}</a></p>')
     slides.append((K("Thank you", "Gracias"), closing, ""))
     return slides
 
@@ -407,7 +407,7 @@ def slides_html():
         last = (f'<p class="slide-kicker">{L("Quantum Impact · Qollab x IonQ hackathon", "Impacto cuántico · Hackatón Qollab x IonQ")}</p>'
                 '\n            <p class="slide-title slide-title-sm">Q<span class="wind">Wind</span></p>'
                 f'\n            <p class="slide-lead">{L("Put the rule inside the circuit, and always compare against the simple baselines.", "Poné la regla dentro del circuito y comparalo siempre con las alternativas simples.")}</p>'
-                f'\n            <p class="slide-support"><strong>This effort is supported by Qollab &amp; IonQ</strong> · {L("MIT License", "Licencia MIT")} · <a href="https://github.com/agustindiazcano/qwind-qaoa-windfarm">github.com/agustindiazcano/qwind-qaoa-windfarm</a> · <a href="https://qollab.xyz/u/agustindiazcano/qwind">{L("Qollab project page", "Página del proyecto en Qollab")}</a></p>')
+                f'\n            <p class="slide-support"><strong>This effort is supported by Qollab &amp; IonQ</strong> · {L("MIT License", "Licencia MIT")} · <a href="https://github.com/agustindiazcano/qwind-qaoa-windfarm">github.com/agustindiazcano/qwind-qaoa-windfarm</a> · <a href="https://qollab.xyz/u/agustindiazcano/qwind">{L("Qollab project page", "Página del proyecto en Qollab")}</a> · <a href="https://youtu.be/UGVkgYGXkF4">{L("Demo video", "Video de la demo")}</a></p>')
         slides = [("QWind", first, "slide-center")]
         slides += [(plain(u["title"]), f'<h2>{u["title"]}</h2>\n            {u["body"]}', u["cls"]) for u in U]
         slides.append((L("Thank you", "Gracias"), last, "slide-center"))
@@ -446,7 +446,11 @@ def home_html():
         pass
     for lang in ("en", "es"):
         globals()["LANG"] = lang
-        h = ""
+        vtitle = L("QWind demo video", "Video de la demo de QWind")
+        h = (f'\n        <section class="home-section"><h2 class="section-title">{L("Watch the demo", "Mirá la demo")}</h2>'
+             f'<div class="video-frame home-box glass-surface"><iframe src="https://www.youtube-nocookie.com/embed/UGVkgYGXkF4" title="{vtitle}" loading="lazy" '
+             'allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>'
+             f'<p class="slide-note">{L("Prefer YouTube?", "¿Preferís YouTube?")} <a href="https://youtu.be/UGVkgYGXkF4">youtu.be/UGVkgYGXkF4</a></p></section>')
         charts = ""
         for u in units():
             if u["home"] is False:
@@ -542,8 +546,7 @@ def nav_html(n):
         <div class="nav-links">
             <a class="btn btn-icon" href="https://github.com/agustindiazcano/qwind-qaoa-windfarm" aria-label="GitHub repository" data-es-label="Repositorio de GitHub">{GITHUB_SVG}</a>
             <a class="btn" href="https://qollab.xyz/u/agustindiazcano/qwind">{span2("Qollab page", "Página en Qollab")}</a>
-            <!-- TODO(owner): replace with the public demo video URL (the video must have captions) -->
-            <span class="btn btn-icon btn-todo" role="img" aria-label="Demo video on YouTube, link pending" data-es-label="Video de la demo en YouTube, enlace pendiente" title="Demo video: link pending">{YT_SVG}</span>
+            <a class="btn btn-icon" href="https://youtu.be/UGVkgYGXkF4" aria-label="Demo video on YouTube" data-es-label="Video de la demo en YouTube">{YT_SVG}</a>
             <a class="btn" href="references.html"{{{{current:references.html}}}}>{span2("References", "Referencias")}</a>
             <a class="btn" href="team.html"{{{{current:team.html}}}}>{span2("Team", "Equipo")}</a>
         </div>
