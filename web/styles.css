@@ -1774,3 +1774,15 @@ html[data-theme="light"] .theme-toggle .i-sun { display: none; }
 .short-results .cards .card-big { font-size: clamp(1.5rem, 3.2vw, 2.6rem); }
 .short-results .cards .card-label { font-size: clamp(0.85rem, 1.3vw, 1.1rem); }
 @media (max-width: 800px) { .short-charts { grid-template-columns: 1fr; } .short-switch { right: 16px; } }
+
+/* --- Short demo: both classical comparisons in one slide --- */
+.short-versus { display: grid; grid-template-columns: 1.15fr 1fr; gap: 2vw; width: 100%; max-width: 1500px; align-items: start; }
+.short-versus .slide-table { font-size: clamp(0.65rem, 1vw, 0.9rem); width: 100%; max-width: none; }
+.short-versus .slide-table th, .short-versus .slide-table td { padding: 6px 10px; }
+.short-versus .cards { grid-template-columns: 1fr; gap: 1vh; }
+.short-versus .card { padding: 1vh 1vw; }
+.short-versus .card-big { font-size: clamp(1.2rem, 2.2vw, 1.8rem); }
+.short-versus .card-label { font-size: clamp(0.72rem, 1vw, 0.9rem); margin-top: 0.3vh; }
+.short-versus .pbar-row { font-size: clamp(0.8rem, 1.2vw, 1rem); }
+.short-versus .slide-note, .short-versus .slide-legend { font-size: clamp(0.75rem, 1.05vw, 0.95rem); }
+@media (max-width: 900px) { .short-versus { grid-template-columns: 1fr; } }

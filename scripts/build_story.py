@@ -20,6 +20,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 G, Y, R = "tl tl-green", "tl tl-yellow", "tl tl-red"
 
 LANG = "en"
+CTX = "slide"  # "home" keeps the full notes; the demo slides use shorter ones
 _uid = itertools.count(1)
 
 
@@ -246,7 +247,8 @@ def units():
                ("5 " + K("of", "de") + " 7", K("<strong>Our circuit</strong> (quantum)<br>exact best in every case of 5 datasets; 2 of 3 and 8 of 9 cases in the other two", "<strong>Nuestro circuito</strong> (cuántico)<br>mejor exacta en todos los casos de 5 conjuntos; 2 de 3 y 8 de 9 casos en los otros dos"), Y)], "cards-3")
         + f'<p class="slide-note">{K("Tries used to get there", "Intentos usados para llegar ahí")}</p>'
         + pbars([(K("Simulated annealing", "Recocido simulado"), d("5,005") if LANG == "en" else "5.005", 100, "pf-blue"), (K("Our circuit", "Nuestro circuito"), "120", 2.4, "pf-green")])
-        + f'<p class="slide-note"><strong>{K("Almost the same result with about 40 times fewer tries, and we claim no quantum advantage:", "Casi el mismo resultado con unas 40 veces menos intentos, y no afirmamos ventaja cuántica:")}</strong> {K("the classical method is still exact in every case. The budgets are not matched (one circuit try costs more than a classical one) and the circuit is simulated on a CPU.", "el método clásico sigue siendo exacto en todos los casos. Los presupuestos no son equivalentes (un intento del circuito cuesta más que uno clásico) y el circuito se simula en una CPU.")}</p>')
+        + (f'<p class="slide-note"><strong>{K("Almost the same result with about 40 times fewer tries.", "Casi el mismo resultado con unas 40 veces menos intentos.")}</strong></p>' if CTX == "slide" else
+           f'<p class="slide-note"><strong>{K("Almost the same result with about 40 times fewer tries, and we claim no quantum advantage:", "Casi el mismo resultado con unas 40 veces menos intentos, y no afirmamos ventaja cuántica:")}</strong> {K("the classical method is still exact in every case. The budgets are not matched (one circuit try costs more than a classical one) and the circuit is simulated on a CPU.", "el método clásico sigue siendo exacto en todos los casos. Los presupuestos no son equivalentes (un intento del circuito cuesta más que uno clásico) y el circuito se simula en una CPU.")}</p>'))
     z, a1, a2, a3 = d("0.0000"), d("0.0129"), d("0.0060"), d("0.0020")
     add("competitive", K("Competitive with the classical methods", "Competitivo con los métodos clásicos"),
         table(K("Average gap to the exact best answer (0 = perfect). Same instances as the scorecard.", "Diferencia promedio con la mejor respuesta exacta (0 = perfecto). Mismos casos que el cuadro anterior."),
@@ -258,7 +260,8 @@ def units():
             ["Kelmarsh", (z, G), (z, G), (z, G)],
             ["Chubut", (z, G), (z, G), (z, G)],
             ["Bahía Blanca" if LANG == "es" else "Bahia Blanca", (z, G), (z, G), (z, G)]], "slide-table-sm")
-        + f'<p class="slide-note"><strong>{K("Our results are competitive with classical methods at these sizes, and we claim no quantum advantage.", "Nuestros resultados son competitivos con los métodos clásicos a estos tamaños, y no afirmamos ventaja cuántica.")}</strong> {K("Classical methods also solve all of these exactly.", "Los métodos clásicos también resuelven todos estos casos de forma exacta.")}</p>' + legend())
+        + (f'<p class="slide-note"><strong>{K("Our results are competitive with classical methods at these sizes.", "Nuestros resultados son competitivos con los métodos clásicos a estos tamaños.")}</strong></p>' if CTX == "slide" else
+           f'<p class="slide-note"><strong>{K("Our results are competitive with classical methods at these sizes, and we claim no quantum advantage.", "Nuestros resultados son competitivos con los métodos clásicos a estos tamaños, y no afirmamos ventaja cuántica.")}</strong> {K("Classical methods also solve all of these exactly.", "Los métodos clásicos también resuelven todos estos casos de forma exacta.")}</p>') + legend())
     add("kit", K("Built with the hackathon kit", "Hecho con el kit del hackatón"),
         table(K("What the rules asked for, and what we used.", "Lo que pedían las reglas y lo que usamos."), [K("Requirement", "Requisito"), K("What we did", "Qué hicimos")], [
             [K("Use the Qiskit framework", "Usar el framework Qiskit"), (K("Qiskit 2.5.2; the circuit is built by hand with Qiskit, plus NumPy and SciPy", "Qiskit 2.5.2; el circuito está hecho a mano con Qiskit, más NumPy y SciPy"), G)],
@@ -335,41 +338,52 @@ def span2(en, es):
 
 
 def decision_short():
-    """Penmanshiel map with the key numbers and the money, for the short deck."""
-    base = decision()
-    svg = base[base.index("<svg"):base.index("</svg>") + 6]
-    keys = base[base.index('<p class="dmap-key">'):base.index('<div class="cards cards-2">')]
-    stats = base[base.index('<div class="cards cards-2">'):base.index('<p class="slide-note">')]
-    money = cards([("176 MWh", L("extra energy per 1,000 hours, keeping 7 turbines", "de energía extra por cada 1.000 horas, dejando 7 turbinas"), ""),
-                   (L("$11.6k to $23.2k", "$11,6k a $23,2k"), L("what it could be worth, at $66 to $132 per MWh", "lo que podría valer, a $66 a $132 por MWh"), G)], "cards-2")
-    note = f'<p class="slide-note">{L("Real Penmanshiel layout, modelled losses. An illustrative scale, not a forecast and not a measured saving.", "Disposición real de Penmanshiel, pérdidas calculadas con un modelo. Una escala ilustrativa, no un pronóstico ni un ahorro medido.")}</p>'
-    return '<div class="dmap-wrap short-dmap">' + svg + '<div class="dmap-side">' + keys + stats + money + note + "</div></div>"
+    """Penmanshiel map with the 4.0% vs 8.0% numbers, for the short deck."""
+    return decision().replace('<div class="dmap-wrap">', '<div class="dmap-wrap short-dmap">', 1)
 
 
 def short_deck(first):
-    """Condensed presentation (9 slides): problem, impact, why quantum, solution, results, classical, hardware, closing."""
+    """Condensed presentation (11 slides): real hardware first, then problem, real data, impact, money, why quantum,
+    how it works, key results, the classical comparison in one slide, closing."""
     U = {u["key"]: u for u in units()}
     K = L
+
+    def slide(title, h2, body, cls=""):
+        return (title, f"<h2>{h2}</h2>\n            {body}", cls)
+
     slides = [("QWind", first, "slide-center")]
-    slides.append((K("The problem", "El problema"), f'<h2>{K("The problem: turbines steal wind from each other", "El problema: las turbinas se roban viento entre sí")}</h2>\n            ' + U["what"]["body"], ""))
-    slides.append((K("The impact", "El impacto"), f'<h2>{K("Choosing well: less energy lost, real money", "Elegir bien: menos energía perdida, dinero real")}</h2>\n            ' + decision_short(), ""))
-    slides.append((K("Why quantum", "Por qué cuántica"), f'<h2>{U["why"]["title"]}</h2>\n            ' + U["why"]["body"], ""))
-    slides.append((K("The solution", "La solución"), f'<h2>{K("The solution: QWind", "La solución: QWind")}</h2>\n            ' + U["quantum"]["body"], ""))
-    charts = "".join(U[f"chart{i}"]["body"] for i in (0, 1, 2))
-    results = (cards([("100%", K("valid plans, always", "de planes válidos, siempre"), G),
-                      (K("up to 17.1&times;", "hasta 17,1&times;"), K("more likely to find the best layout than the usual quantum penalty version", "más chance de encontrar la mejor elección que la versión cuántica habitual con penalización"), G),
-                      (K("5 of 6", "5 de 6"), K("datasets: the exact best layout in every case", "conjuntos de datos: la mejor elección exacta en todos los casos"), G)], "cards-3")
-               + f'<div class="short-charts">{charts}</div>')
-    slides.append((K("Key results", "Resultados clave"), f'<h2>{K("Key results", "Resultados clave")}</h2>\n            ' + results, "short-results"))
-    slides.append((K("Against the classical methods", "Frente a los métodos clásicos"), f'<h2>{U["versus"]["title"]}</h2>\n            ' + U["versus"]["body"], ""))
+
+    # 2. real hardware (the one that lands best, right after the hello)
     hw = (cards([("IonQ Forte 1", K("Real quantum computer, 36 qubits, through Qollab. A small case: 6 positions, keep 3 turbines, 997 shots, one run.", "Computadora cuántica real, 36 qubits, a través de Qollab. Un caso chico: 6 posiciones, dejar 3 turbinas, 997 disparos, una corrida."), ""),
                  ("22%", K("of the samples were invalid because of real noise; they are spotted and discarded", "de las muestras fueron inválidas por el ruido real; se detectan y se descartan"), Y)], "cards-2")
           + f'<p class="slide-note">{K("Chance of sampling the best layout, valid samples only.", "Chance de muestrear la mejor elección, solo con muestras válidas.")}</p>'
           + pbars([(K("Ideal simulator", "Simulador ideal"), d("0.1784"), 100, "pf-blue"), (K("IonQ Forte 1 (real hardware)", "IonQ Forte 1 (hardware real)"), d("0.1665"), 93, "pf-green"), (K("Random valid choice", "Elección válida al azar"), d("0.1000"), 56, "pf-red")])
           + f'<p class="slide-note">{K("Even with real noise, the best sample was the exact best layout.", "Aun con ruido real, la mejor muestra fue la mejor elección exacta.")}</p>')
-    slides.append((K("Real quantum hardware", "Hardware cuántico real"), f'<h2>{K("Tested on real quantum hardware", "Probado en hardware cuántico real")}</h2>\n            ' + hw, ""))
+    slides.append(slide(K("Real quantum hardware", "Hardware cuántico real"), K("Tested on real quantum hardware", "Probado en hardware cuántico real"), hw))
+
+    slides.append(slide(K("The problem", "El problema"), K("The problem: turbines steal wind from each other", "El problema: las turbinas se roban viento entre sí"), U["what"]["body"]))
+    slides.append(slide(K("Real data", "Datos reales"), U["data"]["title"], U["data"]["body"]))
+    slides.append(slide(K("The impact", "El impacto"), U["decision"]["title"], decision_short()))
+    slides.append(slide(K("The money", "El dinero"), U["money"]["title"], U["money"]["body"]))
+    slides.append(slide(K("Why quantum", "Por qué cuántica"), U["why"]["title"], U["why"]["body"]))
+    slides.append(slide(K("How it works", "Cómo funciona"), U["flow"]["title"], U["flow"]["body"]))
+
+    charts = "".join(U[f"chart{i}"]["body"] for i in (0, 1, 2))
+    results = (cards([("100%", K("valid plans, always", "de planes válidos, siempre"), G),
+                      (K("up to 17.1&times;", "hasta 17,1&times;"), K("more likely to find the best layout than the usual quantum penalty version", "más chance de encontrar la mejor elección que la versión cuántica habitual con penalización"), G),
+                      (K("5 of 6", "5 de 6"), K("datasets: the exact best layout in every case", "conjuntos de datos: la mejor elección exacta en todos los casos"), G)], "cards-3")
+               + f'<div class="short-charts">{charts}</div>')
+    slides.append(slide(K("Key results", "Resultados clave"), K("Key results", "Resultados clave"), results, "short-results"))
+
+    # 10. both classical comparisons in one slide: the three cards + tries on the right, the gap table on the left
+    vb, cb = U["versus"]["body"], U["competitive"]["body"]
+    cards_part = vb[vb.index('<div class="cards'):vb.index('<p class="slide-note">')]
+    bars_part = vb[vb.index('<p class="slide-note">'):]
+    merged = f'<div class="short-versus"><div class="sv-left">{cb}</div><div class="sv-right">{cards_part}{bars_part}</div></div>'
+    slides.append(slide(K("Against the classical methods", "Frente a los métodos clásicos"), U["versus"]["title"], merged, "short-versus-slide"))
+
     closing = (f'<h2>{K("Built on Qollab, open source, try it yourself", "Hecho en Qollab, código abierto, probalo vos")}</h2>\n            ' + cards([
-        (K("Qiskit + Qollab", "Qiskit + Qollab"), K("Built with the hackathon kit; runs on Qollab's built-in simulator in about 20 seconds.", "Hecho con el kit del hackatón; corre en el simulador integrado de Qollab en unos 20 segundos."), ""),
+        ("Qiskit + Qollab", K("Our circuit is a QAOA, built by hand in Qiskit with the hackathon kit; it runs on Qollab's built-in simulator in about 20 seconds.", "Nuestro circuito es un QAOA, hecho a mano en Qiskit con el kit del hackatón; corre en el simulador integrado de Qollab en unos 20 segundos."), ""),
         (K("Open source", "Código abierto"), K("MIT license, 150+ tests, protocol fixed before running.", "Licencia MIT, más de 150 tests, protocolo fijado antes de correr."), ""),
         (K("Try it", "Probalo"), K("Open the project page on Qollab and click <strong>Run your code</strong>.", "Abrí la página del proyecto en Qollab y hacé clic en <strong>Run your code</strong>."), "")], "cards-3")
         + f'\n            <p class="slide-lead">{K("Thank you.", "Gracias.")}</p>'
@@ -426,6 +440,7 @@ def glassify(body):
 
 
 def home_html():
+    globals()["CTX"] = "home"
     parts = []
     for lang, _ in (("en", 0), ("es", 0)):
         pass
@@ -448,6 +463,7 @@ def home_html():
               f'<p class="slide-note">{L("The charts are in English.", "Los gráficos están en inglés.")}</p><div class="chart-grid">{charts}</div></section>')
         parts.append(lang_block(lang, h, cls="home-story"))
     globals()["LANG"] = "en"
+    globals()["CTX"] = "slide"
     return "\n        ".join(parts)
 
 
