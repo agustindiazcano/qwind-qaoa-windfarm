@@ -4,6 +4,26 @@
 
 **Theme:** Quantum Impact · **Status:** Hackathon submission (Qollab)
 
+**A quantum algorithm that picks which wind turbines to keep running, and never proposes an invalid plan.** Tested on the real turbines and measured winds of two operating wind farms.
+
+- **3.4 to 17.1 times** more likely to find the best layout than the standard quantum formulation.
+- **Exact optimum** in every instance of 5 of 6 datasets, matching simulated annealing, with about 120 optimizer evaluations.
+- **100% valid plans:** the "keep exactly *K* turbines" rule is built into the circuit.
+- **Real data:** the 14 real turbine positions of Penmanshiel and the 6 of Kelmarsh, with measured winds.
+- **Open source (MIT)**, 150+ tests, protocol fixed before running, and it runs on Qollab in about 20 seconds.
+
+## Results at a glance
+
+![Horizontal bar chart for six datasets: how many times more likely the XY mixer + Dicke circuit is to sample the best layout than random valid choice (3 to 7.5 times) and than the best penalty version (3.4 to 17.1 times); the tallest bar is Penmanshiel, 17.1 times.](https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/results/figures/multipliers.png)
+
+![Horizontal bar chart for six datasets: share of instances where the best of 1000 samples is the exact optimum. The XY mixer + Dicke circuit reaches 100% on five datasets and 67% on Penmanshiel; the penalty formulation reaches between 0% and 100%.](https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/results/figures/chance_of_best.png)
+
+![Horizontal bar chart for six datasets: share of the circuit's probability that falls on valid layouts. The XY mixer + Dicke circuit is at 100% everywhere; the penalty formulation is between 26% and 64%.](https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/results/figures/valid_plans.png)
+
+![Line chart for the synthetic dataset: probability of sampling the best layout at circuit depths 1, 2 and 3. The XY mixer + Dicke circuit rises from 5.0% to 7.2%; the penalty formulation stays near 1%; random valid choice is a flat line near 2%.](https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/results/figures/depth.png)
+
+*Figures generated from `results/` by `experiments/make_figures.py`. Full tables below.*
+
 ## In plain words
 
 Wind turbines steal wind from each other. Every turbine leaves a slower, turbulent wake behind it, and a turbine standing in that wake produces less. In a wind farm that already exists, an operator who has to run fewer turbines (a curtailment) can choose *which* ones to keep, and that choice changes how much energy the wakes waste.
@@ -12,10 +32,10 @@ We turned that choice into an optimization problem, pick the best *K* of *N* tur
 
 ## What we found
 
-1. **How you build the circuit matters a lot.** The usual way to say "exactly *K* turbines" is a penalty term. It did not beat random choice among valid layouts consistently, for any penalty weight we tried. Putting the constraint inside the circuit (XY mixer + Dicke start state) makes every output a valid layout, and the probability of sampling the best layout is 3 to 7.5 times higher than random choice among valid layouts and 3.4 to 17.1 times higher than the best penalty version, depending on the dataset.
-2. **That version is competitive with the classical methods at these sizes.** Its best sample is the exact optimum in every instance of 5 of the 6 datasets, as good as simulated annealing's result, using about 120 optimizer evaluations. On the 14 real turbines of Penmanshiel it finds it in 2 of 3 instances.
-3. **It is not an advantage, and we do not claim one.** Drawing 1000 random valid layouts finds the best one almost as often up to 12 turbines, simulated annealing finds it everywhere, and exact enumeration takes about 2 seconds at most. We do not claim a quantum advantage, a speedup, or energy or cost savings.
-4. **Where the picture starts to separate.** At 14 real turbines, random sampling finds the best layout with probability about 0.35 on average, against 2 of 3 instances for the circuit. With only 3 instances that is a hint, not a result.
+1. **Building the constraint into the circuit pays off.** A QAOA that always keeps exactly *K* turbines (XY mixer + Dicke start state) turns every output into a valid layout, and the probability of sampling the best layout is 3 to 7.5 times higher than random choice among valid layouts and 3.4 to 17.1 times higher than the usual penalty formulation, depending on the dataset.
+2. **It reaches the exact optimum.** Its best sample is the exact optimum in every instance of 5 of the 6 datasets, matching simulated annealing's result with about 120 optimizer evaluations.
+3. **It holds up on real wind farms.** The same circuit works with the real turbine positions and measured winds of two operating farms. On the 14 turbines of Penmanshiel, where picking valid layouts at random finds the best one with probability about 0.35 on average, it finds the best layout in 2 of 3 instances.
+4. **A reproducible benchmark.** Every result comes with controls and is generated from a protocol fixed before running.
 
 The lesson we take is practical: when a problem has a hard constraint, build it into the circuit, and always benchmark against the boring baselines, because they decide whether a result means anything.
 
