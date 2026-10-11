@@ -5,6 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QWind — Quantum Wind Farm Optimization</title>
+    <script>
+        // Keep the page invisible until the web fonts are ready, so text does not jump when they swap in.
+        (function () {
+            var root = document.documentElement;
+            root.classList.add('fonts-loading');
+            function done() { root.classList.remove('fonts-loading'); }
+            var fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+            var loaded = new Promise(function (r) { window.addEventListener('load', r); });
+            Promise.all([fonts, loaded]).then(done);
+            setTimeout(done, 1000);
+        })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
@@ -15,7 +27,7 @@
 
     <!-- NAVBAR WITH GLASS SURFACE -->
     <nav class="glass-surface" aria-label="Site">
-        <a class="nav-logo" href="index.html" aria-label="QWind, back to the top">Q<span>WIND</span></a>
+        <a class="nav-logo" href="index.html" aria-label="QWind, back to the top">Q<span>Wind</span></a>
         <div class="nav-links">
             <a class="btn btn-icon" href="https://github.com/agustindiazcano/qwind-qaoa-windfarm" aria-label="GitHub repository"><svg viewBox="0 0 16 16" width="17" height="17" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
             <!-- TODO(owner): replace with the public Qollab project page URL -->
@@ -48,9 +60,9 @@
         <h1 class="split-flap-container" id="splitFlap" aria-label="QWind">
             <div class="split-flap-char" data-target="Q" aria-hidden="true">Q</div>
             <div class="split-flap-char" data-target="W" aria-hidden="true">W</div>
-            <div class="split-flap-char" data-target="I" aria-hidden="true">I</div>
-            <div class="split-flap-char" data-target="N" aria-hidden="true">N</div>
-            <div class="split-flap-char" data-target="D" aria-hidden="true">D</div>
+            <div class="split-flap-char" data-target="i" aria-hidden="true">i</div>
+            <div class="split-flap-char" data-target="n" aria-hidden="true">n</div>
+            <div class="split-flap-char" data-target="d" aria-hidden="true">d</div>
         </h1>
 
         <div class="badge-pill">
@@ -99,15 +111,15 @@
         <h2 class="section-title">The problem in pictures</h2>
         <div class="figure-grid">
             <figure class="figure-card glass-surface">
-                <img src="img/what_is_a_wake.png" alt="Schematic side view of two wind turbines in a row with the wind coming from the left. The first turbine has full wind and leaves behind a widening blue wake of slower, turbulent air; the second turbine stands inside that wake and gets slower wind and less power." loading="lazy">
+                <img src="img/what_is_a_wake.png" alt="Schematic side view of two wind turbines in a row with the wind coming from the left. The first turbine has full wind and leaves behind a widening blue wake of slower, turbulent air; the second turbine stands inside that wake and gets slower wind and less power." width="1472" height="736" loading="lazy">
                 <figcaption>A turbine standing inside another one's wake gets slower wind and produces less.</figcaption>
             </figure>
             <figure class="figure-card glass-surface">
-                <img src="img/the_decision.png" alt="Top view of the 14 real turbine positions of the Penmanshiel wind farm in Scotland, with an arrow for the dominant wind direction. Seven turbines are blue (kept running) and seven are grey outlines (switched off); light blue strips downwind of the blue turbines show their wakes." loading="lazy">
+                <img src="img/the_decision.png" alt="Top view of the 14 real turbine positions of the Penmanshiel wind farm in Scotland, with an arrow for the dominant wind direction. Seven turbines are blue (kept running) and seven are grey outlines (switched off); light blue strips downwind of the blue turbines show their wakes." width="1472" height="944" loading="lazy">
                 <figcaption>The 14 real turbine positions of Penmanshiel (Scotland): seven are kept running.</figcaption>
             </figure>
             <figure class="figure-card glass-surface">
-                <img src="img/how_it_works.png" alt="Flow diagram in five boxes: wind and turbine positions, wake model, choice problem, quantum circuit built in Qiskit that keeps exactly K turbines by construction, and the answer, the K turbines to keep running." loading="lazy">
+                <img src="img/how_it_works.png" alt="Flow diagram in five boxes: wind and turbine positions, wake model, choice problem, quantum circuit built in Qiskit that keeps exactly K turbines by construction, and the answer, the K turbines to keep running." width="1536" height="480" loading="lazy">
                 <figcaption>How QWind works, in five steps.</figcaption>
             </figure>
         </div>
@@ -115,19 +127,19 @@
         <h2 class="section-title">Results at a glance</h2>
         <div class="figure-grid">
             <figure class="figure-card glass-surface">
-                <img src="img/multipliers.png" alt="Horizontal bar chart for six datasets: how many times more likely the XY mixer + Dicke circuit is to sample the best layout than random valid choice (3 to 7.5 times) and than the best penalty version (3.4 to 17.1 times); the tallest bar is Penmanshiel, 17.1 times." loading="lazy">
+                <img src="img/multipliers.png" alt="Horizontal bar chart for six datasets: how many times more likely the XY mixer + Dicke circuit is to sample the best layout than random valid choice (3 to 7.5 times) and than the best penalty version (3.4 to 17.1 times); the tallest bar is Penmanshiel, 17.1 times." width="1376" height="789" loading="lazy">
                 <figcaption>How many times more likely the circuit is to sample the best layout, on six datasets.</figcaption>
             </figure>
             <figure class="figure-card glass-surface">
-                <img src="img/chance_of_best.png" alt="Horizontal bar chart for six datasets: share of instances where the best of 1000 samples is the exact optimum. The XY mixer + Dicke circuit reaches 100% on five datasets and 67% on Penmanshiel; the penalty formulation reaches between 0% and 100%." loading="lazy">
+                <img src="img/chance_of_best.png" alt="Horizontal bar chart for six datasets: share of instances where the best of 1000 samples is the exact optimum. The XY mixer + Dicke circuit reaches 100% on five datasets and 67% on Penmanshiel; the penalty formulation reaches between 0% and 100%." width="1376" height="789" loading="lazy">
                 <figcaption>Share of instances where the best of 1000 samples is the exact optimum.</figcaption>
             </figure>
             <figure class="figure-card glass-surface">
-                <img src="img/valid_plans.png" alt="Horizontal bar chart for six datasets: share of the circuit&#x27;s probability that falls on valid layouts. The XY mixer + Dicke circuit is at 100% everywhere; the penalty formulation is between 26% and 64%." loading="lazy">
+                <img src="img/valid_plans.png" alt="Horizontal bar chart for six datasets: share of the circuit&#x27;s probability that falls on valid layouts. The XY mixer + Dicke circuit is at 100% everywhere; the penalty formulation is between 26% and 64%." width="1376" height="789" loading="lazy">
                 <figcaption>Share of the circuit's probability that falls on valid layouts.</figcaption>
             </figure>
             <figure class="figure-card glass-surface">
-                <img src="img/depth.png" alt="Line chart for the synthetic dataset: probability of sampling the best layout at circuit depths 1, 2 and 3. The XY mixer + Dicke circuit rises from 5.0% to 7.2%; the penalty formulation stays near 1%; random valid choice is a flat line near 2%." loading="lazy">
+                <img src="img/depth.png" alt="Line chart for the synthetic dataset: probability of sampling the best layout at circuit depths 1, 2 and 3. The XY mixer + Dicke circuit rises from 5.0% to 7.2%; the penalty formulation stays near 1%; random valid choice is a flat line near 2%." width="1376" height="704" loading="lazy">
                 <figcaption>Probability of sampling the best layout at circuit depths 1, 2 and 3 (synthetic dataset).</figcaption>
             </figure>
         </div>
@@ -315,7 +327,7 @@
 
         // Respect "reduce motion": leave the letters still.
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            setTimeout(runSplitFlapCycle, 600);
+            setTimeout(runSplitFlapCycle, 900);
             setInterval(runSplitFlapCycle, 5000);
         }
     </script>
@@ -339,12 +351,19 @@
                 });
             }
 
-            function setDemo(on) {
+            function applyDemo(on) {
                 document.body.classList.toggle('demo-on', on);
                 demo.hidden = !on;
                 nav.hidden = !on;
                 toggle.setAttribute('aria-checked', String(on));
                 if (on) show(current);
+            }
+
+            // Cross-fade between normal and demo mode (browsers without view transitions switch instantly).
+            function setDemo(on) {
+                const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (document.startViewTransition && !reduce) document.startViewTransition(() => applyDemo(on));
+                else applyDemo(on);
             }
 
             toggle.addEventListener('click', () => setDemo(toggle.getAttribute('aria-checked') !== 'true'));
@@ -425,6 +444,24 @@
             btn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: reduce.matches ? 'auto' : 'smooth' });
             });
+            update();
+        })();
+    </script>
+    <script>
+        // Background colour drifts softly while scrolling: --p goes from 0 (top) to 1 (bottom of the page).
+        (function () {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            var root = document.documentElement, ticking = false;
+            function update() {
+                var max = root.scrollHeight - window.innerHeight;
+                var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+                root.style.setProperty('--p', p.toFixed(3));
+                ticking = false;
+            }
+            window.addEventListener('scroll', function () {
+                if (!ticking) { ticking = true; requestAnimationFrame(update); }
+            }, { passive: true });
+            window.addEventListener('resize', update);
             update();
         })();
     </script>

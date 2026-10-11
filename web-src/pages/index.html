@@ -11,9 +11,9 @@ demo: true
         <h1 class="split-flap-container" id="splitFlap" aria-label="QWind">
             <div class="split-flap-char" data-target="Q" aria-hidden="true">Q</div>
             <div class="split-flap-char" data-target="W" aria-hidden="true">W</div>
-            <div class="split-flap-char" data-target="I" aria-hidden="true">I</div>
-            <div class="split-flap-char" data-target="N" aria-hidden="true">N</div>
-            <div class="split-flap-char" data-target="D" aria-hidden="true">D</div>
+            <div class="split-flap-char" data-target="i" aria-hidden="true">i</div>
+            <div class="split-flap-char" data-target="n" aria-hidden="true">n</div>
+            <div class="split-flap-char" data-target="d" aria-hidden="true">d</div>
         </h1>
 
         <div class="badge-pill">
@@ -62,15 +62,15 @@ demo: true
         <h2 class="section-title">The problem in pictures</h2>
         <div class="figure-grid">
             <figure class="figure-card glass-surface">
-                <img src="img/what_is_a_wake.png" alt="Schematic side view of two wind turbines in a row with the wind coming from the left. The first turbine has full wind and leaves behind a widening blue wake of slower, turbulent air; the second turbine stands inside that wake and gets slower wind and less power." loading="lazy">
+                <img src="img/what_is_a_wake.png" alt="Schematic side view of two wind turbines in a row with the wind coming from the left. The first turbine has full wind and leaves behind a widening blue wake of slower, turbulent air; the second turbine stands inside that wake and gets slower wind and less power." width="1472" height="736" loading="lazy">
                 <figcaption>A turbine standing inside another one's wake gets slower wind and produces less.</figcaption>
             </figure>
             <figure class="figure-card glass-surface">
-                <img src="img/the_decision.png" alt="Top view of the 14 real turbine positions of the Penmanshiel wind farm in Scotland, with an arrow for the dominant wind direction. Seven turbines are blue (kept running) and seven are grey outlines (switched off); light blue strips downwind of the blue turbines show their wakes." loading="lazy">
+                <img src="img/the_decision.png" alt="Top view of the 14 real turbine positions of the Penmanshiel wind farm in Scotland, with an arrow for the dominant wind direction. Seven turbines are blue (kept running) and seven are grey outlines (switched off); light blue strips downwind of the blue turbines show their wakes." width="1472" height="944" loading="lazy">
                 <figcaption>The 14 real turbine positions of Penmanshiel (Scotland): seven are kept running.</figcaption>
             </figure>
             <figure class="figure-card glass-surface">
-                <img src="img/how_it_works.png" alt="Flow diagram in five boxes: wind and turbine positions, wake model, choice problem, quantum circuit built in Qiskit that keeps exactly K turbines by construction, and the answer, the K turbines to keep running." loading="lazy">
+                <img src="img/how_it_works.png" alt="Flow diagram in five boxes: wind and turbine positions, wake model, choice problem, quantum circuit built in Qiskit that keeps exactly K turbines by construction, and the answer, the K turbines to keep running." width="1536" height="480" loading="lazy">
                 <figcaption>How QWind works, in five steps.</figcaption>
             </figure>
         </div>
@@ -78,19 +78,19 @@ demo: true
         <h2 class="section-title">Results at a glance</h2>
         <div class="figure-grid">
             <figure class="figure-card glass-surface">
-                <img src="img/multipliers.png" alt="Horizontal bar chart for six datasets: how many times more likely the XY mixer + Dicke circuit is to sample the best layout than random valid choice (3 to 7.5 times) and than the best penalty version (3.4 to 17.1 times); the tallest bar is Penmanshiel, 17.1 times." loading="lazy">
+                <img src="img/multipliers.png" alt="Horizontal bar chart for six datasets: how many times more likely the XY mixer + Dicke circuit is to sample the best layout than random valid choice (3 to 7.5 times) and than the best penalty version (3.4 to 17.1 times); the tallest bar is Penmanshiel, 17.1 times." width="1376" height="789" loading="lazy">
                 <figcaption>How many times more likely the circuit is to sample the best layout, on six datasets.</figcaption>
             </figure>
             <figure class="figure-card glass-surface">
-                <img src="img/chance_of_best.png" alt="Horizontal bar chart for six datasets: share of instances where the best of 1000 samples is the exact optimum. The XY mixer + Dicke circuit reaches 100% on five datasets and 67% on Penmanshiel; the penalty formulation reaches between 0% and 100%." loading="lazy">
+                <img src="img/chance_of_best.png" alt="Horizontal bar chart for six datasets: share of instances where the best of 1000 samples is the exact optimum. The XY mixer + Dicke circuit reaches 100% on five datasets and 67% on Penmanshiel; the penalty formulation reaches between 0% and 100%." width="1376" height="789" loading="lazy">
                 <figcaption>Share of instances where the best of 1000 samples is the exact optimum.</figcaption>
             </figure>
             <figure class="figure-card glass-surface">
-                <img src="img/valid_plans.png" alt="Horizontal bar chart for six datasets: share of the circuit&#x27;s probability that falls on valid layouts. The XY mixer + Dicke circuit is at 100% everywhere; the penalty formulation is between 26% and 64%." loading="lazy">
+                <img src="img/valid_plans.png" alt="Horizontal bar chart for six datasets: share of the circuit&#x27;s probability that falls on valid layouts. The XY mixer + Dicke circuit is at 100% everywhere; the penalty formulation is between 26% and 64%." width="1376" height="789" loading="lazy">
                 <figcaption>Share of the circuit's probability that falls on valid layouts.</figcaption>
             </figure>
             <figure class="figure-card glass-surface">
-                <img src="img/depth.png" alt="Line chart for the synthetic dataset: probability of sampling the best layout at circuit depths 1, 2 and 3. The XY mixer + Dicke circuit rises from 5.0% to 7.2%; the penalty formulation stays near 1%; random valid choice is a flat line near 2%." loading="lazy">
+                <img src="img/depth.png" alt="Line chart for the synthetic dataset: probability of sampling the best layout at circuit depths 1, 2 and 3. The XY mixer + Dicke circuit rises from 5.0% to 7.2%; the penalty formulation stays near 1%; random valid choice is a flat line near 2%." width="1376" height="704" loading="lazy">
                 <figcaption>Probability of sampling the best layout at circuit depths 1, 2 and 3 (synthetic dataset).</figcaption>
             </figure>
         </div>
@@ -245,7 +245,7 @@ demo: true
 
         // Respect "reduce motion": leave the letters still.
         if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-            setTimeout(runSplitFlapCycle, 600);
+            setTimeout(runSplitFlapCycle, 900);
             setInterval(runSplitFlapCycle, 5000);
         }
     </script>
@@ -269,12 +269,19 @@ demo: true
                 });
             }
 
-            function setDemo(on) {
+            function applyDemo(on) {
                 document.body.classList.toggle('demo-on', on);
                 demo.hidden = !on;
                 nav.hidden = !on;
                 toggle.setAttribute('aria-checked', String(on));
                 if (on) show(current);
+            }
+
+            // Cross-fade between normal and demo mode (browsers without view transitions switch instantly).
+            function setDemo(on) {
+                const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (document.startViewTransition && !reduce) document.startViewTransition(() => applyDemo(on));
+                else applyDemo(on);
             }
 
             toggle.addEventListener('click', () => setDemo(toggle.getAttribute('aria-checked') !== 'true'));
@@ -346,6 +353,7 @@ demo: true
     </script>
 
 {{> totop_script}}
+{{> scroll_bg}}
 
 </body>
 </html>

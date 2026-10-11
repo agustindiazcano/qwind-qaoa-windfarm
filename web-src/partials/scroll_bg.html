@@ -1,0 +1,18 @@
+    <script>
+        // Background colour drifts softly while scrolling: --p goes from 0 (top) to 1 (bottom of the page).
+        (function () {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            var root = document.documentElement, ticking = false;
+            function update() {
+                var max = root.scrollHeight - window.innerHeight;
+                var p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+                root.style.setProperty('--p', p.toFixed(3));
+                ticking = false;
+            }
+            window.addEventListener('scroll', function () {
+                if (!ticking) { ticking = true; requestAnimationFrame(update); }
+            }, { passive: true });
+            window.addEventListener('resize', update);
+            update();
+        })();
+    </script>

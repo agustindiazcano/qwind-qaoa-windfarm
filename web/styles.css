@@ -1494,3 +1494,56 @@ nav.glass-surface {
         animation: none;
     }
 }
+
+/* --- LOAD WITHOUT JUMPS --- */
+body {
+    transition: opacity 0.35s ease;
+}
+
+html.fonts-loading body {
+    opacity: 0;
+}
+
+.table-scroll {
+    min-height: 320px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body {
+        transition: none;
+    }
+}
+
+/* --- SCROLL BACKGROUND --- */
+/* --p (0 at the top, 1 at the bottom) is set by a small script; the glow moves and a soft tint fades in. */
+:root {
+    --p: 0;
+    --tint: rgba(99, 102, 241, 0.16);
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --tint: rgba(14, 116, 144, 0.12);
+    }
+}
+
+body {
+    background-image:
+        radial-gradient(circle at calc(20% + var(--p) * 45%) calc(20% + var(--p) * 40%), var(--glow-a) 0%, transparent 45%),
+        radial-gradient(circle at calc(80% - var(--p) * 45%) calc(80% - var(--p) * 40%), var(--glow-b) 0%, transparent 45%),
+        linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--tint) calc(var(--p) * 100%), transparent) 100%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+/* Demo mode appears with a soft fade where view transitions are not available. */
+@keyframes demo-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@supports not (view-transition-name: none) {
+    body.demo-on #demo {
+        animation: demo-in 0.4s ease both;
+    }
+}
