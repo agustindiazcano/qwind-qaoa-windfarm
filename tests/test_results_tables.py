@@ -82,8 +82,8 @@ def test_cli_writes_a_markdown_file_with_all_datasets(tmp_path, summary):
 
 def test_readme_block_numbers_come_from_the_file(summary, rows):
     md = tables.readme_block(summary, rows)
-    for d in summary["datasets"]:
-        assert d["dataset"] in md
+    for d in tables.README_ORDER:
+        assert d in md
     rec = next(r for r in summary["results"] if r["dataset"] == "synthetic" and r["variant"] == "xy+dicke" and r["p"] == 3)
     assert f"{rec['metrics']['p_optimal']['mean']:.3f}" in md
     assert f"{rec['baselines']['uniform_feasible_ratio']:.3f}" in md
@@ -100,7 +100,7 @@ def _section(md, title_part):
 def test_readme_legend_maps_short_names_to_full_dataset_ids(summary, rows):
     md = tables.readme_block(summary, rows)
     legend = _section(md, "Datasets")
-    ids = {d["dataset"] for d in summary["datasets"]}
+    ids = {d["dataset"] for d in summary["datasets"]} & set(tables.README_ORDER)     # the first batch
     assert {r[1].strip("`") for r in legend} == ids                      # the full names are the index
     assert [r[0] for r in legend] == [tables.SHORT_NAMES[d] for d in tables.README_ORDER if d in ids]
     assert len({r[0] for r in legend}) == len(legend)                      # short names are unique
@@ -118,9 +118,9 @@ def test_readme_tables_use_short_names_only(summary, rows):
 def test_readme_headline_table_is_one_row_per_dataset_at_the_deepest_p(summary, rows):
     md = tables.readme_block(summary, rows)
     body = _section(md, "depth p = 3")
-    ids = {x["dataset"] for x in summary["datasets"]}
+    ids = {x["dataset"] for x in summary["datasets"]} & set(tables.README_ORDER)
     assert [b[0] for b in body] == [tables.SHORT_NAMES[d] for d in tables.README_ORDER if d in ids]
-    assert len(body) == len(summary["datasets"])
+    assert len(body) == len(ids)
     row = next(b for b in body if b[0] == "Penmanshiel-10")
     rec = next(r for r in summary["results"] if r["dataset"] == "real_penmanshiel_sub10" and r["variant"] == "xy+dicke" and r["p"] == 3)
     assert float(row[2]) == pytest.approx(rec["metrics"]["p_optimal"]["mean"], abs=5e-4)
@@ -205,6 +205,10 @@ def _with_extra_dataset(summary, rows, source="real_penmanshiel", new="real_penm
     """Copy of summary and rows with one extra dataset, as if the second batch had been merged into results/."""
     import copy
     s = copy.deepcopy(summary)
+    s["datasets"] = [d for d in s["datasets"] if d["dataset"] != new]          # drop the real one if it is already merged
+    s["results"] = [r for r in s["results"] if r["dataset"] != new]
+    s["instances"] = [i for i in s["instances"] if i["dataset"] != new]
+    rows = [r for r in rows if r["dataset"] != new]
     s["datasets"].append(dict(next(d for d in s["datasets"] if d["dataset"] == source), dataset=new))
     s["results"] += [dict(copy.deepcopy(r), dataset=new) for r in summary["results"] if r["dataset"] == source]
     s["instances"] += [dict(i, dataset=new) for i in summary["instances"] if i["dataset"] == source]
@@ -227,8 +231,9 @@ def test_second_batch_block_only_has_second_batch_datasets(summary, rows):
 
 
 def test_second_batch_is_skipped_when_it_is_not_in_the_summary(summary, rows):
-    assert tables.batch2_datasets(summary) == []
-    s2, _ = _with_extra_dataset(summary, rows)
+    first_only = dict(summary, datasets=[d for d in summary["datasets"] if d["dataset"] in tables.README_ORDER])
+    assert tables.batch2_datasets(first_only) == []
+    s2, _ = _with_extra_dataset(first_only, rows)
     assert tables.batch2_datasets(s2) == ["real_penmanshiel_allk"]
 
 
@@ -274,3 +279,27 @@ def test_legend_gives_country_and_a_source_link_for_every_dataset(summary, rows)
 def test_every_dataset_has_a_country_and_a_source_entry():
     for d in tables.README_ORDER + tables.BATCH2:
         assert tables.COUNTRIES.get(d) and tables.SOURCES.get(d), d
+
+
+# ---- second batch: the numbers quoted in the README prose come from the result files ----
+
+def test_allk_highlights_are_computed_from_the_files(summary, rows):
+    h = tables.allk_highlights(summary, rows)
+    xy = [r for r in rows if r["dataset"] == "real_penmanshiel_allk" and r["variant"] == "xy+dicke" and r["p"] == "3"]
+    assert h["instances"] == len(xy) == 9
+    assert h["found"] == sum(abs(float(r["energy_gap"])) < 1e-9 for r in xy)
+    hits = [float(r["random_p_hit"]) for r in xy]
+    assert h["random_hit"] == (pytest.approx(min(hits)), pytest.approx(max(hits)))
+    mult = []
+    for r in xy:
+        mult.append(float(r["p_optimal"]) / float(r["uniform_feasible_p_optimal"]))
+    assert h["vs_uniform"] == (pytest.approx(min(mult)), pytest.approx(max(mult)))
+
+
+def test_readme_second_batch_section_quotes_them_and_links_the_design_note(summary, rows):
+    readme = open(os.path.join(ROOT, "README.md"), encoding="utf-8").read()
+    h = tables.allk_highlights(summary, rows)
+    assert f"{h['found']} of the {h['instances']} values of K" in readme
+    assert f"{h['random_hit'][0]:.2f} to {h['random_hit'][1]:.2f}" in readme
+    assert f"{h['vs_uniform'][0]:.1f} to {h['vs_uniform'][1]:.1f} times" in readme
+    assert "docs/PROTOCOL_EXTENSION.md" in readme and tables.START2 in readme and tables.END2 in readme

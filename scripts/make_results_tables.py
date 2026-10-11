@@ -149,6 +149,16 @@ def headline_multipliers(summary, rows, datasets=None):
             "found_optimum_datasets": all_found, "datasets": len(names)}
 
 
+def allk_highlights(summary, rows):
+    """Numbers quoted in the README prose about Penmanshiel with every K (second batch), at the deepest p."""
+    p = str(max(summary["protocol"]["depths"]))
+    xy = [r for r in rows if r["dataset"] == "real_penmanshiel_allk" and r["variant"] == "xy+dicke" and r["p"] == p]
+    hits = [float(r["random_p_hit"]) for r in xy]
+    mult = [float(r["p_optimal"]) / float(r["uniform_feasible_p_optimal"]) for r in xy]
+    return {"instances": len(xy), "found": sum(abs(float(r["energy_gap"])) < 1e-9 for r in xy),
+            "random_hit": (min(hits), max(hits)), "vs_uniform": (min(mult), max(mult))}
+
+
 START, END = "<!-- RESULTS:START -->", "<!-- RESULTS:END -->"
 START2, END2 = "<!-- RESULTS2:START -->", "<!-- RESULTS2:END -->"      # second batch (docs/PROTOCOL_EXTENSION.md)
 BATCH2 = ["real_penmanshiel_allk", "synthetic_n16"]
