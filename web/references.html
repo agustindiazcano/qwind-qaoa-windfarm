@@ -17,23 +17,35 @@
             setTimeout(done, 1000);
         })();
     </script>
+    <script>
+        // Language (EN/ES): chosen with the switch in the navbar, remembered in the browser. English by default.
+        (function () {
+            var lang = 'en';
+            try { var saved = localStorage.getItem('qwind-lang'); if (saved === 'es' || saved === 'en') lang = saved; } catch (e) {}
+            document.documentElement.setAttribute('data-ui', lang);
+        })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main"><span lang="en" data-lang="en">Skip to content</span><span lang="es" data-lang="es">Saltar al contenido</span></a>
     <!-- NAVBAR WITH GLASS SURFACE -->
-    <nav class="glass-surface" aria-label="Site">
-        <a class="nav-logo" href="index.html" aria-label="QWind, back to the top">Q<span>Wind</span></a>
+    <nav class="glass-surface" aria-label="Site" data-es-label="Sitio">
+        <a class="nav-logo" href="index.html" aria-label="QWind, back to the top" data-es-label="QWind, volver al inicio">Q<span>Wind</span></a>
         <div class="nav-links">
-            <a class="btn btn-icon" href="https://github.com/agustindiazcano/qwind-qaoa-windfarm" aria-label="GitHub repository"><svg viewBox="0 0 16 16" width="17" height="17" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
-            <a class="btn" href="https://qollab.xyz/u/agustindiazcano/qwind">Qollab page</a>
+            <a class="btn btn-icon" href="https://github.com/agustindiazcano/qwind-qaoa-windfarm" aria-label="GitHub repository" data-es-label="Repositorio de GitHub"><svg viewBox="0 0 16 16" width="17" height="17" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+            <a class="btn" href="https://qollab.xyz/u/agustindiazcano/qwind"><span lang="en" data-lang="en">Qollab page</span><span lang="es" data-lang="es">Página en Qollab</span></a>
             <!-- TODO(owner): replace with the public demo video URL (the video must have captions) -->
-            <span class="btn btn-icon btn-todo" role="img" aria-label="Demo video on YouTube, link pending" title="Demo video: link pending"><svg viewBox="0 0 24 17" width="22" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M4 0h16a4 4 0 014 4v9a4 4 0 01-4 4H4a4 4 0 01-4-4V4a4 4 0 014-4zm5.5 4.5v8l7-4z"/></svg></span>
-            <a class="btn" href="references.html" aria-current="page">References</a>
-            <a class="btn" href="team.html">Team</a>
+            <span class="btn btn-icon btn-todo" role="img" aria-label="Demo video on YouTube, link pending" data-es-label="Video de la demo en YouTube, enlace pendiente" title="Demo video: link pending"><svg viewBox="0 0 24 17" width="22" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M4 0h16a4 4 0 014 4v9a4 4 0 01-4 4H4a4 4 0 01-4-4V4a4 4 0 014-4zm5.5 4.5v8l7-4z"/></svg></span>
+            <a class="btn" href="references.html" aria-current="page"><span lang="en" data-lang="en">References</span><span lang="es" data-lang="es">Referencias</span></a>
+            <a class="btn" href="team.html"><span lang="en" data-lang="en">Team</span><span lang="es" data-lang="es">Equipo</span></a>
+        </div>
+        <div class="lang-switch" role="group" aria-label="Language" data-es-label="Idioma">
+            <button type="button" class="lang-btn" data-set-lang="en" aria-pressed="true" aria-label="English">EN</button>
+            <button type="button" class="lang-btn" data-set-lang="es" aria-pressed="false" aria-label="Español">ES</button>
         </div>
         <span class="nav-spacer" aria-hidden="true"></span>
     </nav>
@@ -117,7 +129,40 @@
         </div>
     </footer>
 
-    <button type="button" class="to-top" id="toTop" aria-label="Back to top">
+    <script>
+        // EN/ES switch: CSS shows the blocks marked data-lang; this sets the language, remembers it and swaps aria-labels.
+        (function () {
+            var root = document.documentElement;
+            var current = root.getAttribute('data-ui') === 'es' ? 'es' : 'en';
+            window.qwindLang = function () { return current; };
+
+            function swapLabels(lang) {
+                document.querySelectorAll('[data-es-label]').forEach(function (el) {
+                    if (el.__enLabel === undefined) el.__enLabel = el.getAttribute('aria-label') || '';
+                    el.setAttribute('aria-label', lang === 'es' ? el.getAttribute('data-es-label') : el.__enLabel);
+                });
+            }
+
+            function apply(lang, save) {
+                current = lang;
+                root.setAttribute('data-ui', lang);
+                if (document.getElementById('demoToggle')) root.lang = lang;
+                document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+                    b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang));
+                });
+                swapLabels(lang);
+                if (save) { try { localStorage.setItem('qwind-lang', lang); } catch (e) {} }
+                document.dispatchEvent(new CustomEvent('qwind:lang', { detail: lang }));
+            }
+
+            document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+                b.addEventListener('click', function () { apply(b.getAttribute('data-set-lang'), true); });
+            });
+            apply(current, false);
+        })();
+    </script>
+
+    <button type="button" class="to-top" id="toTop" aria-label="Back to top" data-es-label="Volver arriba">
         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M12 19V5M5 12l7-7 7 7"/></svg>
     </button>
 

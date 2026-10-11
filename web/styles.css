@@ -1687,3 +1687,62 @@ body {
 .demo-footer .demo-team strong { color: #fff; font-weight: 600; }
 .demo-footer .demo-team span { color: #94a3b8; font-size: 0.68rem; margin-left: 6px; }
 .demo-footer .demo-team li { margin: 0; }
+
+/* --- Language (EN/ES): only the blocks of the chosen language are shown --- */
+html:not([data-ui="es"]) [data-lang="es"],
+html[data-ui="es"] [data-lang="en"] { display: none !important; }
+
+.lang-switch { display: inline-flex; border: 1px solid var(--border-subtle); border-radius: 8px; overflow: hidden; }
+.lang-btn { font: inherit; font-size: 0.8rem; font-weight: 700; padding: 0 10px; height: 29px; border: 0; background: transparent; color: var(--text-muted); cursor: pointer; }
+.lang-btn[aria-pressed="true"] { background: var(--accent-cyan); color: var(--bg-base); }
+.lang-btn:focus-visible { outline: 2px solid var(--accent-cyan); outline-offset: -2px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* --- Minimalist wind turbine next to the logo (home hero and first demo slide) --- */
+.hero-brand { display: flex; align-items: center; justify-content: center; gap: clamp(14px, 3vw, 40px); }
+.hero-turbine { width: clamp(52px, 8vw, 104px); height: auto; flex: none; }
+.hero-turbine .ht-tower { fill: var(--text-muted); opacity: 0.55; }
+.hero-turbine .ht-ground { stroke: var(--text-muted); stroke-width: 3; stroke-linecap: round; opacity: 0.4; }
+.hero-turbine .ht-blades { fill: var(--accent-cyan); }
+.hero-turbine .ht-hub { fill: var(--text-main); }
+.hero-turbine .ht-spin { transform-box: view-box; transform-origin: 60px 60px; animation: spin 7s linear infinite; }
+.slide-brand { display: flex; align-items: center; justify-content: center; gap: clamp(16px, 3vw, 48px); max-width: 100%; }
+.slide-brand .slide-header-img { max-height: 40vh; }
+.slide-brand .hero-turbine { width: clamp(70px, 9vw, 130px); }
+.hero-text { max-width: 900px; margin: 0 auto; }
+
+/* --- Home story: the demo blocks, in normal page flow --- */
+.home-story { max-width: 1200px; margin: 0 auto; padding: 0 5vw; display: grid; gap: 72px; }
+.home-section { display: grid; gap: 22px; }
+.home-section .section-title { margin: 0; }
+.home-story .slide-table { font-size: clamp(0.85rem, 1.3vw, 1.05rem); width: 100%; max-width: none; }
+.home-story .slide-table caption { font-size: 0.9rem; }
+.home-story .slide-lead { font-size: clamp(1.05rem, 1.8vw, 1.35rem); }
+.home-story .slide-note { font-size: 1rem; }
+.home-story .slide-legend { font-size: 0.9rem; }
+.home-story .cards { max-width: none; gap: 16px; }
+.home-story .cards-4, .home-story .cards-3 { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.home-story .card { padding: 20px 16px; }
+.home-story .card-big { font-size: clamp(1.8rem, 3.2vw, 2.8rem); }
+.home-story .card-label { font-size: 1rem; }
+.home-story .card-big .icon { width: 56px; }
+.home-story .pbars { max-width: none; }
+.home-story .pbar-row { font-size: 1rem; }
+.home-story .illus { max-height: 280px; }
+.home-story .dmap { max-height: 520px; }
+.home-story .dmap-wrap { max-width: none; }
+.home-story .flow { max-width: none; font-size: 1rem; }
+.home-story .steps { max-width: none; font-size: 1rem; }
+.home-story .sw { width: 64px; height: 34px; }
+.home-story .sw-count { font-size: 1.2rem; }
+.home-story figure { display: grid; gap: 8px; margin: 0; }
+.home-story figure img { width: 100%; height: auto; border-radius: 12px; background: #fff; }
+.home-story figcaption { color: var(--text-muted); font-size: 0.95rem; }
+.chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+.chart-card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+.home-details { max-width: 1200px; margin: 28px auto 0; padding: 0 5vw; }
+.home-details > summary { cursor: pointer; font-weight: 600; font-size: 1.1rem; padding: 10px 0; }
+.home-details > summary:focus-visible { outline: 2px solid var(--accent-cyan); outline-offset: 4px; }
+.home-story .home-details { padding: 0; margin: 0; }
+@media (max-width: 800px) { .home-story .dmap-wrap { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .hero-turbine .ht-spin { animation: none; } }
