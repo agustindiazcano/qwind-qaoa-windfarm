@@ -97,7 +97,7 @@ body {
         radial-gradient(circle at 80% 80%, var(--glow-b) 0%, transparent 45%);
 }
 
-/* --- COMPONENTE GLASS SURFACE (Adaptación Nativa Avanzada) --- */
+/* --- GLASS SURFACE COMPONENT (advanced native adaptation) --- */
 .glass-surface {
     position: relative;
     background: linear-gradient(
@@ -118,7 +118,7 @@ body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Reflejo orgánico superior tipo lente */
+/* Organic lens-like highlight at the top */
 .glass-surface::before {
     content: '';
     position: absolute;
@@ -701,5 +701,88 @@ body.demo-on .skip-link {
     }
     .slide {
         padding-top: 130px;
+    }
+}
+
+/* --- RESULTS TABLES --- */
+.results-box {
+    padding: 24px;
+    margin-bottom: 60px;
+}
+
+.results-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.results-controls select {
+    font: inherit;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--accent-cyan);
+    background: var(--bg-base);
+    color: var(--text-main);
+}
+
+.results-meta {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.table-scroll {
+    overflow-x: auto;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.results-table caption {
+    text-align: left;
+    color: var(--text-muted);
+    padding-bottom: 8px;
+}
+
+.results-table th,
+.results-table td {
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-subtle);
+    white-space: nowrap;
+}
+
+.results-box .note {
+    margin: 16px 0 0;
+}
+
+/* --- LAPTOP SCREENS --- */
+.badge-pill {
+    display: flex;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.split-flap-container {
+    display: flex;
+}
+
+@media (max-height: 820px) and (min-width: 641px) {
+    header {
+        padding-top: 110px;
+        padding-bottom: 48px;
+    }
+    .split-flap-char {
+        width: 60px;
+        height: 72px;
+        font-size: 3rem;
+    }
+    .summary-list {
+        gap: 6px;
     }
 }

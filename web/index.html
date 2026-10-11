@@ -120,6 +120,34 @@
         </div>
         <p class="note">Figures are generated from <code>results/</code> by <code>experiments/make_figures.py</code>. Model limits: pairwise additive Jensen wake losses, small instances (at most 14 cells), CPU simulation plus one small run on real hardware. No quantum advantage is claimed.</p>
 
+        <h2 class="section-title" id="results-title">Results by dataset</h2>
+        <div class="results-box glass-surface">
+            <div class="results-controls">
+                <label for="datasetSelect">Dataset</label>
+                <select id="datasetSelect" disabled></select>
+                <span id="resultsMeta" class="results-meta"></span>
+            </div>
+            <div class="table-scroll" tabindex="0" role="region" aria-labelledby="results-title">
+                <table class="results-table" id="resultsTable">
+                    <caption id="resultsCaption">Loading results...</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Method</th>
+                            <th scope="col">Variant</th>
+                            <th scope="col">p</th>
+                            <th scope="col">P(optimal)</th>
+                            <th scope="col">P(valid)</th>
+                            <th scope="col">Energy gap</th>
+                            <th scope="col">Time (s)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <noscript><p class="note">The results tables need JavaScript. The same numbers are in the README of the repository.</p></noscript>
+            <p class="note" id="resultsNotes">Means over the instances of each dataset, read from <code>data/summary.json</code> (copy of <code>results/summary.json</code>). P(optimal) is the probability of sampling the best layout, P(valid) the share of probability on valid layouts, energy gap the distance to the exact optimum (0 is optimal).</p>
+        </div>
+
         <h2 class="section-title">Core Team</h2>
         <div class="team-grid">
             <div class="team-card glass-surface">
@@ -294,6 +322,63 @@
                 else if (e.key === 'ArrowLeft') { show(current - 1); e.preventDefault(); }
                 else if (e.key === 'Escape') { setDemo(false); toggle.focus(); }
             });
+        })();
+    </script>
+
+    <script>
+        // Results tables: read data/summary.json (copied from results/summary.json) and show one dataset at a time.
+        (function () {
+            const select = document.getElementById('datasetSelect');
+            const body = document.querySelector('#resultsTable tbody');
+            const caption = document.getElementById('resultsCaption');
+            const meta = document.getElementById('resultsMeta');
+            let summary = null;
+
+            const fmt = (m, digits) => (m && typeof m.mean === 'number') ? m.mean.toFixed(digits) : '\u2013';
+
+            function render(name) {
+                body.textContent = '';
+                const rows = summary.results.filter((r) => r.dataset === name);
+                rows.forEach((r) => {
+                    const tr = document.createElement('tr');
+                    const cells = [
+                        r.method,
+                        r.variant,
+                        r.p === null ? '\u2013' : String(r.p),
+                        fmt(r.metrics.p_optimal, 3),
+                        fmt(r.metrics.p_feasible, 3),
+                        fmt(r.metrics.energy_gap, 4),
+                        fmt(r.metrics.time_s, 2)
+                    ];
+                    cells.forEach((text) => {
+                        const td = document.createElement('td');
+                        td.textContent = text;
+                        tr.appendChild(td);
+                    });
+                    body.appendChild(tr);
+                });
+                const ds = summary.datasets.find((d) => d.dataset === name);
+                caption.textContent = 'Dataset ' + name + ': ' + (ds ? ds.n_instances : '?') + ' instances, mean per method';
+                meta.textContent = 'Protocol ' + summary.protocol.id;
+            }
+
+            fetch('data/summary.json')
+                .then((res) => { if (!res.ok) throw new Error(res.status); return res.json(); })
+                .then((data) => {
+                    summary = data;
+                    summary.datasets.forEach((d) => {
+                        const o = document.createElement('option');
+                        o.value = d.dataset;
+                        o.textContent = d.dataset;
+                        select.appendChild(o);
+                    });
+                    select.disabled = false;
+                    select.addEventListener('change', () => render(select.value));
+                    render(select.value);
+                })
+                .catch(() => {
+                    caption.textContent = 'The results could not be loaded here. The same numbers are in the README of the repository.';
+                });
         })();
     </script>
 
