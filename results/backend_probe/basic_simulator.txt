@@ -1,0 +1,14 @@
+# Console output of the backend probe (qollab/qwind/probe.py, run from a separate Qollab test project), copied by the project owner on 2026-10-11.
+# The probe version of this run did not yet print the 'valid samples only' lines; see summary.md for that figure.
+
+Backend probe started
+Backend: <qiskit.providers.basic_provider.basic_simulator.BasicSimulator object at 0x66c1b58>
+--- Backend probe: basic_simulator ---
+N = 6 cells, K = 3 turbines, QAOA depth p = 1 (XY mixer + Dicke start), 1000 shots
+compiled circuit: 68 one-qubit gates, 78 two-qubit gates, depth 125
+
+                 ideal (exact)    measured   uniform
+P(optimal)              0.1784      0.1600    0.0312
+P(feasible)             1.0000      1.0000    0.3125
+
+best sampled layout: gap 0.0000 to the exact optimum

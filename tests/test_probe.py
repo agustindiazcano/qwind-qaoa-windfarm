@@ -64,3 +64,17 @@ def test_the_probe_project_runs_as_a_script_without_a_backend(tmp_path):
 def test_the_live_run_never_imports_the_probe():
     src = open(os.path.join(ROOT, "qollab", "main.py"), encoding="utf-8").read()
     assert "probe" not in src
+
+
+def test_postselected_and_valid_baselines_are_reported(result):
+    """Noise can leave the valid subspace; the fair baseline is the uniform distribution over VALID layouts."""
+    n_opt = round(result["uniform_p_optimal"] * 2 ** 6)
+    assert result["uniform_valid_p_optimal"] == pytest.approx(n_opt / math.comb(6, 3))
+    assert result["postselected_p_optimal"] == pytest.approx(result["measured_p_optimal"] / result["measured_p_feasible"])
+    assert result["ideal_postselected_p_optimal"] == pytest.approx(result["ideal_p_optimal"] / result["ideal_p_feasible"])
+    assert result["postselected_p_optimal"] > result["uniform_valid_p_optimal"]
+
+
+def test_report_shows_the_postselected_numbers(result):
+    text = format_report(result)
+    assert "valid samples only" in text and "uniform over valid layouts" in text
