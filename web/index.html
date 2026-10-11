@@ -16,14 +16,13 @@
     <nav class="glass-surface" aria-label="Site">
         <a class="nav-logo" href="index.html" aria-label="QWind, back to the top">Q<span>WIND</span></a>
         <div class="nav-links">
-            <a class="btn btn-primary" href="https://github.com/agustindiazcano/qwind-qaoa-windfarm">Repository</a>
-            <a class="btn" href="https://github.com/agustindiazcano/qwind-qaoa-windfarm#readme">README</a>
+            <a class="btn btn-icon" href="https://github.com/agustindiazcano/qwind-qaoa-windfarm" aria-label="GitHub repository"><svg viewBox="0 0 16 16" width="17" height="17" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
             <!-- TODO(owner): replace with the public Qollab project page URL -->
             <span class="btn btn-todo">Qollab page <span class="todo-tag">link pending</span></span>
             <!-- TODO(owner): replace with the public demo video URL (the video must have captions) -->
-            <span class="btn btn-todo">Demo video <span class="todo-tag">link pending</span></span>
+            <span class="btn btn-icon btn-todo" role="img" aria-label="Demo video on YouTube, link pending" title="Demo video: link pending"><svg viewBox="0 0 24 17" width="22" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M4 0h16a4 4 0 014 4v9a4 4 0 01-4 4H4a4 4 0 01-4-4V4a4 4 0 014-4zm5.5 4.5v8l7-4z"/></svg></span>
             <a class="btn" href="references.html">References</a>
-            <a class="btn" href="#team">Team</a>
+            <a class="btn" href="team.html">Team</a>
         </div>
         <div class="demo-nav" id="demoNav" role="group" aria-label="Demo slides" hidden>
             <button type="button" class="slide-btn" data-slide="1" aria-label="Slide 1">1</button>
@@ -83,6 +82,16 @@
                 <div class="metric-title">Valid plans</div>
                 <div class="metric-value">100%</div>
                 <div class="metric-desc">Every output of the XY mixer + Dicke circuit keeps exactly K turbines.</div>
+            </div>
+            <div class="metric-card glass-surface">
+                <div class="metric-title">Wind direction</div>
+                <div class="metric-value">Wind rose</div>
+                <div class="metric-desc">A 16-sector wind rose decides which turbines sit in the wake of which.</div>
+            </div>
+            <div class="metric-card glass-surface">
+                <div class="metric-title">Wake effect</div>
+                <div class="metric-value">Slower wind</div>
+                <div class="metric-desc">A turbine standing in another one's wake gets slower wind and produces less.</div>
             </div>
         </div>
 
@@ -149,20 +158,6 @@
             </div>
             <noscript><p class="note">The results tables need JavaScript. The same numbers are in the README of the repository.</p></noscript>
             <p class="note" id="resultsNotes">Means over the instances of each dataset, read from <code>data/summary.json</code> (copy of <code>results/summary.json</code>). P(optimal) is the probability of sampling the best layout, P(valid) the share of probability on valid layouts, energy gap the distance to the exact optimum (0 is optimal).</p>
-        </div>
-
-        <h2 class="section-title" id="team">Core Team</h2>
-        <div class="team-grid">
-            <div class="team-card glass-surface">
-                <span class="team-role">Frontend & UI/UX</span>
-                <div class="team-name">Baltazar Salerno</div>
-                <p class="team-desc">Interface design, user experience and visual architecture of the project.</p>
-            </div>
-            <div class="team-card glass-surface">
-                <span class="team-role">Systems & Quantum Core</span>
-                <div class="team-name">Agustin Diaz-Cano</div>
-                <p class="team-desc">Backend development, mathematical modelling and optimization logic.</p>
-            </div>
         </div>
     </main>
 

@@ -1353,3 +1353,92 @@ body.demo-on footer.demo-footer {
     border-color: var(--accent-cyan);
     color: var(--bg-base);
 }
+
+/* Icon-only navbar buttons (GitHub, YouTube) */
+.nav-links .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 12px;
+    cursor: pointer;
+}
+
+/* --- SUBPAGES (references, team) --- */
+.nav-spacer {
+    min-width: 64px;
+}
+
+.page-head {
+    padding-top: 88px;
+    padding-bottom: 24px;
+}
+
+.page-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+}
+
+.page-head p {
+    margin-bottom: 0;
+}
+
+.ref-grid {
+    display: grid;
+    gap: 24px;
+    max-width: 900px;
+    margin: 0 auto 60px;
+}
+
+.ref-card {
+    padding: 28px 32px;
+}
+
+.ref-card h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+}
+
+.ref-note {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+}
+
+.ref-card ol,
+.ref-card ul {
+    padding-left: 24px;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.ref-card li,
+.ref-card p {
+    margin-bottom: 12px;
+    overflow-wrap: anywhere;
+}
+
+.ref-card p {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.team-page-grid {
+    max-width: 900px;
+    margin: 0 auto 60px;
+}
+
+.team-name a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--accent-cyan);
+    text-underline-offset: 4px;
+}
+
+.team-name a:hover {
+    color: var(--accent-cyan);
+}
