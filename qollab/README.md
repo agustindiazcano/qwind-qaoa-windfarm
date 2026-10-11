@@ -8,6 +8,8 @@
 
 **Ran on real quantum hardware: [IonQ Forte 1 (36q)](#run-on-real-quantum-hardware), IonQ's real quantum computer, through Qollab. Among the valid samples the circuit reached 93% of its ideal success probability (N = 6, one run, 997 shots).**
 
+**Demo video:** [youtu.be/UGVkgYGXkF4](https://youtu.be/UGVkgYGXkF4)
+
 ## 1. What is it?
 
 Wind turbines steal wind from each other. When a turbine runs, it leaves a turbulent "wake" of slower air behind it. If a second turbine stands in that wake, it generates less power. QWind is a quantum algorithm that decides which turbines to keep running and which to turn off when a farm has to reduce its power output. By choosing the right combination, it minimizes the energy wasted by these wakes. We tested the algorithm using real measured turbine positions and wind data from Penmanshiel (Scotland, UK) and Kelmarsh (England, UK), alongside reanalysis wind datasets from Chubut and Bahia Blanca (Argentina).
@@ -66,7 +68,7 @@ python qollab/main.py
 python -m pytest
 ```
 
-<!-- TODO(owner): add the public YouTube link to the 3-minute demo video (with captions) here and in the top banner -->
+**Demo video:** [watch it on YouTube](https://youtu.be/UGVkgYGXkF4).
 
 Open source (MIT), 150+ tests, protocol fixed before running. Source: https://github.com/agustindiazcano/qwind-qaoa-windfarm. More options in [How to run](#how-to-run).
 
