@@ -4,6 +4,14 @@
 
 **Theme:** Quantum Impact · **Status:** Hackathon submission (Qollab)
 
+**A quantum algorithm that picks which wind turbines to keep running, and never proposes an invalid plan.** Tested on the real turbines and measured winds of two operating wind farms.
+
+- **3.4 to 17.1 times** more likely to find the best layout than the standard quantum formulation.
+- **Exact optimum** in every instance of 5 of 6 datasets, matching simulated annealing, with about 120 optimizer evaluations.
+- **100% valid plans:** the "keep exactly *K* turbines" rule is built into the circuit.
+- **Real data:** the 14 real turbine positions of Penmanshiel and the 6 of Kelmarsh, with measured winds.
+- **Open source (MIT)**, 150+ tests, protocol fixed before running, and it runs on Qollab in about 20 seconds.
+
 ## In plain words
 
 Wind turbines steal wind from each other. Every turbine leaves a slower, turbulent wake behind it, and a turbine standing in that wake produces less. In a wind farm that already exists, an operator who has to run fewer turbines (a curtailment) can choose *which* ones to keep, and that choice changes how much energy the wakes waste.
