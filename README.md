@@ -9,6 +9,7 @@
 - **3.4 to 17.1 times** more likely to find the best layout than the standard quantum formulation.
 - **Exact optimum** in every instance of 5 of 6 datasets, matching simulated annealing, with about 120 optimizer evaluations.
 - **100% valid plans:** the "keep exactly *K* turbines" rule is built into the circuit.
+- **Run on a real quantum computer (IonQ Forte 1):** among the valid samples the circuit reached 93% of its ideal success probability (N = 6, one run, 997 shots), and its best sample was the exact optimum.
 - **Real data:** the 14 real turbine positions of Penmanshiel (Scotland) and the 6 of Kelmarsh (England), with measured winds, plus wind roses from Argentina (Chubut, Bahia Blanca).
 - **Open source (MIT)**, 150+ tests, protocol fixed before running, and it runs on Qollab in about 20 seconds.
 

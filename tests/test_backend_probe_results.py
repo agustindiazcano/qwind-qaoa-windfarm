@@ -50,3 +50,12 @@ def test_readme_quotes_the_hardware_numbers_from_the_saved_output():
 def test_summary_table_has_the_qpu_row():
     text = _read("results", "backend_probe", "summary.md")
     assert "IonQ Forte 1" in text and "0.1665" in text and "0.7834" in text
+
+
+def test_readme_headline_says_it_ran_on_a_real_quantum_computer_with_the_measured_share():
+    readme = _read("README.md")
+    headline = readme.split("\n## ", 1)[0]
+    r = _parse("ionq_forte1_qpu.txt")
+    share = round(100 * float(r["valid"]) / float(r["valid_ideal"]))          # share of the ideal probability that the hardware reached
+    assert "IonQ Forte 1" in headline and "real quantum computer" in headline
+    assert f"{share}%" in headline and "N = 6" in headline
