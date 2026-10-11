@@ -1,0 +1,351 @@
+---
+title: QWind — Quantum Wind Farm Optimization
+demo: true
+---
+{{> head}}
+
+{{> nav}}
+
+    <!-- HERO WITH CYCLING SPLIT-FLAP -->
+    <header>
+        <h1 class="split-flap-container" id="splitFlap" aria-label="QWind">
+            <div class="split-flap-char" data-target="Q" aria-hidden="true">Q</div>
+            <div class="split-flap-char" data-target="W" aria-hidden="true">W</div>
+            <div class="split-flap-char" data-target="I" aria-hidden="true">I</div>
+            <div class="split-flap-char" data-target="N" aria-hidden="true">N</div>
+            <div class="split-flap-char" data-target="D" aria-hidden="true">D</div>
+        </h1>
+
+        <div class="badge-pill">
+            <span>Runs on real quantum hardware:</span>
+            <a href="https://github.com/agustindiazcano/qwind-qaoa-windfarm#run-on-real-quantum-hardware">IonQ Forte 1 (36q)</a>
+        </div>
+
+        <p>A quantum algorithm (QAOA, in Qiskit) that picks which wind turbines to keep running, and never proposes an invalid plan. Tested on the real turbines and measured winds of two operating wind farms.</p>
+        <ul class="summary-list">
+            <li><strong>3 to 7.5 times</strong> more likely to find the best layout than a random valid choice, and <strong>3.4 to 17.1 times</strong> more likely than the usual penalty formulation.</li>
+            <li><strong>Exact optimum</strong> in every instance of 5 of 6 datasets, matching simulated annealing, with about 120 optimizer evaluations.</li>
+            <li><strong>100% valid plans:</strong> the "keep exactly K turbines" rule is built into the circuit.</li>
+        </ul>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main id="main">
+        <div class="grid-metrics">
+            <div class="metric-card glass-surface">
+                <div class="metric-title">Mathematical model</div>
+                <div class="metric-value">QUBO</div>
+                <div class="metric-desc">Turbine selection written as a QUBO that captures wake interactions between turbines.</div>
+            </div>
+            <div class="metric-card glass-surface">
+                <div class="metric-title">Algorithm</div>
+                <div class="metric-value">QAOA</div>
+                <div class="metric-desc">QAOA built by hand in Qiskit, simulated, with the "keep exactly K turbines" rule inside the circuit.</div>
+            </div>
+            <div class="metric-card glass-surface">
+                <div class="metric-title">Valid plans</div>
+                <div class="metric-value">100%</div>
+                <div class="metric-desc">Every output of the XY mixer + Dicke circuit keeps exactly K turbines.</div>
+            </div>
+            <div class="metric-card glass-surface">
+                <div class="metric-title">Wind direction</div>
+                <div class="metric-value">Wind rose</div>
+                <div class="metric-desc">A 16-sector wind rose decides which turbines sit in the wake of which.</div>
+            </div>
+            <div class="metric-card glass-surface">
+                <div class="metric-title">Wake effect</div>
+                <div class="metric-value">Slower wind</div>
+                <div class="metric-desc">A turbine standing in another one's wake gets slower wind and produces less.</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">The problem in pictures</h2>
+        <div class="figure-grid">
+            <figure class="figure-card glass-surface">
+                <img src="img/what_is_a_wake.png" alt="Schematic side view of two wind turbines in a row with the wind coming from the left. The first turbine has full wind and leaves behind a widening blue wake of slower, turbulent air; the second turbine stands inside that wake and gets slower wind and less power." loading="lazy">
+                <figcaption>A turbine standing inside another one's wake gets slower wind and produces less.</figcaption>
+            </figure>
+            <figure class="figure-card glass-surface">
+                <img src="img/the_decision.png" alt="Top view of the 14 real turbine positions of the Penmanshiel wind farm in Scotland, with an arrow for the dominant wind direction. Seven turbines are blue (kept running) and seven are grey outlines (switched off); light blue strips downwind of the blue turbines show their wakes." loading="lazy">
+                <figcaption>The 14 real turbine positions of Penmanshiel (Scotland): seven are kept running.</figcaption>
+            </figure>
+            <figure class="figure-card glass-surface">
+                <img src="img/how_it_works.png" alt="Flow diagram in five boxes: wind and turbine positions, wake model, choice problem, quantum circuit built in Qiskit that keeps exactly K turbines by construction, and the answer, the K turbines to keep running." loading="lazy">
+                <figcaption>How QWind works, in five steps.</figcaption>
+            </figure>
+        </div>
+
+        <h2 class="section-title">Results at a glance</h2>
+        <div class="figure-grid">
+            <figure class="figure-card glass-surface">
+                <img src="img/multipliers.png" alt="Horizontal bar chart for six datasets: how many times more likely the XY mixer + Dicke circuit is to sample the best layout than random valid choice (3 to 7.5 times) and than the best penalty version (3.4 to 17.1 times); the tallest bar is Penmanshiel, 17.1 times." loading="lazy">
+                <figcaption>How many times more likely the circuit is to sample the best layout, on six datasets.</figcaption>
+            </figure>
+            <figure class="figure-card glass-surface">
+                <img src="img/chance_of_best.png" alt="Horizontal bar chart for six datasets: share of instances where the best of 1000 samples is the exact optimum. The XY mixer + Dicke circuit reaches 100% on five datasets and 67% on Penmanshiel; the penalty formulation reaches between 0% and 100%." loading="lazy">
+                <figcaption>Share of instances where the best of 1000 samples is the exact optimum.</figcaption>
+            </figure>
+            <figure class="figure-card glass-surface">
+                <img src="img/valid_plans.png" alt="Horizontal bar chart for six datasets: share of the circuit&#x27;s probability that falls on valid layouts. The XY mixer + Dicke circuit is at 100% everywhere; the penalty formulation is between 26% and 64%." loading="lazy">
+                <figcaption>Share of the circuit's probability that falls on valid layouts.</figcaption>
+            </figure>
+            <figure class="figure-card glass-surface">
+                <img src="img/depth.png" alt="Line chart for the synthetic dataset: probability of sampling the best layout at circuit depths 1, 2 and 3. The XY mixer + Dicke circuit rises from 5.0% to 7.2%; the penalty formulation stays near 1%; random valid choice is a flat line near 2%." loading="lazy">
+                <figcaption>Probability of sampling the best layout at circuit depths 1, 2 and 3 (synthetic dataset).</figcaption>
+            </figure>
+        </div>
+        <p class="note">Figures are generated from <code>results/</code> by <code>experiments/make_figures.py</code>. Model limits: pairwise additive Jensen wake losses, small instances (at most 14 cells), CPU simulation plus one small run on real hardware. No quantum advantage is claimed.</p>
+
+        <h2 class="section-title" id="results-title">Results by dataset</h2>
+        <div class="results-box glass-surface">
+            <div class="results-controls">
+                <label for="datasetSelect">Dataset</label>
+                <select id="datasetSelect" disabled></select>
+                <span id="resultsMeta" class="results-meta"></span>
+            </div>
+            <div class="table-scroll" tabindex="0" role="region" aria-labelledby="results-title">
+                <table class="results-table" id="resultsTable">
+                    <caption id="resultsCaption">Loading results...</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Method</th>
+                            <th scope="col">Variant</th>
+                            <th scope="col">p</th>
+                            <th scope="col">P(optimal)</th>
+                            <th scope="col">P(valid)</th>
+                            <th scope="col">Energy gap</th>
+                            <th scope="col">Time (s)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <noscript><p class="note">The results tables need JavaScript. The same numbers are in the README of the repository.</p></noscript>
+            <p class="note" id="resultsNotes">Means over the instances of each dataset, read from <code>data/summary.json</code> (copy of <code>results/summary.json</code>). P(optimal) is the probability of sampling the best layout, P(valid) the share of probability on valid layouts, energy gap the distance to the exact optimum (0 is optimal).</p>
+        </div>
+    </main>
+
+{{> footer}}
+
+    <!-- CONSTANT ANIMATION SCRIPT -->
+{{> totop_button}}
+
+    <!-- DEMO MODE: 10 full-screen slides, shown only when the Demo switch is on -->
+    <div id="demo" hidden>
+        <section class="slide slide-center" id="slide-1" aria-label="Slide 1 of 10: QWind">
+            <p class="slide-kicker">Quantum Impact · Qollab x IonQ hackathon</p>
+            <p class="slide-title">QWind</p>
+            <p class="slide-lead">A quantum algorithm (QAOA, in Qiskit) that picks which wind turbines to keep running, and never proposes an invalid plan.</p>
+        </section>
+        <section class="slide " id="slide-2" aria-label="Slide 2 of 10: Highlights" hidden>
+            <h2>What we found</h2>
+            <ul class="slide-list">
+                <li><strong>3 to 7.5 times</strong> more likely to find the best layout than a random valid choice, and <strong>3.4 to 17.1 times</strong> more likely than the usual penalty formulation.</li>
+                <li><strong>Exact optimum</strong> in every instance of 5 of 6 datasets, matching simulated annealing, with about 120 optimizer evaluations.</li>
+                <li><strong>100% valid plans:</strong> the "keep exactly K turbines" rule is built into the circuit.</li>
+            </ul>
+        </section>
+        <section class="slide " id="slide-3" aria-label="Slide 3 of 10: Turbines steal wind from each other" hidden>
+            <h2>Turbines steal wind from each other</h2>
+            <figure>
+                <img src="img/what_is_a_wake.png" alt="Schematic side view of two wind turbines in a row with the wind coming from the left. The first turbine has full wind and leaves behind a widening blue wake of slower, turbulent air; the second turbine stands inside that wake and gets slower wind and less power.">
+                <figcaption>A turbine standing inside another one's wake gets slower wind and produces less.</figcaption>
+            </figure>
+        </section>
+        <section class="slide " id="slide-4" aria-label="Slide 4 of 10: The decision: which turbines to keep" hidden>
+            <h2>The decision: which turbines to keep</h2>
+            <figure>
+                <img src="img/the_decision.png" alt="Top view of the 14 real turbine positions of the Penmanshiel wind farm in Scotland, with an arrow for the dominant wind direction. Seven turbines are blue (kept running) and seven are grey outlines (switched off); light blue strips downwind of the blue turbines show their wakes.">
+                <figcaption>The 14 real turbine positions of Penmanshiel (Scotland): seven are kept running.</figcaption>
+            </figure>
+        </section>
+        <section class="slide " id="slide-5" aria-label="Slide 5 of 10: How QWind works" hidden>
+            <h2>How QWind works</h2>
+            <figure>
+                <img src="img/how_it_works.png" alt="Flow diagram in five boxes: wind and turbine positions, wake model, choice problem, quantum circuit built in Qiskit that keeps exactly K turbines by construction, and the answer, the K turbines to keep running.">
+                <figcaption>Five steps, from wind and positions to the K turbines to keep.</figcaption>
+            </figure>
+        </section>
+        <section class="slide " id="slide-6" aria-label="Slide 6 of 10: Better odds of finding the best layout" hidden>
+            <h2>Better odds of finding the best layout</h2>
+            <figure>
+                <img src="img/multipliers.png" alt="Horizontal bar chart for six datasets: how many times more likely the XY mixer + Dicke circuit is to sample the best layout than random valid choice (3 to 7.5 times) and than the best penalty version (3.4 to 17.1 times); the tallest bar is Penmanshiel, 17.1 times.">
+                <figcaption>How many times more likely the circuit is to sample the best layout, on six datasets.</figcaption>
+            </figure>
+        </section>
+        <section class="slide " id="slide-7" aria-label="Slide 7 of 10: Reaching the exact optimum" hidden>
+            <h2>Reaching the exact optimum</h2>
+            <figure>
+                <img src="img/chance_of_best.png" alt="Horizontal bar chart for six datasets: share of instances where the best of 1000 samples is the exact optimum. The XY mixer + Dicke circuit reaches 100% on five datasets and 67% on Penmanshiel; the penalty formulation reaches between 0% and 100%.">
+                <figcaption>Share of instances where the best of 1000 samples is the exact optimum.</figcaption>
+            </figure>
+        </section>
+        <section class="slide " id="slide-8" aria-label="Slide 8 of 10: Always a valid plan" hidden>
+            <h2>Always a valid plan</h2>
+            <figure>
+                <img src="img/valid_plans.png" alt="Horizontal bar chart for six datasets: share of the circuit&#x27;s probability that falls on valid layouts. The XY mixer + Dicke circuit is at 100% everywhere; the penalty formulation is between 26% and 64%.">
+                <figcaption>Share of the circuit's probability that falls on valid layouts.</figcaption>
+            </figure>
+        </section>
+        <section class="slide " id="slide-9" aria-label="Slide 9 of 10: Circuit depth" hidden>
+            <h2>Circuit depth</h2>
+            <figure>
+                <img src="img/depth.png" alt="Line chart for the synthetic dataset: probability of sampling the best layout at circuit depths 1, 2 and 3. The XY mixer + Dicke circuit rises from 5.0% to 7.2%; the penalty formulation stays near 1%; random valid choice is a flat line near 2%.">
+                <figcaption>Probability of sampling the best layout at circuit depths 1, 2 and 3 (synthetic dataset).</figcaption>
+            </figure>
+        </section>
+        <section class="slide " id="slide-10" aria-label="Slide 10 of 10: Real hardware and credits" hidden>
+            <h2>Ran on real quantum hardware: IonQ Forte 1 (36q)</h2>
+            <table class="slide-table">
+                <caption>N = 6 cells, K = 3 turbines, depth p = 1, 997 shots, one run.</caption>
+                <thead><tr><th scope="col"></th><th scope="col">P(optimal), valid samples only</th></tr></thead>
+                <tbody>
+                    <tr><th scope="row">Ideal (exact)</th><td>0.1784</td></tr>
+                    <tr><th scope="row">IonQ Forte 1, measured</th><td>0.1665</td></tr>
+                    <tr><th scope="row">Random choice among valid layouts</th><td>0.1000</td></tr>
+                </tbody>
+            </table>
+            <p class="slide-lead">The best sampled layout was the exact optimum. No quantum advantage is claimed.</p>
+            <p class="slide-support"><strong>This effort is supported by Qollab &amp; IonQ</strong> · MIT License · <a href="https://github.com/agustindiazcano/qwind-qaoa-windfarm">github.com/agustindiazcano/qwind-qaoa-windfarm</a></p>
+        </section>
+        <footer class="demo-footer">
+            <div class="demo-footer-logos">
+                <a class="demo-logo" href="https://qollab.xyz/"><img src="img/qollab-mark.svg" alt="" width="28" height="28"><span>Qollab</span></a>
+                <a class="demo-logo" href="https://ionq.com/"><img src="img/ionq-logo.svg" alt="IonQ" width="78" height="28"></a>
+                <a class="demo-logo demo-logo-light" href="https://exa.unicen.edu.ar/"><img src="img/unicen-logo.png" alt="Facultad de Ciencias Exactas, UNICEN" width="104" height="28"></a>
+            </div>
+            <p class="demo-team">Team: Agustin Diaz-Cano &middot; Baltazar Salerno</p>
+        </footer>
+    </div>
+
+    <script>
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        function runSplitFlapCycle() {
+            document.querySelectorAll('.split-flap-char').forEach((el, index) => {
+                const target = el.getAttribute('data-target');
+                let iterations = 0;
+                
+                setTimeout(() => {
+                    const interval = setInterval(() => {
+                        el.textContent = chars[Math.floor(Math.random() * chars.length)];
+                        el.classList.add('flipping');
+                        
+                        setTimeout(() => el.classList.remove('flipping'), 60);
+
+                        iterations++;
+                        if (iterations > 6 + (index * 2)) {
+                            clearInterval(interval);
+                            el.textContent = target;
+                        }
+                    }, 70);
+                }, index * 120);
+            });
+        }
+
+        // Respect "reduce motion": leave the letters still.
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            setTimeout(runSplitFlapCycle, 600);
+            setInterval(runSplitFlapCycle, 5000);
+        }
+    </script>
+
+    <script>
+        // Demo mode: full-screen slides, buttons 1-10, left/right arrow keys, Escape to exit.
+        (function () {
+            const toggle = document.getElementById('demoToggle');
+            const demo = document.getElementById('demo');
+            const nav = document.getElementById('demoNav');
+            const slides = Array.from(demo.querySelectorAll('.slide'));
+            const buttons = Array.from(nav.querySelectorAll('.slide-btn'));
+            let current = 0;
+
+            function show(i) {
+                current = Math.max(0, Math.min(slides.length - 1, i));
+                slides.forEach((el, k) => { el.hidden = k !== current; });
+                buttons.forEach((b, k) => {
+                    if (k === current) b.setAttribute('aria-current', 'true');
+                    else b.removeAttribute('aria-current');
+                });
+            }
+
+            function setDemo(on) {
+                document.body.classList.toggle('demo-on', on);
+                demo.hidden = !on;
+                nav.hidden = !on;
+                toggle.setAttribute('aria-checked', String(on));
+                if (on) show(current);
+            }
+
+            toggle.addEventListener('click', () => setDemo(toggle.getAttribute('aria-checked') !== 'true'));
+            buttons.forEach((b, k) => b.addEventListener('click', () => show(k)));
+            document.addEventListener('keydown', (e) => {
+                if (!document.body.classList.contains('demo-on')) return;
+                if (e.key === 'ArrowRight') { show(current + 1); e.preventDefault(); }
+                else if (e.key === 'ArrowLeft') { show(current - 1); e.preventDefault(); }
+                else if (e.key === 'Escape') { setDemo(false); toggle.focus(); }
+            });
+        })();
+    </script>
+
+    <script>
+        // Results tables: read data/summary.json (copied from results/summary.json) and show one dataset at a time.
+        (function () {
+            const select = document.getElementById('datasetSelect');
+            const body = document.querySelector('#resultsTable tbody');
+            const caption = document.getElementById('resultsCaption');
+            const meta = document.getElementById('resultsMeta');
+            let summary = null;
+
+            const fmt = (m, digits) => (m && typeof m.mean === 'number') ? m.mean.toFixed(digits) : '\u2013';
+
+            function render(name) {
+                body.textContent = '';
+                const rows = summary.results.filter((r) => r.dataset === name);
+                rows.forEach((r) => {
+                    const tr = document.createElement('tr');
+                    const cells = [
+                        r.method,
+                        r.variant,
+                        r.p === null ? '\u2013' : String(r.p),
+                        fmt(r.metrics.p_optimal, 3),
+                        fmt(r.metrics.p_feasible, 3),
+                        fmt(r.metrics.energy_gap, 4),
+                        fmt(r.metrics.time_s, 2)
+                    ];
+                    cells.forEach((text) => {
+                        const td = document.createElement('td');
+                        td.textContent = text;
+                        tr.appendChild(td);
+                    });
+                    body.appendChild(tr);
+                });
+                const ds = summary.datasets.find((d) => d.dataset === name);
+                caption.textContent = 'Dataset ' + name + ': ' + (ds ? ds.n_instances : '?') + ' instances, mean per method';
+                meta.textContent = 'Protocol ' + summary.protocol.id;
+            }
+
+            fetch('data/summary.json')
+                .then((res) => { if (!res.ok) throw new Error(res.status); return res.json(); })
+                .then((data) => {
+                    summary = data;
+                    summary.datasets.forEach((d) => {
+                        const o = document.createElement('option');
+                        o.value = d.dataset;
+                        o.textContent = d.dataset;
+                        select.appendChild(o);
+                    });
+                    select.disabled = false;
+                    select.addEventListener('change', () => render(select.value));
+                    render(select.value);
+                })
+                .catch(() => {
+                    caption.textContent = 'The results could not be loaded here. The same numbers are in the README of the repository.';
+                });
+        })();
+    </script>
+
+{{> totop_script}}
+
+</body>
+</html>
