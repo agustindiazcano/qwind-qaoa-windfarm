@@ -187,7 +187,7 @@ nav {
 
 /* --- HERO & SPLIT-FLAP --- */
 header {
-    padding: 160px 20px 80px 20px;
+    padding: 112px 20px 80px 20px;
     text-align: center;
     max-width: 900px;
     margin: 0 auto;
@@ -367,7 +367,7 @@ main {
         padding: 14px 20px;
     }
     header {
-        padding-top: 120px;
+        padding-top: 90px;
     }
     .split-flap-char {
         width: 52px;
@@ -774,7 +774,7 @@ body.demo-on .skip-link {
 
 @media (max-height: 820px) and (min-width: 641px) {
     header {
-        padding-top: 110px;
+        padding-top: 104px;
         padding-bottom: 48px;
     }
     .split-flap-char {
@@ -790,4 +790,9 @@ body.demo-on .skip-link {
 /* The navbar keeps its hover glow but does not move. */
 nav.glass-surface:hover {
     transform: none;
+}
+
+/* .glass-surface sets position: relative and would otherwise override the fixed navbar. */
+nav.glass-surface {
+    position: fixed;
 }
