@@ -12,6 +12,14 @@
 - **Real data:** the 14 real turbine positions of Penmanshiel and the 6 of Kelmarsh, with measured winds.
 - **Open source (MIT)**, 150+ tests, protocol fixed before running, and it runs on Qollab in about 20 seconds.
 
+## The problem in pictures
+
+![Schematic side view of two wind turbines in a row with the wind coming from the left. The first turbine has full wind and leaves behind a widening blue wake of slower, turbulent air; the second turbine stands inside that wake and gets slower wind and less power.](https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/results/figures/what_is_a_wake.png)
+
+![Top view of the 14 real turbine positions of the Penmanshiel wind farm in Scotland, with an arrow for the dominant wind direction. Seven turbines are blue (kept running) and seven are grey outlines (switched off); light blue strips downwind of the blue turbines show their wakes.](https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/results/figures/the_decision.png)
+
+![Flow diagram in five boxes: wind and turbine positions, wake model, choice problem, quantum circuit built in Qiskit that keeps exactly K turbines by construction, and the answer, the K turbines to keep running.](https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/results/figures/how_it_works.png)
+
 ## Results at a glance
 
 ![Horizontal bar chart for six datasets: how many times more likely the XY mixer + Dicke circuit is to sample the best layout than random valid choice (3 to 7.5 times) and than the best penalty version (3.4 to 17.1 times); the tallest bar is Penmanshiel, 17.1 times.](https://raw.githubusercontent.com/agustindiazcano/qwind-qaoa-windfarm/main/results/figures/multipliers.png)
@@ -38,6 +46,12 @@ We turned that choice into an optimization problem, pick the best *K* of *N* tur
 4. **A reproducible benchmark.** Every result comes with controls and is generated from a protocol fixed before running.
 
 The lesson we take is practical: when a problem has a hard constraint, build it into the circuit, and always benchmark against the boring baselines, because they decide whether a result means anything.
+
+## Why it matters
+
+When a wind farm has to run fewer turbines, the choice of which ones to keep decides how much of the production that remains is lost to wakes. In our model, using the real Penmanshiel layout and its measured wind rose, the share of potential power lost to wakes is 4.0% against 8.0% for 7 of the 14 turbines (the best choice against an average random choice), 1.0% against 5.3% for 5 turbines, and 7.0% against 10.6% for 9 turbines. QWind is a way to search that decision systematically, and at this size exact search can verify the choices it finds.
+
+These are modelled wake losses (a Jensen wake model, equal turbines), not measured production or costs. We have no cost or production data from a real farm, so the impact is potential: the decision affects the energy a curtailed farm still delivers and, through it, the value of that energy.
 
 ## What we built
 
