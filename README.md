@@ -69,6 +69,18 @@ Using the measured production of the Penmanshiel turbines, this is the scale of 
 This is an illustrative estimate of scale, not a forecast. It comes from a model, it compares with an average random choice (not with what an operator does today), it assumes 1,000 hours in that configuration (a year has 8,760; how many hours a farm is curtailed is not in our data), and it counts neither costs nor the structure of any contract. Details and sources: [docs/IMPACT.md](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/docs/IMPACT.md).
 <!-- IMPACT:END -->
 
+## Run on real quantum hardware
+
+We also ran the optimized circuit once on **IonQ Forte 1**, a real quantum computer, for a small instance (N = 6 cells, K = 3 turbines, depth p = 1, 997 shots). The circuit compiles to 123 one-qubit and 78 two-qubit gates. The parameters were optimized on the exact simulator, and the hardware was used only to sample the circuit. This was a single run.
+
+| | P(optimal) | P(valid layout) | P(optimal), valid samples only |
+|---|---|---|---|
+| Ideal (exact) | 0.1784 | 1.0000 | 0.1784 |
+| IonQ Forte 1, measured | 0.1304 | 0.7834 | 0.1665 |
+| Random choice among valid layouts | 0.1000 | 1.0000 | 0.1000 |
+
+Because the circuit keeps exactly *K* turbines by construction, the 22% of samples that left the valid layouts can be recognized and discarded, and among the valid ones the best layout appears with probability 0.1665, close to the ideal 0.1784 and above the 0.1000 of a random valid choice. The best sampled layout was the exact optimum. Outputs from the simulators and from the quantum computer: [results/backend_probe](https://github.com/agustindiazcano/qwind-qaoa-windfarm/tree/main/results/backend_probe).
+
 ## What we built
 
 - A wake-loss model (Jensen, pairwise additive) turned into a QUBO with an exactly-*K* constraint, and a QAOA written by hand in Qiskit with two ways of enforcing the constraint (penalty, or XY mixer + Dicke state).
@@ -76,7 +88,7 @@ This is an illustrative estimate of scale, not a forecast. It comes from a model
 - Controls next to every result: the uniform distribution over valid layouts, random valid sampling with the same 1000 samples, exact enumeration, simulated annealing and greedy search.
 - 150+ tests, continuous integration, and tables in this README that are generated from `results/`, so no number is typed by hand.
 
-Everything is simulated on a CPU (no quantum hardware), the instances are small (at most 14 cells), the wake model is simplified and there is one year of wind data per farm. The limitations are listed below.
+The experiments are simulated on a CPU, with one small probe on real quantum hardware (see above); the instances are small (at most 14 cells), the wake model is simplified and there is one year of wind data per farm. The limitations are listed below.
 
 ## Try it
 
@@ -221,7 +233,7 @@ lam  = penalty weight for the "exactly K turbines" constraint
 - Expectation values with `StatevectorEstimator`, classical optimization with `scipy.optimize` (COBYLA) and multiple seeded restarts, final sampling with `StatevectorSampler`.
 
 ### How the circuit is simulated
-We simulate the full QAOA circuit in Qiskit. `StatevectorEstimator` and `StatevectorSampler` compute the exact expectation values and the exact output distribution on the CPU, so the optimization has no shot noise. We use these primitives for the optimization loop and do not call `backend.run` inside it. We have not benchmarked `backend.run` for this loop. Nothing runs on quantum hardware.
+We simulate the full QAOA circuit in Qiskit. `StatevectorEstimator` and `StatevectorSampler` compute the exact expectation values and the exact output distribution on the CPU, so the optimization has no shot noise. We use these primitives for the optimization loop and do not call `backend.run` inside it. We have not benchmarked `backend.run` for this loop. The only runs on a backend are the probe described in "Run on real quantum hardware", which samples the already optimized circuit once.
 
 ### Classical baselines
 Exact enumeration (ground truth), simulated annealing, greedy search with local swaps.
@@ -251,7 +263,7 @@ web/           presentation website
 
 - Simplified wake model: Jensen losses that are pairwise additive; mean wind speed not used yet.
 - Small instances only (at most 14 cells, exact statevector simulation); the live Run is limited to 12.
-- CPU simulation only (Qiskit statevector primitives); no real quantum hardware and no noise.
+- The experiments are CPU simulations (Qiskit statevector primitives, no noise). Real hardware and noise models were used only for one small probe (N = 6, one run, see "Run on real quantum hardware").
 - "Real" means real turbine positions and a measured or reanalysis wind rose, not a validated farm model: the nacelle anemometer sees upwind wakes, there is one year (2019) per farm, and the farm layouts were not designed for this objective.
 - Few instances for the real farms (3 each); no statistical claim beyond this benchmark.
 - No quantum advantage is claimed.
