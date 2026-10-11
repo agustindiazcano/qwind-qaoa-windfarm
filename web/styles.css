@@ -389,3 +389,126 @@ main {
         font-size: 2rem;
     }
 }
+
+/* --- CONTENT: summary, buttons, figures, footer --- */
+.summary-list {
+    list-style: none;
+    text-align: left;
+    max-width: 700px;
+    margin: 0 auto 24px;
+    display: grid;
+    gap: 10px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.summary-list strong {
+    color: var(--text-main);
+}
+
+.hardware-line {
+    font-size: 1rem;
+    margin-bottom: 24px;
+}
+
+a {
+    color: var(--accent-cyan);
+}
+
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 22px;
+    border: 1px solid var(--accent-cyan);
+    border-radius: 50px;
+    color: var(--accent-cyan);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background: var(--border-subtle);
+}
+
+.btn-primary {
+    background: var(--accent-cyan);
+    color: var(--bg-base);
+}
+
+.btn-primary:hover {
+    background: var(--accent-cyan);
+    filter: brightness(1.1);
+}
+
+.btn-todo {
+    border-style: dashed;
+}
+
+.todo-tag {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.figure-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.figure-card {
+    padding: 16px;
+}
+
+.figure-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.figure-card figcaption {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.note {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 60px;
+}
+
+footer {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+footer p,
+footer li {
+    margin-bottom: 10px;
+}
+
+footer ul {
+    padding-left: 20px;
+}
+
+.support-line {
+    font-size: 1rem;
+    color: var(--text-main);
+}

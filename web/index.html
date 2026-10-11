@@ -33,7 +33,21 @@
             <div class="split-flap-char" data-target="D" aria-hidden="true">D</div>
         </h1>
 
-        <p>A quantum algorithm (QAOA, in Qiskit) that picks which wind turbines to keep running, and never proposes an invalid plan.</p>
+        <p>A quantum algorithm (QAOA, in Qiskit) that picks which wind turbines to keep running, and never proposes an invalid plan. Tested on the real turbines and measured winds of two operating wind farms.</p>
+        <ul class="summary-list">
+            <li><strong>3 to 7.5 times</strong> more likely to find the best layout than a random valid choice, and <strong>3.4 to 17.1 times</strong> more likely than the usual penalty formulation.</li>
+            <li><strong>Exact optimum</strong> in every instance of 5 of 6 datasets, matching simulated annealing, with about 120 optimizer evaluations.</li>
+            <li><strong>100% valid plans:</strong> the "keep exactly K turbines" rule is built into the circuit.</li>
+        </ul>
+        <p class="hardware-line">Ran on real quantum hardware: <a href="https://github.com/agustindiazcano/qwind-qaoa-windfarm#run-on-real-quantum-hardware">IonQ Forte 1 (36q)</a>, through Qollab.</p>
+        <div class="button-row">
+            <a class="btn btn-primary" href="https://github.com/agustindiazcano/qwind-qaoa-windfarm">Repository</a>
+            <a class="btn" href="https://github.com/agustindiazcano/qwind-qaoa-windfarm#readme">README</a>
+            <!-- TODO(owner): replace with the public Qollab project page URL -->
+            <span class="btn btn-todo">Qollab page <span class="todo-tag">link pending</span></span>
+            <!-- TODO(owner): replace with the public demo video URL (the video must have captions) -->
+            <span class="btn btn-todo">Demo video <span class="todo-tag">link pending</span></span>
+        </div>
     </header>
 
     <!-- MAIN CONTENT -->
@@ -56,12 +70,42 @@
             </div>
         </div>
 
-        <h2 class="section-title">Simulation and diagrams</h2>
-        <div class="flex-carousel-wrapper glass-surface">
-            <div class="flex-carousel-viewport">
-                [Interactive carousel: gallery of wind farm simulations]
-            </div>
+        <h2 class="section-title">The problem in pictures</h2>
+        <div class="figure-grid">
+            <figure class="figure-card glass-surface">
+                <img src="img/what_is_a_wake.png" alt="Schematic side view of two wind turbines in a row with the wind coming from the left. The first turbine has full wind and leaves behind a widening blue wake of slower, turbulent air; the second turbine stands inside that wake and gets slower wind and less power." loading="lazy">
+                <figcaption>A turbine standing inside another one's wake gets slower wind and produces less.</figcaption>
+            </figure>
+            <figure class="figure-card glass-surface">
+                <img src="img/the_decision.png" alt="Top view of the 14 real turbine positions of the Penmanshiel wind farm in Scotland, with an arrow for the dominant wind direction. Seven turbines are blue (kept running) and seven are grey outlines (switched off); light blue strips downwind of the blue turbines show their wakes." loading="lazy">
+                <figcaption>The 14 real turbine positions of Penmanshiel (Scotland): seven are kept running.</figcaption>
+            </figure>
+            <figure class="figure-card glass-surface">
+                <img src="img/how_it_works.png" alt="Flow diagram in five boxes: wind and turbine positions, wake model, choice problem, quantum circuit built in Qiskit that keeps exactly K turbines by construction, and the answer, the K turbines to keep running." loading="lazy">
+                <figcaption>How QWind works, in five steps.</figcaption>
+            </figure>
         </div>
+
+        <h2 class="section-title">Results at a glance</h2>
+        <div class="figure-grid">
+            <figure class="figure-card glass-surface">
+                <img src="img/multipliers.png" alt="Horizontal bar chart for six datasets: how many times more likely the XY mixer + Dicke circuit is to sample the best layout than random valid choice (3 to 7.5 times) and than the best penalty version (3.4 to 17.1 times); the tallest bar is Penmanshiel, 17.1 times." loading="lazy">
+                <figcaption>How many times more likely the circuit is to sample the best layout, on six datasets.</figcaption>
+            </figure>
+            <figure class="figure-card glass-surface">
+                <img src="img/chance_of_best.png" alt="Horizontal bar chart for six datasets: share of instances where the best of 1000 samples is the exact optimum. The XY mixer + Dicke circuit reaches 100% on five datasets and 67% on Penmanshiel; the penalty formulation reaches between 0% and 100%." loading="lazy">
+                <figcaption>Share of instances where the best of 1000 samples is the exact optimum.</figcaption>
+            </figure>
+            <figure class="figure-card glass-surface">
+                <img src="img/valid_plans.png" alt="Horizontal bar chart for six datasets: share of the circuit&#x27;s probability that falls on valid layouts. The XY mixer + Dicke circuit is at 100% everywhere; the penalty formulation is between 26% and 64%." loading="lazy">
+                <figcaption>Share of the circuit's probability that falls on valid layouts.</figcaption>
+            </figure>
+            <figure class="figure-card glass-surface">
+                <img src="img/depth.png" alt="Line chart for the synthetic dataset: probability of sampling the best layout at circuit depths 1, 2 and 3. The XY mixer + Dicke circuit rises from 5.0% to 7.2%; the penalty formulation stays near 1%; random valid choice is a flat line near 2%." loading="lazy">
+                <figcaption>Probability of sampling the best layout at circuit depths 1, 2 and 3 (synthetic dataset).</figcaption>
+            </figure>
+        </div>
+        <p class="note">Figures are generated from <code>results/</code> by <code>experiments/make_figures.py</code>. Model limits: pairwise additive Jensen wake losses, small instances (at most 14 cells), CPU simulation plus one small run on real hardware. No quantum advantage is claimed.</p>
 
         <h2 class="section-title">Core Team</h2>
         <div class="team-grid">
@@ -77,6 +121,17 @@
             </div>
         </div>
     </main>
+
+    <footer>
+        <p class="support-line"><strong>This effort is supported by Qollab &amp; IonQ</strong></p>
+        <p>Licensed under the <a href="https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/LICENSE">MIT License</a>. Hackathon node: UNICEN (Argentina), team Salta.</p>
+        <p>AI tools used (hackathon disclosure): Claude and Claude Code, Gemini Antigravity, Grok. Details in the <a href="https://github.com/agustindiazcano/qwind-qaoa-windfarm#disclosure">README Disclosure</a>.</p>
+        <p>Data and sources, license <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>:</p>
+        <ul>
+            <li>Penmanshiel and Kelmarsh wind farm data. Plumley, C., Takeuchi, R.; released by Cubico Sustainable Investments Ltd. Zenodo, CC BY 4.0. <a href="https://doi.org/10.5281/zenodo.16807304">10.5281/zenodo.16807304</a>, <a href="https://doi.org/10.5281/zenodo.16807551">10.5281/zenodo.16807551</a>. Adapted: only turbine positions and a 16-sector wind rose from 2019 SCADA were derived.</li>
+            <li>ERA5 hourly data on single levels. Copernicus Climate Change Service (C3S) Climate Data Store, <a href="https://doi.org/10.24381/cds.adbb2d47">10.24381/cds.adbb2d47</a>. Accessed through the Open-Meteo Historical Weather API (Zippenfenig, P., <a href="https://doi.org/10.5281/zenodo.7970649">10.5281/zenodo.7970649</a>). Contains modified Copernicus Climate Change Service information 2026. Neither the European Commission nor ECMWF is responsible for any use that may be made of the Copernicus information or data it contains.</li>
+        </ul>
+    </footer>
 
     <!-- CONSTANT ANIMATION SCRIPT -->
     <script>
