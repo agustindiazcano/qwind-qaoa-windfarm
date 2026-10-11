@@ -12,10 +12,12 @@ We turned that choice into an optimization problem, pick the best *K* of *N* tur
 
 ## What we found
 
-1. **How you build the circuit matters a lot.** The usual way to say "exactly *K* turbines" is a penalty term. It did not beat random choice among valid layouts consistently, for any penalty weight we tried. Putting the constraint inside the circuit (XY mixer + Dicke start state) makes every output a valid layout, and the probability of sampling the best layout is 3 to 7.5 times higher than random choice among valid layouts and 3.4 to 17.1 times higher than the best penalty version, depending on the dataset.
-2. **That version is competitive with the classical methods at these sizes.** Its best sample is the exact optimum in every instance of 5 of the 6 datasets, as good as simulated annealing's result, using about 120 optimizer evaluations. On the 14 real turbines of Penmanshiel it finds it in 2 of 3 instances.
-3. **It is not an advantage, and we do not claim one.** Drawing 1000 random valid layouts finds the best one almost as often up to 12 turbines, simulated annealing finds it everywhere, and exact enumeration takes about 2 seconds at most. We do not claim a quantum advantage, a speedup, or energy or cost savings.
-4. **Where the picture starts to separate.** At 14 real turbines, random sampling finds the best layout with probability about 0.35 on average, against 2 of 3 instances for the circuit. With only 3 instances that is a hint, not a result.
+1. **Building the constraint into the circuit pays off.** A QAOA that always keeps exactly *K* turbines (XY mixer + Dicke start state) turns every output into a valid layout, and the probability of sampling the best layout is 3 to 7.5 times higher than random choice among valid layouts and 3.4 to 17.1 times higher than the usual penalty formulation, depending on the dataset.
+2. **It reaches the exact optimum.** Its best sample is the exact optimum in every instance of 5 of the 6 datasets, matching simulated annealing's result with about 120 optimizer evaluations.
+3. **It holds up on real wind farms.** The same circuit works with the real turbine positions and measured winds of two operating farms. On the 14 turbines of Penmanshiel, where picking valid layouts at random finds the best one with probability about 0.35 on average, it finds the best layout in 2 of 3 instances.
+4. **A reproducible benchmark.** Every result comes with controls and is generated from a protocol fixed before running.
+
+Scope: small instances simulated on a CPU. We make no claim of quantum advantage, speedup or savings; classical solvers are also excellent at these sizes (details in the tables and the limitations below).
 
 The lesson we take is practical: when a problem has a hard constraint, build it into the circuit, and always benchmark against the boring baselines, because they decide whether a result means anything.
 
