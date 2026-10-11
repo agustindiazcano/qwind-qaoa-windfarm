@@ -1086,3 +1086,92 @@ a.icon-link:hover {
 .icon-pending {
     opacity: 0.5;
 }
+
+/* --- HOVER TRANSITIONS --- */
+.btn,
+.slide-btn,
+.demo-toggle,
+.demo-toggle .knob,
+.icon-link,
+.logo-link,
+.results-controls select,
+.badge-pill a,
+a {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+}
+
+.demo-toggle .knob {
+    transition: transform 0.25s ease, background-color 0.3s ease;
+}
+
+/* Navbar logo: on hover the Q turns light blue and WIND turns white, with a soft crossfade. */
+.nav-logo {
+    cursor: default;
+    transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-logo span {
+    transition: color 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.06s;
+}
+
+.nav-logo:hover {
+    color: var(--accent-cyan);
+}
+
+.nav-logo:hover span {
+    color: var(--text-main);
+}
+
+/* Big logo hover: the Q turns light blue and the other letters turn white, with a soft crossfade. */
+.split-flap-char {
+    transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1), color 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.split-flap-char.flipping {
+    transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1), color 0.06s ease;
+}
+
+.split-flap-container:hover .split-flap-char {
+    color: #fff;
+}
+
+.split-flap-container:hover .split-flap-char[data-target="Q"] {
+    color: var(--flap-text);
+}
+
+/* Footer logos without borders. */
+.logo-link,
+.logo-link.plate-dark,
+.logo-link:hover {
+    border: 0;
+}
+
+.logo-link:hover {
+    opacity: 0.85;
+}
+
+/* Support line and members share the second footer row. */
+.footer-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px 32px;
+    margin-top: 28px;
+}
+
+.footer-meta p,
+footer .footer-meta .footer-members {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.footer-meta .support-line {
+    color: var(--text-main);
+}
+
+/* The YouTube mark uses the same colour as the GitHub mark (white in the dark scheme). */
+.icon-pending {
+    opacity: 0.85;
+}
