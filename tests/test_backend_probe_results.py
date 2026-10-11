@@ -59,3 +59,22 @@ def test_readme_headline_says_it_ran_on_a_real_quantum_computer_with_the_measure
     share = round(100 * float(r["valid"]) / float(r["valid_ideal"]))          # share of the ideal probability that the hardware reached
     assert "IonQ Forte 1" in headline and "real quantum computer" in headline
     assert f"{share}%" in headline and "N = 6" in headline
+
+
+ORIGINAL = "agustindiazcano-qwind-output-completed-2026-10-11T03-37-01.138Z.html"
+
+
+def test_the_original_qollab_export_is_kept_and_matches_the_saved_text():
+    html = _read("results", "backend_probe", ORIGINAL)
+    assert "<script" not in html.lower()                              # a static console export, nothing executable
+    for must in ("IonQQPUBackend", "ionq_qpu.forte-1", "997 shots", "Circuit execution time: 200920ms",
+                 "measured 0.1665", "0.1304", "0.7834", "gap 0.0000 to the exact optimum"):
+        assert must in html, must
+    r = _parse("ionq_forte1_qpu.txt")
+    assert r["measured"] in html and r["feasible"] in html and r["valid"] in html
+
+
+def test_the_readme_links_the_original_export():
+    readme = _read("README.md")
+    section = readme.split("## Run on real quantum hardware", 1)[1].split("\n## ", 1)[0]
+    assert "results/backend_probe/" + ORIGINAL in section

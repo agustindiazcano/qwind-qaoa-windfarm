@@ -89,7 +89,7 @@ We also ran the optimized circuit once on **IonQ Forte 1**, a real quantum compu
 | IonQ Forte 1, measured | 0.1304 | 0.7834 | 0.1665 |
 | Random choice among valid layouts | 0.1000 | 1.0000 | 0.1000 |
 
-Because the circuit keeps exactly *K* turbines by construction, the 22% of samples that left the valid layouts can be recognized and discarded, and among the valid ones the best layout appears with probability 0.1665, close to the ideal 0.1784 and above the 0.1000 of a random valid choice. The best sampled layout was the exact optimum. Outputs from the simulators and from the quantum computer: [results/backend_probe](https://github.com/agustindiazcano/qwind-qaoa-windfarm/tree/main/results/backend_probe).
+Because the circuit keeps exactly *K* turbines by construction, the 22% of samples that left the valid layouts can be recognized and discarded, and among the valid ones the best layout appears with probability 0.1665, close to the ideal 0.1784 and above the 0.1000 of a random valid choice. The best sampled layout was the exact optimum. Outputs from the simulators and from the quantum computer: [results/backend_probe](https://github.com/agustindiazcano/qwind-qaoa-windfarm/tree/main/results/backend_probe). The original console export of the quantum computer run, as downloaded from Qollab: [agustindiazcano-qwind-output-completed-2026-10-11T03-37-01.138Z.html](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/results/backend_probe/agustindiazcano-qwind-output-completed-2026-10-11T03-37-01.138Z.html) (a static HTML file; download it and open it in a browser).
 
 ## What we built
 
