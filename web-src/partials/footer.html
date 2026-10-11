@@ -62,4 +62,31 @@
             });
             apply(current, false);
         })();
+
+        // Dark / light button: dark is the default; the choice is remembered in the browser.
+        (function () {
+            var root = document.documentElement;
+            var button = document.getElementById('themeToggle');
+            if (!button) return;
+            var labels = {
+                en: { dark: 'Switch to light mode', light: 'Switch to dark mode' },
+                es: { dark: 'Cambiar a modo claro', light: 'Cambiar a modo oscuro' }
+            };
+            function theme() { return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
+            function refresh() {
+                var lang = window.qwindLang ? window.qwindLang() : 'en';
+                var t = theme();
+                button.setAttribute('aria-label', labels[lang][t]);
+                button.setAttribute('title', labels[lang][t]);
+                button.setAttribute('aria-pressed', String(t === 'light'));
+            }
+            button.addEventListener('click', function () {
+                var next = theme() === 'light' ? 'dark' : 'light';
+                root.setAttribute('data-theme', next);
+                try { localStorage.setItem('qwind-theme', next); } catch (e) {}
+                refresh();
+            });
+            document.addEventListener('qwind:lang', refresh);
+            refresh();
+        })();
     </script>

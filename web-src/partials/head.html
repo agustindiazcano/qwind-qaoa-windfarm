@@ -22,6 +22,10 @@
             var lang = 'en';
             try { var saved = localStorage.getItem('qwind-lang'); if (saved === 'es' || saved === 'en') lang = saved; } catch (e) {}
             document.documentElement.setAttribute('data-ui', lang);
+            // Theme: dark by default (whatever the OS prefers); light only if the visitor chose it with the button.
+            var theme = 'dark';
+            try { if (localStorage.getItem('qwind-theme') === 'light') theme = 'light'; } catch (e) {}
+            document.documentElement.setAttribute('data-theme', theme);
         })();
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
