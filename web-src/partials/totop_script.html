@@ -1,0 +1,13 @@
+    <script>
+        // Back to top: shown after scrolling down, hidden in demo mode (CSS).
+        (function () {
+            const btn = document.getElementById('toTop');
+            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+            function update() { btn.classList.toggle('visible', window.scrollY > 400); }
+            window.addEventListener('scroll', update, { passive: true });
+            btn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: reduce.matches ? 'auto' : 'smooth' });
+            });
+            update();
+        })();
+    </script>
