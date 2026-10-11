@@ -49,7 +49,7 @@ QWind: a Qiskit QAOA benchmark for wind-farm layout optimization (wake-loss QUBO
 - Sufficient color contrast, alt text on every figure, keyboard-navigable pages, captions or subtitles for the video.
 
 ## Suggested Creation Order
-1. Repo + README + LICENSE + AI agent docs (`agents.md`, `CLAUDE.md`, `gemini.md`).
+1. Repo + README + LICENSE + AI agent docs (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`).
 2. `tests/test_core.py` and `qollab/qwind/` (`wake.py`, `qubo.py`, `classical.py`).
 3. `docs/results_schema.md` and an example `summary.json` (to enable parallel frontend work).
 4. `qaoa.py`, `main.py`, `experiments/`.
