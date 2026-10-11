@@ -20,6 +20,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 G, Y, R = "tl tl-green", "tl tl-yellow", "tl tl-red"
 
 LANG = "en"
+CTX = "slide"  # "home" keeps the full notes; the demo slides use shorter ones
 _uid = itertools.count(1)
 
 
@@ -246,7 +247,8 @@ def units():
                ("5 " + K("of", "de") + " 7", K("<strong>Our circuit</strong> (quantum)<br>exact best in every case of 5 datasets; 2 of 3 and 8 of 9 cases in the other two", "<strong>Nuestro circuito</strong> (cuántico)<br>mejor exacta en todos los casos de 5 conjuntos; 2 de 3 y 8 de 9 casos en los otros dos"), Y)], "cards-3")
         + f'<p class="slide-note">{K("Tries used to get there", "Intentos usados para llegar ahí")}</p>'
         + pbars([(K("Simulated annealing", "Recocido simulado"), d("5,005") if LANG == "en" else "5.005", 100, "pf-blue"), (K("Our circuit", "Nuestro circuito"), "120", 2.4, "pf-green")])
-        + f'<p class="slide-note"><strong>{K("Almost the same result with about 40 times fewer tries, and we claim no quantum advantage:", "Casi el mismo resultado con unas 40 veces menos intentos, y no afirmamos ventaja cuántica:")}</strong> {K("the classical method is still exact in every case. The budgets are not matched (one circuit try costs more than a classical one) and the circuit is simulated on a CPU.", "el método clásico sigue siendo exacto en todos los casos. Los presupuestos no son equivalentes (un intento del circuito cuesta más que uno clásico) y el circuito se simula en una CPU.")}</p>')
+        + (f'<p class="slide-note"><strong>{K("Almost the same result with about 40 times fewer tries.", "Casi el mismo resultado con unas 40 veces menos intentos.")}</strong></p>' if CTX == "slide" else
+           f'<p class="slide-note"><strong>{K("Almost the same result with about 40 times fewer tries, and we claim no quantum advantage:", "Casi el mismo resultado con unas 40 veces menos intentos, y no afirmamos ventaja cuántica:")}</strong> {K("the classical method is still exact in every case. The budgets are not matched (one circuit try costs more than a classical one) and the circuit is simulated on a CPU.", "el método clásico sigue siendo exacto en todos los casos. Los presupuestos no son equivalentes (un intento del circuito cuesta más que uno clásico) y el circuito se simula en una CPU.")}</p>'))
     z, a1, a2, a3 = d("0.0000"), d("0.0129"), d("0.0060"), d("0.0020")
     add("competitive", K("Competitive with the classical methods", "Competitivo con los métodos clásicos"),
         table(K("Average gap to the exact best answer (0 = perfect). Same instances as the scorecard.", "Diferencia promedio con la mejor respuesta exacta (0 = perfecto). Mismos casos que el cuadro anterior."),
@@ -258,7 +260,8 @@ def units():
             ["Kelmarsh", (z, G), (z, G), (z, G)],
             ["Chubut", (z, G), (z, G), (z, G)],
             ["Bahía Blanca" if LANG == "es" else "Bahia Blanca", (z, G), (z, G), (z, G)]], "slide-table-sm")
-        + f'<p class="slide-note"><strong>{K("Our results are competitive with classical methods at these sizes, and we claim no quantum advantage.", "Nuestros resultados son competitivos con los métodos clásicos a estos tamaños, y no afirmamos ventaja cuántica.")}</strong> {K("Classical methods also solve all of these exactly.", "Los métodos clásicos también resuelven todos estos casos de forma exacta.")}</p>' + legend())
+        + (f'<p class="slide-note"><strong>{K("Our results are competitive with classical methods at these sizes.", "Nuestros resultados son competitivos con los métodos clásicos a estos tamaños.")}</strong></p>' if CTX == "slide" else
+           f'<p class="slide-note"><strong>{K("Our results are competitive with classical methods at these sizes, and we claim no quantum advantage.", "Nuestros resultados son competitivos con los métodos clásicos a estos tamaños, y no afirmamos ventaja cuántica.")}</strong> {K("Classical methods also solve all of these exactly.", "Los métodos clásicos también resuelven todos estos casos de forma exacta.")}</p>') + legend())
     add("kit", K("Built with the hackathon kit", "Hecho con el kit del hackatón"),
         table(K("What the rules asked for, and what we used.", "Lo que pedían las reglas y lo que usamos."), [K("Requirement", "Requisito"), K("What we did", "Qué hicimos")], [
             [K("Use the Qiskit framework", "Usar el framework Qiskit"), (K("Qiskit 2.5.2; the circuit is built by hand with Qiskit, plus NumPy and SciPy", "Qiskit 2.5.2; el circuito está hecho a mano con Qiskit, más NumPy y SciPy"), G)],
@@ -426,6 +429,7 @@ def glassify(body):
 
 
 def home_html():
+    globals()["CTX"] = "home"
     parts = []
     for lang, _ in (("en", 0), ("es", 0)):
         pass
@@ -448,6 +452,7 @@ def home_html():
               f'<p class="slide-note">{L("The charts are in English.", "Los gráficos están en inglés.")}</p><div class="chart-grid">{charts}</div></section>')
         parts.append(lang_block(lang, h, cls="home-story"))
     globals()["LANG"] = "en"
+    globals()["CTX"] = "slide"
     return "\n        ".join(parts)
 
 
