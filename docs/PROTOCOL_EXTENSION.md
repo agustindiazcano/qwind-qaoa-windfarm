@@ -42,3 +42,20 @@ The K values are about N/3 and N/2 for the synthetic sets and every K from 3 to 
 At N = 14 the measured single-run times of the full protocol were 7.7 to 20 s for the penalty variants and 31 to 41 s for XY + Dicke (6 to 7 minutes per instance for all variants and depths). The state vector grows 4 times for every 2 more qubits, so the extrapolation is about 26 minutes per instance at N = 16 and about 100 minutes at N = 18, uncertain by a factor of about 2. With 4 worker processes: `synthetic_n16` about 40 minutes, `synthetic_n18` about 2.6 hours, `real_penmanshiel_allk` about 20 minutes. Each dataset is its own job in GitHub Actions (limit 6 hours).
 
 A quick probe (one instance, p = 1, reduced settings) is run first. **If the probe projects more than 5 hours for `synthetic_n18`, that dataset is dropped** (the QAOA settings are not reduced, to keep the batches comparable) and the decision is recorded here.
+
+## Probe result and decision (recorded before the full runs)
+
+A quick probe in GitHub Actions (run 38096248863; one instance per dataset, p = 1, 20 evaluations, one restart, 200 shots) measured the time of one QAOA run per variant:
+
+| N | penalty variants (each) | XY + Dicke (each) |
+|---|---|---|
+| 14 | 0.4 s | 4.3 s |
+| 16 | 2.3 s | 76 s |
+| 18 | not finished: one instance was still running after more than 24 minutes when the probe was cancelled | |
+
+XY + Dicke grows about 17 times from N = 14 to N = 16, much faster than the 4 times expected from the size of the state vector. Projected to the full protocol (6 times more evaluations, and p = 1, 2, 3), one N = 16 instance takes about 100 minutes and one N = 18 instance is far beyond any reasonable budget.
+
+Decision, following the rule above:
+- **`synthetic_n18` is dropped and not run.** Its instance definition stays in the code only so that this decision is reproducible.
+- `synthetic_n16` (about 100 minutes per instance, six instances, run with 6 worker processes) and `real_penmanshiel_allk` (about 6 to 7 minutes per instance, nine instances) are run with the unchanged `qwind-v1` settings.
+- The QAOA settings are not reduced.
