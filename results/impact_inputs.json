@@ -6,5 +6,13 @@
  "capacity_factor": 0.3108,
  "n_turbines": 14,
  "n_readings": 728898,
- "source": "Zenodo 10.5281/zenodo.16807304 (SCADA 10-minute 'Power (kW)', calendar year 2019, mean of each turbine's mean)"
+ "source": "Zenodo 10.5281/zenodo.16807304 (SCADA 10-minute 'Power (kW)', calendar year 2019, mean of each turbine's mean)",
+ "fx": {
+  "pair": "GBP/USD",
+  "rate": 1.322,
+  "date": "2026-10-09",
+  "eur_usd": 1.1206,
+  "eur_gbp": 0.84763,
+  "source": "ECB euro foreign exchange reference rates (data-api.ecb.europa.eu, EXR D.USD.EUR.SP00.A and D.GBP.EUR.SP00.A), crossed: USD per euro divided by GBP per euro; 2026-10-09 is the last working day published before 2026-10-11"
+ }
 }
