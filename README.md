@@ -347,7 +347,7 @@ Qiskit 2.5.2, NumPy, SciPy, Python 3.14 (Qollab) / 3.12 (GitHub Actions results)
 Competing at the **UNICEN** node (Universidad Nacional del Centro de la Provincia de Buenos Aires, Argentina): https://exa.unicen.edu.ar/ · Track: *Professional*
 
 **Team Salta**
-- Agustin Diaz-Cano, MS Candidate, Systems Engineering (UTN)
+- Agustin Diaz-Cano, MS Candidate, Systems Engineering (UTN FRBA, Argentina)
 - Baltazar Salerno, Frontend Developer
 
 ## Disclosure
