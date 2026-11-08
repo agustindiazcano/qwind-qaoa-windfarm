@@ -151,6 +151,12 @@ We also ran the optimized circuit once on **IonQ Forte 1**, a real quantum compu
 
 Because the circuit keeps exactly *K* turbines by construction, the 22% of samples that left the valid layouts can be recognized and discarded, and among the valid ones the best layout appears with probability 0.1665, close to the ideal 0.1784 and above the 0.1000 of a random valid choice. The best sampled layout was the exact optimum. Outputs from the simulators and from the quantum computer: [results/backend_probe](https://github.com/agustindiazcano/qwind-qaoa-windfarm/tree/main/results/backend_probe). The original console export of the quantum computer run, as downloaded from Qollab: [agustindiazcano-qwind-output-completed-2026-10-11T03-37-01.138Z.html](https://github.com/agustindiazcano/qwind-qaoa-windfarm/blob/main/results/backend_probe/agustindiazcano-qwind-output-completed-2026-10-11T03-37-01.138Z.html) (a static HTML file; download it and open it in a browser).
 
+### The live Run on IonQ's noise-model simulators
+
+The live Run samples its final optimized circuit with one job on the QPU chosen in Qollab (the parameters are still optimized on the exact statevector). We ran it on four IonQ noise-model simulators (seven times on Forte 1), **Forte 1 (29q)**, **Forte Enterprise 1 (29q)**, **Aria 1 (25q)** and **Aria 2 (25q)**, for the default instance (N = 8, K = 3, p = 2, seed 0, 1000 shots). The share of samples with exactly *K* turbines was **0.2660**, **0.2810**, **0.2870**, **0.2680**, **0.2840**, **0.2820** and **0.2670** on Forte 1 (seven runs), **0.2630** on Forte Enterprise 1, **0.3200** on Aria 1 and **0.2710** on Aria 2, against 1.0000 from the exact statevector and 0.2188 for a uniform random choice of bits. Under these noise models the deeper, larger circuit therefore loses the constraint almost completely, and no valid-only post-selection result is claimed from these runs. It is a different instance, depth and backend from the hardware probe above (N = 6, p = 1, real computer, 0.7834), so the two numbers are not comparable. These were ten single runs (the seven Forte 1 values show the run-to-run spread); the console output is in [results/live_run_ionq](https://github.com/agustindiazcano/qwind-qaoa-windfarm/tree/main/results/live_run_ionq).
+
+We also ran the live Run on the Forte 1 noise-model simulator with the instance of the hardware probe (N = 6, K = 3, p = 1, seed 0, 1000 shots), three times. The measured share of samples with exactly *K* turbines was **0.5820**, **0.6220** and **0.6090**, against 1.0000 from the exact statevector, 0.3125 for a uniform random choice of bits and 0.7834 on the real computer. So the noise-model simulator keeps more of the constraint on this smaller circuit than on the N = 8, p = 2 one, but it does not reproduce the real-hardware value. The outputs are in the same folder, `results/live_run_ionq`.
+
 ## What we built
 
 - A wake-loss model (Jensen, pairwise additive) turned into a QUBO with an exactly-*K* constraint, and a QAOA written by hand in Qiskit with two ways of enforcing the constraint (penalty, or XY mixer + Dicke state).
@@ -333,7 +339,7 @@ web/           presentation website
 
 - Simplified wake model: Jensen losses that are pairwise additive; mean wind speed not used yet.
 - Small instances only (at most 14 cells, exact statevector simulation); the live Run is limited to 12.
-- The experiments are CPU simulations (Qiskit statevector primitives, no noise). Real hardware and noise models were used only for one small probe (N = 6, one run, see "Run on real quantum hardware").
+- The experiments are CPU simulations (Qiskit statevector primitives, no noise). Real hardware and noise models were used only for one small probe (N = 6, one run) and one live Run on a noise-model simulator (N = 8, one run); see "Run on real quantum hardware".
 - "Real" means real turbine positions and a measured or reanalysis wind rose, not a validated farm model: the nacelle anemometer sees upwind wakes, there is one year (2019) per farm, and the farm layouts were not designed for this objective.
 - Few instances for the real farms (3 each); no statistical claim beyond this benchmark.
 - No quantum advantage is claimed.

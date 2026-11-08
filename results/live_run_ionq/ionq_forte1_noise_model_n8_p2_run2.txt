@@ -1,0 +1,27 @@
+Qollab live Run, 2026-11-08, second run on the same simulator (the one the organizers asked us to check). QPU selected: IonQ Forte 1 simulator (29q), noise model (free). N=8, K=3, p=2, seed=0, 1000 shots.
+Console output, copied as shown by Qollab (total 25.9 s):
+
+--- QWind: classical baselines vs QAOA ---
+main() started
+Instance: N=8 cells, K=3 turbines, QAOA depth p=2, seed=0
+[1/4] Building the wake-loss QUBO...
+[2/4] Running the classical methods...
+[3/4] Running QAOA (p=2), up to ~120 optimizer evaluations, please wait...
+Circuit execution time: 4000ms
+[4/4] Results
+Method                                 | Energy     | Gap        | Time (s)
+----------------------------------------------------------------------------
+Exact Enum                             | -2.8957    | 0.0000     | 0.0164
+Sim. Anneal                            | -2.8957    | 0.0000     | 0.6430
+Greedy LS                              | -2.8957    | 0.0000     | 0.0037
+QAOA p=2 xy+dicke (best of 1000 shots) | -2.8957    | 0.0000     | 15.7364
+
+QAOA p=2 detail vs baselines (120 optimizer evaluations, 1000 shots)
+                                    QAOA   Uniform
+  P(optimal)                      0.0621    0.0156
+  P(feasible)                     1.0000    0.2188
+  Approx. ratio (feasible)        0.7076    0.6389
+  Approx. ratio (all, 2nd)        0.9992    0.8802
+  Measured on the selected backend: P(feasible) 0.2810 (exact statevector: 1.0000)
+  Best feasible sampled gap   : QAOA 0.0000 | random feasible subsets 0.0000
+  P(optimum in 1000 draws): QAOA sampling 1.0000 | random feasible subsets 1.0000
