@@ -1,0 +1,9 @@
+Qollab live Run, 2026-11-08. QPU selected: IonQ Forte 1 (36q), real quantum computer, credits apply. N=6, K=3, p=1, seed=0, 1000 shots.
+The job was NOT executed: IonQ rejected the submission before running it (no credits spent).
+Qollab header: "Allow running if it doesn't exceed 10 credits. You have 100.00 credits." Estimated cost shown: 139.90 credits.
+
+[3/4] Running QAOA (p=1), up to ~120 optimizer evaluations, please wait...
+  File "/project/qwind/qaoa.py", line 223, in run_qaoa
+    job = backend.run(transpile(measured, backend), shots=shots)
+  ...
+qiskit_ionq.exceptions.IonQAPIError: IonQAPIError(message='Over available credits',status_code=462,body={"statusCode":462,"error":"","message":"Over available credits","estimated_cost":"139.9"},error_type='internal_error')
