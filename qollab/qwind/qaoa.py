@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 import numpy as np
 from scipy.optimize import minimize
-from qiskit import QuantumCircuit
+from qiskit import QuantumCircuit, transpile
 from math import comb
 
 from qiskit.circuit import ParameterVector
@@ -42,6 +42,7 @@ class QAOAResult:
     # Random-sampling baseline: `shots` random feasible K-subsets
     random_p_hit: float                # probability that they contain an optimal feasible bitstring
     random_best_gap: float             # best gap of one seeded draw of `shots` random feasible subsets
+    measured_p_feasible: float = 1.0   # fraction of the sampled shots with exactly K ones (on the selected backend if given)
 
 
 def energy_table(Q, num_qubits):
@@ -147,7 +148,7 @@ def ramp_init(p, scale, total_time):
 
 
 def run_qaoa(Q, num_cells, K, p=2, restarts=2, maxiter=60, shots=1000, seed=0,
-             mixer="x", init="plus", init_params="random", total_time=None, cost_Q=None):
+             mixer="x", init="plus", init_params="random", total_time=None, cost_Q=None, backend=None):
     """
     Optimize a depth-p QAOA with COBYLA (seeded restarts), then compute the exact output
     distribution and sample it. Keeps the best restart.
@@ -157,6 +158,8 @@ def run_qaoa(Q, num_cells, K, p=2, restarts=2, maxiter=60, shots=1000, seed=0,
     (mixer="xy", init="dicke").
     init_params="random": uniform random starts. "ramp": restart 0 is the linear ramp (see
     ramp_init, total_time defaults to 0.75 * p), later restarts add seeded Gaussian jitter.
+    backend: if given, the final optimized circuit is sampled with ONE backend.run (one job, one circuit);
+    the optimization itself always stays on the exact statevector. None: local StatevectorSampler.
     """
     if init_params not in ("random", "ramp"):
         raise ValueError(f"unknown init_params {init_params!r}")
@@ -213,8 +216,12 @@ def run_qaoa(Q, num_cells, K, p=2, restarts=2, maxiter=60, shots=1000, seed=0,
 
     measured = bound.copy()
     measured.measure_all()
-    sampler = StatevectorSampler(default_shots=shots, seed=seed)
-    counts = sampler.run([measured]).result()[0].data.meas.get_counts()
+    if backend is None:
+        sampler = StatevectorSampler(default_shots=shots, seed=seed)
+        counts = sampler.run([measured]).result()[0].data.meas.get_counts()
+    else:
+        job = backend.run(transpile(measured, backend), shots=shots)
+        counts = {str(k).replace(" ", ""): int(round(v)) for k, v in job.result().get_counts().items()}
 
     popcount = np.array([bin(i).count("1") for i in range(2 ** n)])
     feasible = popcount == K
@@ -223,6 +230,8 @@ def run_qaoa(Q, num_cells, K, p=2, restarts=2, maxiter=60, shots=1000, seed=0,
     sampled_feasible = sampled_idx[feasible[sampled_idx]]
     gap = float(table[sampled_feasible].min() - e_min) if sampled_feasible.size else None
 
+    total_shots = sum(counts.values())
+    measured_p_feasible = sum(c for b, c in counts.items() if b.count("1") == K) / total_shots
     n_feasible = int(feasible.sum())
     ef = table[feasible]
     ef_min, ef_max = float(ef.min()), float(ef.max())
@@ -257,4 +266,5 @@ def run_qaoa(Q, num_cells, K, p=2, restarts=2, maxiter=60, shots=1000, seed=0,
         uniform_p_feasible=n_feasible / 2 ** n,
         random_p_hit=1.0 - (1.0 - n_opt_feasible / n_feasible) ** shots,
         random_best_gap=float(draws.min() - e_min),
+        measured_p_feasible=float(measured_p_feasible),
     )
