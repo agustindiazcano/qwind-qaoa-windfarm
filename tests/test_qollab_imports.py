@@ -54,15 +54,16 @@ def is_allowed(module_name, allowed_packages):
         
     return False
 
-def test_qollab_requirements_pinned():
-    """Ensure qollab/requirements.txt only contains strictly pinned versions (==)."""
+def test_qollab_requirements_are_names_only():
+    """
+    qollab/requirements.txt lists only qiskit, numpy and scipy, WITHOUT versions: Qollab's runtime ships its own
+    builds (Qiskit 2.5.2, NumPy 2.4.6, SciPy 1.18.0, see docs/PROJECT_CONTEXT.md) and a pinned qiskit==2.5.2 failed
+    there with "no installable wheel for 'qiskit'". Adding a package needs human approval.
+    """
     qollab_req_path = os.path.join(os.path.dirname(__file__), '..', 'qollab', 'requirements.txt')
     with open(qollab_req_path, 'r', encoding='utf-8') as f:
-        for line in f:
-            line = line.strip()
-            if line and not line.startswith('#'):
-                assert '==' in line, f"Requirement '{line}' is not strictly pinned with '=='"
-                assert '>=' not in line and '<=' not in line and '~=' not in line, f"Requirement '{line}' uses flexible pinning"
+        names = [line.strip() for line in f if line.strip() and not line.strip().startswith('#')]
+    assert sorted(names) == ["numpy", "qiskit", "scipy"], names
 
 @pytest.mark.heavy
 def test_qollab_runs_once_as_script_and_platform_call(capsys):
