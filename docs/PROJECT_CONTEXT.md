@@ -130,7 +130,7 @@ qwind-qaoa-windfarm/
 ├── LICENSE                  # MIT
 ├── AGENTS.md / CLAUDE.md / GEMINI.md   # agent rules (single source: AGENTS.md)
 ├── lastcontext.md, pending.md          # session handoff files
-├── requirements.txt         # qiskit==2.5.2, numpy==2.4.6, scipy==1.18.0
+├── requirements.txt         # qiskit, numpy, scipy (names only; the Qollab runtime provides 2.5.2 / 2.4.6 / 1.18.0)
 ├── requirements-dev.txt     # pytest + offline extras (qiskit-aer, matplotlib)
 ├── docs/                    # PROJECT_CONTEXT.md, model.md, results_schema.md, DATA.md
 ├── qollab/                  # EXACTLY what is uploaded to Qollab
