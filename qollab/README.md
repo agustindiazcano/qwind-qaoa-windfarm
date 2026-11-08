@@ -153,9 +153,20 @@ Because the circuit keeps exactly *K* turbines by construction, the 22% of sampl
 
 ### The live Run on IonQ's noise-model simulators
 
-The live Run samples its final optimized circuit with one job on the QPU chosen in Qollab (the parameters are still optimized on the exact statevector). We ran it on four IonQ noise-model simulators (seven times on Forte 1), **Forte 1 (29q)**, **Forte Enterprise 1 (29q)**, **Aria 1 (25q)** and **Aria 2 (25q)**, for the default instance (N = 8, K = 3, p = 2, seed 0, 1000 shots). The share of samples with exactly *K* turbines was **0.2660**, **0.2810**, **0.2870**, **0.2680**, **0.2840**, **0.2820** and **0.2670** on Forte 1 (seven runs), **0.2630** on Forte Enterprise 1, **0.3200** on Aria 1 and **0.2710** on Aria 2, against 1.0000 from the exact statevector and 0.2188 for a uniform random choice of bits. Under these noise models the deeper, larger circuit therefore loses the constraint almost completely, and no valid-only post-selection result is claimed from these runs. It is a different instance, depth and backend from the hardware probe above (N = 6, p = 1, real computer, 0.7834), so the two numbers are not comparable. These were ten single runs (the seven Forte 1 values show the run-to-run spread); the console output is in [results/live_run_ionq](https://github.com/agustindiazcano/qwind-qaoa-windfarm/tree/main/results/live_run_ionq).
+The live Run optimizes the parameters on the exact statevector and then samples its final circuit with one job on the QPU chosen in Qollab. We ran it on four IonQ noise-model simulators. "Measured" is the share of the 1000 samples with exactly *K* = 3 turbines; the exact statevector gives 1.0000 in every case. All runs use seed 0.
 
-We also ran the live Run on the Forte 1 noise-model simulator with the instance of the hardware probe (N = 6, K = 3, p = 1, seed 0, 1000 shots), three times. The measured share of samples with exactly *K* turbines was **0.5820**, **0.6220** and **0.6090**, against 1.0000 from the exact statevector, 0.3125 for a uniform random choice of bits and 0.7834 on the real computer. So the noise-model simulator keeps more of the constraint on this smaller circuit than on the N = 8, p = 2 one, but it does not reproduce the real-hardware value. The outputs are in the same folder, `results/live_run_ionq`.
+| Backend | Instance | Runs | Measured P(feasible) | Uniform random bits |
+|---|---|---|---|---|
+| Forte 1 simulator (29q) | N = 8, p = 2 | 7 | 0.2660, 0.2810, 0.2870, 0.2680, 0.2840, 0.2820, 0.2670 | 0.2188 |
+| Forte Enterprise 1 simulator (29q) | N = 8, p = 2 | 1 | 0.2630 | 0.2188 |
+| Aria 1 simulator (25q) | N = 8, p = 2 | 1 | 0.3200 | 0.2188 |
+| Aria 2 simulator (25q) | N = 8, p = 2 | 1 | 0.2710 | 0.2188 |
+| Forte 1 simulator (29q) | N = 6, p = 1 | 3 | 0.5820, 0.6220, 0.6090 | 0.3125 |
+| IonQ Forte 1 (36q), real computer, probe above | N = 6, p = 1 | 1 | 0.7834 | 0.3125 |
+
+Under these noise models the larger, deeper circuit (N = 8, p = 2) loses the constraint almost completely, and no valid-only post-selection result is claimed from those runs. The smaller circuit (N = 6, p = 1) keeps more of it, but the simulator does not reproduce the real-hardware value. These are 13 single runs of the live Run; the spread across the seven Forte 1 runs shows the run-to-run variation. The last row comes from the earlier probe, not from the live Run.
+
+We also tried the live Run on the real Forte 1 (36q) with N = 6, p = 1. IonQ rejected the job before running it, because the estimated cost (139.9 credits) was above the 100 credits available, so there is no live-Run result on the real computer. The console outputs, including that rejection, are in [results/live_run_ionq](https://github.com/agustindiazcano/qwind-qaoa-windfarm/tree/main/results/live_run_ionq).
 
 ## What we built
 
