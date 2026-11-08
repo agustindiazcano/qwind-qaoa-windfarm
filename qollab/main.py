@@ -85,7 +85,8 @@ def _run(n_cells, K, p, seed, mixer, init, init_params):
     # The penalty-free cost Hamiltonian is only used when the ansatz itself enforces the constraint
     cost_Q = build_qubo(h, J, 0.0, K) if (mixer == "xy" and init == "dicke") else None
     qaoa = run_qaoa(Q, n_cells, K, p=p, seed=seed, mixer=mixer, init=init,
-                    init_params=init_params, cost_Q=cost_Q)
+                    init_params=init_params, cost_Q=cost_Q,
+                    backend=globals().get("backend"))  # Qollab's Select QPU; None when imported (tests)
     # Best sampled bitstring, comparable to the single solution returned by the classical methods
     variant = {("x", "plus"): "penalty+x", ("xy", "dicke"): "xy+dicke"}.get((mixer, init), f"{mixer}+{init}")
     if init_params == "ramp":
@@ -113,6 +114,8 @@ def _run(n_cells, K, p, seed, mixer, init, init_params):
     say(f"  {'P(feasible)':<28}{qaoa.p_feasible:>10.4f}{qaoa.uniform_p_feasible:>10.4f}")
     say(f"  {'Approx. ratio (feasible)':<28}{qaoa.approx_ratio_feasible:>10.4f}{qaoa.uniform_approx_ratio_feasible:>10.4f}")
     say(f"  {'Approx. ratio (all, 2nd)':<28}{qaoa.approx_ratio:>10.4f}{qaoa.uniform_approx_ratio:>10.4f}")
+    say(f"  Measured on the selected backend: P(feasible) {qaoa.measured_p_feasible:.4f}"
+        f" (exact statevector: {qaoa.p_feasible:.4f})")
     say(f"  Best feasible sampled gap   : QAOA {fmt_gap(qaoa.best_sampled_feasible_gap)}"
           f" | random feasible subsets {fmt_gap(qaoa.random_best_gap)}")
     say(f"  P(optimum in {qaoa.shots} draws): QAOA sampling "

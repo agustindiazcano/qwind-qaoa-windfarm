@@ -300,10 +300,10 @@ lam  = penalty weight for the "exactly K turbines" constraint
 - QAOA with depth *p* = 1, 2, 3: diagonal cost layer plus RX mixer, built in Qiskit.
 - The Hamiltonian is built by hand as a `SparsePauliOp` (Ising mapping `x = (1 - Z) / 2`, qubit *i* = bit *i* of the state index).
 - Constraint-preserving variant: XY mixer and Dicke initial state, in the line of Hadfield et al. [1] and Bärtschi and Eidenbenz [2]. The Dicke state is built with Qiskit's `StatePreparation`, not with their circuit. Parameter ramp inspired by Sack and Serbyn [3] (their paper studies MaxCut; ours is not a replication).
-- Expectation values with `StatevectorEstimator`, classical optimization with `scipy.optimize` (COBYLA) and multiple seeded restarts, final sampling with `StatevectorSampler`.
+- Expectation values with `StatevectorEstimator`, classical optimization with `scipy.optimize` (COBYLA) and multiple seeded restarts, final sampling with `StatevectorSampler` offline; in the live Run the final optimized circuit is sampled with one `backend.run` on the QPU selected in Qollab.
 
 ### How the circuit is simulated
-We simulate the full QAOA circuit in Qiskit. `StatevectorEstimator` and `StatevectorSampler` compute the exact expectation values and the exact output distribution on the CPU, so the optimization has no shot noise. We use these primitives for the optimization loop and do not call `backend.run` inside it. We have not benchmarked `backend.run` for this loop. The only runs on a backend are the probe described in "Run on real quantum hardware", which samples the already optimized circuit once.
+We simulate the full QAOA circuit in Qiskit. `StatevectorEstimator` and `StatevectorSampler` compute the exact expectation values and the exact output distribution on the CPU, so the optimization has no shot noise. We use these primitives for the optimization loop and do not call `backend.run` inside it. We have not benchmarked `backend.run` for this loop. The only runs on a backend are the final sampling of the already optimized circuit in the live Run (one job, one circuit, on the backend chosen in Select QPU, which prints the measured P(feasible) next to the exact value) and the probe described in "Run on real quantum hardware".
 
 ### Classical baselines
 Exact enumeration (ground truth), simulated annealing, greedy search with local swaps.

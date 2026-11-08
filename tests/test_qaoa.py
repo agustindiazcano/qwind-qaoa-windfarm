@@ -295,3 +295,58 @@ def test_main_prints_traceback_before_reraising(capsys):
         main.main(n_cells=6, K=3, p=1, mixer="bogus")
     out = capsys.readouterr().out
     assert "Traceback" in out and "ValueError" in out
+
+
+from qiskit.providers.basic_provider import BasicSimulator
+
+
+class _FakeNoisyBackend(BasicSimulator):
+    """Real BasicSimulator target (so transpile works); run() records jobs and returns a noisy distribution
+    that leaves the K-ones subspace, like a real device."""
+
+    def __init__(self):
+        super().__init__()
+        self.jobs = []
+
+    def run(self, circuit, shots=1000, **kw):
+        self.jobs.append((circuit, shots))
+        n = circuit.num_clbits
+        counts = {"1" * 3 + "0" * (n - 3): float(shots - 200), "1" * n: 100.0, "0" * n: 100.0}
+
+        class _Res:
+            def get_counts(self_inner):
+                return counts
+
+        class _Job:
+            def result(self_inner):
+                return _Res()
+
+        return _Job()
+
+
+def test_run_qaoa_samples_on_the_selected_backend():
+    Q, n = make_instance((3, 2), K=3)
+    fake = _FakeNoisyBackend()
+    res = run_qaoa(Q, n, 3, p=1, restarts=1, maxiter=20, shots=500, seed=0,
+                   mixer="xy", init="dicke", backend=fake)
+    assert len(fake.jobs) == 1 and fake.jobs[0][1] == 500
+    assert res.measured_p_feasible == pytest.approx(0.6)  # 300 of 500 shots have exactly K ones
+    assert sum(res.counts.values()) == 500
+    assert res.p_feasible > 0.99  # exact value from the statevector is unchanged
+
+
+def test_run_qaoa_without_backend_measured_equals_exact_sampling():
+    Q, n = make_instance((3, 2), K=3)
+    res = run_qaoa(Q, n, 3, p=1, restarts=1, maxiter=20, shots=200, seed=0, mixer="xy", init="dicke")
+    assert res.measured_p_feasible == pytest.approx(1.0)
+
+
+def test_main_reports_measured_p_feasible_and_passes_backend(capsys, monkeypatch):
+    import main
+    fake = _FakeNoisyBackend()
+    monkeypatch.setattr(main, "backend", fake, raising=False)
+    main._skip_next = None
+    main.main(n_cells=6, K=3, p=1)
+    out = capsys.readouterr().out
+    assert len(fake.jobs) == 1
+    assert "Measured on the selected backend: P(feasible)" in out
