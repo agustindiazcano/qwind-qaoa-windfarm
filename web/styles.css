@@ -1530,6 +1530,28 @@ body {
     background-repeat: no-repeat;
 }
 
+#wind-bg {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+header,
+main,
+footer {
+    position: relative;
+    z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #wind-bg {
+        display: none;
+    }
+}
+
 /* Demo mode appears with a soft fade where view transitions are not available. */
 @keyframes demo-in {
     from { opacity: 0; }
